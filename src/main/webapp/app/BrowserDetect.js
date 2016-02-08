@@ -26,7 +26,7 @@ Ext.define('ARSnova.BrowserDetect', {
 		var browser = this.searchString(this.dataBrowser) || "Unknown browser",
 			userAgentVersion = this.searchVersion(navigator.userAgent);
 		this.browser = browser;
-		this.version = userAgentVersion || "Unknown version";
+		this.version = userAgentVersion || 0;
 		this.os = this.searchString(this.dataOS) || "Unknown OS";
 	},
 
@@ -57,23 +57,28 @@ Ext.define('ARSnova.BrowserDetect', {
 	/* Do not change the order of these objects unless you know what you are
 	 * doing! */
 	dataBrowser: [{
+		string: navigator.vendor,
+		subString: "Safari",
+		identity: "Safari",
+		versionSearch: "Version"
+	}, {
+		prop: window.opera,
+		identity: "Opera",
+		versionSearch: "Version"
+	}, {
 		string: navigator.userAgent,
 		subString: "Edge",
 		identity: "Edge"
-	}, {
-		string: navigator.userAgent,
-		subString: "Trident",
-		identity: "Internet Explorer",
-		versionSearch: "rv"
 	}, {
 		string: navigator.userAgent,
 		subString: "MSIE",
 		identity: "Internet Explorer",
 		versionSearch: "MSIE"
 	}, {
-		prop: window.opera,
-		identity: "Opera",
-		versionSearch: "Version"
+		string: navigator.userAgent,
+		subString: "Trident",
+		identity: "Internet Explorer",
+		versionSearch: "rv"
 	}, {
 		string: navigator.userAgent,
 		subString: "Firefox",
@@ -88,11 +93,6 @@ Ext.define('ARSnova.BrowserDetect', {
 		identity: "Android Browser",
 		versionSearch: "Android"
 	}, {
-		string: navigator.vendor,
-		subString: "Apple",
-		identity: "Safari",
-		versionSearch: "Version"
-	}, {
 		string: navigator.userAgent,
 		subString: "Gecko",
 		identity: "Mozilla",
@@ -100,7 +100,7 @@ Ext.define('ARSnova.BrowserDetect', {
 	}],
 
 	dataOS: [{
-		string: navigator.platform,
+		string: navigator.userAgent,
 		subString: "Windows Phone",
 		identity: "Windows Phone"
 	}, {

@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 					text: Messages.BROWSER_INFO,
 					handler: function (b) {
 						var detect = Ext.create('ARSnova.BrowserDetect');
-						var browserInfo = '<p>' + detect.browser + ' ' + detect.version + '<br>' +
+						var browserInfo = '<p>' + detect.browser + ' ' + (detect.version || '') + '<br>' +
 							detect.os + '</p><p class="softwareDetails">' + Ext.browser.userAgent + '</p>';
 						Ext.Msg.alert(Messages.BROWSER_INFO, browserInfo, Ext.emptyFn);
 					}
