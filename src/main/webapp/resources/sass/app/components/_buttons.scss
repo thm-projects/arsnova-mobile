@@ -480,6 +480,7 @@
 	position: absolute;
 	border-top: 45px solid transparent;
 	border-bottom: 45px solid transparent;
+	z-index: 999;
 
 	&.arrow-right {
 		right: 0;
