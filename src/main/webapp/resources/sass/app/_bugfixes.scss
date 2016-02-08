@@ -37,3 +37,8 @@
 body.x-android.splashscreenClosed {
 	overflow-y: hidden !important;
 }
+
+// fix scrolling in microsoft edge browser
+body.x-windows {
+	touch-action: none !important;
+}
