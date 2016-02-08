@@ -18,19 +18,24 @@
  */
 
 
-// fix hidden fieldsets in firefox
+/* fix hidden fieldsets in firefox */
 .x-firefox .x-stretched.x-dock-vertical > .x-dock-body {
 	height: auto;
 }
 
-// fix placeholder on ios safari
+/* fix placeholder on ios safari */
 .x-webkit .x-field-input .x-input-el {
 	-webkit-text-fill-color: initial !important;
 }
 
-// fix placeholder on microsoft edge
+/* fix placeholder on microsoft edge */
 .x-windows .x-field-input .x-input-el {
 	opacity: 0.99;
+}
+
+/* fix max width for full streched panels in IE */
+.x-windows.x-ie .x-scroll-scroller {
+	width: 100% !important;
 }
 
 /* remove "Sencha Touch GPL3" watermark from charts */
@@ -38,12 +43,12 @@
 	opacity: 0;
 }
 
-// prevent pull-refresh on chrome mobile
+/* prevent pull-refresh on chrome mobile */
 body.x-android.splashscreenClosed {
 	overflow-y: hidden !important;
 }
 
-// fix scrolling in microsoft edge browser
+/* fix scrolling in microsoft edge browser */
 body.x-windows {
 	touch-action: none !important;
 }
