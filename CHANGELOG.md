@@ -1,5 +1,52 @@
 # Changelog
 
+## 2.3
+Major features:
+* Use case scenarios: To simplify the user interface, question types and
+  functions are now enabled on a per session basis. Unused features are hidden
+  and no longer distract from the workflow.
+* Improved UI theming: Theming has been simplified by providing a variables
+  file. Deep knowledge of CSS, SCSS and ARSnova's HTML structure is no longer
+  required for color adjustments. Additionally, the default theme got a refresh.
+* Message of the Day: It is now possible to display a message to all users per
+  session or globally.
+* New question type "Ask the audience": four options A, B, C, and D without
+  question text.
+* CSV export/import (experimental): Questions and their answers can now be
+  exported to a simple CSV file.
+
+Minor features and changes:
+* Improved formatting: New formatting options (GitHub Flavored Markdown) are
+  available.
+* New templates for opinion polls have been added.
+* Chrome's "pull-to-refresh" action is now longer triggered in text fields.
+* Text selection in multiline editors no longer triggers scrolling.
+* It is now possible to freeze live feedback.
+* Image uploads except for hot spot questions and image answers are no longer
+  available. Images on external servers can still be embedded via Markdown.
+* Usability improvements and bug fixes
+
+Bug fixes:
+* Image scaling and rotation have been fixed.
+
+Changes for developers:
+* The `grunt run` build task has been improved to display important messages by
+  Sencha Cmd. Verbose output for debugging purposes is displayed when parameter
+  `-v` is used.
+* Maven builds are now deprecated for the frontend. Please use Grunt instead.
+* Version information is now saved with builds and is accessible via `Version`
+  controller.
+
+**This version is brought to you by:**  
+Project management: Klaus Quibeldey-Cirkel  
+Lead programming: Andreas Gärtner, Daniel Gerhardt, Tom "tekay" Käsler,
+Christoph Thelen  
+Contributions: Daniel Haag (University of Innsbruck), Juan Markowich,
+Marco Schäfer  
+Sponsoring: [AG QLS](https://www.thm.de/site/en/hochschule/service/ag-qls.html),
+[HMWK](https://wissenschaft.hessen.de/wissenschaft/it-neue-medien/kompetenznetz-e-learning-hessen)
+
+
 ## 2.2
 Major features:
 * Peer Instruction: A question can now be answered again in a second round.
