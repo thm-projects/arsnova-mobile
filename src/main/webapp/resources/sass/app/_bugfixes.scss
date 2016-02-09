@@ -34,9 +34,15 @@
 }
 
 /* fix max width for full streched panels/fields in IE */
+.x-windows.x-ie .x-msgbox .x-dock-body,
 .x-windows.x-ie .x-component-outer,
 .x-windows.x-ie .x-scroll-scroller {
 	width: 100% !important;
+}
+
+/* fix field label overflow in IE */
+.x-windows.x-ie .x-field .x-form-label {
+	overflow: visible;
 }
 
 /* fix alignment of labels for Ext.field.Field elements */
