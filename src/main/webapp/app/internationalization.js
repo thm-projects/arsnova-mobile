@@ -54,7 +54,7 @@
 			Messages = {
 				PRIVACY_MODE_WARNING_TITLE: "Privatmodus",
 				PRIVACY_MODE_WARNING_TEXT: "Im Privatmodus Ihres Browsers funktioniert ARSnova leider nicht, da Ihr Browser das Beschreiben des App-Speichers verweigert. Bitte für die Dauer der Nutzung von ARSnova den Privatmodus deaktivieren und ARSnova erneut aufrufen. Ihre Anonymität bleibt auch bei deaktiviertem Privatmodus gewahrt.",
-				BROWSER_NOT_SUPPORTED_MESSAGE: "Bitte verwenden Sie einen der folgenden Browser für ARSnova: ###.",
+				BROWSER_NOT_SUPPORTED_MESSAGE: "Der Funktionsumfang von ARSnova wird durch Ihrem Browser möglicherweise nicht vollständig unterstützt. Die folgenden Browser werden für die Nutzung mit ARSnova empfohlen: ###.",
 				UPDATE_BROWSER_MESSAGE: "Bitte aktualisieren Sie Ihren ###-Browser, um ARSnova verwenden zu können.",
 				SESSION_IS_CLOSED: "Die Session \"###\" ist momentan geschlossen.",
 				FEATURE_COMING_SOON: "Feature kommt in Kürze.",
@@ -731,7 +731,7 @@
 			Messages = {
 				PRIVACY_MODE_WARNING_TITLE: "Privacy mode",
 				PRIVACY_MODE_WARNING_TEXT: "Unfortunately, ARSnova doesn´t work in privacy mode, since your browser denies to write to the application storage.\n Please deactivate privacy mode for the period of usage of ARSnova and reload the page. Your anonymity is guaranteed even when private browsing mode is disabled.",
-				BROWSER_NOT_SUPPORTED_MESSAGE: "Please use one of the following officially supported browsers: ###.",
+				BROWSER_NOT_SUPPORTED_MESSAGE: "Some ARSnova features might not work as intended in your browser. We recommend using one of the following browsers: ###.",
 				UPDATE_BROWSER_MESSAGE: "Please update your ### browser in order to use ARSnova.",
 				SESSION_IS_CLOSED: "Session \"###\" is currently closed.",
 				FEATURE_COMING_SOON: "This feature will be available soon.",
