@@ -37,7 +37,12 @@
 .x-windows.x-ie .x-component-outer,
 .x-windows.x-ie .x-scroll-scroller {
 	width: 100% !important;
-	height: 100% !important;
+}
+
+/* fix alignment of labels for Ext.field.Field elements */
+.x-windows.x-ie .x-label-align-right {
+	-ms-flex-direction: row-reverse !important;
+	flex-direction: row-reverse !important;
 }
 
 /* remove "Sencha Touch GPL3" watermark from charts */
