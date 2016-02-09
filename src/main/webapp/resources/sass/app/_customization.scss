@@ -147,7 +147,6 @@ html, body,
 	.x-input-el {
 		background-color: $form-bg-color;
 		color: $form-text-color !important;
-		-webkit-text-fill-color: initial !important;
 
 		&::-webkit-input-placeholder {
 			opacity: $form-placeholder-opacity;
@@ -164,7 +163,12 @@ html, body,
 			color: $form-placeholder-color;
 		}
 
-		&:-ms-input-placeholder {
+		&:-ms-input-placeholder { /* IE */
+			opacity: $form-placeholder-opacity;
+			color: $form-placeholder-color;
+		}
+
+		&::-ms-input-placeholder { /* Edge */
 			opacity: $form-placeholder-opacity;
 			color: $form-placeholder-color;
 		}

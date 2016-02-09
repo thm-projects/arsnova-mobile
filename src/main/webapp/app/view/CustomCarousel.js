@@ -44,7 +44,7 @@ Ext.define('ARSnova.view.CustomCarousel', {
 	},
 
 	dockIndicatorBarToTop: function () {
-		this.getIndicator().setBottom('initial');
+		this.getIndicator().element.dom.style.bottom = "";
 
 		this.on('add', function (carousel, item, index) {
 			if (item.getActiveItem()) {

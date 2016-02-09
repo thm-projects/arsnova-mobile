@@ -159,6 +159,7 @@ Ext.application({
 		var detect = Ext.create("ARSnova.BrowserDetect");
 		if (detect.browser === "Edge") {
 			Ext.getBody().removeCls('x-webkit');
+			Ext.getBody().removeCls('x-chrome');
 		}
 
 		this.checkLocalStorage();
@@ -189,6 +190,7 @@ Ext.application({
 	 * reload application if manifest file is changed
 	 */
 	onUpdated: function () {
+		console.log("onUpdated");
 		Ext.Msg.confirm(Messages.NEW_VERSION_TITLE, Messages.NEW_VERSION_AVAILABLE,
 			function (buttonId) {
 				if (buttonId === 'yes') {
