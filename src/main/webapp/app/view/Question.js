@@ -433,7 +433,6 @@ Ext.define('ARSnova.view.Question', {
 		);
 
 		this.gridButton = Ext.create('Ext.Button', {
-			flex: 1,
 			ui: 'confirm',
 			text: Messages.SAVE,
 			cls: 'saveButton noMargin',

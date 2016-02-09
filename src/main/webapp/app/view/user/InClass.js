@@ -277,8 +277,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.userBadges = Ext.create('Ext.Panel', {
 			style: {
-				marginTop: '20px',
-				height: '100%'
+				marginTop: '20px'
 			},
 			layout: {
 				type: 'hbox',

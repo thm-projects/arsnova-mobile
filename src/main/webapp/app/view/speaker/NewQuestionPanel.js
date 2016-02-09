@@ -412,7 +412,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		me.add([
 			me.releasePart, {
 				xtype: 'fieldset',
-				style: 'margin-left: 10px; margin-right: 10px',
 				items: [me.saveAndContinueButton]
 			}
 		]);
