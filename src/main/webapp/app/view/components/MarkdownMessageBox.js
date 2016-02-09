@@ -62,7 +62,10 @@ Ext.define('ARSnova.view.components.MarkdownMessageBox', {
 			easing: 'ease-out',
 			listeners: {
 				scope: me,
-				animationstart: me.updateDimensions
+				animationstart: me.updateDimensions,
+				animationend: function () {
+					me.setHeight(me.getHeight());
+				}
 			}
 		});
 

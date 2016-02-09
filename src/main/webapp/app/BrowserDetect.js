@@ -67,34 +67,39 @@ Ext.define('ARSnova.BrowserDetect', {
 		versionSearch: "Version"
 	}, {
 		string: navigator.userAgent,
-		subString: "Edge",
+		subString: "OPR/",
+		identity: "Opera",
+		versionSearch: "OPR"
+	}, {
+		string: navigator.userAgent,
+		subString: "Edge/",
 		identity: "Edge"
 	}, {
 		string: navigator.userAgent,
-		subString: "MSIE",
+		subString: "MSIE ",
 		identity: "Internet Explorer",
 		versionSearch: "MSIE"
 	}, {
 		string: navigator.userAgent,
-		subString: "Trident",
+		subString: "Trident/",
 		identity: "Internet Explorer",
 		versionSearch: "rv"
 	}, {
 		string: navigator.userAgent,
-		subString: "Firefox",
+		subString: "Firefox/",
 		identity: "Firefox"
 	}, {
 		string: navigator.userAgent,
-		subString: "Chrome",
+		subString: "Chrome/",
 		identity: "Chrome"
 	}, {
 		string: navigator.userAgent,
-		subString: "Android",
+		subString: "Android ",
 		identity: "Android Browser",
 		versionSearch: "Android"
 	}, {
 		string: navigator.userAgent,
-		subString: "Gecko",
+		subString: "Gecko/",
 		identity: "Mozilla",
 		versionSearch: "rv"
 	}],

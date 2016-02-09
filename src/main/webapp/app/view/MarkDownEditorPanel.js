@@ -227,13 +227,14 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 	},
 
 	formatHandler: function () {
+		var processObj, removal;
 		var parent = this.getParent().getParent();
 		var escapeString = this.config.escapeString;
 		var length = escapeString.length;
-		var processObj = parent.getProcessVariables();
-		var removal = processObj.value.substring(processObj.start - length, processObj.start) === escapeString;
 
-		processObj.element.focus();
+		parent.getProcessElement().focus();
+		processObj = parent.getProcessVariables();
+		removal = processObj.value.substring(processObj.start - length, processObj.start) === escapeString;
 
 		if (this.config.biliteral) {
 			removal = removal && processObj.value.substring(processObj.end, processObj.end + length) === escapeString;
