@@ -410,8 +410,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		}
 
 		me.add([
-			me.releasePart,
-			me.saveAndContinueButton
+			me.releasePart, {
+				xtype: 'fieldset',
+				items: [me.saveAndContinueButton]
+			}
 		]);
 
 		me.on('activate', me.onActivate);
