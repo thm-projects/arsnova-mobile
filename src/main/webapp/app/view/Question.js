@@ -145,7 +145,7 @@ Ext.define('ARSnova.view.Question', {
 
 		/* update disabled state on initialize */
 		if (this.questionObj.votingDisabled) {
-			this.disableQuestion();
+			this.disableQuestion(false);
 		}
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
@@ -172,7 +172,7 @@ Ext.define('ARSnova.view.Question', {
 			}
 
 			if (this.isDisabled() || this.questionObj.votingDisabled) {
-				this.disableQuestion();
+				this.disableQuestion(false);
 
 				if (this.questionObj.userAnswered && this.questionObj.showAnswer) {
 					this.getScrollable().getScroller().scrollToEnd(true);
@@ -530,15 +530,15 @@ Ext.define('ARSnova.view.Question', {
 						me.questionObj.userAnswered = true;
 					}
 
-					questionsPanel.getIndicator().setIndicatorColorAnswered(questionsPanel.getActiveIndex(), true);
-
-					me.disableQuestion();
+					me.disableQuestion(true);
 					if (!me.questionObj.piRoundActive && !me.questionObj.showAnswer) {
 						questionsPanel.checkIfLastAnswer();
 					} else {
 						me.getScrollable().getScroller().scrollToEnd(true);
 						questionsPanel.checkStatisticsRelease();
 					}
+				} else {
+					questionsPanel.getIndicator().setIndicatorColorAnswered(questionsPanel.getActiveIndex(), true);
 				}
 			},
 			failure: function (response, opts) {
@@ -697,10 +697,15 @@ Ext.define('ARSnova.view.Question', {
 		}
 	},
 
-	disableQuestion: function () {
+	disableQuestion: function (afterInitialization) {
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 			this.setDisabled(true);
 			this.mask(this.customMask);
+
+			if (afterInitialization) {
+				var carousel = this.getParent();
+				carousel.getIndicator().setIndicatorColorAnswered(carousel.getActiveIndex(), true);
+			}
 
 			if (this.questionObj.userAnswered) {
 				var message = Messages.MASK_ALREADY_ANSWERED;

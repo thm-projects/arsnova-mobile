@@ -211,7 +211,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		/* update disabled state on initialize */
 		if (this.questionObj.votingDisabled) {
-			this.disableQuestion();
+			this.disableQuestion(false);
 		}
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
@@ -250,7 +250,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			this.checkPiRoundActivation();
 
 			if (this.isDisabled() || this.questionObj.votingDisabled) {
-				this.disableQuestion();
+				this.disableQuestion(false);
 			}
 
 			if (this.viewOnly) {
@@ -419,7 +419,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					me.uploadView.hide();
 				}
 
-				me.disableQuestion();
+				me.disableQuestion(true);
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 			},
 			failure: function (response, opts) {
@@ -481,10 +481,15 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		});
 	},
 
-	disableQuestion: function () {
+	disableQuestion: function (afterInitialization) {
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 			this.setDisabled(true);
 			this.mask(this.customMask);
+
+			if (afterInitialization) {
+				var carousel = this.getParent();
+				carousel.getIndicator().setIndicatorColorAnswered(carousel.getActiveIndex(), true);
+			}
 
 			if (this.questionObj.imageQuestion) {
 				this.uploadView.hide();
