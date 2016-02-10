@@ -183,6 +183,15 @@ div[id^=ext-mathJaxMarkDownPanel] {
 	}
 }
 
+.x-ie .buttonTooltip {
+	&:after,
+	&:before,
+	&:hover:after,
+	&:hover:before {
+		display: none;
+	}
+}
+
 .buttonTooltip {
 	overflow: visible;
 	position: relative;
@@ -194,7 +203,7 @@ div[id^=ext-mathJaxMarkDownPanel] {
 	bottom: 160%;
 	content: attr(data-tooltip);
 	position: absolute;
-	background: $tooltip-background-color;
+	background: $tooltip-background-color !important;
 	padding: 5px 15px;
 	color: black;
 	-webkit-border-radius: 10px;
@@ -214,7 +223,7 @@ div[id^=ext-mathJaxMarkDownPanel] {
 	height: 0;
 	content: "";
 	position: absolute;
-	border-top: 16px solid $tooltip-background-color;
+	border-top: 16px solid $tooltip-background-color !important;
 	border-left: 16px solid transparent;
 	border-right: 16px solid transparent;
 	-webkit-transition: all 0.2s ease;
