@@ -210,7 +210,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 				button.element.addCls('buttonTooltip');
 			});
 
-			this.on('activate', function () {
+			this.on('painted', function () {
 				this.getParent().addCls('activateTooltip');
 			});
 		}
