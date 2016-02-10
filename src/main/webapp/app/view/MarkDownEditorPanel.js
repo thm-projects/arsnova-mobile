@@ -39,7 +39,8 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		this.infoButton = Ext.create('Ext.Button', {
 			cls: 'markdownButton',
 			iconCls: 'info',
-			tooltip: Messages.EDITOR_INFO_TOOLTIP
+			tooltip: Messages.EDITOR_INFO_TOOLTIP,
+			handler: this.openInfoMessage
 		});
 
 		this.boldButton = Ext.create('Ext.Button', {
@@ -508,5 +509,14 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 				onFailure();
 			}
 		});
+	},
+
+	openInfoMessage: function () {
+		var infoMessageBox = Ext.create('ARSnova.view.components.MarkdownMessageBox', {
+			content: Messages.EDITOR_INFO_HINT,
+			destroyOnHide: true
+		});
+
+		infoMessageBox.show();
 	}
  });

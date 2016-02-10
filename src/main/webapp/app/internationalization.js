@@ -526,6 +526,8 @@
 				EDITOR_PICTURE_TOOLTIP: "Bild",
 				EDITOR_INFO_TOOLTIP: "Info",
 
+				EDITOR_INFO_HINT: "Sie können Texte innerhalb von ARSnova mithilfe von [Markdown](https://de.wikipedia.org/wiki/Markdown) auszeichnen. Die am häufigsten verwendeten Markdown Optionen werden innerhalb von ARSnova über den großen Eingabefeldern angeboten. Zudemn unterstützt ARSnova [GitHub Flavored Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).",
+
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Niveau",
 				SESSIONPOOL_CLONE: "Kopieren",
@@ -1217,6 +1219,8 @@
 				EDITOR_VIMEO_TOOLTIP: "Vimeo",
 				EDITOR_PICTURE_TOOLTIP: "Picture",
 				EDITOR_INFO_TOOLTIP: "Info",
+
+				EDITOR_INFO_HINT: "You can markup text inside of ARSnova by using [Markdown](https://en.wikipedia.org/wiki/Markdown). The most frequent used Markdown options are accessible above all supported textareas inside ARSnova. ARSnova also supports [GitHub Flavored Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).",
 
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Level",
