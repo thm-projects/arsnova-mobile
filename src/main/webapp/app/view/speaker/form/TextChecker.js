@@ -30,6 +30,10 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 		ignoreWhitespaces: false,
 		ignorePunctuation: false,
 
+		correctAnswer: "",
+
+		ratingValue: 10,
+
 		cls: 'newQuestionOptions centerFormTitle'
 	},
 
@@ -39,7 +43,7 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 
 		var strictOptions = Ext.create('Ext.form.FieldSet', {
 			title: Messages.TEXT_CHECKER_STRICT_OPTIONS,
-			hidden: true,
+			hidden: !me.config.strictMode,
 			items: [{
 				xtype: 'segmentedbutton',
 				style: 'margin: auto',
@@ -142,12 +146,12 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 			xtype: 'fieldset',
 			title: Messages.TEXT_CHECKER_MODE_LABEL,
 			items: [textCheckerModeSegmentedButton],
-			hidden: true
+			hidden: !me.config.fixedAnswer
 		});
 		this.rating = Ext.create("ARSnova.view.CustomSliderField", {
 			minValue: 0,
 			maxValue: 10,
-			value: 10,
+			value: me.config.ratingValue,
 			increment: 1
 		});
 
@@ -155,12 +159,13 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 			xtype: 'fieldset',
 			title: Messages.ANSWER_POINTS,
 			items: [this.rating],
-			hidden: true
+			hidden: !me.config.fixedAnswer
 		});
 
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			name: 'text',
-			placeHolder: Messages.FORMAT_PLACEHOLDER
+			placeHolder: Messages.FORMAT_PLACEHOLDER,
+			value: me.config.correctAnswer
 		});
 
 		var mainFormPanel = Ext.create('Ext.form.FormPanel', {
@@ -171,7 +176,7 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 				title: Messages.CORRECT_PLACEHOLDER,
 				items: [this.textarea]
 			}],
-			hidden: true
+			hidden: !me.config.fixedAnswer
 		});
 
 		this.add([
@@ -185,8 +190,6 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 
 	getValues: function () {
 		var result = {};
-
-		//To be synced with backend
 		result.fixedAnswer = this.getFixedAnswer();
 		result.strictMode = this.getStrictMode();
 		result.correctAnswer = this.textarea.getValue();
@@ -198,5 +201,9 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 
 
 		return result;
+	},
+
+	getRating: function () {
+		return this.rating.getSliderValue();
 	}
 });
