@@ -90,7 +90,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 	 * @param exportSessions		An array of sessions the user wants to exort.
 	 * @param publicPoolAttributes	An array of attributes to describe the sessions in the public pool.
 	 */
-	exportSessionsToPublicPool: function (exportSessions, publicPoolAttributes) {
+	exportSessionsToPublicPool: function (sessionkey, publicPoolAttributes) {
 		var me = this;
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT, 240000);
@@ -108,14 +108,33 @@ Ext.define("ARSnova.controller.SessionExport", {
 			hideLoadMask();
 		};
 
-		this.exportSessions(exportSessions, false, false)
-		.then(function (exportData) {
-			for (var i = 0; i < exportData.length; i++) {
-				// call import ctrl to save public pool session in db
-				ARSnova.app.getController("SessionImport").importSession(exportData[i], publicPoolAttributes)
-					.then(showMySessionsPanel, errorHandler);
+		ARSnova.app.restProxy.copySessionToPublicPool(
+			sessionkey, publicPoolAttributes, {
+				success: function (response) {
+					showMySessionsPanel();
+				},
+				failure: function () {
+					console.log("export was not possible");
+				}
 			}
-		});
+		);
+	},
+
+	getExportedSessions: function (sessionkeys, withAnswerStatistics, withFeedbackQuestions) {
+		var me = this;
+		ARSnova.app.restProxy.exportSessions(
+			sessionkeys, withAnswerStatistics, withFeedbackQuestions, {
+				success: function (response) {
+					var eD = Ext.decode(response.responseText);
+					for (var i = 0; i < eD.length; i++) {
+						me.writeExportDataToFile(eD[i]);
+					}
+				},
+				failure: function () {
+					console.log("export was not possible");
+				}
+			}
+		);
 	},
 
 	/**
@@ -125,19 +144,13 @@ Ext.define("ARSnova.controller.SessionExport", {
 	 * @param withAnswerStatistics	<code>true</code> if the answerStatistics should be exported, <code>false</code> otherwise.
 	 * @param withFeedbackQuestions	<code>true</code> if the feedbackQuestions should be exported, <code>false</code> otherwise.
 	 */
-	exportSessionsToFile: function (exportSessionMap, withAnswerStatistics, withFeedbackQuestions) {
+	exportSessionsToFile: function (sessionkeys, withAnswerStatistics, withFeedbackQuestions) {
 		var me = this;
-		var sessions = [];
-
-		for (var i = 0; i < exportSessionMap.length; i++) {
-			if (exportSessionMap[i][1]) {
-				sessions.push(exportSessionMap[i][0]);
-			}
-		}
+		console.log(sessionkeys);
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT, 240000);
 
-		this.exportSessions(sessions, withAnswerStatistics, withFeedbackQuestions)
+		this.exportSessions(sessionkeys, withAnswerStatistics, withFeedbackQuestions)
 		.then(function (exportData) {
 			for (var i = 0; i < exportData.length; i++) {
 				me.writeExportDataToFile(exportData[i]);
@@ -155,6 +168,8 @@ Ext.define("ARSnova.controller.SessionExport", {
 	 */
 	exportSessions: function (sessions, withAnswerStatistics, withFeedbackQuestions) {
 		var me = this;
+		var bwAS = false;
+		var bwFQ = false;
 
 		var promise = new RSVP.Promise();
 
@@ -326,20 +341,16 @@ Ext.define("ARSnova.controller.SessionExport", {
 
 	writeExportDataToFile: function (exportData) {
 		var jsonData = JSON.stringify({exportData: exportData});
-
 		var dateString = "";
-		if (exportData.session.creationTime !== 0) {
-			var d = new Date(exportData.session.creationTime);
-			console.log('date:', d);
+		var d = new Date();
 
-			dateString = ('0' + d.getFullYear()).slice(-2) + '-'
-				+ ('0' + (d.getMonth() + 1)).slice(-2) + '-'
-				+ ('0' + d.getDate()).slice(-2) + '-'
-				+ ('0' + d.getHours()).slice(-2) + '-'
-				+ ('0' + d.getMinutes()).slice(-2);
-		}
+		dateString = ('0' + d.getFullYear()).slice(-2) + '-'
+			+ ('0' + (d.getMonth() + 1)).slice(-2) + '-'
+			+ ('0' + d.getDate()).slice(-2) + '-'
+			+ ('0' + d.getHours()).slice(-2) + '-'
+			+ ('0' + d.getMinutes()).slice(-2);
 
-		var filename = exportData.session.name + "-" + exportData.session.keyword + dateString + ".json";
+		var filename = exportData.session.name + dateString + ".json";
 		this.saveFileOnFileSystem(jsonData, filename);
 
 		return jsonData;
