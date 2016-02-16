@@ -401,6 +401,7 @@ Ext.define('ARSnova.view.Question', {
 						Messages.GRID_LABEL_REMAINING_DOTS + remainingDots);
 				}
 			});
+			this.grid.update(this.questionObj, false);
 
 			panel = new Ext.Panel({
 				layout: {
@@ -417,9 +418,9 @@ Ext.define('ARSnova.view.Question', {
 			});
 		} else {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer');
+			this.grid.update(this.questionObj, false);
 		}
 
-		this.grid.update(this.questionObj, false);
 		this.grid.setPossibleAnswers(me.questionObj.possibleAnswers);
 		this.grid.prepareRemoteImage(
 			me.questionObj._id, false, false, function (dataUrl) {
