@@ -61,26 +61,12 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			}
 		});
 
-		this.saveButtonToolbar = Ext.create('Ext.Button', {
-			text: Messages.APPLY,
-			ui: 'confirm',
-			cls: 'saveQuestionButton',
-			style: 'width: 99px',
-
-			scope: this,
-			handler: function () {
-				Ext.bind(this.getTemplateAdoptionHandler(), this.getSaveHandlerScope())(this.allTemplates[me.getActiveIndex()]);
-			}
-		});
-
 		this.toolbar = Ext.create('Ext.Toolbar', {
 			title: Messages.TEMPLATE,
 			docked: 'top',
 			ui: 'light',
 			items: [
-				this.backButton,
-				{xtype: 'spacer'},
-				this.saveButtonToolbar
+				this.backButton
 			]
 		});
 
@@ -132,12 +118,12 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 						contentPanel,
 						{
 							ui: 'action',
-							xtype:	'button',
-							text:	Messages.DOWNLOAD,
+							xtype: 'button',
+							text: Messages.APPLY,
+							cls: 'saveButton centered',
+							scope: me,
 							handler: function () {
-								var index = me.getActiveIndex();
-								var src = me.allTemplates[index].getImageFile().src;
-								window.open(src);
+								Ext.bind(this.getTemplateAdoptionHandler(), this.getSaveHandlerScope())(this.allTemplates[me.getActiveIndex()]);
 							}
 						}, {
 							xtype: 'spacer',

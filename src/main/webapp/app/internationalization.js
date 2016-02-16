@@ -438,7 +438,6 @@
 				TEMPLATE_FOR_MODERATION: "Vorlagen zur Meinungsabfrage",
 				TEMPLATE: "Vorlage",
 				APPLY: "Übernehmen",
-				DOWNLOAD: "Vorlage herunterladen",
 				MISSING_INPUTS: "Ihre Eingaben sind unvollständig:",
 				MISSING_SUBJECT: "Das Thema fehlt",
 				MISSING_QUESTION: "Der Text der Frage fehlt",
@@ -526,7 +525,7 @@
 				EDITOR_PICTURE_TOOLTIP: "Bild",
 				EDITOR_INFO_TOOLTIP: "Info",
 
-				EDITOR_INFO_HINT: "Sie können Texte innerhalb von ARSnova mithilfe von [Markdown](https://de.wikipedia.org/wiki/Markdown) auszeichnen. Die am häufigsten verwendeten Markdown Optionen werden über den unterstützten Eingabefeldern angeboten. Zudemn unterstützt ARSnova [GitHub Flavored Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).",
+				EDITOR_INFO_HINT: "Sie können Texte innerhalb von ARSnova mithilfe von [Markdown](https://de.wikipedia.org/wiki/Markdown) auszeichnen. Die am häufigsten verwendeten Markdown Optionen werden in Form von Schaltflächen über den unterstützten Eingabefeldern angeboten. Zudem unterstützt ARSnova [GitHub Flavored Markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).",
 
 				/*Public pool*/
 				SESSIONPOOL_LEVEL: "Niveau",
@@ -1132,7 +1131,6 @@
 				TEMPLATE_FOR_MODERATION: "Templates for an opinion poll",
 				TEMPLATE: "Template",
 				APPLY: "Apply",
-				DOWNLOAD:	"Download template",
 				MISSING_INPUTS: "Some inputs are incomplete:",
 				MISSING_SUBJECT: "The subject is missing",
 				MISSING_QUESTION: "The question is missing",
