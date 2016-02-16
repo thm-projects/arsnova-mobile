@@ -135,6 +135,11 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			this.mainPanel.add(this.grid);
 		}
 
+		this.statisticButton.setHidden(
+			options.questionType === 'grid' ||
+			options.questionType === 'flashcard'
+		);
+
 		if (options.questionType === 'grid') {
 			if (options.image) {
 				this.grid.setGridIsHidden(false);
@@ -155,8 +160,6 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			});
 
 			this.answerList.add(answerPanel);
-
-			this.statisticButton.setHidden(true);
 			answerPanel.setContent(this.answers[0].text, true, true);
 
 			var flashcardButton = {
