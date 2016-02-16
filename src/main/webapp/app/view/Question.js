@@ -717,7 +717,7 @@ Ext.define('ARSnova.view.Question', {
 
 				this.customMask.setTextMessage(message, 'alreadyAnswered');
 				// Display icon with sample solution popup
-				if (this.questionObj.showAnswer) {
+				if (this.questionObj.showAnswer || this.questionObj.gridType === 'moderation') {
 					this.hintIcon.setHidden(!this.questionObj.solution);
 					this.hintIcon.setIconCls('icon-bullhorn');
 					this.hintIcon.addCls('solution');
