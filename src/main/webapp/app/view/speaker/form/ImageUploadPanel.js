@@ -38,7 +38,8 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		toggleUrl: true,
 		gridMod: null,
 		templateHandler: Ext.emptyFn,
-		disableURLUpload: false
+		disableURLUpload: false,
+		disableFSUpload: false
 	},
 
 	initialize: function () {
@@ -62,6 +63,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			xtype: 'fileupload',
 			autoUpload: true,
 			loadAsDataUrl: true,
+			hidden: this.config.disableFSUpload,
 			width: showLongLabelsAndTemplate ? '20%' : '',
 			style: this.config.disableURLUpload ? 'margin: 0 auto 0 auto; border-radius:5px;' : '',
 			states: {
@@ -103,60 +105,42 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			loadfailure: 'onFileLoadFailure'
 		});
 
+		var featureCount = 0;
+		if (this.config.activateTemplates) { featureCount++; }
+		if (!this.config.disableURLUpload) { featureCount++; }
+		if (!this.config.disableFSUpload) { featureCount++; }
+
 		this.webAdressButton = {
 			text: showShortLabels ?
 			Messages.SELECT_PICTURE_URL_SHORT :
 			Messages.SELECT_PICTURE_URL,
-			width: showLongLabelsAndTemplate ? '25%' : '',
+			width: showLongLabelsAndTemplate && featureCount === 2 ? '45%' : '',
 			handler: this.toggleUploadTextfieldVisibility,
+			hidden: this.config.disableURLUpload,
 			scope: this
 		};
 
-		this.segmentButton = null;
-		if (this.config.disableURLUpload) {
-			this.segmentButton = Ext.create('Ext.SegmentedButton', {
-				allowDepress: false,
-				cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
-				style: 'margin-top: 0px; margin-bottom: 0px;',
-				defaults: {
-					ui: 'action'
-				},
-				items: [this.buttonUploadFromFS, {
-					text: showShortLabels ?
-					Messages.TEMPLATE :
-					Messages.TEMPLATE_FOR_MODERATION,
-					width: showLongLabelsAndTemplate ? '55%' : '',
-					hidden: !this.config.activateTemplates,
-					scope: this,
-					handler: function () {
-						var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-						tabPanel.setActiveItem(this.gridMod);
-					}
-				}]
-			});
-		} else {
-			this.segmentButton = Ext.create('Ext.SegmentedButton', {
-				allowDepress: false,
-				cls: !this.config.activateTemplates ? 'yesnoOptions' : 'abcOptions',
-				style: 'margin-top: 0px; margin-bottom: 0px;',
-				defaults: {
-					ui: 'action'
-				},
-				items: [this.webAdressButton, this.buttonUploadFromFS, {
-					text: showShortLabels ?
-					Messages.TEMPLATE :
-					Messages.TEMPLATE_FOR_MODERATION,
-					width: showLongLabelsAndTemplate ? '55%' : '',
-					hidden: !this.config.activateTemplates,
-					scope: this,
-					handler: function () {
-						var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-						tabPanel.setActiveItem(this.gridMod);
-					}
-				}]
-			});
-		}
-
+		this.segmentButton = Ext.create('Ext.SegmentedButton', {
+			allowDepress: false,
+			cls: featureCount === 2 ? 'yesnoOptions' : '',
+			style: 'margin-top: 0px; margin-bottom: 0px;',
+			defaults: {
+				ui: 'action'
+			},
+			items: [this.webAdressButton,
+				this.buttonUploadFromFS, {
+				text: showShortLabels ?
+				Messages.TEMPLATE :
+				Messages.TEMPLATE_FOR_MODERATION,
+				width: showLongLabelsAndTemplate ? '55%' : '',
+				hidden: !this.config.activateTemplates,
+				scope: this,
+				handler: function () {
+					var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+					tabPanel.setActiveItem(this.gridMod);
+				}
+			}]
+		});
 
 		this.uploadTextfield = Ext.create('Ext.form.Text', {
 			label: Messages.SELECT_PICTURE_FS,
@@ -218,7 +202,7 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 			}, this.removeButton, {
 				cls: 'gravure',
 				style: 'font-size: 0.9em;',
-				hidden: isNaN(ARSnova.app.globalConfig.maxUploadFilesize),
+				hidden: isNaN(ARSnova.app.globalConfig.maxUploadFilesize) || this.config.disableFSUpload,
 				html: Messages.PICTURE_MAX_FILESIZE.replace(/###/, filesizeString)
 			}]
 		}]);

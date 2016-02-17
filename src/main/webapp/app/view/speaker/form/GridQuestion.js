@@ -71,9 +71,9 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		 */
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: me,
-			urlUploadHandler: me.handleFS,
 			fsUploadHandler: me.handleUrl,
-			templateHandler: me.handleTemplate
+			templateHandler: me.handleTemplate,
+			disableFSUpload: true
 		});
 
 		this.add([
@@ -561,16 +561,6 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 			scrollable: null,
 			items: this.questionValueFieldset
 		});
-	},
-
-	handleFS: function (dataUrl, reload) {
-		this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
-			docked: 'top',
-			itemId: 'gridImageContainer'
-		});
-		this.initializeFormFields();
-		this.updateCanvas(dataUrl, reload);
-		this.image = dataUrl;
 	},
 
 	handleUrl: function (url) {
