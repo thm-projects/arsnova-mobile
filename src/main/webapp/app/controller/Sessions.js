@@ -238,6 +238,8 @@ Ext.define("ARSnova.controller.Sessions", {
 
 	loadDefaultSession: function (animation, hideLoadMask) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+		var features = Ext.decode(sessionStorage.getItem("features"));
+		var target;
 
 		if (ARSnova.app.isSessionOwner && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionJoinAsSpeaker);
@@ -249,8 +251,6 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.speakerTabPanel.tab.show();
 				tabPanel.speakerTabPanel.renew();
 			}
-			tabPanel.animateActiveItem(tabPanel.speakerTabPanel, animation);
-			tabPanel.speakerTabPanel.inClassPanel.registerListeners();
 
 			/* add feedback statistic panel*/
 			if (!tabPanel.feedbackTabPanel) {
@@ -260,6 +260,10 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.feedbackTabPanel.tab.show();
 				tabPanel.feedbackTabPanel.renew();
 			}
+
+			target = features.liveClicker ? tabPanel.feedbackTabPanel : tabPanel.speakerTabPanel;
+			tabPanel.animateActiveItem(target, animation);
+			tabPanel.speakerTabPanel.inClassPanel.registerListeners();
 		} else {
 			ARSnova.app.sessionModel.fireEvent(ARSnova.app.sessionModel.events.sessionJoinAsStudent);
 			/* add user in class panel */
@@ -290,7 +294,8 @@ Ext.define("ARSnova.controller.Sessions", {
 				tabPanel.feedbackTabPanel.renew();
 			}
 
-			tabPanel.animateActiveItem(tabPanel.userTabPanel, animation);
+			target = features.liveClicker ? tabPanel.feedbackTabPanel : tabPanel.userTabPanel;
+			tabPanel.animateActiveItem(target, animation);
 		}
 
 		/* add feedback questions panel*/
