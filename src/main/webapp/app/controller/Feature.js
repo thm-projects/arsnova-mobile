@@ -477,6 +477,8 @@ Ext.define("ARSnova.controller.Feature", {
 			var options = panel.questionOptions.getInnerItems();
 			options[indexMap[Messages.FREETEXT]].hide();
 			options[indexMap[Messages.FLASHCARD]].hide();
+			options[indexMap[Messages.EVALUATION]].hide();
+			options[indexMap[Messages.SCHOOL]].hide();
 			options[indexMap[Messages.GRID]].hide();
 		} else {
 			panel.optionsToolbar.setHidden(false);
