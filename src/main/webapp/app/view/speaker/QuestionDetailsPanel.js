@@ -1144,7 +1144,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		if (this.questionObj.image) {
 			if (this.questionObj.image === 'true') {
-				this.grid.prepareRemoteImage(this.questionObj._id, false, false, function (dataUrl) {
+				this.grid.prepareRemoteImage(this.questionObj, false, false, function (dataUrl) {
 					me.questionObj.image = dataUrl;
 					me.image = dataUrl;
 

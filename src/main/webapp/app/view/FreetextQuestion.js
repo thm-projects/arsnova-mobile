@@ -176,7 +176,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				gridIsHidden: true,
 				style: 'margin-bottom: 10px'
 			});
-			this.grid.prepareRemoteImage(me.questionObj._id);
+			this.grid.prepareRemoteImage(me.questionObj);
 		}
 
 		if (this.questionObj.imageQuestion) {

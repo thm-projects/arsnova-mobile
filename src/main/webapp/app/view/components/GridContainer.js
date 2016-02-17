@@ -119,22 +119,34 @@ Ext.define('ARSnova.view.components.GridContainer', {
 	requestImage: function () {
 		var me = this;
 
-		if (!this.loadingSuccessfull && this.imageRequestObject) {
-			this.imageRequestObject.fn.call(
-				me.imageRequestObject.scope,
-				me.imageRequestObject.id, {
-				success: function (dataUrl) {
-					me.setImage(dataUrl,
-						me.imageRequestObject.reload,
-						me.imageRequestObject.success,
-						me.imageRequestObject.failure
-					);
-				},
-				failure: function () {
-					console.log('server-side error');
-					me.imageRequestObject.failure.call(this);
-				}
-			}, me.imageRequestObject.fcImage);
+		if (this.imageRequestObject && !this.loadingSuccessfull) {
+			var image = this.imageRequestObject.fcImage ?
+				this.imageRequestObject.obj.fcImage :
+				this.imageRequestObject.obj.image;
+
+			if (image === "true") { // remote
+				this.imageRequestObject.fn.call(
+					me.imageRequestObject.scope,
+					me.imageRequestObject.obj._id, {
+					success: function (dataUrl) {
+						me.setImage(dataUrl,
+							me.imageRequestObject.reload,
+							me.imageRequestObject.success,
+							me.imageRequestObject.failure
+						);
+					},
+					failure: function () {
+						console.log('server-side error');
+						me.imageRequestObject.failure.call(this);
+					}
+				}, me.imageRequestObject.fcImage);
+			} else {
+				me.setImage(image,
+					me.imageRequestObject.reload,
+					me.imageRequestObject.success,
+					me.imageRequestObject.failure
+				);
+			}
 		}
 	},
 
@@ -764,11 +776,11 @@ Ext.define('ARSnova.view.components.GridContainer', {
 		};
 	},
 
-	prepareRemoteImage: function (questionId, fcImage, reload, successCallback, failureCallback, requestFn, scope) {
+	prepareRemoteImage: function (questionObj, fcImage, reload, successCallback, failureCallback, requestFn, scope) {
 		var model = ARSnova.app.questionModel;
 
 		this.imageRequestObject = {
-			id: questionId,
+			obj: questionObj,
 			scope: scope || model,
 			reload: reload ? true : false,
 			fcImage: fcImage ? true : false,

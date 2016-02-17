@@ -129,7 +129,7 @@ Ext.define('ARSnova.view.Question', {
 				editable: false,
 				gridIsHidden: true
 			});
-			me.grid.prepareRemoteImage(me.questionObj._id);
+			me.grid.prepareRemoteImage(me.questionObj);
 			this.formPanel.insert(1, this.grid);
 		}
 
@@ -423,7 +423,7 @@ Ext.define('ARSnova.view.Question', {
 
 		this.grid.setPossibleAnswers(me.questionObj.possibleAnswers);
 		this.grid.prepareRemoteImage(
-			me.questionObj._id, false, false, function (dataUrl) {
+			me.questionObj, false, false, function (dataUrl) {
 				me.questionObj.image = dataUrl;
 				me.setGridAnswer(me.questionObj.userAnswered);
 
@@ -473,7 +473,7 @@ Ext.define('ARSnova.view.Question', {
 				style: 'margin-bottom: 20px'
 			});
 
-			me.flashcardGrid.prepareRemoteImage(me.questionObj._id, true);
+			me.flashcardGrid.prepareRemoteImage(me.questionObj, true);
 			this.answerList.add(this.flashcardGrid);
 		}
 
