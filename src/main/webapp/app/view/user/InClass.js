@@ -149,10 +149,10 @@ Ext.define('ARSnova.view.user.InClass', {
 				}, this.feedbackButton, {
 					xtype: 'spacer',
 					hidden: !ARSnova.app.isSessionOwner
-				}, this.roleIconButton, {
+				}, this.voteButton, {
 					xtype: 'spacer',
 					hidden: !ARSnova.app.isSessionOwner
-				}, this.voteButton, {
+				}, this.roleIconButton, {
 					xtype: 'spacer',
 					width: true,
 					flex: '3',

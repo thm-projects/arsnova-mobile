@@ -223,7 +223,7 @@ Ext.define("ARSnova.controller.Feature", {
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 			var inClassPanel = tP.userTabPanel.inClassPanel;
 			var container = inClassPanel.actionButtonPanel;
-			this.applyButtonChange(container, inClassPanel.voteButton, enable, 5);
+			this.applyButtonChange(container, inClassPanel.voteButton, enable, 3);
 		}
 	},
 
