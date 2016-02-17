@@ -61,6 +61,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 			ui: 'back',
 			hidden: false,
 			handler: function () {
+				ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(false);
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 					type: 'slide',
 					direction: 'right',

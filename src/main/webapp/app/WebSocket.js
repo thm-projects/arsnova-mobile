@@ -115,7 +115,8 @@ Ext.define('ARSnova.WebSocket', {
 				var features = Ext.decode(sessionStorage.getItem("features"));
 
 				if (features.liveClicker && !ARSnova.app.feedbackModel.lock &&
-					ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+					ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER &&
+					localStorage.getItem('lastVisitedRole') !== ARSnova.app.USER_ROLE_SPEAKER) {
 					return;
 				}
 

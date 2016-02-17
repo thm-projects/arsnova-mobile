@@ -57,18 +57,19 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				var	tabPanel = ARSnova.app.mainTabPanel.tabPanel,
 					feedbackTabPanel = tabPanel.feedbackTabPanel;
 
+				var animation = {
+					type: 'slide',
+					direction: 'right',
+					duration: 700
+				};
+
 				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-					tabPanel.animateActiveItem(tabPanel.speakerTabPanel, {
-						type: 'slide',
-						direction: 'right',
-						duration: 700
-					});
+					tabPanel.animateActiveItem(tabPanel.speakerTabPanel, animation);
+				} else if (localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER) {
+					tabPanel.animateActiveItem(tabPanel.userTabPanel, animation);
 				} else {
-					feedbackTabPanel.animateActiveItem(feedbackTabPanel.votePanel, {
-						type: 'slide',
-						direction: 'down',
-						duration: 700
-					});
+					animation.direction = 'down';
+					feedbackTabPanel.animateActiveItem(feedbackTabPanel.votePanel, animation);
 				}
 			}
 		});
@@ -189,8 +190,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.initializeOptionButtons();
 		this.add([this.toolbar, this.optionButtons, this.feedbackChart]);
 
-		this.on('activate', this.onActivate);
 		this.onBefore('painted', function () {
+			var me = this;
 			this.feedbackChartColors = [
 				ARSnova.app.feedbackChartStyleConfig.okColor,
 				ARSnova.app.feedbackChartStyleConfig.goodColor,
@@ -198,8 +199,19 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				ARSnova.app.feedbackChartStyleConfig.noneColor
 			];
 
+			ARSnova.app.feedbackModel.getFeedback(sessionStorage.getItem('keyword'), {
+				success: function (response) {
+					var feedback = Ext.decode(response.responseText);
+					me.updateChart(feedback.values);
+				},
+				failure: function () {
+					console.log('server-side error');
+				}
+			});
+
 			// remove x-axis ticks and labels at initialization
 			this.feedbackChart.getAxes()[1].sprites[0].attr.majorTicks = false;
+			this.prepareView();
 		});
 	},
 
@@ -213,21 +225,6 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				value: button.config.value
 			});
 		}
-	},
-
-	onActivate: function () {
-		var me = this;
-		ARSnova.app.feedbackModel.getFeedback(sessionStorage.getItem('keyword'), {
-			success: function (response) {
-				var feedback = Ext.decode(response.responseText);
-				me.updateChart(feedback.values);
-			},
-			failure: function () {
-				console.log('server-side error');
-			}
-		});
-
-		this.prepareView();
 	},
 
 	prepareView: function () {
@@ -245,7 +242,10 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				me.backButton.setText(Messages.HOME);
 			} else {
 				me.optionButtons.setCls('voteButtonsPanel');
-				me.backButton.setText(Messages.FEEDBACK_VOTE);
+				me.backButton.setText(
+					localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER ?
+					Messages.HOME : Messages.FEEDBACK_VOTE
+				);
 			}
 
 			if (features.liveClicker) {
