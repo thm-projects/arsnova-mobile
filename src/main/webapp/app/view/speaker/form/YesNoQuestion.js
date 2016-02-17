@@ -86,14 +86,15 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 				scope: this,
 				toggle: function (container, button, pressed) {
 					if (pressed) {
+						var features = Ext.decode(sessionStorage.getItem("features"));
 						if (button === this.yesButton) {
 							this.setPressed('yes');
-							questionValueFieldset.setHidden(false);
+							questionValueFieldset.setHidden(!features.learningProgress);
 							this.yesValueComponent.setSliderValue(this.yesValueComponent.getMaxValue());
 							this.noValueComponent.setSliderValue(this.noValueComponent.getMinValue());
 						} else if (button === this.noButton) {
 							this.setPressed('no');
-							questionValueFieldset.setHidden(false);
+							questionValueFieldset.setHidden(!features.learningProgress);
 							this.yesValueComponent.setSliderValue(this.yesValueComponent.getMinValue());
 							this.noValueComponent.setSliderValue(this.noValueComponent.getMaxValue());
 						} else {

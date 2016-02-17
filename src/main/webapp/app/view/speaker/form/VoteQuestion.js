@@ -33,12 +33,11 @@ Ext.define('ARSnova.view.speaker.form.VoteQuestion', {
 	constructor: function () {
 		this.callParent(arguments);
 		this.sliderComponents = [];
-
 		var questionValueFieldset = null;
 
 		questionValueFieldset = Ext.create('Ext.form.FieldSet', {
 			title: Messages.ANSWER_POINTS,
-			hidden: false
+			hidden: true
 		});
 
 		var questionValueOptions = {
@@ -55,6 +54,11 @@ Ext.define('ARSnova.view.speaker.form.VoteQuestion', {
 		}
 
 		questionValueFieldset.add(this.sliderComponents);
+
+		this.on('painted', function () {
+			var features = Ext.decode(sessionStorage.getItem("features"));
+			questionValueFieldset.setHidden(!features.learningProgress);
+		});
 
 		this.add([{
 			xtype: 'formpanel',

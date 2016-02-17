@@ -102,10 +102,11 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 					scope: this,
 					checkchange: function (field, isChecked) {
 						var component = this.questionValueComponents[i];
+						var features = Ext.decode(sessionStorage.getItem("features"));
 						var checked = this.answerComponents.filter(function (c) {
 							return c.isChecked();
 						});
-						this.questionValueFieldset.setHidden(checked.length === 0);
+						this.questionValueFieldset.setHidden(checked.length === 0 || !features.learningProgress);
 						if (checked.length === 0) {
 							this.questionValueComponents.forEach(function (c) {
 								c.reset();
@@ -210,6 +211,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	},
 
 	initWithQuestion: function (question) {
+		var features = Ext.decode(sessionStorage.getItem("features"));
 		var possibleAnswers = question.possibleAnswers;
 		if (possibleAnswers.length < this.getMinAnswers() || possibleAnswers.length > ARSnova.app.globalConfig.answerOptionLimit) {
 			return;
@@ -220,7 +222,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 		var hasCorrectAnswers = possibleAnswers.reduce(function (acc, a2) {
 			return acc || a2.correct;
 		}, false);
-		this.questionValueFieldset.setHidden(!hasCorrectAnswers);
+		this.questionValueFieldset.setHidden(!hasCorrectAnswers && !features.learningProgress);
 	},
 
 	initSpinnerField: function (startValue) {
