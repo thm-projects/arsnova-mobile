@@ -189,9 +189,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		this.initializeOptionButtons();
 		this.add([this.toolbar, this.optionButtons, this.feedbackChart]);
 
+		this.on('activate', this.onActivate);
 		this.onBefore('painted', function () {
-			var me = this;
-
 			this.feedbackChartColors = [
 				ARSnova.app.feedbackChartStyleConfig.okColor,
 				ARSnova.app.feedbackChartStyleConfig.goodColor,
@@ -199,19 +198,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				ARSnova.app.feedbackChartStyleConfig.noneColor
 			];
 
-			ARSnova.app.feedbackModel.getFeedback(sessionStorage.getItem('keyword'), {
-				success: function (response) {
-					var feedback = Ext.decode(response.responseText);
-					me.updateChart(feedback.values);
-				},
-				failure: function () {
-					console.log('server-side error');
-				}
-			});
-
 			// remove x-axis ticks and labels at initialization
 			this.feedbackChart.getAxes()[1].sprites[0].attr.majorTicks = false;
-			this.prepareView();
 		});
 	},
 
@@ -225,6 +213,21 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 				value: button.config.value
 			});
 		}
+	},
+
+	onActivate: function () {
+		var me = this;
+		ARSnova.app.feedbackModel.getFeedback(sessionStorage.getItem('keyword'), {
+			success: function (response) {
+				var feedback = Ext.decode(response.responseText);
+				me.updateChart(feedback.values);
+			},
+			failure: function () {
+				console.log('server-side error');
+			}
+		});
+
+		this.prepareView();
 	},
 
 	prepareView: function () {
