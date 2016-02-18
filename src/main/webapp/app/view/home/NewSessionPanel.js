@@ -96,7 +96,9 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			}
 		});
 
+		/** temporarily hidden - TODO: remove if not needed **/
 		this.sessionInfoButton = Ext.create('Ext.Button', {
+			hidden: true,
 			id: 'session-info-button',
 			cls: 'saveButton centered',
 			ui: 'action',
@@ -151,6 +153,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 
 			items: [{
 				xtype: 'fieldset',
+				style: 'margin-bottom: 0px;',
 				items: [{
 					xtype: 'textfield',
 					name: 'name',
@@ -165,7 +168,10 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					placeHolder: Messages.SESSION_SHORT_NAME_PLACEHOLDER,
 					maxLength: 8,
 					clearIcon: true
-				}, this.sessionInfoButton, this.submitButton]
+				}]
+			}, {
+				xtype: 'fieldset',
+				items: [this.sessionInfoButton, this.submitButton]
 			}, this.coursesFieldset]
 		}]);
 
