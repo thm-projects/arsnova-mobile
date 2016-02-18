@@ -532,11 +532,12 @@ Ext.define('ARSnova.view.Question', {
 					}
 
 					me.disableQuestion(true);
-					if (!me.questionObj.piRoundActive && !me.questionObj.showAnswer) {
-						questionsPanel.checkIfLastAnswer();
-					} else {
+					questionsPanel.checkStatisticsRelease();
+
+					if (me.questionObj.showAnswer) {
 						me.getScrollable().getScroller().scrollToEnd(true);
-						questionsPanel.checkStatisticsRelease();
+					} else {
+						questionsPanel.checkIfLastAnswer();
 					}
 				} else {
 					questionsPanel.getIndicator().setIndicatorColorAnswered(questionsPanel.getActiveIndex(), true);

@@ -397,6 +397,10 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 	checkStatisticsRelease: function () {
 		var questionView = this.getActiveItem();
 
+		if (questionView.questionObj.piRoundActive) {
+			return;
+		}
+
 		questionView.fireEvent('preparestatisticsbutton', this.toolbar.statisticsButton);
 		this.toolbar.checkStatistics(questionView.questionObj, questionView.isDisabled());
 	},
