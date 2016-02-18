@@ -675,7 +675,8 @@
 				USECASE_ABCD_CLICKER: "Nur die Publikumsfrage à la Günther Jauch: A|B|C|D ohne Fragetext",
 				USECASE_PEER_GRADING: "Nur Evaluationsfragen mit 5-stufiger Likert-Skala und Auswertung",
 				USECASE_FLASHCARD: "Nur Lernkarten fürs Selbststudium: Session als Lernkartei",
-				USECASE_LIVE_FEEDBACK: "Nur Zwischenfragen & Live Feedback (Verständnisbarometer)",
+				USECASE_LIVE_FEEDBACK: "Nur Live Feedback (Verständnisbarometer)",
+				USECASE_INTERPOSED_FEEDBACK: "Nur Zwischenfragen (Kummerkasten)",
 				USECASE_ARSNOVA_TOTAL: "ARSnova total: alle Frageformate und alle Funktionen",
 				USECASE_ARSNOVA_CUSTOM: "Eigene Auswahl",
 
@@ -684,7 +685,8 @@
 				USECASE_ABCD_CLICKER_SHORT: "Nur die Publikumsfrage A|B|C|D",
 				USECASE_PEER_GRADING_SHORT: "Nur Evaluationsfragen mit Auswertung",
 				USECASE_FLASHCARD_SHORT: "Nur Lernkarten fürs Selbststudium",
-				USECASE_LIVE_FEEDBACK_SHORT: "Nur Zwischenfragen & Live Feedback",
+				USECASE_LIVE_FEEDBACK_SHORT: "Nur Live Feedback",
+				USECASE_INTERPOSED_FEEDBACK_SHORT: "Nur Zwischenfragen",
 				USECASE_ARSNOVA_TOTAL_SHORT: "Alle Formate & Funktionen",
 				USECASE_ARSNOVA_CUSTOM_SHORT: "Eigene Auswahl",
 
@@ -692,7 +694,8 @@
 				USECASE_ABCD_CLICKER_DETAILS: "###Publikumsfrage\n\n Publikumsfrage à la Günther Jauch: nur A|B|C|D-Antwortoptionen ohne Fragetext.\n\nKeinerlei Aufwand für das Erstellen der Frage. Sie geben lediglich die Session-ID bekannt.",
 				USECASE_PEER_GRADING_DETAILS: "###Evaluationsfragen\n\n Nur Fragen mit 5-stufiger [Likert-Skala](https://de.wikipedia.org/wiki/Likert-Skala) und Bewertungspunkten.",
 				USECASE_FLASHCARD_DETAILS: "###Lernkarten fürs Selbststudium\n\n Vorderseite mit Frage, Rückseite mit Lösung. Sie können Videos und Bilder einbinden.",
-				USECASE_LIVE_FEEDBACK_DETAILS: "###Zwischenfragen & Live Feedback\n\n Falls nur ein digitaler \"Kummerkasten\" aufgestellt werden soll:\n- für Fragen der Studierenden (sichtbar nur für die Lehrperson) und\n- Live Feedback zum Tempo und Verständnis der Vorlesung (sichtbar für alle).",
+				USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n Falls nur ein digitales \"Verständnisbarometer\" benötigt wird:\n\n Live Feedback zum Tempo und Verständnis der Vorlesung (sichtbar für alle).",
+				USECASE_INTERPOSED_FEEDBACK_DETAILS: "###Zwischenfragen\n\n Falls nur ein digitaler \"Kummerkasten\" aufgestellt werden soll:\n\n Fragen der Studierenden (sichtbar nur für die Lehrperson)",
 				USECASE_ARSNOVA_TOTAL_DETAILS: "###ARSnova total\n\n Alles, was ARSnova an Frageformaten und Unterstützungsfunktionen für die didaktischen Einsatz-Szenarien \"Peer Instruction\" und \"Inverted Classroom\" bietet, siehe die ARSnova-Broschüre [Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2015/08/ARSnova-Produktprospekt-v5.pdf).",
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###Mein ARSnova\n\n Sie können die Funktionalität Ihrer Session kombinieren aus: \n- Hörsaalfragen \n- Vorbereitungsaufgaben\n- Fragen der Studierenden\n- Live Feedback\n- 2-Runden-Abstimmungen\n- Lernstandsberechnung",
 
@@ -1370,7 +1373,8 @@
 				USECASE_ABCD_CLICKER: "\"Ask the Audience\" (A|B|C|D single-choice question)",
 				USECASE_PEER_GRADING: "Evaluation (5-level Likert scale)",
 				USECASE_FLASHCARD: "Flashcards for self studies",
-				USECASE_LIVE_FEEDBACK: "Live feedback & questions from the audience",
+				USECASE_LIVE_FEEDBACK: "Questions from the audience",
+				USECASE_INTERPOSED_FEEDBACK: "Live feedback",
 				USECASE_ARSNOVA_TOTAL: "All-inclusive (all question types, all functions)",
 				USECASE_ARSNOVA_CUSTOM: "My ARSnova",
 
@@ -1380,6 +1384,7 @@
 				USECASE_PEER_GRADING_SHORT: "Evaluation",
 				USECASE_FLASHCARD_SHORT: "Flashcards",
 				USECASE_LIVE_FEEDBACK_SHORT: "Live feedback",
+				USECASE_INTERPOSED_FEEDBACK_SHORT: "Interposed Questions",
 				USECASE_ARSNOVA_TOTAL_SHORT: "All-inclusive",
 				USECASE_ARSNOVA_CUSTOM_SHORT: "My ARSnova",
 
@@ -1387,7 +1392,8 @@
 				USECASE_ABCD_CLICKER_DETAILS: "###Ask the Audience\n\n Only A|B|C|D response options without question text as known from the quiz show \"Who Wants to Be a Millionaire\".",
 				USECASE_PEER_GRADING_DETAILS: "###Evaluation Questions\n\n 5-level [Likert items](https://en.wikipedia.org/wiki/Likert_scale) with values in the range of -10 to 10. The response options are editable, default: strongly agree | agree | neutral | disagree | strongly disagree.",
 				USECASE_FLASHCARD_DETAILS: "###Flashcards for private study\n\n Question on front side, answer on back side. You can embed videos and pictures.",
-				USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n With the use of \“Smileys\”, the listeners can indicate their pace of learning and understanding of the lecture or pose questions, without interrupting the class.",
+				USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n With the use of \“Smileys\”, the listeners can indicate their pace of learning and understanding of the lecture.",
+				USECASE_INTERPOSED_FEEDBACK_DETAILS: "###Interposed Questions\n\n The listeners can pose questions, without interrupting the class.",
 				USECASE_ARSNOVA_TOTAL_DETAILS: "###All-inclusive ARSnova\n\n All didactic functions and question types that ARSnova supports for [Peer Instruction](https://en.wikipedia.org/wiki/Peer_instruction) and [Flipped Classroom](https://en.wikipedia.org/wiki/Flipped_classroom).",
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###My ARSnova\n\n Personal selection of didactic functions...",
 

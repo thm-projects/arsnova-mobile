@@ -25,6 +25,7 @@ Ext.define("ARSnova.controller.Feature", {
 		clicker: false,
 		liveClicker: false,
 		liveFeedback: false,
+		interposedFeedback: false,
 		flashcard: false,
 		peerGrading: false
 	},
@@ -48,6 +49,7 @@ Ext.define("ARSnova.controller.Feature", {
 			peerGrading: this.applyPeerGradingUseCase,
 			flashcard: this.applyFlashcardUseCase,
 			liveFeedback: this.applyLiveFeedbackUseCase,
+			interposedFeedback: this.applyInterposedFeedbackUseCase,
 			liveClicker: this.applyLiveClickerUseCase,
 			total: this.applyTotalUseCase,
 			custom: this.applyCustomUseCase
@@ -79,6 +81,10 @@ Ext.define("ARSnova.controller.Feature", {
 	},
 
 	applyLiveFeedbackUseCase: function (useCases) {
+		this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+	},
+
+	applyInterposedFeedbackUseCase: function (useCases) {
 		this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
 	},
 
@@ -164,10 +170,19 @@ Ext.define("ARSnova.controller.Feature", {
 		}
 
 		if (useCases.liveFeedback) {
-			features.pi = false;
 			features.jitt = false;
-			features.lecture = false;
 			features.learningProgress = false;
+			features.interposed = false;
+			features.lecture = false;
+			features.pi = false;
+		}
+
+		if (useCases.interposedFeedback) {
+			features.jitt = false;
+			features.learningProgress = false;
+			features.feedback = false;
+			features.lecture = false;
+			features.pi = false;
 		}
 
 		return features;

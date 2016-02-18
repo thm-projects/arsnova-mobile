@@ -349,8 +349,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		}
 
 		this.actionButtonPanel.getInnerItems().forEach(function (element) {
-			if (element === me.showcaseActionButton ||
-				element.getItemId() === 'innerLeftSpacer') {
+			if (element === me.showcaseActionButton || element.getItemId() === 'innerLeftSpacer') {
 				element.setHidden(!showElements);
 			}
 		});
