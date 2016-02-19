@@ -233,11 +233,17 @@ Ext.define("ARSnova.controller.Feature", {
 	 */
 	applyFeedbackFeature: function (enable) {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
+		var inClassPanel, container;
+
 		tP.feedbackTabPanel.tab.setHidden(!enable);
 
-		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
-			var inClassPanel = tP.userTabPanel.inClassPanel;
-			var container = inClassPanel.actionButtonPanel;
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			inClassPanel = tP.speakerTabPanel.inClassPanel;
+			container = inClassPanel.inClassButtons;
+			this.applyButtonChange(container, inClassPanel.liveFeedbackButton, enable, 3);
+		} else {
+			inClassPanel = tP.userTabPanel.inClassPanel;
+			container = inClassPanel.actionButtonPanel;
 			this.applyButtonChange(container, inClassPanel.voteButton, enable, 3);
 		}
 	},

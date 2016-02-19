@@ -128,6 +128,18 @@ Ext.define("ARSnova.controller.Feedback", {
 		tP.setActiveItem(fP);
 	},
 
+	showFeedbackStatistic: function () {
+		var tP = ARSnova.app.mainTabPanel.tabPanel;
+		var fP = tP.feedbackTabPanel;
+
+		if (fP.rendered) {
+			fP.setActiveItem(fP.statisticPanel);
+		} else {
+			fP.setActiveItem(fP);
+		}
+		tP.setActiveItem(fP);
+	},
+
 	initializeVoteButtonConfigurations: function (panel) {
 		var features = Ext.decode(sessionStorage.getItem("features"));
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;

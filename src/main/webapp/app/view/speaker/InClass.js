@@ -188,6 +188,14 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			handler: this.buttonClicked
 		});
 
+		this.liveFeedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text: Messages.LIVE_FEEDBACK,
+			cls: 'forwardListButton',
+			controller: 'Feedback',
+			action: 'showFeedbackStatistic',
+			handler: this.buttonClicked
+		});
+
 		this.feedbackQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui: 'normal',
 			text: Messages.QUESTIONS_FROM_STUDENTS,
@@ -209,7 +217,8 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		var buttons = [
 			this.feedbackQuestionButton,
 			this.lectureQuestionButton,
-			this.preparationQuestionButton
+			this.preparationQuestionButton,
+			this.liveFeedbackButton
 		];
 
 		this.inClassActions = Ext.create('ARSnova.view.speaker.InClassActionButtons');
