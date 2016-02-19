@@ -71,7 +71,7 @@ Ext.define('ARSnova.view.speaker.form.GridQuestion', {
 		 */
 		this.uploadView = Ext.create('ARSnova.view.speaker.form.ImageUploadPanel', {
 			handlerScope: me,
-			fsUploadHandler: me.handleUrl,
+			urlUploadHandler: me.handleUrl,
 			templateHandler: me.handleTemplate,
 			disableFSUpload: true
 		});

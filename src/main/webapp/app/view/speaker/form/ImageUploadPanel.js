@@ -208,11 +208,11 @@ Ext.define('ARSnova.view.speaker.form.ImageUploadPanel', {
 		}]);
 	},
 
-	setUploadPanelConfig: function (title, urlHandler, fsUploadHandler) {
+	setUploadPanelConfig: function (title, urlUploadHandler, fsUploadHandler) {
 		this.containerFieldSet.setTitle(title);
 
-		if (urlHandler) {
-			this.setUrlUploadHandler(urlHandler);
+		if (urlUploadHandler) {
+			this.urlUploadHandler(urlUploadHandler);
 		}
 		if (fsUploadHandler) {
 			this.setFsUploadHandler(fsUploadHandler);
