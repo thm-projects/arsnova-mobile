@@ -1373,8 +1373,8 @@
 				USECASE_ABCD_CLICKER: "\"Ask the Audience\" (A|B|C|D single-choice question)",
 				USECASE_PEER_GRADING: "Evaluation (5-level Likert scale)",
 				USECASE_FLASHCARD: "Flashcards for self studies",
-				USECASE_LIVE_FEEDBACK: "Questions from the audience",
-				USECASE_INTERPOSED_FEEDBACK: "Live feedback",
+				USECASE_LIVE_FEEDBACK: "Instant Feedback",
+				USECASE_INTERPOSED_FEEDBACK: "Questions from the audience",
 				USECASE_ARSNOVA_TOTAL: "All-inclusive (all question types, all functions)",
 				USECASE_ARSNOVA_CUSTOM: "My ARSnova",
 
