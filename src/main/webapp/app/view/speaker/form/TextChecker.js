@@ -23,7 +23,7 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 		//Switch between free text/checkable answer
 		fixedAnswer: false,
 		//When checkable answer, switch strict mode on and off
-		strictMode: false,
+		strictMode: true,
 
 		scrollable: null,
 		ignoreCaseSensitive: false,
@@ -43,7 +43,7 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 
 		var strictOptions = Ext.create('Ext.form.FieldSet', {
 			title: Messages.TEXT_CHECKER_STRICT_OPTIONS,
-			hidden: !me.config.strictMode,
+			hidden: !me.config.fixedAnswer,
 			items: [{
 				xtype: 'segmentedbutton',
 				style: 'margin: auto',
@@ -99,6 +99,7 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 				selectField.show();
 				ratingField.show();
 				me.setFixedAnswer(true);
+				strictOptions.show();
 			},
 			pressed: this.getFixedAnswer() === true
 		});
@@ -116,14 +117,6 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 			title: Messages.TEXT_CHECKER_TITLE,
 			items: [answerTypeSegmentedButton]
 		});
-		this.easyButton = Ext.create('Ext.Button', {
-			text: Messages.TEXT_CHECKER_MODE_EASY,
-			handler: function () {
-				strictOptions.hide();
-				me.setStrictMode(false);
-			},
-			pressed: this.getStrictMode() === false
-		});
 
 		this.strictButton = Ext.create('Ext.Button', {
 			text: Messages.TEXT_CHECKER_MODE_STRICT,
@@ -138,9 +131,9 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 			style: 'margin: auto;',
 			defaults: {
 				ui: 'action',
-				style: 'width: 50%'
+				style: 'width: 100%'
 			},
-			items: [this.easyButton, this.strictButton]
+			items: [this.strictButton]
 		});
 		var selectField = Ext.create('Ext.form.FieldSet', {
 			xtype: 'fieldset',
