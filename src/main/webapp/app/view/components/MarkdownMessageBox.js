@@ -56,6 +56,15 @@ Ext.define('ARSnova.view.components.MarkdownMessageBox', {
 			ARSnova.app.innerScrollPanel = this;
 		});
 
+		var imgElement = this.contentPanel.element.dom.querySelector('img');
+
+		if (imgElement) {
+			imgElement.onload = function () {
+				me.updateDimensions();
+				me.setHeight(me.getHeight());
+			};
+		}
+
 		this.setShowAnimation({
 			type: 'fadeIn',
 			duration: 250,
