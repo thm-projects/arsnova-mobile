@@ -995,7 +995,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	exportSessions: function (keywords, withAnswerStatistics, withFeedbackQuestions, callbacks) {
 		this.arsjax.request({
-			url: "session/export?sessionkeys=" + encodeURIComponent(keywords) +
+			url: "session/export?sessionkey=" + keywords +
 			"&withAnswerStatistics=" + encodeURIComponent(withAnswerStatistics) +
 			"&withFeedbackQuestions=" + encodeURIComponent(withFeedbackQuestions),
 			method: "GET",

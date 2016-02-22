@@ -65,6 +65,8 @@ Ext.define("ARSnova.controller.SessionExport", {
 
 		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_EXPORT, 240000);
 
+		var sessionkeystring = sessionkeys.join('&sessionkey=');
+
 		ARSnova.app.restProxy.exportSessions(
 			sessionkeys, withAnswerStatistics, withFeedbackQuestions, {
 				success: function (response) {
