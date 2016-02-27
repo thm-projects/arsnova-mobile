@@ -26,7 +26,9 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 		scrollable: true,
 		fullscreen: false,
 		height: '100%',
-		width: '100%'
+		width: '100%',
+		src: null,
+		handleEvents: true
 	},
 
 	initialize: function () {
@@ -60,17 +62,18 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 			}
 		});
 
-		this.on('painted', function () {
-			this.embedOrOpenTab(this.config.src);
-		});
+		if (this.getHandleEvents()) {
+			this.on('painted', function () {
+				this.embedOrOpenTab(this.getSrc());
+			});
+		}
 	},
 
 	embed: function (url) {
 		var self = this;
+		url = url || this.getSrc();
 
-		if (!this.defined) {
-			this.defined = true;
-
+		if (!this.frame) {
 			this.frame = Ext.DomHelper.append(this.frameContainer, {
 				tag: 'iframe',
 				src: url,
@@ -92,6 +95,12 @@ Ext.define('ARSnova.view.components.EmbeddedPage', {
 
 	embedOrOpenTab: function (url) {
 		var self = this;
+		url = url || this.getSrc();
+
+		/* Do not check again if page has already been embedded */
+		if (this.frame) {
+			return;
+		}
 
 		if (location.protocol !== 'https:' || url.indexOf('https:') === 0) {
 			ARSnova.app.restProxy.checkFrameOptionsHeader(url, {

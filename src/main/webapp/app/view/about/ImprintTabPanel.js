@@ -30,6 +30,8 @@ Ext.define('ARSnova.view.about.ImprintTabPanel', {
 		}
 	},
 
+	page: null,
+
 	initialize: function () {
 		this.callParent(arguments);
 
@@ -51,15 +53,16 @@ Ext.define('ARSnova.view.about.ImprintTabPanel', {
 				}
 			}]
 		});
-
 		this.add(this.toolbar);
 
-		this.on("painted", function () {
-			var url = ARSnova.app.globalConfig.imprintUrl || "https://arsnova.eu/blog/impressum/";
+		var url = ARSnova.app.globalConfig.imprintUrl || "https://arsnova.eu/blog/impressum/";
+		this.page = this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
+			src: url,
+			handleEvents: false
+		}));
 
-			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
-				src: url
-			}));
+		this.on('show', function () {
+			this.page.embedOrOpenTab();
 		});
 	}
 });

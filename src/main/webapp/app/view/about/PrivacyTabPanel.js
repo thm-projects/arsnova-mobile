@@ -30,6 +30,8 @@ Ext.define('ARSnova.view.about.PrivacyTabPanel', {
 		}
 	},
 
+	page: null,
+
 	initialize: function () {
 		this.callParent(arguments);
 
@@ -51,15 +53,16 @@ Ext.define('ARSnova.view.about.PrivacyTabPanel', {
 				}
 			}]
 		});
-
 		this.add(this.toolbar);
 
-		this.on("painted", function () {
-			var url = ARSnova.app.globalConfig.privacyPolicyUrl || "https://arsnova.eu/blog/datenschutzerklaerung/";
+		var url = ARSnova.app.globalConfig.privacyPolicyUrl || "https://arsnova.eu/blog/datenschutzerklaerung/";
+		this.page = this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
+			src: url,
+			handleEvents: false
+		}));
 
-			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
-				src: url
-			}));
+		this.on('show', function () {
+			this.page.embedOrOpenTab();
 		});
 	}
 });
