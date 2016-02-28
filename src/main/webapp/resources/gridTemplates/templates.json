@@ -117,5 +117,23 @@
         "numberOfDots": 4,
         "numClickableFields": 4,
         "number": 4
+    },
+    {
+      "name": {
+        "de": "Planungspoker",
+        "en": "Planning Poker"
+      },
+      "description": {
+          "de" : "Mit dieser Vorlage können Sie in einem Software-Entwicklungsprojekt [Scrum Poker](https://de.wikipedia.org/wiki/Scrum#Planungspoker) spielen.",
+          "en" : "With this template, your software developing team can play [Scrum poker](https://en.wikipedia.org/wiki/Planning_poker)."
+        },
+        "imageFile": "Scrum Poker.jpg",
+        "gridSize": 16,
+        "zoomLvl": 0,
+        "gridOffsetX": 0,
+        "gridOffsetY": 0,
+        "gridZoomLvl": 1,
+        "gridSizeX": 16,
+        "gridSizeY": 16
     }
 ]
