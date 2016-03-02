@@ -393,7 +393,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 
 			// export to public pool here
 			ARSnova.app.getController("SessionExport").exportSessionsToPublicPool(
-					sessions, publicPoolAttributes);
+					sessions[0].keyword, publicPoolAttributes);
 		}
 	},
 

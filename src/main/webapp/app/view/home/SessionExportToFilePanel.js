@@ -143,8 +143,16 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 	handleExport: function () {
 		var withAnswerStatistics = this.exportAnswerToggle.getValue();
 		var withFeedbackQuestions = this.exportStudentsQuestionToggle.getValue();
+		var exportSession = this.getExportSessionMap();
+		var sessionkeys = [];
 
-		ARSnova.app.getController("SessionExport").exportSessionsToFile(
-				this.getExportSessionMap(), withAnswerStatistics, withFeedbackQuestions);
+		for (var i = 0; i < exportSession.length; i++) {
+			if (exportSession[i][1]) {
+				sessionkeys.push(exportSession[i][0].keyword);
+			}
+		}
+
+		ARSnova.app.getController("SessionExport").getExportedSessions(
+				sessionkeys, withAnswerStatistics, withFeedbackQuestions);
 	}
 });

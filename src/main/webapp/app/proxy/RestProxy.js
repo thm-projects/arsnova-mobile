@@ -993,6 +993,27 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	exportSessions: function (keywords, withAnswerStatistics, withFeedbackQuestions, callbacks) {
+		this.arsjax.request({
+			url: "session/export?sessionkey=" + keywords +
+			"&withAnswerStatistics=" + encodeURIComponent(withAnswerStatistics) +
+			"&withFeedbackQuestions=" + encodeURIComponent(withFeedbackQuestions),
+			method: "GET",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
+	copySessionToPublicPool: function (keyword, PublicPoolData, callbacks) {
+		this.arsjax.request({
+			url: "session/" + keyword + "/copytopublicpool",
+			method: "POST",
+			jsonData: PublicPoolData,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	getSubjectSort: function (sessionKeyword, isPreparation, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/subjectsort?sessionkey=" + sessionKeyword +
