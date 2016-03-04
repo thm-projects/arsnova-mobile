@@ -24,7 +24,7 @@
 	var ua = navigator.userAgent.toLowerCase();
 	var isAndroid = ua.indexOf("android") > -1;
 	var isChrome = ua.indexOf("chrome") > -1;
-	var lang;
+	var lang, components, variation;
 	var Messages;
 
 	if (isAndroid && !isChrome && navigator.userAgent &&
@@ -45,6 +45,8 @@
 	}
 
 	if (lang) {
+		components = lang.split("-");
+		variation = components[1] || null;
 		lang = lang.substr(0, 2).toLowerCase();
 	}
 
@@ -740,6 +742,18 @@
 				QUESTIONS_CSV_IMPORT_ABSTENTION_ERROR: "Fehler im Feld 'abstention'",
 				QUESTIONS_CSV_IMPORT_INVALID_FORMAT: "Ungültiges Dateiformat"
 			};
+
+			switch (variation) {
+				case "event":
+					Messages.variation = {
+						/* FIXME: add localization */
+						STUDENT: "STUDENT de-event",
+						SPEAKER: "SPEAKER de-event"
+					};
+
+					break;
+			}
+
 			break;
 
 		case 'en':
@@ -1439,6 +1453,18 @@
 				QUESTIONS_CSV_IMPORT_ABSTENTION_ERROR: "Error in field 'abstention'",
 				QUESTIONS_CSV_IMPORT_INVALID_FORMAT: "Invalid file format"
 			};
+
+			switch (variation) {
+				case "event":
+					Messages.variation = {
+						/* FIXME: add localization */
+						STUDENT: "STUDENT en-event",
+						SPEAKER: "SPEAKER en-event"
+					};
+
+					break;
+			}
+
 			break;
 	}
 	// make Messages globally accessible

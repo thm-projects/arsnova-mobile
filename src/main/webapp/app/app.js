@@ -155,6 +155,10 @@ Ext.application({
 		console.info("ARSnova.app.launch");
 		this.configLoaded = new RSVP.Promise();
 
+		var langVariation = Messages.variation;
+		delete Messages.variation;
+		Messages = Ext.Object.merge(Messages, langVariation);
+
 		/* Workaround needed for Edge since ST recognizes it as WebKit */
 		var detect = Ext.create("ARSnova.BrowserDetect");
 		if (detect.browser === "Edge") {
