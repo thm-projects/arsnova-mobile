@@ -785,6 +785,15 @@
 					};
 
 					break;
+
+				case "school":
+					Messages.variation = {
+						/* TODO: add localization */
+						STUDENT: "STUDENT de-school",
+						SPEAKER: "SPEAKER de-school"
+					};
+
+					break;
 			}
 
 			break;
@@ -1490,12 +1499,19 @@
 			switch (variation) {
 				case "event":
 					Messages.variation = {
-						/* FIXME: add localization */
+						/* TODO: add localization */
 						STUDENT: "Learner",
 						SPEAKER: "Instructor"
 					};
 
 					break;
+
+				case "school":
+					Messages.variation = {
+						/* TODO: add localization */
+						STUDENT: "STUDENT en-school",
+						SPEAKER: "SPEAKER en-school"
+					};
 			}
 
 			break;

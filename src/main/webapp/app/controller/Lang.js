@@ -25,8 +25,10 @@ Ext.define("ARSnova.controller.Lang", {
 		routes: {
 			'en': 'switchToEnglish',
 			'en-event': 'switchToEnglishEvent',
+			'en-school': 'switchToEnglishSchool',
 			'de': 'switchToGerman',
-			'de-event': 'switchToGermanEvent'
+			'de-event': 'switchToGermanEvent',
+			'de-school': 'switchToGermanSchool'
 		}
 	},
 
@@ -38,12 +40,20 @@ Ext.define("ARSnova.controller.Lang", {
 		this.switchTo('en-event');
 	},
 
+	switchToEnglishSchool: function () {
+		this.switchTo('en-school');
+	},
+
 	switchToGerman: function () {
 		this.switchTo('de');
 	},
 
 	switchToGermanEvent: function () {
 		this.switchTo('de-event');
+	},
+
+	switchToGermanSchool: function () {
+		this.switchTo('de-school');
 	},
 
 	switchTo: function (lang) {
