@@ -96,7 +96,8 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 			return "<pre class='hljs-pre'><code class='hljs-highlight'>" +
 				hljs.highlightAuto(code).value + "</code></pre>";
 		} else {
-			return controller.hideMediaDummy.replace(/###/, 'codeListingIcon');
+			var dummy = controller.hideMediaDummy.replace(/@@@/, 'code');
+			return dummy.replace(/###/, 'codeListingIcon');
 		}
 	},
 
@@ -124,7 +125,8 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 		}
 
 		if (controller.hideMediaElements && !isVideoElement) {
-			return controller.hideMediaDummy.replace(/###/, 'imageIcon');
+			var dummy = controller.hideMediaDummy.replace(/@@@/, 'image');
+			return dummy.replace(/###/, 'imageIcon');
 		} else {
 			return '<img class="resizeableImage" title="' + text + '" src="' + href + '" alt="' + text + '">';
 		}
@@ -161,7 +163,8 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 					href.match(delimiters.videoIdDel)[2];
 
 				if (controller.hideMediaElements) {
-					return controller.hideMediaDummy.replace(/###/, delimiters.accessKey + 'Icon');
+					var dummy = controller.hideMediaDummy.replace(/@@@/, delimiters.accessKey);
+					return dummy.replace(/###/, delimiters.accessKey + 'Icon');
 				} else {
 					var title = element.match(delimiters.titleDel)[1];
 					return '<p class="videoImageParagraph"><a class="hyperlink" href="' + delimiters.videoURI
@@ -175,8 +178,13 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 		content = videoElementReplace(content, vimeoDelimiters);
 
 		if (text === content) {
-			content = controller.defaultHyperLinkRenderer.call(marked, href, title, text);
-			content = content.slice(0, 3) + 'class="hyperlink" ' + content.slice(3, content.length);
+			if (controller.hideMediaElements) {
+				content = controller.hideMediaDummy.replace(/@@@/, 'hyperlink');
+				content.replace(/###/, 'hyperlinkIcon');
+			} else {
+				content = controller.defaultHyperLinkRenderer.call(marked, href, title, text);
+				content = content.slice(0, 3) + 'class="hyperlink" ' + content.slice(3, content.length);
+			}
 		}
 
 		return content;

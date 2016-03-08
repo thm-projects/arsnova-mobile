@@ -32,18 +32,27 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		scrollable: {direction: 'auto'},
 		styleHtmlContent: true,
 		html: 'empty',
-		style: 'margin-bottom: 10px'
+		style: 'margin-bottom: 10px',
+		hideMediaElements: false,
+		removeMediaElements: false
 	},
 
 	initialize: function () {
 		this.callParent(arguments);
+		this.mediaElements = {
+			code: false,
+			image: false,
+			vimeo: false,
+			youtube: false,
+			hyperlink: false
+		};
 	},
 
 	setContent: function (content, mathJaxEnabled, markDownEnabled, mathjaxCallback) {
-		var hideMediaDummy = '<div class="hideMediaDummy"><span class="###"></span></div>';
+		var hideMediaDummy = '<div class="hideMediaDummy" accessKey="@@@"><span class="###"></span></div>';
 		var markdownController = ARSnova.app.getController('MathJaxMarkdown');
 
-		markdownController.hideMediaElements = this.config.hideMediaElements;
+		markdownController.hideMediaElements = this.config.hideMediaElements || this.config.removeMediaElements;
 		markdownController.hideMediaDummy = hideMediaDummy;
 
 		var replaceCodeBlockFromContent = function (content) {
@@ -90,6 +99,10 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		}
 		this.setHtml(content);
 		this.addSyntaxHighlightLineNumbers();
+
+		if (this.config.removeMediaElements) {
+			this.removeMediaElements();
+		}
 
 		var callback = mathjaxCallback || Ext.emptyFn;
 		if (mathJaxEnabled && features.mathJax && window.MathJax && MathJax.Hub) {
@@ -171,6 +184,17 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		}
 
 		return content;
+	},
+
+	removeMediaElements: function () {
+		var elements = this.element.select('.hideMediaDummy').elements;
+		var element;
+
+		for (var i = 0; i < elements.length; i++) {
+			element = elements[i];
+			this.mediaElements[element.accessKey] = true;
+			element.parentNode.removeChild(element);
+		}
 	},
 
 	// replace given variable with the replacement in input without using regular expressions
