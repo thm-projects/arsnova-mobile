@@ -335,7 +335,8 @@ Ext.define("ARSnova.controller.Questions", {
 	detailsFeedbackQuestion: function (options) {
 		options.question.read();
 		var newPanel = Ext.create('ARSnova.view.feedbackQuestions.DetailsPanel', {
-			question: options.question
+			question: options.question,
+			lastPanel: options.lastPanel
 		});
 		ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.animateActiveItem(newPanel, 'slide');
 	},

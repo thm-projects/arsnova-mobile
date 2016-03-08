@@ -197,6 +197,7 @@
 				LOADING_NEW_QUESTIONS: "Lade neue Fragen",
 				NO_DATE: "Kein Datum",
 				NO_SUBJECT: "Kein Thema",
+				NO_TEXT_SUBMITTED: "Es wurde kein Text eingegeben.",
 				SESSION_CLOSE_NOTICE: "Um mehrfaches Abstimmen zu verhindern, hat Ihr/e Dozent/in die Session gesperrt. Loggen Sie sich bitte erst am Ende der Vorlesung aus!",
 				NOTICE_READ: "Ich hab's verstanden",
 				STATUS: "Status",
@@ -316,6 +317,7 @@
 				LIVE_FEEDBACK: "Live Feedback",
 				COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
 				COURSES_LEARNING_PROGRESS_SHORT: "Lernstand",
+				INTERPOSED_QUESTIONS: "Zwischenfragen",
 				CURRENT_VALUE: "Aktueller Wert",
 				HOW_TO_CALCULATE_LEARNING_PROGRESS: "Wie soll der Lernstand berechnet werden?",
 				QUESTION_BASED_PROGRESS: "Fragenbasiert",
@@ -679,6 +681,7 @@
 				USECASE_FLASHCARD: "Nur Lernkarten fürs Selbststudium: Session als Lernkartei",
 				USECASE_LIVE_FEEDBACK: "Nur Live Feedback (Verständnisbarometer)",
 				USECASE_INTERPOSED_FEEDBACK: "Nur Zwischenfragen (Kummerkasten)",
+				USECASE_TWITTER_WALL: "Nur Twitter Wall",
 				USECASE_ARSNOVA_TOTAL: "ARSnova total: alle Frageformate und alle Funktionen",
 				USECASE_ARSNOVA_CUSTOM: "Eigene Auswahl",
 
@@ -689,6 +692,7 @@
 				USECASE_FLASHCARD_SHORT: "Nur Lernkarten fürs Selbststudium",
 				USECASE_LIVE_FEEDBACK_SHORT: "Nur Live Feedback",
 				USECASE_INTERPOSED_FEEDBACK_SHORT: "Nur Zwischenfragen",
+				USECASE_TWITTER_WALL_SHORT: "Nur Twitter Wall",
 				USECASE_ARSNOVA_TOTAL_SHORT: "Alle Formate & Funktionen",
 				USECASE_ARSNOVA_CUSTOM_SHORT: "Eigene Auswahl",
 
@@ -698,8 +702,12 @@
 				USECASE_FLASHCARD_DETAILS: "###Lernkarten fürs Selbststudium\n\n Vorderseite mit Frage, Rückseite mit Lösung. Sie können Videos und Bilder einbinden.",
 				USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n Falls nur ein \"Verständnisbarometer\" benötigt wird: Live Feedback zum Tempo und Verständnis der Vorlesung. Sie können die Abstimmung schließen und das aktuelle Ergebnis als Stimmungsbild festhalten. ![Live Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/Live-Feedback.png \"245xautoxcenter\") ",
 				USECASE_INTERPOSED_FEEDBACK_DETAILS: "###Zwischenfragen\n\n Falls nur ein digitaler \"Kummerkasten\" aufgestellt werden soll: Die Fragen der Studierenden sind anonym und nur sichtbar für die Lehrperson. ![Zwischenfrage](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/Zwischenfrage.png \"245xautoxcenter\") ",
+				USECASE_TWITTER_WALL_DETAILS: "###Twitter Wall",
 				USECASE_ARSNOVA_TOTAL_DETAILS: "###ARSnova total\n\n Alles, was ARSnova an Frageformaten und Unterstützungsfunktionen für die didaktischen Einsatz-Szenarien \"Peer Instruction\" und \"Inverted Classroom\" bietet, siehe die ARSnova-Broschüre [Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2015/08/ARSnova-Produktprospekt-v5.pdf). ![Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2013/07/ARSnova-Broschuere.png \"300xautoxcenter\") ",
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###Mein ARSnova\n\n Sie können die Funktionalität Ihrer Session kombinieren aus: \n- Hörsaalfragen \n- Vorbereitungsaufgaben\n- Fragen der Studierenden\n- Live Feedback\n- 2-Runden-Abstimmungen\n- Lernstandsberechnung",
+
+				TWITTER_WALL: "Twitter Wall",
+				TWITTER_WALL_PRIVACY_INFO: "Im aktuellen Modus kann der Dozent Ihre Frage auf der Twitter Wall anzeigen.",
 
 				/* errors */
 				SESSION_NOT_FOUND: "Diese Session gibt es nicht",
@@ -946,6 +954,7 @@
 				LOADING_NEW_QUESTIONS: "Loading new questions.",
 				NO_DATE: "No date",
 				NO_SUBJECT: "No subject",
+				NO_TEXT_SUBMITTED: "No text has been submitted.",
 				SESSION_CLOSE_NOTICE: 'In order to prevent multiple votings, your teacher has closed the session. Please log out at the end of the lecture!',
 				NOTICE_READ: "I understood it",
 				STATUS: "Status",
@@ -1063,6 +1072,7 @@
 				LIVE_FEEDBACK: "Instant feedback",
 				COURSES_LEARNING_PROGRESS: "Class progress",
 				COURSES_LEARNING_PROGRESS_SHORT: "Class progress",
+				INTERPOSED_QUESTIONS: "Interposed questions",
 				CURRENT_VALUE: "Current value",
 				HOW_TO_CALCULATE_LEARNING_PROGRESS: "How to calculate the learning progress?",
 				QUESTION_BASED_PROGRESS: "Question based",
@@ -1431,6 +1441,7 @@
 				USECASE_FLASHCARD: "Flashcards for self studies",
 				USECASE_LIVE_FEEDBACK: "Instant Feedback",
 				USECASE_INTERPOSED_FEEDBACK: "Questions from the audience",
+				USECASE_TWITTER_WALL: "Twitter Wall",
 				USECASE_ARSNOVA_TOTAL: "All-inclusive (all question types, all functions)",
 				USECASE_ARSNOVA_CUSTOM: "My ARSnova",
 
@@ -1441,6 +1452,7 @@
 				USECASE_FLASHCARD_SHORT: "Flashcards",
 				USECASE_LIVE_FEEDBACK_SHORT: "Live feedback",
 				USECASE_INTERPOSED_FEEDBACK_SHORT: "Interposed Questions",
+				USECASE_TWITTER_WALL_SHORT: "Twitter Wall",
 				USECASE_ARSNOVA_TOTAL_SHORT: "All-inclusive",
 				USECASE_ARSNOVA_CUSTOM_SHORT: "My ARSnova",
 
@@ -1450,9 +1462,12 @@
 				USECASE_FLASHCARD_DETAILS: "###Flashcards for private study\n\n Question on front side, answer on back side. You can embed videos and pictures.",
 				USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n With the use of \“Smileys\”, the listeners can indicate their pace of learning and understanding of the lecture.",
 				USECASE_INTERPOSED_FEEDBACK_DETAILS: "###Interposed Questions\n\n The listeners can pose questions, without interrupting the class.",
+				USECASE_TWITTER_WALL_DETAILS: "###Twitter Wall",
 				USECASE_ARSNOVA_TOTAL_DETAILS: "###All-inclusive ARSnova\n\n All didactic functions and question types that ARSnova supports for [Peer Instruction](https://en.wikipedia.org/wiki/Peer_instruction) and [Flipped Classroom](https://en.wikipedia.org/wiki/Flipped_classroom).",
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###My ARSnova\n\n Personal selection of didactic functions...",
 
+				TWITTER_WALL: "Twitter Wall",
+				TWITTER_WALL_PRIVACY_INFO: "In current session mode, the teacher is able to show your question on the Twitter Wall.",
 
 				/* errors */
 				SESSION_NOT_FOUND: "This session does not seem to exist.",

@@ -23,8 +23,10 @@ Ext.define('ARSnova.model.FeedbackQuestion', {
 		fields: [
 			'subject',
 			'text',
+			'mdtext',
 			'timestamp',
-			'read'
+			'read',
+			'mediaElements'
 		],
 
 		validations: [

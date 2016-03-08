@@ -19,7 +19,9 @@
 Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	extend: 'Ext.Panel',
 
-	requires: ['ARSnova.model.FeedbackQuestion'],
+	requires: [
+		'ARSnova.model.FeedbackQuestion',
+		'ARSnova.view.feedbackQuestions.QuestionsMessagePanel'],
 
 	config: {
 		title: 'QuestionsPanel',
@@ -144,6 +146,16 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			}
 		});
 
+		this.toggleViewButton = Ext.create('Ext.Button', {
+			text: Messages.TWITTER_WALL,
+			hidden: true,
+			align: 'right',
+			scope: this,
+			handler: function () {
+				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.animateActiveItem(this.messagePanel, 'flip');
+			}
+		});
+
 		var toolbarTitle = Messages.QUESTIONS;
 
 		this.clockElement = Ext.create('Ext.Component', {
@@ -158,6 +170,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			ui: 'light',
 			items: [
 				this.backButton,
+				this.toggleViewButton,
 				this.clockElement,
 				this.deleteAllButton
 			]
@@ -218,7 +231,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					}
 
 					ARSnova.app.getController('Questions').detailsFeedbackQuestion({
-						question: record
+						question: record,
+						lastPanel: panel
 					});
 				}
 			}
@@ -292,15 +306,18 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		this.on('painted', function () {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+			var isSpeakerRole = ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER;
+			var features = Ext.decode(sessionStorage.getItem("features"));
+
+			this.toggleViewButton.setHidden(!features.twitterWall && isSpeakerRole || !isSpeakerRole);
+			this.clockElement.setHidden(!isSpeakerRole);
 
 			if (screenWidth > 380) {
-				toolbarTitle = ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER &&
-						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel ?
-					Messages.QUESTIONS_FROM_STUDENTS :
-					Messages.MY_QUESTIONS;
+				toolbarTitle = isSpeakerRole && ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel ?
+					Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS;
 			}
 
-			if (screenWidth > 700 && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			if (screenWidth > 700 && isSpeakerRole) {
 				this.speakerUtilities.setProjectorMode(this, ARSnova.app.projectorModeActive);
 				ARSnova.app.taskManager.start(this.getUpdateClockTask());
 				this.speakerUtilities.show();

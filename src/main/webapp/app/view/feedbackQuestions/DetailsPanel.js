@@ -22,6 +22,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 	config: {
 		title: 'DetailsPanel',
 		fullscreen: true,
+		lastPanel: null,
 		scrollable: {
 			direction: 'vertical',
 			directionLock: true
@@ -50,9 +51,11 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
-				var sQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
+				var feedbackQuestionsPanel = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
+				var target = this.config.lastPanel || feedbackQuestionsPanel.questionsPanel;
+
 				me.speakerUtilities.initializeZoomComponents();
-				sQP.animateActiveItem(sQP.questionsPanel, {
+				feedbackQuestionsPanel.animateActiveItem(target, {
 					type: 'slide',
 					direction: 'right',
 					duration: 700
