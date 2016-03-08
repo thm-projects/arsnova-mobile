@@ -449,7 +449,7 @@ html, body,
 .x-list,
 .x-list-normal {
 	.x-list-header {
-		color: white !important;
+		color: $list-header-txt-color !important;
 		border: none !important;
 		text-shadow: none !important;
 		background-color: $list-header-color !important;

@@ -158,6 +158,12 @@
 	left: 3px !important;
 }
 
+.hyperlinkIcon::before {
+	content: "\f0ac";
+	font-family: "arsnova";
+	left: 3px !important;
+}
+
 .x-tabbar {
 	.icon-gear {
 		font-size: 18px;
