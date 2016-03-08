@@ -272,8 +272,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 
 		this.on('painted', function () {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-			//ARSnova.app.taskManager.start(this.getCheckFeedbackQuestionsTask());
-			this.getFeedbackQuestions();
+			ARSnova.app.taskManager.start(this.getCheckFeedbackQuestionsTask());
+
 			if (screenWidth > 700) {
 				this.speakerUtilities.setProjectorMode(this, ARSnova.app.projectorModeActive);
 				ARSnova.app.taskManager.start(this.getUpdateClockTask());
