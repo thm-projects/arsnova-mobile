@@ -412,7 +412,11 @@ html, body,
 
 	.voteIcons:before,
 	.x-button-icon:before {
-		color: $tabbar-button-icon-color;
+		color: $smiley-bg-color;
+	}
+
+	.voteIcons.icon-warning:before {
+		color: $icon-warning-color;
 	}
 
 	.x-tab-pressed .x-button-icon:before {
@@ -429,6 +433,10 @@ html, body,
 			&.voteIcons.icon-chart:before,
 			&.voteIcons.icon-bullhorn:before {
 				color: $tabbar-button-active-icon-color;
+			}
+
+			&.voteIcons.icon-warning:before {
+				color: $icon-danger-color;
 			}
 
 			&.voteIcons.lockedFeedback:before {

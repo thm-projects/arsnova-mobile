@@ -337,6 +337,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	updateTabBar: function (averageFeedback) {
 		var features = Ext.decode(sessionStorage.getItem("features"));
+		var suspendedVotes = ARSnova.app.feedbackModel.currentSuspendedVotes;
 		var iconCls, lockedCls = ' lockedFeedback';
 
 		// update feedback-badge in tab bar
@@ -350,6 +351,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		if (features.liveClicker) {
 			iconCls = "voteIcons icon-chart";
 			tab.setTitle(Messages.ABCD_TITLE);
+		} else if (suspendedVotes >= ARSnova.app.globalConfig.feedbackWarningOffset) {
+			iconCls = "voteIcons icon-warning";
 		} else {
 			tab.setTitle(Messages.FEEDBACK);
 			switch (averageFeedback) {

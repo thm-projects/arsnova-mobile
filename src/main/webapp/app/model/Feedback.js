@@ -26,6 +26,7 @@ Ext.define('ARSnova.model.Feedback', {
 	},
 
 	currentValues: [0, 0, 0, 0],
+	currentSuspendedVotes: 0,
 	currentAverage: null,
 	lock: false,
 
@@ -39,6 +40,7 @@ Ext.define('ARSnova.model.Feedback', {
 
 		ARSnova.app.socket.addListener("arsnova/socket/feedback/update", function (values) {
 			this.currentValues = values;
+			this.currentSuspendedVotes = values[values.length - 1];
 			var count = this.currentValues.reduce(function (a, b) {
 				return a + b;
 			}, 0);
