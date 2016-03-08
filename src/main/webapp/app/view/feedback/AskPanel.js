@@ -72,6 +72,11 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER
 		});
 
+		this.twitterWallInfoLabel = Ext.create('Ext.Label', {
+			html: Messages.TWITTER_WALL_PRIVACY_INFO,
+			hidden: true
+		});
+
 		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
 			processElement: this.text
 		});
@@ -107,6 +112,20 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			}]
 		});
 
+		this.fieldSet = Ext.create('Ext.form.FieldSet', {
+			items: [
+				this.markdownEditPanel,
+				this.subject,
+				this.text
+			]
+		});
+
+		this.on('painted', function () {
+			var features = Ext.decode(sessionStorage.getItem("features"));
+			var instruction = features.twitterWall ? Messages.TWITTER_WALL_PRIVACY_INFO : '';
+			this.fieldSet.setInstructions(instruction);
+		});
+
 		this.add([this.toolbar, {
 			cls: 'gravure',
 			style: 'margin: 10px',
@@ -115,17 +134,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			xtype: 'formpanel',
 			submitOnAction: false,
 			scrollable: null,
-
-			items: [{
-				xtype: 'fieldset',
-				items: [
-					this.markdownEditPanel,
-					this.subject,
-					this.text
-				]
-			}
-
-			]
+			items: [this.fieldSet]
 		}, this.buttonPart]);
 	},
 
