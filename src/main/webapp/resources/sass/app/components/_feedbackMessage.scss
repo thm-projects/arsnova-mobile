@@ -1,0 +1,164 @@
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2016 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.feedbackMessageDataview {
+	.messageTimestamp {
+		padding-left: 12px;
+		color: $list-header-txt-color;
+	}
+
+	.messageSubject {
+		padding-left: 30px;
+		color: $list-header-txt-color;
+	}
+
+	.messageText {
+		height: 7em;
+		padding: 10px;
+		background: white;
+		box-shadow: 1px 1px 2px gray;
+	}
+
+	.noText {
+		opacity: 0.6;
+		font-style: italic;
+	}
+
+	.messageTitle {
+		height: 1.5em;
+		padding-top: 3px;
+	    box-shadow: 1px 1px 2px gray;
+		color: $list-header-txt-color;
+		background: $list-header-color;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+}
+
+.feedbackMessageDataview {
+	background-color: transparent;
+
+	&.twoRowed .feedbackMessage {
+		width: 50%;
+	}
+
+	&.x-list .x-list-item.x-list-item-tpl.x-list-footer-wrap {
+		border: none;
+	}
+
+	&.x-list .x-list-header {
+		color: $label-font-color !important;
+		background-color: transparent !important;
+	}
+ 
+	&.x-list .feedbackMessage {
+		z-index: 10;
+		font-size: 90%;
+		border: 0 !important;
+		cursor: default !important;
+		background-color: transparent !important;
+
+		.x-list-disclosure {
+			right: 0px;
+			bottom: 38px;
+			top: initial;
+		    float: right;
+		    position: relative;
+			background: transparent;
+
+			&:before {
+				color: $list-header-color;
+			}
+
+			&:hover:before {
+				cursor: pointer;
+				color: $hyperlink-hover-color;
+			}
+		}
+	}
+}
+
+.mediaBar {
+	.imageIcon::before,
+	.vimeoIcon::before {
+		left: 0.225em !important;
+	}
+
+	.codeListingIcon::before {
+		left: 0.1em !important;
+	}
+
+	.hyperlinkIcon::before {
+		
+	}
+
+	.buttonTooltip:before {
+		left: -20%;
+	}
+
+	.buttonTooltip:after {
+		left: -80%;
+	}
+}
+
+.mediaBar {
+	height: 2em;
+	padding-top: 3px;
+	background: white;
+	color: $brand-icons;
+	box-shadow: 1px 1px 2px gray;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: visible;
+	display: inline-flex;
+	width: 100%;
+
+	div {
+		color: $brand-icons;
+		background: white;
+		border-radius: 5px 5px 5px 5px !important;
+		border: 1px double $markdown-button-color;
+		margin: 0.1em 0 0 0.25em;
+		width: 1.45em;
+		height: 1.5em;
+	}
+
+	span {
+		position: relative;
+		background-repeat: no-repeat;
+		background-position: center;
+		display: block;
+		opacity: 0.85;
+		font-size: 0.86em;
+		width: 1.5em;
+		height: 1.5em;
+
+		&::before {
+			position: absolute;
+			top: 0.2em;
+			right: 0;
+			bottom: 0;
+			left: 0.15em;
+			font-size: 1.15em;
+			text-align: center;
+		}
+	}
+}
+
