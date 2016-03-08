@@ -27,7 +27,8 @@ Ext.define("ARSnova.controller.Feature", {
 		liveFeedback: false,
 		interposedFeedback: false,
 		flashcard: false,
-		peerGrading: false
+		peerGrading: false,
+		twitterWall: false
 	},
 
 	features: {
@@ -51,6 +52,7 @@ Ext.define("ARSnova.controller.Feature", {
 			liveFeedback: this.applyLiveFeedbackUseCase,
 			interposedFeedback: this.applyInterposedFeedbackUseCase,
 			liveClicker: this.applyLiveClickerUseCase,
+			twitterWall: this.applyTwitterWallUseCase,
 			total: this.applyTotalUseCase,
 			custom: this.applyCustomUseCase
 		};
@@ -69,27 +71,46 @@ Ext.define("ARSnova.controller.Feature", {
 	},
 
 	applyClickerUseCase: function (useCases) {
-		this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+		this.applyCustomUseCase(this.getFeatureValues(useCases));
 	},
 
 	applyPeerGradingUseCase: function (useCases) {
-		this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+		this.applyCustomUseCase(this.getFeatureValues(useCases));
 	},
 
 	applyFlashcardUseCase: function (useCases) {
-		this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+		this.applyCustomUseCase(this.getFeatureValues(useCases));
 	},
 
 	applyLiveFeedbackUseCase: function (useCases) {
-		this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+		this.applyCustomUseCase(this.getFeatureValues(useCases));
 	},
 
 	applyInterposedFeedbackUseCase: function (useCases) {
-		this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+		this.applyCustomUseCase(this.getFeatureValues(useCases));
 	},
 
 	applyTotalUseCase: function (useCases) {
-		this.applyCustomUseCase(useCases, this.features);
+		this.applyCustomUseCase(this.getFeatureValues(useCases));
+	},
+
+	applyTwitterWallUseCase: function (useCases) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
+		var fqP = tabPanel.feedbackQuestionsPanel;
+
+		if (!useCases.total) {
+			this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
+		}
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			if (!fqP.questionsPanel.messagePanel) {
+				fqP.questionsPanel.messagePanel = Ext.create('ARSnova.view.feedbackQuestions.QuestionsMessagePanel');
+			}
+
+			if (!useCases.custom) {
+				fqP.setActiveItem(fqP.questionsPanel.messagePanel);
+			}
+		}
 	},
 
 	applyLiveClickerUseCase: function (useCases, featureChange) {
@@ -113,7 +134,7 @@ Ext.define("ARSnova.controller.Feature", {
 		fP.votePanel.questionRequestButton.setHidden(true);
 	},
 
-	applyCustomUseCase: function (useCases, features) {
+	applyCustomUseCase: function (features) {
 		features = features || Ext.decode(sessionStorage.getItem("features"));
 
 		var functions = {
@@ -139,50 +160,39 @@ Ext.define("ARSnova.controller.Feature", {
 	getFeatureValues: function (useCases) {
 		var features = Ext.Object.merge({}, this.features, useCases);
 
-		if (useCases.clicker) {
-			features.jitt = false;
-			features.learningProgress = false;
-			features.interposed = false;
-			features.feedback = false;
-		}
-
-		if (useCases.peerGrading) {
-			features.interposed = false;
-			features.feedback = false;
-			features.jitt = false;
-		}
-
-		if (useCases.flashcard) {
-			features.jitt = false;
-			features.learningProgress = false;
-			features.interposed = false;
-			features.feedback = false;
-			features.pi = false;
-		}
-
-		if (useCases.liveClicker) {
+		if (useCases.total) {
+			features.twitterWall = true;
+		} else if (!useCases.custom) {
 			features.jitt = false;
 			features.learningProgress = false;
 			features.interposed = false;
 			features.feedback = false;
 			features.lecture = false;
 			features.pi = false;
-		}
 
-		if (useCases.liveFeedback) {
-			features.jitt = false;
-			features.learningProgress = false;
-			features.interposed = false;
-			features.lecture = false;
-			features.pi = false;
-		}
+			if (useCases.flashcard) {
+				features.lecture = true;
+			}
 
-		if (useCases.interposedFeedback) {
-			features.jitt = false;
-			features.learningProgress = false;
-			features.feedback = false;
-			features.lecture = false;
-			features.pi = false;
+			if (useCases.liveFeedback) {
+				features.feedback = true;
+			}
+
+			if (useCases.twitterWall ||
+				useCases.interposedFeedback) {
+				features.interposed = true;
+			}
+
+			if (useCases.clicker) {
+				features.lecture = true;
+				features.pi = true;
+			}
+
+			if (useCases.peerGrading) {
+				features.learningProgress = true;
+				features.lecture = true;
+				features.pi = true;
+			}
 		}
 
 		return features;
@@ -322,6 +332,7 @@ Ext.define("ARSnova.controller.Feature", {
 		var tP = ARSnova.app.mainTabPanel.tabPanel;
 		var tabPanel = isSpeaker ? tP.speakerTabPanel : tP.userTabPanel;
 
+		tP.feedbackQuestionsPanel.setActiveItem(tP.feedbackQuestionsPanel.questionsPanel);
 		tP.feedbackTabPanel.statisticPanel.setToolbarTitle(localStorage.getItem('shortName'));
 		tP.feedbackTabPanel.statisticPanel.initializeOptionButtons();
 		tP.feedbackTabPanel.votePanel.setToolbarTitle(Messages.FEEDBACK);

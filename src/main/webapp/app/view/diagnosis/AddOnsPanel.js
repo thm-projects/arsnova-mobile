@@ -77,6 +77,9 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 			}, {
 				name: 'learningProgress',
 				label: Messages.LEARNING_PROGRESS
+			}, {
+				name: 'twitterWall',
+				label: Messages.TWITTER_WALL
 			}]
 		});
 
@@ -87,7 +90,10 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 			listeners: {
 				selectionChange: function (field) {
 					var selections = this.getValues();
-					me.optionalFieldSet.setHidden(!selections.lecture && !selections.jitt);
+					me.optionalFieldSet.setHidden(!selections.lecture && !selections.jitt && !selections.interposed);
+					me.optionalFieldSet.getInnerItems()[0].setHidden(!selections.lecture && !selections.jitt);
+					me.optionalFieldSet.getInnerItems()[1].setHidden(!selections.lecture && !selections.jitt);
+					me.optionalFieldSet.getInnerItems()[2].setHidden(!selections.interposed);
 				}
 			},
 
@@ -158,9 +164,16 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 
 	getFeatureValues: function () {
 		var selection = this.featureFormPanel.getValues();
-		if (this.optionalFieldSet.isHidden()) {
-			selection.learningProgress = null;
+		var optionalFields = this.optionalFieldSet.getInnerItems();
+
+		if (optionalFields[0].isHidden()) {
 			selection.pi = null;
+		}
+		if (optionalFields[1].isHidden()) {
+			selection.learningProgress = null;
+		}
+		if (optionalFields[2].isHidden()) {
+			selection.twitterWall = null;
 		}
 
 		return selection;
