@@ -702,7 +702,7 @@
 				USECASE_FLASHCARD_DETAILS: "###Lernkarten fürs Selbststudium\n\n Vorderseite mit Frage, Rückseite mit Lösung. Sie können Videos und Bilder einbinden.",
 				USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n Falls nur ein \"Verständnisbarometer\" benötigt wird: Live Feedback zum Tempo und Verständnis der Vorlesung. Sie können die Abstimmung schließen und das aktuelle Ergebnis als Stimmungsbild festhalten. ![Live Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/Live-Feedback.png \"245xautoxcenter\") ",
 				USECASE_INTERPOSED_FEEDBACK_DETAILS: "###Zwischenfragen\n\n Falls nur ein digitaler \"Kummerkasten\" aufgestellt werden soll: Die Fragen der Studierenden sind anonym und nur sichtbar für die Lehrperson. ![Zwischenfrage](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/Zwischenfrage.png \"245xautoxcenter\") ",
-				USECASE_TWITTER_WALL_DETAILS: "###Twitter Wall",
+				USECASE_TWITTER_WALL_DETAILS: "###Twitter Wall\n\n Die Zwischenfragen werden auf einer [Twitter Wall](https://de.wikipedia.org/wiki/Twitterwall) angezeigt. Nur die Lehrperson kann die Twitter Wall aktivieren, die Studierenden sehen weiterhin nur ihre eigenen Fragen. Beim Verfassen einer Zwischenfrage wird der/die Studierende darauf hingewiesen, dass die Lehrperson den Modus \"Twitter Wall\" aktiviert hat und die eigenen Fragen am Beamer zu sehen sind.",
 				USECASE_ARSNOVA_TOTAL_DETAILS: "###ARSnova total\n\n Alles, was ARSnova an Frageformaten und Unterstützungsfunktionen für die didaktischen Einsatz-Szenarien \"Peer Instruction\" und \"Inverted Classroom\" bietet, siehe die ARSnova-Broschüre [Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2015/08/ARSnova-Produktprospekt-v5.pdf). ![Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2013/07/ARSnova-Broschuere.png \"300xautoxcenter\") ",
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###Mein ARSnova\n\n Sie können die Funktionalität Ihrer Session kombinieren aus: \n- Hörsaalfragen \n- Vorbereitungsaufgaben\n- Fragen der Studierenden\n- Live Feedback\n- 2-Runden-Abstimmungen\n- Lernstandsberechnung",
 
@@ -766,7 +766,7 @@
 						LECTURE: "Seminar",
 						NEW_LECTURE_QUESTION: "Neue Seminarfrage",
 						EXPORT_SESSION_INFORMATION: "Neben Seminarfragen und Vorbereitungsaufgaben der ausgewählten Sessions werden zusätzlich exportiert...",
-						USECASE_ARSNOVA_CUSTOM_DETAILS: "###Mein ARSnova\n\n Sie können die Funktionalität Ihrer Session kombinieren aus: \n- Seminarfragen \n- Vorbereitungsaufgaben\n- Fragen der Zuhörer/innen\n- Live Feedback\n- 2-Runden-Abstimmungen\n- Lernstandsberechnung",
+						USECASE_ARSNOVA_CUSTOM_DETAILS: "###Mein ARSnova\n\n Sie können die Funktionalität Ihrer Session kombinieren aus: \n- Seminarfragen \n- Vorbereitungsaufgaben\n- Fragen der Zuhörer/innen\n- Live Feedback\n- 2-Runden-Abstimmungen\n- Lernstandsberechnung\n- Twitter Wall",
 						QUESTION_TEXT_PLACEHOLDER: "Nur die Seminarleitung sieht Ihre Frage. Sobald die Seminarleitung Ihre Frage gelesen hat, wird sie grau angezeigt. Antworten können in ARSnova nicht gegeben werden. Sie können auf Ihre Fragen nur in dem Browser zugreifen, den Sie gerade verwenden.",
 						SESSIONPOOL_AUTHORINFO: "Seminarleiter/in",
 						USECASE_INTERPOSED_FEEDBACK_DETAILS: "###Zwischenfragen\n\n Falls nur ein digitaler \"Kummerkasten\" aufgestellt werden soll: Die Fragen der Zuhörer/innen sind anonym und nur sichtbar für die Seminarleitung. ![Zwischenfrage](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/Zwischenfrage.png \"245xautoxcenter\") ",
@@ -796,9 +796,45 @@
 
 				case "school":
 					Messages.variation = {
-						/* TODO: add localization */
-						STUDENT: "STUDENT de-school",
-						SPEAKER: "SPEAKER de-school"
+						STUDENT: "Schüler/in",
+						SPEAKER: "Lehrer/in",
+						LAST_VISITED_SESSIONS_SPEAKER: "Als Lehrer/in besuchte Sessions",
+						QUESTIONS_FROM_STUDENTS: "Fragen der Schüler/innen",
+						LECTURE_QUESTIONS: "Klasse",
+						LECTURE_QUESTION_LONG: "Klassenfrage",
+						LECTURE_QUESTIONS_LONG: "Klassenfragen",
+						ONE_NEW_LECTURE_QUESTION: "1 neue Klassenfrage",
+						SEVERAL_NEW_LECTURE_QUESTIONS: '### neue Klassenfragen',
+						LECTURE: "Klasse",
+						QUESTION_INSTRUCTION: "Du stellst diese Frage anonym",
+						TWITTER_WALL_PRIVACY_INFO: "Im aktuellen Modus kann die Lehrperson deine Frage auf der Twitter Wall anzeigen.",
+						NEW_LECTURE_QUESTION: "Neue Klassenfrage",
+						EXPORT_SESSION_INFORMATION: "Neben Klassenfragen und Vorbereitungsaufgaben der ausgewählten Sessions werden zusätzlich exportiert...",
+						USECASE_TWITTER_WALL_DETAILS: "###Twitter Wall\n\n Die Zwischenfragen werden auf einer [Twitter Wall](https://de.wikipedia.org/wiki/Twitterwall) angezeigt. Nur die Lehrperson kann die Twitter Wall aktivieren, die Schüler/innen sehen weiterhin nur ihre eigenen Fragen. Beim Verfassen einer Zwischenfrage wird der/die Schüler/in darauf hingewiesen, dass die Lehrperson den Modus \"Twitter Wall\" aktiviert hat und die eigenen Fragen am Beamer zu sehen sind.",
+						USECASE_ARSNOVA_CUSTOM_DETAILS: "###Mein ARSnova\n\n Sie können die Funktionalität Ihrer Session kombinieren aus: \n- Klassenfragen \n- Vorbereitungsaufgaben\n- Fragen der Schüler/innen\n- Live Feedback\n- 2-Runden-Abstimmungen\n- Lernstandsberechnung\n- Twitter Wall",
+						QUESTION_TEXT_PLACEHOLDER: "Nur die Lehrperson sieht deine Frage. Sobald die Lehrperson deine Frage gelesen hat, wird sie grau angezeigt. Antworten können in ARSnova nicht gegeben werden. Du kannst auf deine Fragen nur in dem Browser zugreifen, den du gerade verwendest.",
+						SESSIONPOOL_AUTHORINFO: "Lehrer/in",
+						USECASE_INTERPOSED_FEEDBACK_DETAILS: "###Zwischenfragen\n\n Falls nur ein digitaler \"Kummerkasten\" aufgestellt werden soll: Die Fragen der Schüler/innen sind anonym und nur sichtbar für die Lehrperson. ![Zwischenfrage](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/Zwischenfrage.png \"245xautoxcenter\") ",
+						SESSION_CLOSE_NOTICE: "Um mehrfaches Abstimmen zu verhindern, hat dein/e Lehrer/in die Session gesperrt. Logg dich bitte erst am Ende der Stunde aus!",
+						USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n Falls nur ein \"Verständnisbarometer\" benötigt wird: Live Feedback zum Tempo und Verständnis des Unterrichts. Sie können die Abstimmung schließen und das aktuelle Ergebnis als Stimmungsbild festhalten. ![Live Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/Live-Feedback.png \"245xautoxcenter\") ",
+						EXPORT_FIELD_UNI: "Schule",
+						SESSIONPOOL_NOTIFICATION_UNIVERSITY: "Keine Schule angegeben",
+						EXPORT_FIELD_SPECIAL_FIELD: "Klasse",
+						EXPORT_FIELD_SUBJECT: "Fach",
+						ON_SESSION_CREATION_2: "Sie können diese Session nur in der Rolle Lehrer/in via ### verwalten",
+						SESSION_OWNERS: "Rolle Lehrer/in",
+						ACTIVE_STUDENT_USERS: "Rolle Schüler/in",
+						CONFIRM_CLOSE_QUESTION_MESSAGE: "Wenn Sie die Frage sperren, können die Schüler/innen die Frage weder sehen noch beantworten.",
+						CONFIRM_CLOSE_VOTE_MESSAGE: "Wenn Sie die Abstimmung sperren, können die Schüler/innen die Frage nicht mehr beantworten.",
+						CONFIRM_CLOSE_ALL_VOTES_MESSAGE: "Wenn Sie die Abstimmung für alle Fragen sperren, können die Schüler/innen die Fragen nicht mehr beantworten.",
+						CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE: "Wenn Sie die Fragen sperren, können die Schüler/innen die Fragen weder sehen noch beantworten.",
+						CONFIRM_CLOSE_SESSION_MESSAGE: "Wenn Sie den Zugang sperren, können nur noch aktuell angemeldete Schüler/innen teilnehmen.",
+						ON_SESSION_CREATION_1: "Es wurde der Zugangsschlüssel «###» für Ihre Session erzeugt. Dieser kann jederzeit auf der Session-Übersicht eingesehen werden. Bitte teilen Sie ihn Ihren Schülerinnen und Schülern mit.",
+						MOTD_AUDIENCE_TUTORS: "Lehrer/innen",
+						MOTD_AUDIENCE_STUDENTS: "Schüler/innen",
+						MY_COURSES: "Meine Klassen:",
+						LOAD_MASK_SEARCH_COURSES: "Suche Klassen...",
+						COURSES_LEARNING_PROGRESS: "Lernstand der Klasse"
 					};
 
 					break;
@@ -1462,7 +1498,7 @@
 				USECASE_FLASHCARD_DETAILS: "###Flashcards for private study\n\n Question on front side, answer on back side. You can embed videos and pictures.",
 				USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n With the use of \“Smileys\”, the listeners can indicate their pace of learning and understanding of the lecture.",
 				USECASE_INTERPOSED_FEEDBACK_DETAILS: "###Interposed Questions\n\n The listeners can pose questions, without interrupting the class.",
-				USECASE_TWITTER_WALL_DETAILS: "###Twitter Wall",
+				USECASE_TWITTER_WALL_DETAILS: "###Twitter Wall\n\n Questions posed by learners can be displayed like a Twitter Wall. Only the teacher can do that.",
 				USECASE_ARSNOVA_TOTAL_DETAILS: "###All-inclusive ARSnova\n\n All didactic functions and question types that ARSnova supports for [Peer Instruction](https://en.wikipedia.org/wiki/Peer_instruction) and [Flipped Classroom](https://en.wikipedia.org/wiki/Flipped_classroom).",
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###My ARSnova\n\n Personal selection of didactic functions...",
 
@@ -1524,8 +1560,8 @@
 				case "school":
 					Messages.variation = {
 						/* TODO: add localization */
-						STUDENT: "STUDENT en-school",
-						SPEAKER: "SPEAKER en-school"
+						STUDENT: "Pupil",
+						SPEAKER: "Teacher"
 					};
 			}
 
