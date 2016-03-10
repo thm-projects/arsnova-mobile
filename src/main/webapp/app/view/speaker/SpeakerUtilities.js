@@ -59,10 +59,11 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			ui: 'action',
 			docked: 'bottom',
 			cls: 'feedbackOverlay',
-			disabled: true,
 			badgeText: '0',
 			badgeCls: 'badgeicon',
 			iconCls: '',
+			callFn: ARSnova.app.getController('Feedback').showFeedbackStatistic,
+			handler: this.overlayButtonHandler,
 			hidden: true
 		});
 
@@ -70,10 +71,11 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			ui: 'action',
 			docked: 'bottom',
 			cls: 'interposedOverlay',
-			disabled: true,
 			badgeText: '0',
 			badgeCls: 'badgeicon',
 			iconCls: 'icon-question',
+			callFn: ARSnova.app.getController('Questions').listFeedbackQuestions,
+			handler: this.overlayButtonHandler,
 			hidden: true
 		});
 
@@ -273,6 +275,14 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		ARSnova.app.activeSpeakerUtility = this;
 		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.updateTabBar();
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask.taskRunTime = 0;
+	},
+
+	overlayButtonHandler: function () {
+		var me = this.getParent(); // speakerUtilities
+
+		me.restoreZoomLevel();
+		me.setProjectorMode(me.getParent(), false);
+		setTimeout(this.config.callFn, 1000);
 	},
 
 	getActivePanel: function () {

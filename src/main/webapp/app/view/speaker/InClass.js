@@ -294,10 +294,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		this.add([this.toolbar, this.inClassItems]);
 		this.on('destroy', this.destroyListeners);
 
-		this.onBefore('painted', function () {
-			this.onActivate();
-		});
-
+		this.onBefore('painted', this.onActivate);
 		this.on('show', this.refreshListeners);
 	},
 

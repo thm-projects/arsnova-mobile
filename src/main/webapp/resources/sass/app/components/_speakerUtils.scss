@@ -113,6 +113,11 @@
 		border: none !important;
 		background: none !important;
 		padding: 0 !important;
+
+		&.x-button-pressing {
+			background-image: none !important;
+			background-color: transparent !important;
+		}
 	
 		.badgeicon {
 			margin: 0 !important;
