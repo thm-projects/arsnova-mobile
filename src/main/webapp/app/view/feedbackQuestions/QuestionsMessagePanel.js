@@ -121,6 +121,29 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 			align: 'left'
 		});
 
+		this.deleteAllButton = Ext.create('Ext.Button', {
+			text: Messages.DELETE_ALL,
+			align: 'right',
+			ui: 'decline',
+			hidden: true,
+			handler: function () {
+				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, Messages.ARE_YOU_SURE, function (answer) {
+					if (answer === 'yes') {
+						ARSnova.app.getController('Questions').deleteAllInterposedQuestions({
+							success: function () {
+								panel.list.hide();
+								panel.noQuestionsFound.show();
+								panel.deleteAllButton.hide();
+							},
+							failure: function () {
+								console.log("Could not delete all interposed questions.");
+							}
+						});
+					}
+				});
+			}
+		});
+
 		this.toggleViewButton = Ext.create('Ext.Button', {
 			text: Messages.INTERPOSED_LIST_BUTTON,
 			align: 'right',
@@ -138,7 +161,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 			items: [
 				this.backButton,
 				this.clockElement,
-				this.toggleViewButton
+				this.toggleViewButton,
+				this.deleteAllButton
 			]
 		});
 
@@ -244,6 +268,9 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 
 		this.formPanel = Ext.create('Ext.form.Panel', {
 			scrollable: null,
+			style: {
+				marginTop: this.deleteAllButton.getHidden() ? '15px' : ''
+			},
 			items: [{
 				xtype: 'fieldset',
 				items: [this.list]
@@ -306,6 +333,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 		}
 
 		this.getStore().removeAll();
+		console.log(questions);
 		for (var i = 0; i < questions.length; i++) {
 			this.storeEntry(questions[i]);
 		}
@@ -349,10 +377,13 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 				if (questions.length === 0) {
 					panel.list.hide();
 					panel.noQuestionsFound.show();
+					panel.deleteAllButton.hide();
 				} else {
 					panel.noQuestionsFound.hide();
+					panel.deleteAllButton.show();
 					panel.questions = questions;
 					panel.updateList(true);
+					panel.list.show();
 				}
 				hideLoadMask();
 			},
