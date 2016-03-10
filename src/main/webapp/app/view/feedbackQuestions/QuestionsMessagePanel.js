@@ -122,7 +122,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 		});
 
 		this.toggleViewButton = Ext.create('Ext.Button', {
-			text: Messages.INTERPOSED_QUESTIONS,
+			text: Messages.INTERPOSED_LIST_BUTTON,
 			align: 'right',
 			scope: this,
 			handler: function () {

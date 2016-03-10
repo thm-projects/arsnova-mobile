@@ -147,7 +147,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		});
 
 		this.toggleViewButton = Ext.create('Ext.Button', {
-			text: Messages.TWITTER_WALL,
+			text: Messages.TWITTER_WALL_BUTTON,
 			hidden: true,
 			align: 'right',
 			scope: this,
