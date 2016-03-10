@@ -71,11 +71,12 @@
 .x-speaker-utils .x-button {
 	&.interposedOverlay {	
 		.x-button-icon {
-			color: $tabbar-button-icon-color;
-			
+			color: $icon-questionmark-color;
+
 			&:before {
-				font-size: 80px;
-				top: -14px !important;
+				font-size: 96px;
+				top: -20px;
+				left: -8px;
 			}
 		}
 	}
@@ -112,10 +113,6 @@
 		border: none !important;
 		background: none !important;
 		padding: 0 !important;
-	
-		&:hover {
-			cursor: default !important; 
-		}
 	
 		.badgeicon {
 			margin: 0 !important;

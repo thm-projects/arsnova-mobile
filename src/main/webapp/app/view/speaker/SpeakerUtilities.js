@@ -73,7 +73,7 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			disabled: true,
 			badgeText: '0',
 			badgeCls: 'badgeicon',
-			iconCls: 'icon-users',
+			iconCls: 'icon-question',
 			hidden: true
 		});
 
