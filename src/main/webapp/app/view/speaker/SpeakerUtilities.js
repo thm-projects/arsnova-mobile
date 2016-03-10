@@ -55,6 +55,28 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			scope: this
 		});
 
+		this.feedbackOverlay = Ext.create('Ext.Button', {
+			ui: 'action',
+			docked: 'bottom',
+			cls: 'feedbackOverlay',
+			disabled: true,
+			badgeText: '0',
+			badgeCls: 'badgeicon',
+			iconCls: '',
+			hidden: true
+		});
+
+		this.interposedOverlay = Ext.create('Ext.Button', {
+			ui: 'action',
+			docked: 'bottom',
+			cls: 'interposedOverlay',
+			disabled: true,
+			badgeText: '0',
+			badgeCls: 'badgeicon',
+			iconCls: 'icon-users',
+			hidden: true
+		});
+
 		this.projectorButton = Ext.create('Ext.Button', {
 			ui: 'action',
 			docked: 'bottom',
@@ -120,6 +142,8 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		});
 
 		this.add([
+			this.interposedOverlay,
+			this.feedbackOverlay,
 			this.hideShowcaseControlButton,
 			this.projectorButton,
 			this.zoomButton
@@ -238,10 +262,17 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		this.updateActivePanels();
 		ARSnova.app.projectorModeActive = activate;
 		this.fireEvent('projectorModeActivateChange');
+		this.setOverlay();
 	},
 
 	isShowcaseEditPanelActive: function (scope) {
 		return this.hideShowcaseControlButton.element.hasCls('x-button-pressed');
+	},
+
+	setOverlay: function () {
+		ARSnova.app.activeSpeakerUtility = this;
+		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel.updateTabBar();
+		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask.taskRunTime = 0;
 	},
 
 	getActivePanel: function () {

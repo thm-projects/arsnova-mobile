@@ -338,12 +338,18 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	updateTabBar: function (averageFeedback) {
 		var features = Ext.decode(sessionStorage.getItem("features"));
 		var suspendedVotes = ARSnova.app.feedbackModel.currentSuspendedVotes;
+		var currentVotes = ARSnova.app.feedbackModel.currentValues;
 		var iconCls, lockedCls = ' lockedFeedback';
 
-		// update feedback-badge in tab bar
-		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(this.feedbackChart.getStore().sum('value'));
-
+		// summation of votes
+		for (var i = 0, voteCount = 0, voteBadge = ''; i < currentVotes.length; i++) {
+			voteCount += currentVotes[i];
+		}
+		voteBadge = voteCount ? String(voteCount) : '';
 		averageFeedback = averageFeedback ? averageFeedback : ARSnova.app.feedbackModel.currentAverage;
+
+		// update feedback-badge in tab bar
+		ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab.setBadgeText(voteBadge);
 
 		// change the feedback tab bar icon
 		var tab = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.tab;
@@ -372,6 +378,12 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 					iconCls = "voteIcons icon-bullhorn";
 					break;
 			}
+		}
+
+		if (features.feedback && ARSnova.app.activeSpeakerUtility) {
+			ARSnova.app.activeSpeakerUtility.feedbackOverlay.setIconCls(iconCls);
+			ARSnova.app.activeSpeakerUtility.feedbackOverlay.setBadgeText(voteBadge);
+			ARSnova.app.activeSpeakerUtility.feedbackOverlay.setHidden(!voteCount || !ARSnova.app.projectorModeActive);
 		}
 
 		if (ARSnova.app.feedbackModel.lock) {

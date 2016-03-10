@@ -539,11 +539,18 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	countFeedbackQuestions: function () {
 		var me = this;
+		var features = Ext.decode(sessionStorage.getItem("features"));
 
 		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), null, {
 			success: function (response) {
 				var questionCount = Ext.decode(response.responseText);
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
+
+				if (features.interposed && ARSnova.app.activeSpeakerUtility) {
+					var hideOverlay = !parseInt(questionCount.unread) || !ARSnova.app.projectorModeActive;
+					ARSnova.app.activeSpeakerUtility.interposedOverlay.setBadgeText(questionCount.unread);
+					ARSnova.app.activeSpeakerUtility.interposedOverlay.setHidden(hideOverlay);
+				}
 
 				me.badgeOptions.numInterposed = !me.badgeOptions.numInterposed ? questionCount.total :
 					me.badgeOptions.numInterposed;

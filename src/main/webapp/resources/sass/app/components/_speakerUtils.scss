@@ -25,12 +25,13 @@
 }
 
 .x-speaker-utils {
-	width: 150px;
+	width: 100%;
 	right: 0;
 	bottom: 0;
 	position: absolute;
 	background: transparent;
 	border: none !important;
+	pointer-events: none;
 }
 
 .zoomButton {
@@ -68,6 +69,78 @@
 }
 
 .x-speaker-utils .x-button {
+	&.interposedOverlay {	
+		.x-button-icon {
+			color: $tabbar-button-icon-color;
+			
+			&:before {
+				font-size: 80px;
+				top: -14px !important;
+			}
+		}
+	}
+	
+	&.feedbackOverlay {
+		.icon-warning:after {
+			top: 25px;
+			left: 20px;
+			width: 50%;
+			height: 60%;
+			content: " ";
+			position: absolute;
+			z-index: -50;
+			display: inline-block;
+			border-radius: 50%/50%;
+			box-shadow: inset 50px 50px 50px $smiley-bg-color;
+		}
+
+		.x-button-icon:before {
+			font-size: 74px;
+			top: -8px !important;
+		}
+
+		.x-button-icon.icon-warning:before {
+			font-size: 80px;
+		}
+	}
+	
+	&.interposedOverlay,
+	&.feedbackOverlay {
+		width: 100px;
+		height: 100px;
+		display: flex;
+		border: none !important;
+		background: none !important;
+		padding: 0 !important;
+	
+		&:hover {
+			cursor: default !important; 
+		}
+	
+		.badgeicon {
+			margin: 0 !important;
+			border-radius: 20px;
+			position: absolute;
+			top: 70px;
+			left: 70px;
+			z-index: 20;
+		}
+	
+		.x-button-icon {
+			width: 80px;
+			height: 80px;
+			opacity: 0.9;
+	
+			&.icon-warning {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+.x-speaker-utils .x-button {
+	pointer-events: all;
+
 	&.projectorButton {
 		right: 48px;
 
