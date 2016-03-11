@@ -706,6 +706,7 @@
 				USECASE_ARSNOVA_TOTAL_DETAILS: "###ARSnova total\n\n Alles, was ARSnova an Frageformaten und Unterstützungsfunktionen für die didaktischen Einsatz-Szenarien \"Peer Instruction\" und \"Inverted Classroom\" bietet, siehe die ARSnova-Broschüre [Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2015/08/ARSnova-Produktprospekt-v5.pdf). ![Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2013/07/ARSnova-Broschuere.png \"300xautoxcenter\") ",
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###Mein ARSnova\n\n Sie können die Funktionalität Ihrer Session kombinieren aus: \n- Hörsaalfragen \n- Vorbereitungsaufgaben\n- Fragen der Studierenden\n- Live Feedback\n- 2-Runden-Abstimmungen\n- Lernstandsberechnung",
 
+				TWITTER_WALL: "Twitter Wall",
 				TWITTER_WALL_BUTTON: "Twitter Wall",
 				INTERPOSED_LIST_BUTTON: "Liste",
 				TWITTER_WALL_PRIVACY_INFO: "Im aktuellen Modus kann der Dozent Ihre Frage auf der Twitter Wall anzeigen.",
@@ -1503,6 +1504,7 @@
 				USECASE_ARSNOVA_TOTAL_DETAILS: "###All-inclusive ARSnova\n\n All didactic functions and question types that ARSnova supports for [Peer Instruction](https://en.wikipedia.org/wiki/Peer_instruction) and [Flipped Classroom](https://en.wikipedia.org/wiki/Flipped_classroom).",
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###My ARSnova\n\n Personal selection of didactic functions...",
 
+				TWITTER_WALL: "Twitter Wall",
 				TWITTER_WALL_BUTTON: "Twitter Wall",
 				INTERPOSED_LIST_BUTTON: "List",
 				TWITTER_WALL_PRIVACY_INFO: "In current session mode, the teacher is able to show your question on the Twitter Wall.",

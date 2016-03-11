@@ -178,7 +178,7 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 		content = videoElementReplace(content, vimeoDelimiters);
 
 		if (text === content) {
-			if (controller.hideMediaElements) {
+			if (controller.removeMediaElements) {
 				content = controller.hideMediaDummy.replace(/@@@/, 'hyperlink');
 				content.replace(/###/, 'hyperlinkIcon');
 			} else {

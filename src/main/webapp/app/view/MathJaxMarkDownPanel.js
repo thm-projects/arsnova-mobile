@@ -53,6 +53,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 		var markdownController = ARSnova.app.getController('MathJaxMarkdown');
 
 		markdownController.hideMediaElements = this.config.hideMediaElements || this.config.removeMediaElements;
+		markdownController.removeMediaElements = this.config.removeMediaElements;
 		markdownController.hideMediaDummy = hideMediaDummy;
 
 		var replaceCodeBlockFromContent = function (content) {
