@@ -72,11 +72,6 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			placeHolder: Messages.QUESTION_TEXT_PLACEHOLDER
 		});
 
-		this.twitterWallInfoLabel = Ext.create('Ext.Label', {
-			html: Messages.TWITTER_WALL_PRIVACY_INFO,
-			hidden: true
-		});
-
 		this.markdownEditPanel = Ext.create('ARSnova.view.MarkDownEditorPanel', {
 			processElement: this.text
 		});

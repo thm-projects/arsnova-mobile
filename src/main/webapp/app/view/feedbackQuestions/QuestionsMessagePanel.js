@@ -333,7 +333,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 		}
 
 		this.getStore().removeAll();
-		console.log(questions);
 		for (var i = 0; i < questions.length; i++) {
 			this.storeEntry(questions[i]);
 		}
