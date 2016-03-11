@@ -341,7 +341,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					answerCount = parseInt(numAnswers[0]),
 					abstentionCount = parseInt(numAnswers[1]);
 
-				if (answerCount === abstentionCount && answerCount !== 0) {
+				if (!answerCount && abstentionCount) {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 				} else {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount);

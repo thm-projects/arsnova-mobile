@@ -641,7 +641,7 @@ Ext.define('ARSnova.view.Question', {
 
 				if (questionType === 'flashcard') {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount, Messages.ANSWERS_SHOWN);
-				} else if (answerCount === abstentionCount && answerCount !== 0) {
+				} else if (!answerCount && abstentionCount) {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 				} else {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount);
