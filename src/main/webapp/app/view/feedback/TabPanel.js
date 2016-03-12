@@ -68,5 +68,8 @@ Ext.define('ARSnova.view.feedback.TabPanel', {
 
 	renew: function () {
 		this.tab.setBadgeText("");
+
+		// while changing role multiple times this panel gets destroyed somewhere...
+		this.askPanel = Ext.create('ARSnova.view.feedback.AskPanel');
 	}
 });
