@@ -182,10 +182,11 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 				'<div class="messageTitle">',
 					'<span class="messageTimestamp">{[this.getFormattedTime(values.timestamp)]}</span>',
 					'<span class="messageSubject">{subject:htmlEncode}</span>',
+					'<span class="messageDeleteIcon"></span>',
 				'</div>',
 				'<div class="messageText">',
 					'<tpl if="this.hasMessageText(values.mdtext)">',
-						'<div>{mdtext}</div>',
+						'{mdtext}',
 					'<tpl else>',
 						'<div class="noText">{[Messages.NO_TEXT_SUBMITTED]}</div>',
 					'</tpl>',
@@ -217,7 +218,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 						'</div>',
 					'</tpl>',
 				'</div>',
-				'<tpl if="this.showDisclosure(values.mdtext, values.mediaElements)">',
+				'<tpl if="this.showDisclosure(values.text, values.mediaElements)">',
 					'<div class="x-list-disclosure"></div>',
 				'</tpl>',
 				{
@@ -229,7 +230,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 						return text.replace(/\s/g, '').length;
 					},
 					showDisclosure: function (text, elements) {
-						if (text.length > 140) {
+						if (text.length >= 114) {
 							return true;
 						}
 
@@ -256,6 +257,12 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 						question: record,
 						lastPanel: panel
 					});
+				},
+				itemtap: function (list, index, target, record, event) {
+					var node = event.target;
+					if (node.className === 'messageDeleteIcon') {
+						panel.deleteEntry(record);
+					}
 				}
 			}
 		});
@@ -357,11 +364,23 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 		md.setContent(text, true, true, function (html) {
 			text = !html.getHtml().length ? '&nbsp;' : html.getHtml();
 			text = text.replace(/<\/?[^>]+>/gi, "");
-			text = text.length > 140 ? text.slice(0, 140).concat('...') : text;
+			text = Ext.String.ellipsis(text, 114, true);
 			question.mediaElements = md.mediaElements;
 			question.mdtext = text;
 			panel.getStore().add(Ext.create('ARSnova.model.FeedbackQuestion', question));
 			md.destroy();
+		});
+	},
+
+	deleteEntry: function (record) {
+		var panel = this;
+		ARSnova.app.questionModel.deleteInterposed(record, {
+			success: function () {
+				panel.getCheckFeedbackQuestionsTask().taskRunTime = 0;
+			},
+			failure: function (response) {
+				console.log('server-side error delete question');
+			}
 		});
 	},
 
