@@ -109,6 +109,7 @@ Ext.define("ARSnova.controller.Feature", {
 
 			if (!useCases.custom) {
 				fqP.setActiveItem(fqP.questionsPanel.messagePanel);
+				tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setText(Messages.TWITTER_WALL_BUTTON);
 			}
 		}
 	},
@@ -341,17 +342,19 @@ Ext.define("ARSnova.controller.Feature", {
 		tP.getTabBar().setHidden(false);
 
 		if (isSpeaker) {
-			tabPanel.inClassPanel.showcaseActionButton.setHidden(!hasQuestionFeatures);
-			tabPanel.inClassPanel.createAdHocQuestionButton.setHidden(!hasQuestionFeatures);
-			tabPanel.inClassPanel.updateActionButtonElements();
+			var inClass = tabPanel.inClassPanel;
+			inClass.showcaseActionButton.setHidden(!hasQuestionFeatures);
+			inClass.createAdHocQuestionButton.setHidden(!hasQuestionFeatures);
+			inClass.feedbackQuestionButton.setText(inClass.feedbackQuestionButton.initialConfig.text);
+			inClass.updateActionButtonElements();
 
 			if (features.jitt && !features.lecture) {
-				tabPanel.inClassPanel.changeActionButtonsMode('preparation');
+				inClass.changeActionButtonsMode('preparation');
 				tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('PreparationQuestions'));
 				tabPanel.showcaseQuestionPanel.setPreparationMode();
 				tabPanel.newQuestionPanel.setVariant('preparation');
 			} else {
-				tabPanel.inClassPanel.changeActionButtonsMode('lecture');
+				inClass.changeActionButtonsMode('lecture');
 				tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('Questions'));
 				tabPanel.showcaseQuestionPanel.setLectureMode();
 				tabPanel.newQuestionPanel.setVariant('lecture');
