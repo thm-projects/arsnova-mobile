@@ -136,6 +136,11 @@
 	margin-bottom: 3.5px!important;
 }
 
+.latexIcon::before {
+	content: "\f12b";
+	font-family: "arsnova";
+}
+
 .codeListingIcon::before {
 	content: "\f121";
 	font-family: "arsnova";

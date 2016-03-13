@@ -43,6 +43,7 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 			code: false,
 			image: false,
 			vimeo: false,
+			latex: false,
 			youtube: false,
 			hyperlink: false
 		};
@@ -86,7 +87,13 @@ Ext.define('ARSnova.view.MathJaxMarkDownPanel', {
 				for (var i = replStack.length - 1; i > 0; i--) {
 					replStack[i - 1].content = this.replaceBack(replStack[i]);
 				}
-				content = this.replaceBack(replStack[0]);
+
+				if (this.config.removeMediaElements) {
+					var dummy = hideMediaDummy.replace(/@@@/, 'latex');
+					content = repl.content.replace(/<p>%%MATHJAX.*<\/p>/g, dummy);
+				} else {
+					content = this.replaceBack(replStack[0]);
+				}
 			} else {
 				// replace code block before markdown parsing
 				content = replaceCodeBlockFromContent(content);
