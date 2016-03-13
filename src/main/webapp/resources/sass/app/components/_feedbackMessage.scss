@@ -60,7 +60,7 @@
 		right: 18px;
 		top: 17px;
 
-		&:hover:before {
+		&:hover {
 			cursor: pointer;
 		}
 
@@ -110,11 +110,14 @@
 
 			&:before {
 				color: $list-header-color;
+
+				&:hover {
+					color: $hyperlink-hover-color;
+				}
 			}
 
-			&:hover:before {
+			&:hover {
 				cursor: pointer;
-				color: $hyperlink-hover-color;
 			}
 		}
 	}
