@@ -65,7 +65,8 @@ Ext.define("ARSnova.controller.SessionImport", {
 		var data = {
 			session: session,
 			questions: jsonContent.questions,
-			feedbackQuestions: feedbackQuestions
+			feedbackQuestions: feedbackQuestions,
+			motds: jsonContent.motds
 		};
 
 		var promise = new RSVP.Promise();
