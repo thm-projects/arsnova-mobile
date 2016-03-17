@@ -35,6 +35,7 @@ Ext.define("ARSnova.controller.SessionImport", {
 			name: jsonContent.session.name,
 			shortName: jsonContent.session.shortName,
 			active: jsonContent.session.active,
+			sessionFeature: jsonContent.sessionFeature,
 			publicPool: publicPoolAttributes
 		};
 
