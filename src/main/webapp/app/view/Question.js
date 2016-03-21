@@ -314,7 +314,7 @@ Ext.define('ARSnova.view.Question', {
 	prepareQuestionContent: function (isAnswerable) {
 		switch (this.questionObj.questionType) {
 			case "flashcard":
-				this.prepareFreetextQuestion();
+				this.prepareFlashcardQuestion();
 				break;
 
 			case "grid":
@@ -450,7 +450,7 @@ Ext.define('ARSnova.view.Question', {
 		}
 	},
 
-	prepareFreetextQuestion: function () {
+	prepareFlashcardQuestion: function () {
 		var me = this;
 
 		var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {

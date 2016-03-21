@@ -37,7 +37,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		var type = this.questionObj.questionType;
 
 		this.hasCorrectAnswers = !this.questionObj.noCorrect;
-		if (['vote', 'school', 'freetext', 'flashcard'].indexOf(type) !== -1
+		if (['vote', 'school', 'freetext', 'flashcard', 'slide'].indexOf(type) !== -1
 				|| (['grid'].indexOf(type) !== -1 && type === 'moderation')) {
 			this.hasCorrectAnswers = false;
 		}
@@ -87,51 +87,49 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			}
 		});
 
-		if (!this.isFreetextType) {
-			this.showCorrectAnswerButton = Ext.create('ARSnova.view.MatrixButton', {
-				buttonConfig: 'togglefield',
-				text: Messages.MARK_CORRECT_ANSWER,
-				cls: this.config.buttonClass,
-				toggleConfig: {
+		this.showCorrectAnswerButton = Ext.create('ARSnova.view.MatrixButton', {
+			buttonConfig: 'togglefield',
+			text: Messages.MARK_CORRECT_ANSWER,
+			cls: this.config.buttonClass,
+			toggleConfig: {
+				scope: this,
+				label: false,
+				value: this.questionObj.showAnswer || 0,
+				listeners: {
 					scope: this,
-					label: false,
-					value: this.questionObj.showAnswer || 0,
-					listeners: {
-						scope: this,
-						change: function (toggle, newValue, oldValue, eOpts) {
-							if (newValue === (this.questionObj.showAnswer || 0)) {
-								return;
-							}
-
-							var me = this;
-							var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_ACTIVATION);
-							var question = Ext.create('ARSnova.model.Question', this.questionObj);
-
-							switch (newValue) {
-								case 0:
-									delete question.data.showAnswer;
-									delete question.raw.showAnswer;
-									break;
-								case 1:
-									question.set('showAnswer', 1);
-									question.raw.showAnswer = 1;
-									break;
-							}
-							question.publishCorrectSkillQuestionAnswer({
-								success: function (response) {
-									hideLoadMask();
-									me.questionObj = question.getData();
-								},
-								failure: function () {
-									hideLoadMask();
-									console.log('could not save showAnswer flag');
-								}
-							});
+					change: function (toggle, newValue, oldValue, eOpts) {
+						if (newValue === (this.questionObj.showAnswer || 0)) {
+							return;
 						}
+
+						var me = this;
+						var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_ACTIVATION);
+						var question = Ext.create('ARSnova.model.Question', this.questionObj);
+
+						switch (newValue) {
+							case 0:
+								delete question.data.showAnswer;
+								delete question.raw.showAnswer;
+								break;
+							case 1:
+								question.set('showAnswer', 1);
+								question.raw.showAnswer = 1;
+								break;
+						}
+						question.publishCorrectSkillQuestionAnswer({
+							success: function (response) {
+								hideLoadMask();
+								me.questionObj = question.getData();
+							},
+							failure: function () {
+								hideLoadMask();
+								console.log('could not save showAnswer flag');
+							}
+						});
 					}
 				}
-			});
-		}
+			}
+		});
 
 		this.voteManagementButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.RELEASE_VOTE,
@@ -199,17 +197,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	hideElements: function (isHidden) {
 		this.statusButton.setHidden(isHidden);
 		this.releaseStatisticButton.setHidden(isHidden);
-
-		if (this.showCorrectAnswerButton) {
-			this.showCorrectAnswerButton.setHidden(isHidden);
-		}
+		this.showCorrectAnswerButton.setHidden(isHidden);
 	},
 
 	getOneRowedComponents: function () {
-		if (this.showCorrectAnswerButton) {
-			this.showCorrectAnswerButton.setCls(this.config.buttonClass);
-		}
-
+		this.showCorrectAnswerButton.setCls(this.config.buttonClass);
 		this.statusButton.button.setCls(this.config.buttonClass);
 		this.releaseStatisticButton.setCls(this.config.buttonClass);
 
@@ -236,10 +228,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
 		];
 
-		if (this.showCorrectAnswerButton) {
-			this.showCorrectAnswerButton.removeCls(this.config.buttonClass);
-		}
-
+		this.showCorrectAnswerButton.removeCls(this.config.buttonClass);
 		this.statusButton.button.removeCls(this.config.buttonClass);
 		this.releaseStatisticButton.removeCls(this.config.buttonClass);
 
@@ -277,9 +266,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.updateVoteManagementButtonState();
 		this.statusButton.toggleStatusButton(active);
 		this.releaseStatisticButton.setToggleFieldValue(showStatistic);
-
-		if (this.showCorrectAnswerButton) {
-			this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
-		}
+		this.showCorrectAnswerButton.setToggleFieldValue(showAnswer);
 	}
 });

@@ -264,7 +264,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	addQuestion: function (question) {
 		var questionPanel;
 
-		if (question.questionType === 'freetext') {
+		if (question.questionType === 'freetext' || question.questionType === 'slide') {
 			questionPanel = Ext.create('ARSnova.view.FreetextQuestion', {
 				itemId: question._id,
 				questionObj: question,

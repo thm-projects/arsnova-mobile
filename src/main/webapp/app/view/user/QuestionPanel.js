@@ -214,7 +214,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		/**
 		 * add question to questionPanel
 		 */
-		if (question.questionType === 'freetext') {
+		if (question.questionType === 'freetext' || question.questionType === 'slide') {
 			questionPanel = Ext.create('ARSnova.view.FreetextQuestion', {
 				itemId: question._id,
 				questionObj: question
