@@ -709,7 +709,7 @@
 				TWITTER_WALL: "Twitter Wall",
 				TWITTER_WALL_BUTTON: "Twitter Wall",
 				INTERPOSED_LIST_BUTTON: "Liste",
-				TWITTER_WALL_PRIVACY_INFO: "Im aktuellen Modus kann der Dozent Ihre Frage auf der Twitter Wall anzeigen.",
+				TWITTER_WALL_PRIVACY_INFO: "Hinweis: Die Lehrperson kann Ihre Fragen und Kommentare auf der Twitter Wall anzeigen.",
 
 				/* errors */
 				SESSION_NOT_FOUND: "Diese Session gibt es nicht",
