@@ -15,7 +15,7 @@
     "grunt-jscs": "^1.2",
     "grunt-newer": "^1.1",
     "grunt-shell": "^1.1",
-    "grunt-war": "^0.4",
+    "grunt-war": "^0.5",
     "time-grunt": "^1.0",
     "xml2js": "^0.4"
   },
