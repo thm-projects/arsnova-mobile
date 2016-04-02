@@ -190,7 +190,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 	changeVoteManagementButtonState: function () {
 		this.voteManagementButton.setHidden(
 			ARSnova.app.activePiQuestion &&
-			ARSnova.app.activePiQuestion !== this.questionObj._id
+			ARSnova.app.activePiQuestion !== this.questionObj._id ||
+			this.questionObj.questionType === 'slide'
 		);
 	},
 
