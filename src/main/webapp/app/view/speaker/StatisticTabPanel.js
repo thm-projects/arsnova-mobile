@@ -44,7 +44,8 @@ Ext.define('ARSnova.view.speaker.StatisticTabPanel', {
 			if (innerItems[0] && innerItems[0].questionObj) {
 				this.roundManagementPanel.tab.setHidden(
 					ARSnova.app.activePiQuestion &&
-					ARSnova.app.activePiQuestion !== innerItems[0].questionObj._id
+					ARSnova.app.activePiQuestion !== innerItems[0].questionObj._id ||
+					innerItems[0].questionObj.questionType === 'slide'
 				);
 			}
 		});
