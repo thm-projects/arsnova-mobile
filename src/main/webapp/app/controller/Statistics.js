@@ -31,6 +31,7 @@ Ext.define("ARSnova.controller.Statistics", {
 
 	prepareStudentStatistics: function (panel, scope) {
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK);
+		var freetextType = questionObj.questionType === "freetext" || questionObj.questionType === 'slide';
 		var animation = {
 			type: 'slide',
 			direction: 'left',
@@ -38,23 +39,23 @@ Ext.define("ARSnova.controller.Statistics", {
 			listeners: {
 				animationend: function () {
 					hideLoadMask();
-					if (scope.questionObj.questionType !== 'freetext') {
+					if (!freetextType) {
 						panel.questionStatisticChart.onActivate();
 					}
 				}
 			}
 		};
 
-		if (scope.questionObj.questionType === 'freetext') {
+		if (freetextType) {
 			panel.questionStatisticChart = Ext.create(
 				scope.questionObj.imageQuestion ?
 				'ARSnova.view.ImageAnswerPanel' :
 				'ARSnova.view.FreetextAnswerPanel', {
 					question: scope.questionObj
-				});
+				}
+			);
 		} else {
-			panel.questionStatisticChart = Ext.create(
-				'ARSnova.view.speaker.QuestionStatisticChart', {
+			panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
 				question: scope.questionObj
 			});
 		}
@@ -67,20 +68,6 @@ Ext.define("ARSnova.controller.Statistics", {
 		var activePanel = panel.getActiveItem();
 		var questionObj = panel.getActiveItem().questionObj;
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK);
-		var animation = {
-			type: 'slide',
-			direction: 'left',
-			duration: 700,
-			listeners: {
-				animationend: function () {
-					hideLoadMask();
-					panel.showcaseQuestionPanel.toolbar.statisticsButton.enable();
-					if (questionObj.questionType !== 'freetext') {
-						panel.questionStatisticChart.onActivate();
-					}
-				}
-			}
-		};
 
 		switch (activePanel) {
 			case panel.showcaseQuestionPanel:
@@ -92,19 +79,35 @@ Ext.define("ARSnova.controller.Statistics", {
 				questionObj = activePanel.questionObj;
 				break;
 		}
+		
+		var freetextType = questionObj.questionType === "freetext" || questionObj.questionType === 'slide';
+		var animation = {
+			type: 'slide',
+			direction: 'left',
+			duration: 700,
+			listeners: {
+				animationend: function () {
+					hideLoadMask();
+					panel.showcaseQuestionPanel.toolbar.statisticsButton.enable();
+					if (!freetextType) {
+						panel.questionStatisticChart.onActivate();
+					}
+				}
+			}
+		};
 
-		if (questionObj.questionType === 'freetext') {
+		if (freetextType) {
 			panel.questionStatisticChart = Ext.create(
 				questionObj.imageQuestion ?
-					'ARSnova.view.ImageAnswerPanel' :
-					'ARSnova.view.FreetextAnswerPanel', {
-						question: questionObj
-					});
-		} else {
-			panel.questionStatisticChart = Ext.create(
-				'ARSnova.view.speaker.QuestionStatisticChart', {
+				'ARSnova.view.ImageAnswerPanel' :
+				'ARSnova.view.FreetextAnswerPanel', {
 					question: questionObj
-				});
+				}
+			);
+		} else {
+			panel.questionStatisticChart = Ext.create('ARSnova.view.speaker.QuestionStatisticChart', {
+				question: questionObj
+			});
 		}
 
 		if (!panel.statisticTabPanel) {
