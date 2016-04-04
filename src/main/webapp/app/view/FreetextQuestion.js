@@ -62,7 +62,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 		this.answerText = Ext.create('Ext.form.TextArea', {
 			placeHolder: Messages.FORMAT_PLACEHOLDER,
-			label: Messages.FREETEXT_ANSWER_TEXT,
+			label: this.questionObj.questionType === 'slide' ?
+				Messages.MY_COMMENT : Messages.FREETEXT_ANSWER_TEXT,
 			name: 'text',
 			maxLength: 2500,
 			maxRows: 7,
@@ -210,7 +211,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}
 
 		/* update disabled state on initialize */
-		if (this.questionObj.votingDisabled) {
+		if (this.questionObj.votingDisabled || this.questionObj.userAnswered && this.questionObj.questionType === 'slide') {
 			this.disableQuestion(false);
 		}
 
@@ -229,6 +230,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			xtype: 'formpanel',
 			scrollable: null,
 			submitOnAction: false,
+			cls: this.questionObj.questionType === 'slide' ? 'slidePanel' : '',
 			items: [
 				this.questionContainer,
 				this.questionObj.image ? this.grid : {},
@@ -334,6 +336,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 	setAnswerCount: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		var me = this;
 
 		ARSnova.app.answerModel.getAnswerAndAbstentionCount(this.questionObj._id, {
 			success: function (response) {
@@ -341,7 +344,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					answerCount = parseInt(numAnswers[0]),
 					abstentionCount = parseInt(numAnswers[1]);
 
-				if (!answerCount && abstentionCount) {
+				if (me.questionObj.questionType === 'slide') {
+					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount, Messages.COMMENT);
+				} else if (!answerCount && abstentionCount) {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 				} else {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount);
@@ -370,6 +375,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 				if (button === "yes") {
 					this.storeAnswer();
+
+					if (this.questionObj.questionType === 'slide') {
+						Ext.toast(Messages.COMMENT_SAVED, 3000);
+					}
+
 					this.buttonContainer.setHidden(true);
 				}
 			}, this);
@@ -482,6 +492,15 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	disableQuestion: function (afterInitialization) {
+		if (this.questionObj.questionType === 'slide') {
+			this.buttonContainer.hide();
+			this.previewButton.hide();
+			this.markdownEditPanel.hide();
+			this.answerSubject.hide();
+			this.answerText.hide();
+			return;
+		}
+
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 			this.setDisabled(true);
 			this.mask(this.customMask);
@@ -522,6 +541,14 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 
 			if (this.questionObj.imageQuestion) {
 				this.uploadView.show();
+			}
+
+			if (this.questionObj.questionType === 'slide') {
+				this.buttonContainer.show();
+				this.previewButton.show();
+				this.markdownEditPanel.show();
+				this.answerSubject.show();
+				this.answerText.show();
 			}
 		}
 	},
