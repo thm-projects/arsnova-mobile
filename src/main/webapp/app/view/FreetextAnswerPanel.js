@@ -138,7 +138,8 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			scrollable: null,
 			items: {
 				cls: 'gravure',
-				html: Messages.NO_ANSWERS
+				html: this.questionObj.questionType === 'slide' ?
+					Messages.NO_COMMENTS : Messages.NO_ANSWERS
 			}
 		});
 
@@ -174,7 +175,8 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			),
 			grouped: true,
 			deferEmptyText: false,
-			emptyText: Messages.NO_ANSWERS,
+			emptyText: this.questionObj.questionType === 'slide' ?
+				Messages.NO_COMMENTS : Messages.NO_ANSWERS,
 
 			listeners: {
 				scope: this,
@@ -298,7 +300,8 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				var answerLabel = me.noAnswersLabel.getInnerItems()[0];
 
 				if (responseObj.length === 0) {
-					answerLabel.setHtml(Messages.NO_ANSWERS);
+					answerLabel.setHtml(me.questionObj.questionType === 'slide' ?
+						Messages.NO_COMMENTS : Messages.NO_ANSWERS);
 					me.freetextAnswerList.hide();
 					me.noAnswersLabel.show();
 				} else {
@@ -325,25 +328,41 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 
 					var abCount = abstentions.length;
 					var answersCount = answers.length;
-					var abstentionText = abCount === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
-					var answersText = answersCount === 1 ? Messages.ANSWER : Messages.ANSWERS;
+					var answersText, abstentionText;
+					
+					if (me.questionObj.questionType === 'slide') {
+						answersText = answersCount === 1 ? Messages.COMMENT : Messages.COMMENTS;
 
-					if (moment.locale() === "en") {
-						var verb = abCount === 1 ? 'is ' : 'are ';
-						abstentionText = verb + abCount + " " + abstentionText.toLowerCase();
-						answersText = answersCount + " " + answersText.toLowerCase();
-					} else {
-						abstentionText = abCount + " " + abstentionText;
-						answersText = answersCount + " " + answersText;
-					}
+						if (moment.locale() === "en") {
+							var verb = answersCount === 1 ? 'is ' : 'are ';
+							answersText = verb + answersCount + " " + answersText.toLowerCase();
+						} else {
+							answersText = answersCount + " " + answersText;
+						}
 
-					if (abstentions.length === responseObj.length) {
-						answerLabel.setHtml(Messages.ONLY_ABSTENTION_ANSWERS.replace(/###/, abstentionText));
-						me.freetextAnswerList.hide();
-					} else {
-						var tempLabel = Messages.FREETEXT_DETAIL_LABEL.replace(/###/, abstentionText);
-						answerLabel.setHtml(tempLabel.replace(/%%%/, answersText));
+						answerLabel.setHtml(Messages.SLIDE_DETAIL_LABEL.replace(/###/, answersText));
 						me.freetextAnswerList.show();
+					} else {
+						abstentionText = abCount === 1 ? Messages.ABSTENTION : Messages.ABSTENTIONS;
+						answersText = answersCount === 1 ? Messages.ANSWER : Messages.ANSWERS;
+
+						if (moment.locale() === "en") {
+							var verb = abCount === 1 ? 'is ' : 'are ';
+							abstentionText = verb + abCount + " " + abstentionText.toLowerCase();
+							answersText = answersCount + " " + answersText.toLowerCase();
+						} else {
+							abstentionText = abCount + " " + abstentionText;
+							answersText = answersCount + " " + answersText;
+						}
+
+						if (abstentions.length === responseObj.length) {
+							answerLabel.setHtml(Messages.ONLY_ABSTENTION_ANSWERS.replace(/###/, abstentionText));
+							me.freetextAnswerList.hide();
+						} else {
+							var tempLabel = Messages.FREETEXT_DETAIL_LABEL.replace(/###/, abstentionText);
+							answerLabel.setHtml(tempLabel.replace(/%%%/, answersText));
+							me.freetextAnswerList.show();
+						}
 					}
 				}
 			},

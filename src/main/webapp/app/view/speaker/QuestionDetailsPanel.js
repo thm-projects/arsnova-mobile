@@ -105,6 +105,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 	constructor: function (args) {
 		this.callParent(arguments);
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		var actionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
 
 		var me = this;
 		this.questionObj = args.question;
@@ -112,9 +114,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		// check if grid question
 		this.isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
 		this.isFlashcard = this.questionObj.questionType === 'flashcard';
+		this.isSlide = this.questionObj.questionType === 'slide';
 
 		this.hasCorrectAnswers = true;
-		if (['vote', 'school', 'freetext', 'flashcard'].indexOf(this.questionObj.questionType) !== -1
+		if (['vote', 'school', 'slide', 'freetext', 'flashcard'].indexOf(this.questionObj.questionType) !== -1
 				|| (this.isGridQuestion && this.questionObj.gridType === 'moderation')) {
 			this.hasCorrectAnswers = false;
 		}
@@ -403,7 +406,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					panel.hintForSolution.show();
 					panel.hintForSolutionPreview.hide();
 
-					if (panel.questionObj.questionType === 'flashcard') {
+					if (panel.questionObj.questionType === 'slide' ||
+						panel.questionObj.questionType === 'flashcard') {
 						panel.abstentionPart.hide();
 						panel.abstentionAlternative.hide();
 						panel.hintForSolution.hide();
@@ -552,7 +556,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: this.getType() + '-' + Messages.QUESTION,
+			title: this.isSlide ? Messages.SLIDE : this.getType() + '-' + Messages.QUESTION,
 			cls: 'speakerTitleText',
 			docked: 'top',
 			ui: 'light',
@@ -569,12 +573,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		/* BEGIN ACTIONS PANEL */
 
 		this.questionStatusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
+			cls: actionButtonCls,
 			questionObj: this.questionObj
 		});
 
 		this.releaseStatisticButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
-			text: Messages.RELEASE_STATISTIC,
+			cls: actionButtonCls,
+			text: this.isSlide ? Messages.RELEASE_COMMENTS : Messages.RELEASE_STATISTIC,
 			toggleConfig: {
 				scope: this,
 				label: false,
@@ -616,6 +622,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		this.showCorrectAnswerButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
+			cls: actionButtonCls,
 			text: Messages.MARK_CORRECT_ANSWER,
 			toggleConfig: {
 				scope: this,
@@ -661,7 +668,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.deleteAnswersButton = Ext.create('ARSnova.view.MatrixButton', {
 			hidden: this.isFlashcard,
 			buttonConfig: 'icon',
-			text: Messages.DELETE_ANSWERS,
+			cls: actionButtonCls,
+			text: this.isSlide ? Messages.DELETE_COMMENTS : Messages.DELETE_ANSWERS,
 			imageCls: 'icon-close warningIconColor',
 			scope: this,
 			handler: function () {
@@ -683,9 +691,10 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		this.statisticButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.SHOW_STATISTIC,
+			text: this.isSlide ? Messages.SHOW_COMMENTS : Messages.SHOW_STATISTIC,
 			buttonConfig: 'icon',
 			imageCls: 'icon-chart',
+			cls: actionButtonCls,
 			scope: this,
 			handler: function () {
 				ARSnova.app.taskManager.stop(this.renewAnswerDataTask);
@@ -695,8 +704,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		this.deleteQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			xtype: 'button',
+			cls: actionButtonCls,
 			buttonConfig: 'icon',
-			text: Messages.DELETE_QUESTION,
+			text: this.isSlide ? Messages.DELETE_SLIDE : Messages.DELETE_QUESTION,
 			imageCls: 'icon-close',
 			scope: this,
 			handler: function () {
@@ -755,7 +765,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				xtype: 'fieldset',
 				items: [this.previewButton]
 			}],
-			style: "margin-bottom: 1.5em; margin-left: 12px"
+			style: "margin-bottom: 1.5em;"
 		});
 
 		this.firstRow = Ext.create('Ext.Panel', {
@@ -937,13 +947,20 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: true,
 			scrollable: null,
 			itemId: 'contentEditForm',
-			style: {marginTop: '15px', marginLeft: '12px', marginRight: '12px'},
+			style: {marginTop: '15px'},
 			items: [this.contentEditFieldset]
 		});
 
+		var answerFormFieldsetTitle = Messages.ANSWERS;
+		if (this.isFlashcard) {
+			answerFormFieldsetTitle = Messages.FLASHCARD_BACK_PAGE;
+		} else if (this.isSlide) {
+			answerFormFieldsetTitle = Messages.COMMENTS;
+		}
+
 		this.answerFormFieldset = Ext.create('Ext.form.FieldSet', {
 			cls: 'standardFieldset centerFormTitle',
-			title: this.questionObj.questionType !== "flashcard" ? Messages.ANSWERS : Messages.FLASHCARD_BACK_PAGE
+			title: answerFormFieldsetTitle
 		});
 
 		this.answerForm = Ext.create('Ext.form.FormPanel', {
@@ -1132,7 +1149,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			});
 		}
 
-		if (this.questionObj.questionType !== "freetext") {
+		if (this.questionObj.questionType !== "freetext" || this.isSlide) {
 			this.answerFormFieldset.add(this.answerList);
 		}
 
@@ -1224,7 +1241,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 	getQuestionAnswers: function () {
 		if (this.questionObj.possibleAnswers) {
-			if (this.questionObj.questionType === "freetext") {
+			if (this.questionObj.questionType === "freetext" || this.isSlide) {
 				var self = this;
 
 				ARSnova.app.questionModel.getAnsweredFreetextQuestions(sessionStorage.getItem("keyword"), this.questionObj._id, {
@@ -1255,7 +1272,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						abstentionButton.setBadge([{badgeText: abstentions.length + '', badgeCls: "answersBadgeIcon"}]);
 						var answerCountButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 							cls: 'forwardListButton',
-							text: Messages.ANSWERS,
+							text: self.isSlide ? Messages.COMMENTS : Messages.ANSWERS,
 							handler: function () {
 								ARSnova.app.getController('Statistics').prepareStatistics(self);
 							}

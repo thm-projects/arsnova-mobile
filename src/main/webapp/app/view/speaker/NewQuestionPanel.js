@@ -192,9 +192,14 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true
 		});
 
+		this.keynoteSlide = Ext.create('ARSnova.view.speaker.form.NullQuestion', {
+			hidden: true
+		});
+
 		var messageAppendix = screenWidth >= 650 ? "_LONG" : "";
 
 		var formatItems = [
+			{text: Messages.SLIDE, itemId: Messages.SLIDE},
 			{text: Messages["MC" + messageAppendix], itemId: Messages.MC},
 			{text: Messages["ABCD" + messageAppendix], itemId: Messages.ABCD},
 			{text: Messages["YESNO" + messageAppendix], itemId: Messages.YESNO},
@@ -314,6 +319,22 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.freetextQuestion.hide();
 							}
 							break;
+						case Messages.SLIDE:
+						case Messages.SLIDE_LONG:
+							if (pressed) {
+								me.previewPart.show();
+								me.keynoteSlide.show();
+								me.abstentionPart.hide();
+								me.hintForSolution.hide();
+								me.saveAndContinueButton.setText(Messages.SAVE_AND_CONTINUE);
+								title = label(Messages.SLIDE_LONG, Messages.SLIDE);
+							} else {
+								me.keynoteSlide.hide();
+								me.abstentionPart.show();
+								me.hintForSolution.show();
+								me.saveAndContinueButton.setText(Messages.SAVE_AND_ASK_NEW_QUESTION);
+							}
+							break;
 						case Messages.FLASHCARD:
 						case Messages.FLASHCARD_SHORT:
 							if (pressed) {
@@ -358,7 +379,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		me.saveAndContinueButton = Ext.create('Ext.Button', {
 			ui: 'confirm',
 			cls: 'saveButton centered',
-			text: Messages.SAVE_AND_CONTINUE,
+			text: Messages.SAVE_AND_ASK_NEW_QUESTION,
 			style: 'margin-top: 20px; margin-bottom: 20px;',
 			handler: function (button) {
 				me.saveHandler(button).then(function () {
@@ -504,10 +525,17 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				Ext.apply(values, panel.abcdQuestion.getQuestionValues());
 				break;
 
+			case Messages.SLIDE:
+			case Messages.SLIDE_LONG:
+				values.questionType = "slide";
+				values.possibleAnswers = [];
+
+				break;
 			case Messages.FREETEXT:
 			case Messages.FREETEXT_LONG:
 				values.questionType = "freetext";
 				values.possibleAnswers = [];
+
 				Ext.apply(values, panel.freetextQuestion.getQuestionValues());
 				break;
 			case Messages.FLASHCARD:
