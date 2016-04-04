@@ -421,7 +421,9 @@ Ext.define("ARSnova.controller.Questions", {
 
 			if (tP.speakerTabPanel.getActiveItem() === showcasePanel) {
 				if (showcasePanel.getActiveItem().getItemId() === id) {
-					if (answerCount === abstentionCount && answerCount > 0) {
+					if (showcasePanel.getActiveItem().questionObj.questionType === 'slide') {
+						showcasePanel.toolbar.setAnswerCounter(answerCount, Messages.COMMENT);
+					} else if (!answerCount && abstentionCount) {
 						showcasePanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 					} else {
 						showcasePanel.toolbar.updateAnswerCounter(answerCount);
