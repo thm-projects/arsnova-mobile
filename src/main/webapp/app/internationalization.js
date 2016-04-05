@@ -281,6 +281,7 @@
 				/* user */
 				QUESTIONS_TO_STUDENTS: "Fragen ans Publikum",
 				QUESTIONS_FROM_STUDENTS: "Fragen & Kommentare der Studierenden",
+				QUESTIONS_FROM_STUDENTS_SHORT: "Fragen & Kommentare",
 				UNREAD_QUESTIONS_FROM_STUDENTS: "Ungelesene Fragen & Kommentare",
 				PREPARATION_QUESTIONS: "Vorbereitung",
 				PREPARATION_QUESTIONS_LONG: "Vorbereitungsaufgaben",
@@ -1091,6 +1092,7 @@
 				/* user */
 				QUESTIONS_TO_STUDENTS: "Teacher's questions",
 				QUESTIONS_FROM_STUDENTS: "Students' questions & comments",
+				QUESTIONS_FROM_STUDENTS_SHORT: "Questions & comments",
 				UNREAD_QUESTIONS_FROM_STUDENTS: "Unread questions & comments",
 				PREPARATION_QUESTIONS: "Prep tasks",
 				PREPARATION_QUESTIONS_LONG: "Preparation tasks",
@@ -1397,7 +1399,7 @@
 				SCHOOL_LONG: 'Grade',
 				YESNO_LONG: 'Yes|No',
 				GRID_LONG: "Hot Spots",
-				SLIDE_LONG: "Slide",
+				SLIDE_LONG: "Slides",
 				FREETEXT_LONG: 'Free Text',
 				BUZZWORD: "Buzzword for",
 				BUZZWORD_A: "Buzzword for A",
