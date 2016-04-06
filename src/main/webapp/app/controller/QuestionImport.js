@@ -54,7 +54,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 			audienceQuestionPanel;
 	},
 
-	saveQuestions: function (json, variant) {
+	formatQuestions: function (json, variant) {
 		var QUESTION_TYPE = 0;
 		var QUESTION_SUBJECT = 1;
 		var QUESTION_TEXT = 2;
@@ -73,26 +73,14 @@ Ext.define("ARSnova.controller.QuestionImport", {
 
 		var question, questionModel, type, promise;
 		var size = json.length;
-		var saveSuccessFunc = Ext.bind(function (response) {
-			promise.resolve(response);
-			size--;
-			if (size === 0) {
-				this.refreshPanel();
-			}
-		}, this);
-		var saveFailureFunc = Ext.bind(function (response) {
-			Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
-			promise.reject(response);
-			this.refreshPanel();
-		}, this);
+
+		var questionModels = [];
 
 		for (var i = 0; i < json.length; i++) {
 			question = json[i];
-			type = this.getModelQuestionType(question[QUESTION_TYPE]);
+			type = question[QUESTION_TYPE];
 
 			if (question && type && question[QUESTION_SUBJECT] && question[QUESTION_TEXT]) {
-				promise = new RSVP.Promise();
-
 				questionModel = Ext.create('ARSnova.model.Question', {
 					abstention: (question[ABSTENTION].toLowerCase() === 'y') ? true : false,
 					active: 1,
@@ -112,7 +100,8 @@ Ext.define("ARSnova.controller.QuestionImport", {
 					text: question[QUESTION_TEXT],
 					hint: question[HINT],
 					solution: question[SOLUTION],
-					type: "skill_question"
+					type: "skill_question",
+					timestamp: new Date().getTime()
 				});
 
 				if (type === 'yesno') {
@@ -120,21 +109,13 @@ Ext.define("ARSnova.controller.QuestionImport", {
 				} else if (type === 'freetext') {
 					questionModel.set('textAnswerEnabled', true);
 				}
-
-				questionModel.saveSkillQuestion({
-					success: saveSuccessFunc,
-					failure: saveFailureFunc
-				});
+				questionModel.data._id = undefined;
+				questionModels.push(questionModel.getData());
 			} else {
 				size--;
 			}
 		}
-	},
-
-	refreshPanel: function () {
-		var audiencePanel = this.getAudiencePanel();
-		audiencePanel.onActivate();
-		audiencePanel.loadMask.hide();
+		return questionModels;
 	},
 
 	getPossibleAnswers: function (type, answers, correctAnswers) {
@@ -145,17 +126,16 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		} else if (type === 'yesno') {
 			return this.getYesNoAnswer(correctAnswers);
 		}
-
 		for (var i = 0; i < answers.length; i++) {
 			answer = answers[i];
 			if (answer) {
 				answerObj = {};
 				answerObj.correct = (correctAnswers.indexOf(i + 1) !== -1);
-				if (type === 'mc') {
-					answerObj.text = answer;
-				} else if (type === 'sc') {
+				if (type === 'sc') {
 					letter = String.fromCharCode(65 + i);
 					answerObj.text = letter + ': ' + answer;
+				}	else {
+					answerObj.text = answer;
 				}
 				possibleAnswers.push(answerObj);
 			}
@@ -177,23 +157,12 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		return {correct: isCorrect, text: text};
 	},
 
-	getModelQuestionType: function (typeModel) {
-		if (!typeModel) { return null; }
-		var questionType = typeModel.toLowerCase();
-		switch (questionType) {
-			case 'mc' :
-			case 'sc' :
-				return questionType;
-			case 'txt' :
-				return 'freetext';
-			case 'yn' :
-				return 'yesno';
-		}
-		return null;
-	},
-
 	importCsvFile: function (csv) {
 		var audiencePanel = this.getAudiencePanel();
+		var refreshPanel = function () {
+			audiencePanel.onActivate();
+			audiencePanel.loadMask.hide();
+		};
 		var variant = this.getAudiencePanel().getController() === ARSnova.app.getController("PreparationQuestions") ?
 			"preparation" :
 			"lecture";
@@ -205,8 +174,22 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		var json = ARSnova.utils.CsvUtil.csvToJson(csv);
 		if (json) {
 			json = JSON.parse(json);
+			// remove header line
+			json.splice(0, 1);
 			if (!this.hasValidationError(json)) {
-				this.saveQuestions(json, variant);
+				var questionModels = this.formatQuestions(json, variant);
+				var promise = new RSVP.Promise();
+				ARSnova.app.restProxy.bulkSaveSkillQuestions(questionModels, {
+					success: function (response) {
+						promise.resolve();
+						refreshPanel();
+					},
+					failure: function (response) {
+						promise.reject();
+						console.log("error importing questions");
+						refreshPanel();
+					}
+				});
 			} else {
 				this.refreshPanel();
 			}
@@ -248,8 +231,13 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		var abstentionError = false;
 
 		var lineCnt = 0;
+		var areAttributeNames = true;
 
 		parsedQuestions.forEach(function (row) {
+			if (areAttributeNames) {
+				areAttributeNames = false;
+				return;
+			}
 			if (!error) {
 				if (row.length === NUM_COLUMS) {
 					var valuesRightAnswers = row[RIGHT_ANSWER];
@@ -281,17 +269,16 @@ Ext.define("ARSnova.controller.QuestionImport", {
 						}
 					}
 
-					questionType = row[QUESTION_TYPE].toLowerCase();
+					questionType = row[QUESTION_TYPE];
 
 					// Check if values for right answers are set, for all questions except txt
-					if (row[QUESTION_TYPE] && questionType !== 'txt') {
+					if (row[QUESTION_TYPE] && questionType === 'sc') {
 						if (!valuesRightAnswers) {
 							error = true;
 							answersError = true;
 							hasRightAnswers = false;
 						}
 					}
-
 					switch (questionType){
 						case 'mc' :
 							for (i = INDEX_FIRST_ANSWER; i <= INDEX_LAST_ANSWER; i++) {
@@ -344,6 +331,8 @@ Ext.define("ARSnova.controller.QuestionImport", {
 									answersError = true;
 								}
 							}
+							break;
+						default:
 							break;
 					}
 				} else {

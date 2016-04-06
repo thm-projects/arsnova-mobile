@@ -67,9 +67,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		question.answer6 = options[5];
 		question.answer7 = options[6];
 		question.answer8 = options[7];
-		if (questionTypeModel === 'mc' || questionTypeModel === 'abcd') {
-			question.correctAnswer = correctAnswer.slice(0, correctAnswer.length - 1);
-		} else if (questionTypeModel === 'yesno') {
+		if (questionTypeModel === 'yesno') {
 			correctAnswer = 'n';
 			if (questionModel.possibleAnswers[0].correct) {
 				correctAnswer = 'y';
@@ -77,6 +75,8 @@ Ext.define("ARSnova.controller.QuestionExport", {
 			question.correctAnswer = correctAnswer;
 		} else if (questionTypeModel === 'freetext') {
 			question.correctAnswer = '';
+		}	else {
+			question.correctAnswer = correctAnswer.slice(0, correctAnswer.length - 1);
 		}
 
 		question.abstention = (questionModel.abstention) ? 'y' : 'n';
@@ -88,8 +88,8 @@ Ext.define("ARSnova.controller.QuestionExport", {
 	preparseJsontoCsv: function (records) {
 		var questions = [];
 		for (var i = 0; i < records.length; i++) {
-			if (records[i].data.questionType !== "grid") {
-				questions.push(this.formatQuestion(records[i].data));
+			if (records[i].questionType !== "grid") {
+				questions.push(this.formatQuestion(records[i]));
 			}
 		}
 		return questions;
