@@ -59,7 +59,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		var correctAnswer = '';
 		var options = [];
 		var question = {};
-		question.questionType = this.getQuestionType(questionTypeModel);
+		question.questionType = questionTypeModel;
 		question.questionSubject = questionModel.subject;
 		question.question = questionModel.text;
 		for (var i = 0; i < 8; i++) {
@@ -97,7 +97,9 @@ Ext.define("ARSnova.controller.QuestionExport", {
 	preparseJsontoCsv: function (records) {
 		var questions = [];
 		for (var i = 0; i < records.length; i++) {
-			questions[i] = this.formatQuestion(records[i].data);
+			if (records[i].data.questionType !== "grid") {
+				questions.push(this.formatQuestion(records[i].data));
+			}
 		}
 		return questions;
 	},
@@ -130,7 +132,8 @@ Ext.define("ARSnova.controller.QuestionExport", {
 	parseJsonToCsv: function (records) {
 		var preparsedQuestion = this.preparseJsontoCsv(records);
 		var csv = ARSnova.utils.CsvUtil.jsonToCsv(preparsedQuestion);
-		this.saveFileOnFileSystem(csv, this.filename());
+		//this.saveFileOnFileSystem(csv, this.filename());
+		console.log(csv);
 	}
 
 });
