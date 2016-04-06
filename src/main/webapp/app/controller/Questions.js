@@ -317,7 +317,8 @@ Ext.define("ARSnova.controller.Questions", {
 		options.answer.deletable = ARSnova.app.isSessionOwner;
 		var freetextDetailAnswerPanel = Ext.create('ARSnova.view.FreetextDetailAnswer', {
 			sTP: mainTabPanel,
-			answer: options.answer
+			answer: options.answer,
+			questionObj: options.panel.questionObj
 		});
 
 		if (ARSnova.app.isSessionOwner && !options.answer.read) {

@@ -411,7 +411,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
-		this.on('orientationchange', this.onOrientationChange);
 	},
 
 	onActivate: function () {
@@ -458,6 +457,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 						features.flashcard ? Messages.SHOWCASE_FLASHCARDS : Messages.SHOWCASE_MODE_PLURAL);
 					this.questionStatusButton.setMultiQuestionMode();
 					this.voteStatusButton.setMultiQuestionMode();
+				}
+
+				if (features.total) {
+					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_KEYNOTE);
 				}
 
 				this.questionList.updatePagination(questions.length, totalRange);
@@ -589,8 +592,52 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	applyUIChanges: function () {
 		var features = Ext.decode(sessionStorage.getItem("features"));
-		this.newQuestionButton.setButtonText(
-			features.flashcard ? Messages.NEW_FLASHCARD : Messages.NEW_QUESTION
-		);
+		var lectureButtonText = Messages.NEW_QUESTION;
+
+		if (features.total) {
+			this.toolbar.setTitle(Messages.SLIDE_LONG);
+			this.questionListContainer.setTitle(Messages.CONTENT_MANAGEMENT);
+			this.deleteAnswersButton.setButtonText(Messages.DELETE_COMMENTS);
+			this.deleteQuestionsButton.setButtonText(Messages.DELETE_CONTENT);
+			this.exportCsvQuestionsButton.setButtonText(Messages.EXPORT_CONTENT);
+			this.questionsImport.setButtonText(Messages.IMPORT_CONTENT);
+			this.questionStatusButton.setKeynoteWording();
+			this.voteStatusButton.setKeynoteWording();
+
+			lectureButtonText = Messages.NEW_SLIDE;
+			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-question', 'icon-pencil');
+
+			this.caption.setTranslation({
+				active: Messages.OPEN_CONTENT,
+				inactive: Messages.CLOSED_CONTENT,
+				disabledVote: Messages.CLOSED_COMMENTATION
+			});
+
+			this.caption.setBadgeTranslation({
+				feedback: Messages.QUESTIONS_FROM_STUDENTS,
+				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
+				questions: Messages.QUESTIONS,
+				answers: Messages.COMMENTS
+			});
+		} else {
+			this.toolbar.setTitle(this.toolbar.config.title);
+			this.questionListContainer.setTitle(this.questionListContainer.config.title);
+			this.deleteAnswersButton.setButtonText(this.deleteAnswersButton.config.text);
+			this.deleteQuestionsButton.setButtonText(this.deleteQuestionsButton.config.text);
+			this.exportCsvQuestionsButton.setButtonText(this.exportCsvQuestionsButton.config.text);
+			this.questionsImport.setButtonText(this.questionsImport.config.text);
+			this.questionStatusButton.setDefaultWording();
+			this.voteStatusButton.setDefaultWording();
+
+			this.caption.setTranslation(this.caption.config.translation);
+			this.caption.setBadgeTranslation(this.caption.config.badgeTranslation);
+			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-pencil', 'icon-question');
+		}
+
+		if (features.flashcard) {
+			lectureButtonText = Messages.NEW_FLASHCARD;
+		}
+
+		this.newQuestionButton.setButtonText(lectureButtonText);
 	}
 });

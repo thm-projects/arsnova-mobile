@@ -328,13 +328,13 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 
 					var abCount = abstentions.length;
 					var answersCount = answers.length;
-					var answersText, abstentionText;
-					
+					var answersText, abstentionText, verb;
+
 					if (me.questionObj.questionType === 'slide') {
 						answersText = answersCount === 1 ? Messages.COMMENT : Messages.COMMENTS;
 
 						if (moment.locale() === "en") {
-							var verb = answersCount === 1 ? 'is ' : 'are ';
+							verb = answersCount === 1 ? 'is ' : 'are ';
 							answersText = verb + answersCount + " " + answersText.toLowerCase();
 						} else {
 							answersText = answersCount + " " + answersText;
@@ -347,7 +347,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 						answersText = answersCount === 1 ? Messages.ANSWER : Messages.ANSWERS;
 
 						if (moment.locale() === "en") {
-							var verb = abCount === 1 ? 'is ' : 'are ';
+							verb = abCount === 1 ? 'is ' : 'are ';
 							abstentionText = verb + abCount + " " + abstentionText.toLowerCase();
 							answersText = answersCount + " " + answersText.toLowerCase();
 						} else {

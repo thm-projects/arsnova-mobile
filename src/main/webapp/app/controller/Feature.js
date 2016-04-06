@@ -91,7 +91,15 @@ Ext.define("ARSnova.controller.Feature", {
 	},
 
 	applyTotalUseCase: function (useCases) {
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 		this.applyCustomUseCase(this.getFeatureValues(useCases));
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			tabPanel = tabPanel.speakerTabPanel;
+			tabPanel.inClassPanel.changeActionButtonsMode('keynote');
+		} else {
+			tabPanel = tabPanel.userTabPanel;
+		}
 	},
 
 	applyTwitterWallUseCase: function (useCases) {
@@ -378,16 +386,16 @@ Ext.define("ARSnova.controller.Feature", {
 
 			var lectureButtonText = Messages.LECTURE_QUESTIONS_LONG;
 
-			if (features.flashcard) {
+			if (features.total) {
+				lectureButtonText = Messages.SLIDE_LONG;
+			} else if (features.flashcard) {
 				lectureButtonText = Messages.FLASHCARDS;
 			} else if (features.peerGrading) {
 				lectureButtonText = Messages.EVALUATION_QUESTIONS;
 			}
 
-			// flashcard use case
 			tabPanel.inClassPanel.lectureQuestionButton.setText(lectureButtonText);
 
-			// peer grading use case
 			if (tabPanel.inClassPanel.myLearningProgressButton) {
 				tabPanel.inClassPanel.myLearningProgressButton.setText(
 					features.peerGrading ? Messages.EVALUATION_ALT : Messages.MY_LEARNING_PROGRESS
@@ -501,6 +509,7 @@ Ext.define("ARSnova.controller.Feature", {
 	applyNewQuestionPanelChanges: function (panel) {
 		var indexMap = panel.getOptionIndexMap();
 		var features = Ext.decode(sessionStorage.getItem("features"));
+		var options = panel.questionOptions.getInnerItems();
 
 		if (features.flashcard) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.FLASHCARD]]);
@@ -509,7 +518,6 @@ Ext.define("ARSnova.controller.Feature", {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.EVALUATION]]);
 			panel.optionsToolbar.setHidden(true);
 		} else if (features.clicker) {
-			var options = panel.questionOptions.getInnerItems();
 			options[indexMap[Messages.FREETEXT]].hide();
 			options[indexMap[Messages.FLASHCARD]].hide();
 			options[indexMap[Messages.EVALUATION]].hide();
@@ -519,5 +527,7 @@ Ext.define("ARSnova.controller.Feature", {
 			panel.optionsToolbar.setHidden(false);
 			panel.questionOptions.config.showAllOptions();
 		}
+
+		options[indexMap[Messages.SLIDE]].setHidden(!features.total);
 	}
 });

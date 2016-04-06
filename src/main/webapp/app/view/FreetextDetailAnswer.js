@@ -38,11 +38,12 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 		this.callParent(arguments);
 
 		this.answer = args.answer;
+		this.questionObj = args.questionObj;
 		this.sTP = args.sTP;
 		var self = this;
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: Messages.FREETEXT_DETAIL_HEADER,
+			title: this.questionObj.questionType === 'slide' ? Messages.COMMENT : Messages.FREETEXT_DETAIL_HEADER,
 			docked: 'top',
 			ui: 'light',
 			items: [

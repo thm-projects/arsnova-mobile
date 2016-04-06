@@ -31,7 +31,7 @@ Ext.define("ARSnova.controller.Statistics", {
 
 	prepareStudentStatistics: function (panel, scope) {
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK);
-		var freetextType = questionObj.questionType === "freetext" || questionObj.questionType === 'slide';
+		var freetextType = scope.questionObj.questionType === "freetext" || scope.questionObj.questionType === 'slide';
 		var animation = {
 			type: 'slide',
 			direction: 'left',
@@ -79,7 +79,7 @@ Ext.define("ARSnova.controller.Statistics", {
 				questionObj = activePanel.questionObj;
 				break;
 		}
-		
+
 		var freetextType = questionObj.questionType === "freetext" || questionObj.questionType === 'slide';
 		var animation = {
 			type: 'slide',
