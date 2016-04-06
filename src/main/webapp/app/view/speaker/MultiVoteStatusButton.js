@@ -28,6 +28,12 @@ Ext.define('ARSnova.view.speaker.MultiVoteStatusButton', {
 			releaseAll: Messages.RELEASE_VOTE,
 			confirm: Messages.CONFIRM_CLOSE_ALL_VOTES,
 			confirmMessage: Messages.CONFIRM_CLOSE_ALL_VOTES_MESSAGE
+		},
+		slideWording: {
+			release: Messages.RELEASE_COMMENTS,
+			releaseAll: Messages.RELEASE_COMMENTS,
+			confirm: Messages.CONFIRM_CLOSE_ALL_QUESTIONS,
+			confirmMessage: Messages.CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE
 		}
 	},
 
@@ -42,6 +48,7 @@ Ext.define('ARSnova.view.speaker.MultiVoteStatusButton', {
 		this.getQuestionStore().each(function (item) {
 			hasDisabledVotes = hasDisabledVotes || item.get("votingDisabled");
 		});
+		this.wording = this.getWording();
 
 		if (hasDisabledVotes) {
 			this.isOpen = false;
@@ -62,12 +69,29 @@ Ext.define('ARSnova.view.speaker.MultiVoteStatusButton', {
 		this.setIsPreparationMode(true);
 	},
 
+	setKeynoteWording: function () {
+		this.wording = this.getSlideWording();
+		this.setSingleQuestionMode();
+	},
+
+	setDefaultWording: function () {
+		this.wording = this.getWording();
+
+		if (this.singleMode) {
+			this.setSingleQuestionMode();
+		} else {
+			this.setMultiQuestionMode();
+		}
+	},
+
 	setSingleQuestionMode: function () {
-		this.button.setButtonText(this.getWording().release);
+		this.singleMode = true;
+		this.button.setButtonText(this.wording.release);
 	},
 
 	setMultiQuestionMode: function () {
-		this.button.setButtonText(this.getWording().releaseAll);
+		this.singleMode = false;
+		this.button.setButtonText(this.wording.releaseAll);
 	},
 
 	changeStatus: function () {

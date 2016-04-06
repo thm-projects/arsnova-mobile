@@ -25,6 +25,12 @@ Ext.define('ARSnova.view.Caption', {
 		translation: {
 			active: Messages.OPEN_SESSION,
 			inactive: Messages.CLOSED_SESSION
+		},
+		badgeTranslation: {
+			feedback: Messages.QUESTIONS_FROM_STUDENTS,
+			unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
+			questions: Messages.QUESTIONS,
+			answers: Messages.ANSWERS
 		}
 	},
 
@@ -129,16 +135,16 @@ Ext.define('ARSnova.view.Caption', {
 			}
 		});
 		this.listButton.setBadge([{
-				badgeText: options.interposed && hasFeedbackQuestions ? Messages.QUESTIONS_FROM_STUDENTS : "",
+				badgeText: options.interposed && hasFeedbackQuestions ? this.getBadgeTranslation().questions : "",
 				badgeCls: "feedbackQuestionsBadgeIcon"
 			}, {
-				badgeText: (options.unredInterposed && hasUnreadFeedbackQuestions) ? Messages.UNREAD_QUESTIONS_FROM_STUDENTS : "",
+				badgeText: (options.unredInterposed && hasUnreadFeedbackQuestions) ? this.getBadgeTranslation().unredQuestions : "",
 				badgeCls: "unreadFeedbackQuestionsBadgeIcon"
 			}, {
-				badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? Messages.QUESTIONS : "",
+				badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? this.getBadgeTranslation().questions : "",
 				badgeCls: "questionsBadgeIcon"
 			}, {
-				badgeText: options.answers && hasAnswers ? Messages.ANSWERS : "",
+				badgeText: options.answers && hasAnswers ? this.getBadgeTranslation().answers : "",
 				badgeCls: "answersBadgeIcon"
 			}
 		]);

@@ -183,6 +183,7 @@
 				QUESTION_PLACEHOLDER: "Frage eingeben",
 				QUESTIONTEXT_PLACEHOLDER: "Frage eingeben",
 				QUESTION_MANAGEMENT: "Klicken Sie auf eine Frage, um sie zu editieren:",
+				CONTENT_MANAGEMENT: "Klicken Sie auf einen Inhalt, um diesen zu editieren:",
 				QUESTIONS: "Fragen",
 				TASKS: "Aufgaben",
 				QUESTION_DETAILS: "Volltext",
@@ -219,6 +220,8 @@
 				MISSING_INPUT: "Es müssen alle Felder ausgefüllt werden",
 				SHOWCASE: "Vorstellen",
 				LEAVE: "Verlassen",
+				CONTENT: "Inhalt",
+				CONTENT_PLURAL: "Inhalte",
 				MEMBERS_ONLY: "Diese Frage ist nur für Kursmitglieder sichtbar",
 				QUESTION_RATING: "5-stufige Likert-Skala mit Auswertung",
 				QUESTION_RATING_SHORT: "Skala",
@@ -236,8 +239,11 @@
 				QUESTION_FREETEXT: "Offene Frage (Freitextfrage)",
 				QUESTION_FREETEXT_SHORT: "Freitext",
 				OPEN_QUESTION: "Offene Frage",
+				OPEN_CONTENT: "Offener Inhalt",
 				CLOSED_QUESTION: "Gesperrte Frage",
+				CLOSED_CONTENT: "Gesperrter Inhalt",
 				CLOSED_VOTING: "Abstimmung gesperrt",
+				CLOSED_COMMENTATION: "Kommentierung gesperrt",
 				CONFIRM_CLOSE_VOTE: "Abstimmung wirklich sperren?",
 				CONFIRM_CLOSE_ALL_VOTES: "Abstimmungen wirklich sperren?",
 				CONFIRM_CLOSE_QUESTION: "Frage wirklich sperren?",
@@ -653,11 +659,15 @@
 
 				NEW_SLIDE: "Folien<br/>erstellen",
 				DELETE_SLIDE: "Folie<br/>löschen",
+				DELETE_CONTENT: "Inhalte<br/>löschen",
 				RELEASE_SLIDE: "Folie<br/>freigeben",
+				RELEASE_CONTENT: "Inhalte<br/>freigeben",
 				SHOW_COMMENTS: "Kommentare<br/>anzeigen",
 				DELETE_COMMENTS: "Kommentare<br/>löschen",
 				RELEASE_COMMENTS: "Kommentare<br/>freischalten",
 				SHOWCASE_KEYNOTE: "Vortrag<br/>halten",
+				EXPORT_CONTENT: "Inhalte<br/>exportieren",
+				IMPORT_CONTENT: "Inhalte<br/>importieren",
 
 				/* about */
 				MANUAL: "Anleitung",
@@ -760,12 +770,12 @@
 
 				/* CSV export*/
 				QUESTIONS_CSV_EXPORT_BUTTON: "Fragen<br>exportieren",
-				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Fragen exportieren",
-				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "Die Fragen werden als CSV-Datei exportiert",
+				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Inhalte exportieren",
+				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "Die Inhalte werden als CSV-Datei exportiert",
 
 				/* CSV import*/
 				QUESTIONS_CSV_IMPORT_BUTTON: "Fragen<br>importieren",
-				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Fragen importieren",
+				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Inhalte importieren",
 				QUESTIONS_CSV_IMPORT_ERR_IN_ROW: "in Zeile",
 				QUESTIONS_CSV_IMPORT_TYPE_ERROR: "Ungültiger Fragentyp",
 				QUESTIONS_CSV_IMPORT_ABSTENTION_ERROR: "Fehler im Feld 'abstention'",
@@ -997,6 +1007,7 @@
 				QUESTION_PLACEHOLDER: "Enter question",
 				QUESTIONTEXT_PLACEHOLDER: "Enter question",
 				QUESTION_MANAGEMENT: "Click on a question to edit:",
+				CONTENT_MANAGEMENT: "Click on a content to edit:",
 				QUESTIONS: "Questions",
 				TASKS: "Tasks",
 				QUESTION_DETAILS: "Full text",
@@ -1033,6 +1044,8 @@
 				MISSING_INPUT: "Please fill out all required fields.",
 				SHOWCASE: "Showcase",
 				LEAVE: "Leave",
+				CONTENT: "Content",
+				CONTENT_PLURAL: "Content",
 				MEMBERS_ONLY: "This question is visible to course members only.",
 				QUESTION_RATING: "Likert-type Scale",
 				QUESTION_RATING_SHORT: "Rating",
@@ -1050,8 +1063,11 @@
 				QUESTION_FREETEXT: "Open-ended Question",
 				QUESTION_FREETEXT_SHORT: "Free Text",
 				OPEN_QUESTION: "Open question",
+				OPEN_CONTENT: "Open content",
 				CLOSED_QUESTION: "Closed question",
+				CLOSED_CONTENT: "Closed content",
 				CLOSED_VOTING: "Voting closed",
+				CLOSED_COMMENTATION: "Commentation closed",
 				CONFIRM_CLOSE_VOTE: "Are you sure you want to close the voting?",
 				CONFIRM_CLOSE_ALL_VOTES: "Are you sure you want to close the voting?",
 				CONFIRM_CLOSE_QUESTION: "Are you sure you want to close this question?",
@@ -1470,11 +1486,15 @@
 
 				NEW_SLIDE: "Create new<br/>slides",
 				DELETE_SLIDE: "Delete<br/>slide",
+				DELETE_CONTENT: "Delete<br/>content",
 				RELEASE_SLIDE: "Release<br/>slide",
+				RELEASE_CONTENT: "Release<br/>content",
 				SHOW_COMMENTS: "Show<br/>comments",
 				DELETE_COMMENTS: "Delete<br/>comments",
 				RELEASE_COMMENTS: "Release<br/>comments",
 				SHOWCASE_KEYNOTE: "Deliver<br/>talk",
+				EXPORT_CONTENT: "Export<br/>content",
+				IMPORT_CONTENT: "Import<br/>content",
 
 				/* about */
 				MANUAL: "Manual",
@@ -1577,12 +1597,12 @@
 
 				/* CSV export */
 				QUESTIONS_CSV_EXPORT_BUTTON: "Export<br>questions",
-				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Export Questions",
-				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "The questions will be exported as a CSV file.",
+				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Export content",
+				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "The content will be exported as a CSV file.",
 
 				/* CSV import */
 				QUESTIONS_CSV_IMPORT_BUTTON: "Import<br>questions",
-				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Import questions",
+				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Import content",
 				QUESTIONS_CSV_IMPORT_ERR_IN_ROW: "at line",
 				QUESTIONS_CSV_IMPORT_TYPE_ERROR: "Invalid question type",
 				QUESTIONS_CSV_IMPORT_ABSTENTION_ERROR: "Error in field 'abstention'",
