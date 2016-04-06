@@ -38,15 +38,6 @@ Ext.define("ARSnova.controller.QuestionExport", {
 			+ ('0' + d.getMinutes()).slice(-2);
 	},
 
-	getQuestionType: function (questionTypeModel) {
-		switch (questionTypeModel){
-			case 'mc': return 'MC';
-			case 'abcd': return 'SC';
-			case 'freetext': return 'TXT';
-			case 'yesno':  return 'YN';
-		}
-	},
-
 	getOption: function (answer, type) {
 		if (answer && type !== 'yesno') {
 			return	answer.text;
@@ -132,8 +123,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 	parseJsonToCsv: function (records) {
 		var preparsedQuestion = this.preparseJsontoCsv(records);
 		var csv = ARSnova.utils.CsvUtil.jsonToCsv(preparsedQuestion);
-		//this.saveFileOnFileSystem(csv, this.filename());
-		console.log(csv);
+		this.saveFileOnFileSystem(csv, this.filename());
 	}
 
 });
