@@ -711,7 +711,7 @@
 				USECASE_LIVE_FEEDBACK: "Nur Live Feedback (Verständnisbarometer)",
 				USECASE_INTERPOSED_FEEDBACK: "Nur Zwischenfragen & Kommentare (Kummerkasten)",
 				USECASE_TWITTER_WALL: "Nur Twitter Wall",
-				USECASE_ARSNOVA_TOTAL: "ARSnova total: alle Frageformate und alle Funktionen",
+				USECASE_KEYNOTE: "Interaktiver Vortrag",
 				USECASE_ARSNOVA_CUSTOM: "Eigene Auswahl",
 
 				USECASES_CHOOSE_SHORT: "Welche Frageformate und Funktionen?",
@@ -722,7 +722,7 @@
 				USECASE_LIVE_FEEDBACK_SHORT: "Nur Live Feedback",
 				USECASE_INTERPOSED_FEEDBACK_SHORT: "Nur Zwischenfragen & Kommentare",
 				USECASE_TWITTER_WALL_SHORT: "Nur Twitter Wall",
-				USECASE_ARSNOVA_TOTAL_SHORT: "Alle Formate & Funktionen",
+				USECASE_KEYNOTE_SHORT: "Interaktiver Vortrag",
 				USECASE_ARSNOVA_CUSTOM_SHORT: "Eigene Auswahl",
 
 				USECASE_CLICKER_DETAILS: "###Quizfragen\n\n Nur die einfachen Frageformate:\n- Multiple-Choice (Mehrfachauswahl),\n- Single-Choice (Einfachauswahl) und\n- Ja|Nein (Entscheidungsfrage).\n\n ![SC-Frage](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/SC-Frage-1.png \"600xautoxcenter\")",
@@ -732,7 +732,7 @@
 				USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n Falls nur ein \"Verständnisbarometer\" benötigt wird: Live Feedback zum Tempo und Verständnis der Vorlesung. Sie können die Abstimmung schließen und das aktuelle Ergebnis als Stimmungsbild festhalten. ![Live Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/Live-Feedback.png \"245xautoxcenter\") ",
 				USECASE_INTERPOSED_FEEDBACK_DETAILS: "###Zwischenfragen & Kommentare\n\n Falls nur ein digitaler \"Kummerkasten\" aufgestellt werden soll: Die Fragen und Kommentare der Studierenden sind anonym und nur sichtbar für die Lehrperson. ![Zwischenfrage](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/Zwischenfrage.png \"245xautoxcenter\") ",
 				USECASE_TWITTER_WALL_DETAILS: "###Twitter Wall\n\n Die Zwischenfragen und Kommentare werden auf einer [Twitter Wall](https://de.wikipedia.org/wiki/Twitterwall) angezeigt. Nur die Lehrperson kann die Twitter Wall aktivieren, die Studierenden sehen weiterhin nur ihre eigenen Fragen und Kommentare. Beim Verfassen einer Zwischenfrage oder eines Kommentars wird der/die Studierende darauf hingewiesen, dass die Lehrperson den Modus \"Twitter Wall\" aktiviert hat und die eigenen Fragen und Kommentare am Beamer zu sehen sind.",
-				USECASE_ARSNOVA_TOTAL_DETAILS: "###ARSnova total\n\n Alles, was ARSnova an Frageformaten und Unterstützungsfunktionen für die didaktischen Einsatz-Szenarien \"Peer Instruction\" und \"Inverted Classroom\" bietet, siehe die ARSnova-Broschüre [Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2015/08/ARSnova-Produktprospekt-v5.pdf). ![Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2013/07/ARSnova-Broschuere.png \"300xautoxcenter\") ",
+				USECASE_KEYNOTE_DETAILS: "###Interaktiver Vortrag\n\n Alles, was ARSnova an Frageformaten und Unterstützungsfunktionen für die didaktischen Einsatz-Szenarien \"Peer Instruction\" und \"Inverted Classroom\" bietet, siehe die ARSnova-Broschüre [Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2015/08/ARSnova-Produktprospekt-v5.pdf). ![Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2013/07/ARSnova-Broschuere.png \"300xautoxcenter\") ",
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###Mein ARSnova\n\n Sie können die Funktionalität Ihrer Session kombinieren aus: \n- Hörsaalfragen \n- Vorbereitungsaufgaben\n- Fragen & Kommentare der Studierenden\n- Live Feedback\n- 2-Runden-Abstimmungen\n- Lernstandsberechnung\n- Twitter Wall",
 
 				TWITTER_WALL: "Twitter Wall",
@@ -1538,7 +1538,7 @@
 				USECASE_LIVE_FEEDBACK: "Instant Feedback",
 				USECASE_INTERPOSED_FEEDBACK: "Questions & comments from the audience",
 				USECASE_TWITTER_WALL: "Twitter Wall",
-				USECASE_ARSNOVA_TOTAL: "All-inclusive (all question types, all functions)",
+				USECASE_KEYNOTE: "Interactive Keynote",
 				USECASE_ARSNOVA_CUSTOM: "My ARSnova",
 
 				USECASES_CHOOSE_SHORT: "Select use case",
@@ -1549,7 +1549,7 @@
 				USECASE_LIVE_FEEDBACK_SHORT: "Live feedback",
 				USECASE_INTERPOSED_FEEDBACK_SHORT: "Interposed Questions",
 				USECASE_TWITTER_WALL_SHORT: "Twitter Wall",
-				USECASE_ARSNOVA_TOTAL_SHORT: "All-inclusive",
+				USECASE_KEYNOTE_SHORT: "Interactive Keynote",
 				USECASE_ARSNOVA_CUSTOM_SHORT: "My ARSnova",
 
 				USECASE_CLICKER_DETAILS: "###Clicker Questions\n\n Only simple question types: Multiple Choice (select), Single Choice (choose), Yes|No (polar question), Likert Scale (evaluation), and Grading (school grades).",
@@ -1559,7 +1559,7 @@
 				USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n With the use of \“Smileys\”, the listeners can indicate their pace of learning and understanding of the lecture.",
 				USECASE_INTERPOSED_FEEDBACK_DETAILS: "###Interposed Questions & Comments\n\n The listeners can pose questions or give comments, without interrupting the class.",
 				USECASE_TWITTER_WALL_DETAILS: "###Twitter Wall\n\n Comments or questions posed by learners can be displayed like a Twitter Wall. Only the teacher can do that.",
-				USECASE_ARSNOVA_TOTAL_DETAILS: "###All-inclusive ARSnova\n\n All didactic functions and question types that ARSnova supports for [Peer Instruction](https://en.wikipedia.org/wiki/Peer_instruction) and [Flipped Classroom](https://en.wikipedia.org/wiki/Flipped_classroom).",
+				USECASE_KEYNOTE_DETAILS: "###Interactive Keynote\n\n All didactic functions and question types that ARSnova supports for [Peer Instruction](https://en.wikipedia.org/wiki/Peer_instruction) and [Flipped Classroom](https://en.wikipedia.org/wiki/Flipped_classroom).",
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###My ARSnova\n\n Personal selection of didactic functions...",
 
 				TWITTER_WALL: "Twitter Wall",

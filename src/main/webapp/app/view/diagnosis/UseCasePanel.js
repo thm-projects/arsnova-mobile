@@ -124,9 +124,9 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 				details: Messages.USECASE_FLASHCARD_DETAILS
 			}, {
 				value: 'total',
-				label: Messages.USECASE_ARSNOVA_TOTAL,
-				shortLabel: Messages.USECASE_ARSNOVA_TOTAL_SHORT,
-				details: Messages.USECASE_ARSNOVA_TOTAL_DETAILS
+				label: Messages.USECASE_KEYNOTE,
+				shortLabel: Messages.USECASE_KEYNOTE_SHORT,
+				details: Messages.USECASE_KEYNOTE_DETAILS
 			}, {
 				value: 'custom',
 				label: Messages.USECASE_ARSNOVA_CUSTOM,
