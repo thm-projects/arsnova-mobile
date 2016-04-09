@@ -110,6 +110,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		var me = this;
 		this.questionObj = args.question;
+		this.listIndex = args.index;
 
 		// check if grid question
 		this.isGridQuestion = (['grid'].indexOf(this.questionObj.questionType) !== -1);
@@ -140,6 +141,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				sTP.on('cardswitch', function () {
 					this.destroy();
 				}, this, {single: true});
+				sTP.audienceQuestionPanel.questionList.restoreOffsetState();
 				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 					type: 'slide',
 					direction: 'right'
@@ -164,6 +166,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				panel.editButton.config.setEnableAnswerEdit(panel, false);
 				panel.uploadView.hide();
 				panel.hintForSolution.hide();
+				panel.checkNavigationElements();
 				if (panel.hintForSolution.getActive()) {
 					panel.hintForSolutionPreview.show();
 				}
@@ -350,6 +353,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							panel.getQuestionAnswers();
 							panel.setCorrectAnswerToggleState();
 							panel.setContentFormContent(panel.questionObj);
+							panel.checkNavigationElements();
+
 							if (panel.hintForSolution.isEmpty()) {
 								panel.hintForSolutionPreview.hide();
 							} else {
@@ -405,6 +410,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					this.config.setEnableAnswerEdit(panel, true);
 					panel.hintForSolution.show();
 					panel.hintForSolutionPreview.hide();
+					panel.checkNavigationElements();
 
 					if (panel.questionObj.questionType === 'slide' ||
 						panel.questionObj.questionType === 'flashcard') {
@@ -445,6 +451,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 						panel.subject.resetOriginalValue();
 						panel.textarea.resetOriginalValue();
+						panel.checkNavigationElements();
 					};
 					var needsConfirmation = false;
 					var empty = false;
@@ -1027,6 +1034,77 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.on('activate', this.onActivate);
 		this.on('deactivate', this.onDeactivate);
 		this.on('painted', this.onPainted);
+	},
+
+	initialize: function () {
+		this.callParent(arguments);
+
+		this.leftArrow = Ext.DomHelper.append(this.bodyElement, {
+			tag: 'div',
+			cls: 'carouselNavigationElement arrow-left hidden'
+		}, true);
+
+		this.rightArrow = Ext.DomHelper.append(this.bodyElement, {
+			tag: 'div',
+			cls: 'carouselNavigationElement arrow-right hidden'
+		}, true);
+
+		/** initialize navigation listeners */
+		this.initializeNavigationListeners();
+
+		/** initialize carousel listeners */
+		this.on('resize', this.checkNavigationElements);
+	},
+
+	initializeNavigationListeners: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel,
+			audQuestionPanel = sTP.audienceQuestionPanel,
+			me = this;
+
+		this.leftArrow.on('tap', function () {
+			audQuestionPanel.openQuestionDetails(me.listIndex - 1, 'right');
+		});
+
+		this.rightArrow.on('tap', function () {
+			audQuestionPanel.openQuestionDetails(me.listIndex + 1, 'left');
+		});
+
+		this.leftArrow.on('touchstart', function () {
+			me.leftArrow.addCls('x-button-pressing');
+		});
+
+		this.rightArrow.on('touchstart', function () {
+			me.rightArrow.addCls('x-button-pressing');
+		});
+
+		this.leftArrow.on('touchend', function () {
+			me.leftArrow.removeCls('x-button-pressing');
+		});
+
+		this.rightArrow.on('touchend', function () {
+			me.rightArrow.removeCls('x-button-pressing');
+		});
+	},
+
+	checkNavigationElements: function () {
+		var audQuestionPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.audienceQuestionPanel,
+			screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
+			showNavigationElements = screenWidth >= 840 && this.editButton.getText() === Messages.EDIT;
+
+		var hasNext = this.listIndex < audQuestionPanel.listTotalRange - 1;
+		var hasPrevious = this.listIndex > 0;
+
+		if (showNavigationElements && hasPrevious) {
+			this.leftArrow.removeCls('hidden');
+		} else {
+			this.leftArrow.addCls('hidden');
+		}
+
+		if (showNavigationElements && hasNext) {
+			this.rightArrow.removeCls('hidden');
+		} else {
+			this.rightArrow.addCls('hidden');
+		}
 	},
 
 	prevNewCard: null,

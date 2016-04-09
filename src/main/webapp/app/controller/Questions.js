@@ -305,10 +305,23 @@ Ext.define("ARSnova.controller.Questions", {
 
 	details: function (options) {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		var lastDetailsPanel = sTP.questionDetailsPanel;
+
 		sTP.questionDetailsPanel = Ext.create('ARSnova.view.speaker.QuestionDetailsPanel', {
+			index: options.index,
 			question: options.question
 		});
-		sTP.animateActiveItem(sTP.questionDetailsPanel, 'slide');
+		sTP.animateActiveItem(sTP.questionDetailsPanel, {
+			type: 'slide',
+			direction: options.direction || 'left',
+			listeners: {
+				animationend: function () {
+					if (lastDetailsPanel) {
+						lastDetailsPanel.destroy();
+					}
+				}
+			}
+		});
 	},
 
 	freetextDetailAnswer: function (options) {

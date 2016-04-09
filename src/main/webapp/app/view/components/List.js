@@ -108,6 +108,13 @@ Ext.define('ARSnova.view.components.List', {
 		this.setLastOffset(this.getListOffset());
 	},
 
+	updateOffsetState: function () {
+		if (this.getStartIndex() > this.getEndIndex()) {
+			this.setLastOffset(this.getOffset());
+			this.setOffset(this.getOffset() + this.getListOffset());
+		}
+	},
+
 	updatePagination: function (length, totalRange) {
 		var offset = this.getOffset();
 		var lastTotalRange = this.getTotalRange();

@@ -51,8 +51,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	newQuestionButton: null,
 
 	questionStore: null,
-	questionEntries: [],
-
 	reader: new FileReader(),
 
 	updateAnswerCount: {
@@ -151,6 +149,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				scope: this,
 				itemtap: function (list, index, element) {
 					this.getController().details({
+						index: index,
 						question: list.getStore().getAt(index).data
 					});
 				}
@@ -224,7 +223,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			centered: true
 		});
 
-		this.loadFilePanel =  Ext.create('Ext.Panel', {
+		this.loadFilePanel = Ext.create('Ext.Panel', {
 			modal: true,
 			centered: true,
 			ui: 'light',
@@ -429,13 +428,16 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	onDeactivate: function () {
 		this.questionList.hide();
+		this.listTotalRange = this.questionList.getTotalRange();
 		this.questionList.restoreOffsetState();
 		ARSnova.app.taskManager.stop(this.updateAnswerCount);
 	},
 
-	getQuestions: function () {
+	getQuestions: function (callback) {
+		callback = typeof callback === 'function' ? callback : Ext.emptyFn;
 		var features = Ext.decode(sessionStorage.getItem("features"));
-		this.questionEntries = [];
+		var hideLoadIndicator = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK, 1000);
+
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response, totalRange) {
 				var questions = Ext.decode(response.responseText);
@@ -464,6 +466,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				}
 
 				this.questionList.updatePagination(questions.length, totalRange);
+				callback.apply();
+
 				this.showcaseActionButton.show();
 				this.questionListContainer.show();
 				this.questionList.show();
@@ -473,6 +477,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.voteStatusButton.show();
 				// this.sortQuestionsButton.show();
 				this.deleteQuestionsButton.show();
+				hideLoadIndicator.apply();
 
 				if (this.screenWidth > 550) {
 					this.exportCsvQuestionsButton.show();
@@ -488,9 +493,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.sortQuestionsButton.hide();
 				this.deleteQuestionsButton.hide();
 				this.exportCsvQuestionsButton.hide();
+				hideLoadIndicator.apply();
 			}, this),
 			failure: function (response) {
 				console.log('server-side error questionModel.getSkillQuestions');
+				hideLoadIndicator.apply();
 			}
 		}, this.questionList.getStartIndex(), this.questionList.getEndIndex());
 	},
@@ -514,6 +521,30 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(activateProjectorMode);
 		ARSnova.app.getController('Application').toggleFullScreen(activateProjectorMode);
 		showShowcasePanel.delay(activateProjectorMode ? 1250 : 0);
+	},
+
+	openQuestionDetails: function (index, direction) {
+		var loadedLimit = this.questionList.getLastOffset();
+		var me = this;
+
+		if (index < 0 || index >= this.listTotalRange) {
+			return;
+		}
+
+		if (index === loadedLimit) {
+			this.questionList.updateOffsetState();
+			this.getQuestions(function () {
+				me.openQuestionDetails(index, direction);
+			});
+
+			return;
+		}
+
+		this.getController().details({
+			index: index,
+			direction: direction,
+			question: this.questionStore.getAt(index).data
+		});
 	},
 
 	getQuestionAnswers: function () {
