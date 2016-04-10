@@ -168,6 +168,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			panel.updateControlButtonHiddenState();
 			panel.speakerUtilities.setHidden(screenWidth < 700);
 			panel.speakerUtilities.checkQuestionType(newQuestion);
+			panel.toolbar.checkStatisticButtonIcon(newQuestion.questionObj);
 			panel.setProjectorMode(this, ARSnova.app.projectorModeActive && screenWidth > 700, true);
 			panel.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
 			newQuestion.setZoomLevel(ARSnova.app.globalZoomLevel);

@@ -129,6 +129,14 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		this.clockElement.setHidden(false);
 	},
 
+	checkStatisticButtonIcon: function (question) {
+		if (question && question.questionType === 'slide') {
+			this.statisticsButton.setIconCls('icon-comment');
+		} else {
+			this.statisticsButton.setIconCls(this.statisticsButton.config.iconCls);
+		}
+	},
+
 	checkStatistics: function (question, isDisabled) {
 		if (question && question.showStatistic && isDisabled && question.questionType !== 'flashcard') {
 			this.statisticsButton.show();
