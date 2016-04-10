@@ -215,7 +215,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			this.disableQuestion(false);
 		}
 
-		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.questionObj.questionType !== 'slide') {
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj,
 				buttonClass: 'smallerActionButton'
@@ -259,7 +259,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				this.setAnswerCount();
 			}
 
-			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.editButtons) {
 				this.editButtons.changeHiddenState();
 			}
 		});

@@ -277,6 +277,10 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestionsTask.taskRunTime = 0;
 	},
 
+	checkQuestionType: function (panel) {
+		this.hideShowcaseControlButton.setHidden(panel.questionObj && panel.questionObj.questionType === 'slide');
+	},
+
 	overlayButtonHandler: function () {
 		var me = this.getParent(); // speakerUtilities
 
