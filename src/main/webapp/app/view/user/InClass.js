@@ -692,7 +692,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			this.caption.setBadgeTranslation({
 				feedback: Messages.QUESTIONS_FROM_STUDENTS,
 				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
-				questions: Messages.CONTENT_PLURAL,
+				questions: Messages.QUESTIONS,
 				answers: Messages.COMMENTS
 			});
 		}
