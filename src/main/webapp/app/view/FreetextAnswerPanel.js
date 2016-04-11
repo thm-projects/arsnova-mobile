@@ -128,7 +128,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		});
 
 		// Create standard panel with framework support
-		questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+		var questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			hidden: this.questionObj.questionType === 'slide',
 			cls: "roundedBox center"
 		});

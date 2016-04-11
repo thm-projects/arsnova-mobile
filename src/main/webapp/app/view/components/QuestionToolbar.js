@@ -142,5 +142,5 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			question && question.showStatistic && question.questionType === 'slide';
 
 		this.statisticsButton.setHidden(!showStatistics);
-	} 
+	}
 });

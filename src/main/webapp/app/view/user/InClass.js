@@ -685,5 +685,16 @@ Ext.define('ARSnova.view.user.InClass', {
 				me.inClassButtons.remove(me.myLearningProgressButton, false);
 			}
 		});
+	},
+
+	applyUIChanges: function (features) {
+		if (features.total) {
+			this.caption.setBadgeTranslation({
+				feedback: Messages.QUESTIONS_FROM_STUDENTS,
+				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
+				questions: Messages.CONTENT_PLURAL,
+				answers: Messages.COMMENTS
+			});
+		}
 	}
 });

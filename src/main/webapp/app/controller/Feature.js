@@ -395,9 +395,10 @@ Ext.define("ARSnova.controller.Feature", {
 			} else if (features.peerGrading) {
 				lectureButtonText = Messages.EVALUATION_QUESTIONS;
 			}
-			
+
 			tabPanel.inClassPanel.myQuestionsButton.setText(questionsButtonText);
 			tabPanel.inClassPanel.lectureQuestionButton.setText(lectureButtonText);
+			tabPanel.inClassPanel.applyUIChanges(features);
 
 			if (tabPanel.inClassPanel.myLearningProgressButton) {
 				tabPanel.inClassPanel.myLearningProgressButton.setText(
