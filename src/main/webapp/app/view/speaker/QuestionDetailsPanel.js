@@ -700,7 +700,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.statisticButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: this.isSlide ? Messages.SHOW_COMMENTS : Messages.SHOW_STATISTIC,
 			buttonConfig: 'icon',
-			imageCls: 'icon-chart',
+			imageCls: this.questionObj.questionType === 'slide' ? 'icon-comment' : 'icon-chart',
 			cls: actionButtonCls,
 			scope: this,
 			handler: function () {
