@@ -50,13 +50,19 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		var correctAnswer = '';
 		var options = [];
 		var question = {};
+		var i;
 		question.questionType = questionTypeModel;
 		question.questionSubject = questionModel.subject;
 		question.question = questionModel.text;
-		for (var i = 0; i < 8; i++) {
+		for (i = 0; i < 8; i++) {
 			options[i] = this.getOption(questionModel.possibleAnswers[i], questionTypeModel);
 			if (questionModel.possibleAnswers[i] && questionModel.possibleAnswers[i].correct) {
 				correctAnswer += (i + 1) + ',';
+			}
+		}
+		if (questionTypeModel === 'abcd') {
+			for (i = 0; i < options.length; i++) {
+				options[i] = options[i].slice(2);
 			}
 		}
 		question.answer1 = options[0];
