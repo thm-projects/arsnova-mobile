@@ -237,6 +237,9 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			this.formPanel
 		]);
 
+		this.setTitle(this.questionObj.questionType === 'slide' ? Messages.COMMENTS : Messages.ANSWERS);
+		this.setIconCls(this.questionObj.questionType === 'slide' ? 'icon-comment' : 'icon-chart');
+
 		this.on('activate', function () {
 			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 			if (screenWidth > 700 && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {

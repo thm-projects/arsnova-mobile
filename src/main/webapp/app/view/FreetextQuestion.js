@@ -388,7 +388,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 	},
 
 	statisticButtonHandler: function (scope) {
-		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.editButtons) {
 			this.questionObj = this.editButtons.questionObj;
 		}
 
