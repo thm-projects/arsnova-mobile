@@ -81,7 +81,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 			question.correctAnswer = correctAnswer;
 		} else if (questionTypeModel === 'freetext') {
 			question.correctAnswer = '';
-		}	else {
+		} else {
 			question.correctAnswer = correctAnswer.slice(0, correctAnswer.length - 1);
 		}
 

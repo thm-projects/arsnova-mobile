@@ -134,7 +134,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 				if (type === 'abcd') {
 					letter = String.fromCharCode(65 + i);
 					answerObj.text = letter + ': ' + answer;
-				}	else {
+				} else {
 					answerObj.text = answer;
 				}
 				possibleAnswers.push(answerObj);
