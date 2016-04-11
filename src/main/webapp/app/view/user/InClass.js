@@ -527,7 +527,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	showNotification: function (questionIds, variant, newRound, round) {
 		var features = Ext.decode(sessionStorage.getItem("features"));
 
-		if (features.lecture && variant === 'lecture' ||
+		if (features.lecture && variant === 'lecture' && !features.total ||
 			features.jitt && variant === 'preparation') {
 			this.showNotificationMessage(questionIds, variant, newRound, round);
 		}
