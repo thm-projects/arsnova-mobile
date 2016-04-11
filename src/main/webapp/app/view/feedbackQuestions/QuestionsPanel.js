@@ -314,7 +314,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 			if (screenWidth > 380) {
 				toolbarTitle = isSpeakerRole && ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel ?
-					Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS;
+					Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS_AND_COMMENTS;
 			}
 
 			if (screenWidth > 700 && isSpeakerRole) {

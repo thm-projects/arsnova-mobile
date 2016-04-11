@@ -311,7 +311,8 @@
 				WANNA_ANSWER: "Möchten Sie jetzt antworten?",
 				THERE_ARE: "Es gibt",
 				NEW_QUESTIONS: "neue Fragen.",
-				MY_QUESTIONS: "Meine Fragen & Kommentare",
+				MY_QUESTIONS: "Meine Fragen",
+				MY_QUESTIONS_AND_COMMENTS: "Meine Fragen & Kommentare",
 				MY_LEARNING_PROGRESS: "Mein Lernstand",
 				VERSUS: "vs.",
 				LEARN: "Lernen",
@@ -329,6 +330,7 @@
 				].join('\n'),
 
 				/* speaker */
+				PRESENTATION: "Vortrag",
 				LIVE_FEEDBACK: "Live Feedback",
 				COURSES_LEARNING_PROGRESS: "Lernstand des Kurses",
 				COURSES_LEARNING_PROGRESS_SHORT: "Lernstand",
@@ -1132,7 +1134,8 @@
 				WANNA_ANSWER: 'Would you like to answer now?',
 				THERE_ARE: "There are",
 				NEW_QUESTIONS: "new questions.",
-				MY_QUESTIONS: "My questions & comments",
+				MY_QUESTIONS: "My questions",
+				MY_QUESTIONS_AND_COMMENTS: "My questions & comments",
 				MY_LEARNING_PROGRESS: "My progress",
 				VERSUS: "vs",
 				LEARN: "Learn",
@@ -1150,6 +1153,7 @@
 				].join('\n'),
 
 				/* speaker */
+				PRESENTATION: "Presentation",
 				LIVE_FEEDBACK: "Instant feedback",
 				COURSES_LEARNING_PROGRESS: "Class progress",
 				COURSES_LEARNING_PROGRESS_SHORT: "Class progress",

@@ -183,7 +183,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		this.myQuestionsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui: 'normal',
-			text: Messages.MY_QUESTIONS,
+			text: Messages.MY_QUESTIONS_AND_COMMENTS,
 			cls: 'forwardListButton',
 			badgeCls: 'badgeicon',
 			controller: 'Questions',

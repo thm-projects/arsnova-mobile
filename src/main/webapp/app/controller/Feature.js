@@ -385,15 +385,18 @@ Ext.define("ARSnova.controller.Feature", {
 			}
 
 			var lectureButtonText = Messages.LECTURE_QUESTIONS_LONG;
+			var questionsButtonText = Messages.MY_QUESTIONS_AND_COMMENTS;
 
 			if (features.total) {
-				lectureButtonText = Messages.SLIDE_LONG;
+				lectureButtonText = Messages.PRESENTATION;
+				questionsButtonText = Messages.MY_QUESTIONS;
 			} else if (features.flashcard) {
 				lectureButtonText = Messages.FLASHCARDS;
 			} else if (features.peerGrading) {
 				lectureButtonText = Messages.EVALUATION_QUESTIONS;
 			}
-
+			
+			tabPanel.inClassPanel.myQuestionsButton.setText(questionsButtonText);
 			tabPanel.inClassPanel.lectureQuestionButton.setText(lectureButtonText);
 
 			if (tabPanel.inClassPanel.myLearningProgressButton) {
