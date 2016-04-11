@@ -46,7 +46,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 			style: 'marginTop: 15px'
 		};
 		var me = this;
-		var	buttonHandler = function (b) {
+		var buttonHandler = function (b) {
 			var service = b.config.value;
 			if ("guest" === service.id && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function (answer) {
@@ -131,7 +131,6 @@ Ext.define('ARSnova.view.LoginPanel', {
 		var buttonPanels = [];
 		var items = [];
 		var me = this;
-		//this.remove('buttonPanel', true);
 		this.removeAll(true, true);
 		this.addToolbar();
 		for (i = 0; i < this.getButtons().length; i++) {
