@@ -55,19 +55,6 @@
 	cursor: pointer;
 }
 
-.x-container.x-form.slidePanel {
-	width: auto;
-	max-width: none;
-	margin-left: 60px;
-	margin-right: 60px;
-}
-
-@media screen and (max-width: 840px) {
-	.x-container.x-form.slidePanel {
-		margin: auto;
-	}
-}
-
 .noOverflow {
 	overflow: hidden;
 	text-overflow: ellipsis;
