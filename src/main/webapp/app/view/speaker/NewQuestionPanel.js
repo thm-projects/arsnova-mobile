@@ -594,7 +594,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			releasedFor: values.releasedFor,
 			noCorrect: values.noCorrect,
 			abstention: values.abstention,
-			showStatistic: 1,
+			showStatistic: values.questionType === 'slide' ? 0 : 1,
 			gridSize: values.gridSize,
 			offsetX: values.offsetX,
 			offsetY: values.offsetY,

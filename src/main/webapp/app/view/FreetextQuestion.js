@@ -211,7 +211,8 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 		}
 
 		/* update disabled state on initialize */
-		if (this.questionObj.votingDisabled || this.questionObj.userAnswered && this.questionObj.questionType === 'slide') {
+		if (this.questionObj.votingDisabled || this.questionObj.userAnswered && this.questionObj.questionType === 'slide' ||
+			this.questionObj.questionType === 'slide' && !this.questionObj.showStatistic) {
 			this.disableQuestion(false);
 		}
 
