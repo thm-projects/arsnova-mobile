@@ -34,20 +34,75 @@ Ext.define('ARSnova.view.LoginPanel', {
 
 		layoutOnOrientationChange: false,
 		monitorOrientation: false,
+		buttons: [],
 
 		title: 'LoginPanel'
 	},
 
 	initialize: function () {
 		this.callParent(arguments);
-		var me = this;
-
 		this.arsLogo = {
 			xtype: 'panel',
 			style: 'marginTop: 15px'
 		};
+		var me = this;
+		var	buttonHandler = function (b) {
+			var service = b.config.value;
+			if ("guest" === service.id && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function (answer) {
+					if ('yes' === answer) {
+						ARSnova.app.getController('Auth').login({
+							service: service
+						});
+					}
+				});
+			} else {
+				ARSnova.app.getController('Auth').login({
+					service: service
+				});
+			}
+		};
+		var config = ARSnova.app.globalConfig;
+		ARSnova.app.getController('Auth').services.then(function (services) {
+			var i, button, service, imagePath = "", imageSrc, imageCls;
+			if (config.customizationPath) {
+				imagePath = config.customizationPath + "/images/";
+			}
+			services.sort(function (a, b) {
+				if (a.order > 0 && (a.order < b.order || b.order <= 0)) {
+					return -1;
+				}
+				if (b.order > 0 && (a.order > b.order || a.order <= 0)) {
+					return 1;
+				}
 
-		me.add([{
+				return 0;
+			});
+			for (i = 0; i < services.length; i++) {
+				service = services[i];
+				imageSrc = service.image ? imagePath + service.image : "btn_" + service.id;
+				imageCls = "login-icon-" + service.id;
+				button = {
+					xtype: 'matrixbutton',
+					id: 'login-select-' + service.id,
+					text: "guest" === service.id ? Messages.GUEST : service.name,
+					value: service,
+					image: imageSrc,
+					imageCls: imageCls,
+					handler: buttonHandler
+				};
+				if (i % 2 === 1) {
+					button.style = "margin-left: 20px";
+				}
+				me.config.buttons.push({
+					allowedRoles: service.allowedRoles,
+					button: button
+				});
+			}
+		});
+	},
+	addToolbar: function () {
+		this.add([{
 			xtype: 'toolbar',
 			docked: 'top',
 			ui: 'light',
@@ -67,77 +122,42 @@ Ext.define('ARSnova.view.LoginPanel', {
 					});
 				}
 			}]},
-			me.arsLogo
+			this.arsLogo
 		]);
-
-		var config = ARSnova.app.globalConfig;
-		ARSnova.app.getController('Auth').services.then(function (services) {
-			var i, buttonPanels = [], button, items = [], service, imagePath = "", imageSrc, imageCls;
-			if (config.customizationPath) {
-				imagePath = config.customizationPath + "/images/";
+	},
+	addButtons: function (role) {
+		var buttons = [];
+		var i;
+		var buttonPanels = [];
+		var items = [];
+		var me = this;
+		//this.remove('buttonPanel', true);
+		this.removeAll(true, true);
+		this.addToolbar();
+		for (i = 0; i < this.getButtons().length; i++) {
+			if (this.getButtons()[i].allowedRoles.indexOf(role) > -1) {
+				buttons.push(this.getButtons()[i].button);
 			}
-			services.sort(function (a, b) {
-				if (a.order > 0 && (a.order < b.order || b.order <= 0)) {
-					return -1;
-				}
-				if (b.order > 0 && (a.order > b.order || a.order <= 0)) {
-					return 1;
-				}
-
-				return 0;
-			});
-			var buttonHandler = function (b) {
-				var service = b.config.value;
-				if ("guest" === service.id && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-					Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function (answer) {
-						if ('yes' === answer) {
-							ARSnova.app.getController('Auth').login({
-								service: service
-							});
-						}
-					});
-				} else {
-					ARSnova.app.getController('Auth').login({
-						service: service
-					});
-				}
-			};
-			for (i = 0; i < services.length; i++) {
-				service = services[i];
-				imageSrc = service.image ? imagePath + service.image : "btn_" + service.id;
-				imageCls = "login-icon-" + service.id;
-				button = {
-					xtype: 'matrixbutton',
-					id: 'login-select-' + service.id,
-					text: "guest" === service.id ? Messages.GUEST : service.name,
-					value: service,
-					image: imageSrc,
-					imageCls: imageCls,
-					handler: buttonHandler
-				};
-				if (i % 2 === 1) {
-					button.style = "margin-left: 20px";
-				}
-				items.push(button);
-				if (i % 2 === 1 || i === services.length - 1) {
-					buttonPanels.push(
-						Ext.create('Ext.Panel', {
-							xtype: 'container',
-							layout: {
-								type: 'hbox',
-								pack: 'center'
-							},
-							items: items
-						})
-					);
-					items = [];
-				}
+		}
+		for (i = 0; i < buttons.length; i++) {
+			items.push(buttons[i]);
+			if (i % 2 === 1 || i === this.getButtons().length - 1) {
+				buttonPanels.push(Ext.create('Ext.Panel', {
+						id: 'buttonPanel-' + i,
+						xtype: 'container',
+						layout: {
+							type: 'hbox',
+							pack: 'center'
+						},
+						items: items
+					})
+				);
+				items = [];
 			}
-
-			buttonPanels[buttonPanels.length - 1].setStyle('margin-bottom: 15px;');
-			buttonPanels.forEach(function (buttonPanel) {
-				me.add(buttonPanel);
-			});
+		}
+		buttonPanels[buttonPanels.length - 1].setStyle('margin-bottom: 15px;');
+		buttonPanels.forEach(function (buttonPanel) {
+			me.add(buttonPanel);
 		});
 	}
 });

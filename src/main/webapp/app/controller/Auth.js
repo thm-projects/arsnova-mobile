@@ -90,6 +90,7 @@ Ext.define("ARSnova.controller.Auth", {
 				if (enabledServices.length === 0 && guestLogin.length > 0) {
 					this.login({service: guestLogin[0]});
 				} else {
+					ARSnova.app.mainTabPanel.tabPanel.loginPanel.addButtons("student");
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
 						ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
 					);
@@ -102,6 +103,7 @@ Ext.define("ARSnova.controller.Auth", {
 				if (enabledServices.length === 1) {
 					this.login({service: enabledServices[0]});
 				} else {
+					ARSnova.app.mainTabPanel.tabPanel.loginPanel.addButtons("speaker");
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
 						ARSnova.app.mainTabPanel.tabPanel.loginPanel, 'slide'
 					);
