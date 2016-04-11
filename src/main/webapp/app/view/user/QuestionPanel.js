@@ -101,6 +101,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 
 		if (newQuestion.questionObj) {
 			newQuestion.updateQuestionText();
+			this.toolbar.checkStatisticButtonIcon(newQuestion.questionObj);
 			this.toolbar.setTitle(Ext.util.Format.htmlEncode(newQuestion.getQuestionTypeMessage()));
 		}
 	},
