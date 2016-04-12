@@ -365,7 +365,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 				Ext.Msg.confirm(Messages.QUESTIONS_CSV_EXPORT_MSBOX_TITLE, msg, function (answer) {
 					if (answer === 'yes') {
-						ARSnova.app.getController('QuestionExport').parseJsonToCsv(this.questionStore.getData().items);
+						this.getController().getQuestions(sessionStorage.getItem('keyword'), {
+							success: function (response) {
+								var questions = Ext.decode(response.responseText);
+								ARSnova.app.getController('QuestionExport').parseJsonToCsv(questions);
+							}
+						});
 					}
 				}, this);
 			}

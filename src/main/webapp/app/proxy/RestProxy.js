@@ -477,6 +477,18 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	bulkSaveSkillQuestions: function (questions, callbacks) {
+		if (questions && questions.length > 0) {
+			this.arsjax.request({
+				url: "session/" + questions[0].sessionKeyword + "/question/bulk",
+				method: "POST",
+				jsonData: questions,
+				success: callbacks.success,
+				failure: callbacks.failure
+			});
+		}
+	},
+
 	updateSkillQuestion: function (question, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + question.get('_id'),
