@@ -24,6 +24,9 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 			release: Messages.RELEASE_VOTE,
 			confirm: Messages.CONFIRM_CLOSE_VOTE,
 			confirmMessage: Messages.CONFIRM_CLOSE_VOTE_MESSAGE
+		},
+		slideWording: {
+			release: Messages.ALLOW_COMMENTS
 		}
 	},
 
@@ -39,15 +42,13 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 		this.questionObj = args.questionObj;
 		this.parentPanel = args.parentPanel;
 
-		if (this.questionObj && this.questionObj.votingDisabled) {
-			this.isOpen = false;
-		} else {
-			this.isOpen = true;
-		}
+		this.isOpen = this.questionObj && !this.questionObj.votingDisabled;
+		var label = this.questionObj && this.questionObj.questionType === 'slide' ?
+				this.getSlideWording().release : this.getWording().release;
 
 		this.button = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
-			text: this.getWording().release,
+			text: label,
 			disabledCls: '',
 			scope: this,
 			cls: this.getCls(),
@@ -112,11 +113,11 @@ Ext.define('ARSnova.view.VoteStatusButton', {
 		}
 
 		if (!this.questionObj.votingDisabled) {
-			this.isOpen = true;
-			this.button.setToggleFieldValue(true);
-		} else {
 			this.isOpen = false;
 			this.button.setToggleFieldValue(false);
+		} else {
+			this.isOpen = true;
+			this.button.setToggleFieldValue(true);
 		}
 		this.isRendered = true;
 	},

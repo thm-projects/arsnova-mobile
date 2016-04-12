@@ -749,6 +749,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			}
 		});
 
+		this.voteStatusButton = Ext.create('ARSnova.view.VoteStatusButton', {
+			cls: actionButtonCls,
+			questionObj: this.questionObj,
+			parentPanel: this,
+			hidden: this.questionObj.questionType !== 'slide'
+		});
+
 		// Preview button
 		this.previewButton = Ext.create('Ext.Button', {
 			text: Ext.os.is.Desktop ?
@@ -1123,7 +1130,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.updateActionButtons();
 		this.setCorrectAnswerToggleState();
 
-		if (this.hasCorrectAnswers) {
+		if (this.questionObj.questionType === 'slide') {
+			this.firstRow.add(this.voteStatusButton);
+		} else if (this.hasCorrectAnswers) {
 			this.firstRow.add(this.showCorrectAnswerButton);
 		}
 

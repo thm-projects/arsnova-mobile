@@ -146,6 +146,7 @@ Ext.define("ARSnova.controller.Questions", {
 			numberOfDots: options.numberOfDots,
 			gridType: options.gridType,
 			showStatistic: options.showStatistic,
+			votingDisabled: options.votingDisabled,
 			scaleFactor: options.scaleFactor,
 			gridScaleFactor: options.gridScaleFactor,
 			timestamp: options.timestamp,

@@ -173,7 +173,10 @@ Ext.define("ARSnova.controller.RoundManagement", {
 						question.countdownTimer.show();
 					}
 				}
-				question.editButtons.changeVoteManagementButtonState();
+
+				if (question.editButtons) {
+					question.editButtons.changeVoteManagementButtonState();
+				}
 			});
 		}
 
