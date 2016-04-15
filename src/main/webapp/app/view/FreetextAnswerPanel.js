@@ -257,7 +257,9 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 
 		this.on('painted', function () {
 			ARSnova.app.innerScrollPanel = this;
-			this.speakerUtilities.setProjectorMode(this, ARSnova.app.projectorModeActive);
+			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+				this.speakerUtilities.setProjectorMode(this, ARSnova.app.projectorModeActive);
+			}
 		});
 
 		this.on('hide', function () {
