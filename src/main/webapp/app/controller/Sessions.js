@@ -99,14 +99,17 @@ Ext.define("ARSnova.controller.Sessions", {
 			},
 			notFound: function () {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_NOT_FOUND);
+				sessionStorage.clear();
 				hideLoadMask();
 			},
 			forbidden: function () {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_LOCKED);
+				sessionStorage.clear();
 				hideLoadMask();
 			},
 			failure: function () {
 				Ext.Msg.alert(Messages.NOTIFICATION, Messages.CONNECTION_PROBLEM);
+				sessionStorage.clear();
 				hideLoadMask();
 			}
 		});
