@@ -44,10 +44,12 @@ Ext.define("ARSnova.controller.Sessions", {
 		console.debug("Controller: Sessions.login", options);
 		if (options.keyword.length !== 8) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_ID_INVALID_LENGTH);
+			sessionStorage.clear();
 			return;
 		}
 		if (options.keyword.match(/[^0-9]/)) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.SESSION_ID_INVALID);
+			sessionStorage.clear();
 			return;
 		}
 		/* do login stuff */
