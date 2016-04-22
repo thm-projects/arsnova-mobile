@@ -337,6 +337,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var questions = this.questions || [];
 
+		questions.sort(function (x, y) {
+			return y.timestamp - x.timestamp;
+		});
+
 		if (!forceUpdate) {
 			if (!this.list.element.hasCls('twoRowed') && screenWidth < 540 ||
 				this.list.element.hasCls('twoRowed') && screenWidth >= 540) {
@@ -344,9 +348,12 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 			}
 		}
 
-		this.getStore().removeAll();
-		for (var i = 0; i < questions.length; i++) {
-			this.storeEntry(questions[i]);
+		if (questions.length && this.lastTimestamp !== questions[0].timestamp) {
+			this.getStore().removeAll();
+			this.lastTimestamp = questions[0].timestamp;
+			for (var i = 0; i < questions.length; i++) {
+				this.storeEntry(questions[i]);
+			}
 		}
 
 		if (screenWidth < 540) {
