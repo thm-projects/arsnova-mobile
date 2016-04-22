@@ -235,9 +235,28 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		};
 	},
 
+	checkNewLineRequire: function (processObj, escapeString, esc) {
+		var lastChar = processObj.preSel[processObj.preSel.length - 1];
+		var lineBeginning = !lastChar || lastChar.match(/\n/g) !== null;
+
+		var requireNewLine = [
+			this.headerButton.config.applyString,
+			this.ulButton.config.escapeString,
+			this.olButton.config.escapeString,
+			this.quoteButton.config.escapeString
+		];
+
+		return Ext.Array.contains(requireNewLine, escapeString) && !lineBeginning && lastChar !== esc;
+	},
+
 	applyFormatting: function (processObj, escapeString, biliteral) {
 		var value, length = escapeString.length;
 		var esc = biliteral ? escapeString : "";
+
+		if (this.checkNewLineRequire(processObj, escapeString, esc)) {
+			processObj.element.setValue(processObj.element.getValue() + '\n');
+			processObj = this.getProcessVariables();
+		}
 
 		value = !Array.isArray(escapeString) ?
 			processObj.preSel + escapeString + processObj.sel + esc + processObj.postSel :
