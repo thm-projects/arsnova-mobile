@@ -442,8 +442,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 	onActivate: function () {
 		this.releasePart.setHidden(!localStorage.getItem('courseId'));
-		this.questionOptions.setPressedButtons([0]);
-
 		ARSnova.app.getController('Feature').applyNewQuestionPanelChanges(this);
 	},
 

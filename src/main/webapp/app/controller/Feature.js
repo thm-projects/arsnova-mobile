@@ -514,8 +514,11 @@ Ext.define("ARSnova.controller.Feature", {
 		var indexMap = panel.getOptionIndexMap();
 		var features = Ext.decode(sessionStorage.getItem("features"));
 		var options = panel.questionOptions.getInnerItems();
+		panel.questionOptions.setPressedButtons([1]);
 
-		if (features.flashcard) {
+		if (features.total) {
+			panel.questionOptions.setPressedButtons([indexMap[Messages.SLIDE]]);
+		} else if (features.flashcard) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.FLASHCARD]]);
 			panel.optionsToolbar.setHidden(true);
 		} else if (features.peerGrading) {
