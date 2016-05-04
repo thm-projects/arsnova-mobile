@@ -153,7 +153,7 @@ Ext.define("ARSnova.controller.Feature", {
 	getFeatureValues: function (useCases) {
 		var features = Ext.Object.merge({}, this.features, useCases);
 
-		if (!useCases.custom) {
+		if (!useCases.custom && !useCases.total) {
 			features.jitt = false;
 			features.learningProgress = false;
 			features.interposed = false;
