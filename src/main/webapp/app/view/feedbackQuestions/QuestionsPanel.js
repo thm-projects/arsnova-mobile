@@ -20,8 +20,8 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 	extend: 'Ext.Panel',
 
 	requires: [
-		'ARSnova.model.FeedbackQuestion',
-		'ARSnova.view.feedbackQuestions.QuestionsMessagePanel'],
+		'ARSnova.model.FeedbackQuestion'
+	],
 
 	config: {
 		title: 'QuestionsPanel',
@@ -52,7 +52,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 		}),
 
 		/**
-		 * task for speakers in a session
 		 * check every x seconds new feedback questions
 		 */
 		checkFeedbackQuestionsTask: {
@@ -62,10 +61,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				var questionsPanel = tabPanel.feedbackQuestionsPanel.questionsPanel;
 				questionsPanel.getStore().remove(questionsPanel.getStore().getRange());
 
-				if (tabPanel.speakerTabPanel && tabPanel.speakerTabPanel.inClassPanel) {
-					tabPanel.speakerTabPanel.inClassPanel.countFeedbackQuestions();
-				}
-
 				if (questionsPanel.list.getOffset() !== -1) {
 					questionsPanel.list.restoreOffsetState();
 				}
@@ -73,18 +68,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				questionsPanel.getFeedbackQuestions();
 			},
 			interval: 15000
-		},
-
-		/**
-		 * task for speakers in a session
-		 * update clock element
-		 */
-		updateClockTask: {
-			name: 'renew the actual time at the titlebar',
-			run: function () {
-				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.updateTime();
-			},
-			interval: 1000 // 1 second
 		}
 	},
 
@@ -101,20 +84,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
-				var target;
-				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER &&
-						ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel) {
-					target = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
-					ARSnova.app.taskManager.stop(this.getUpdateClockTask());
-					panel.speakerUtilities.initializeZoomComponents();
-
-					if (ARSnova.app.projectorModeActive) {
-						panel.speakerUtilities.restoreZoomLevel();
-						this.speakerUtilities.setProjectorMode(panel, false);
-					}
-				} else {
-					target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
-				}
+				var target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(target, {
 					type: 'slide',
 					direction: 'right',
@@ -123,56 +93,12 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			}
 		});
 
-		this.deleteAllButton = Ext.create('Ext.Button', {
-			text: Messages.DELETE_ALL,
-			align: 'right',
-			ui: 'decline',
-			hidden: true,
-			handler: function () {
-				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, Messages.ARE_YOU_SURE, function (answer) {
-					if (answer === 'yes') {
-						ARSnova.app.getController('Questions').deleteAllInterposedQuestions({
-							success: function () {
-								panel.list.hide();
-								panel.noQuestionsFound.show();
-								panel.deleteAllButton.hide();
-							},
-							failure: function () {
-								console.log("Could not delete all interposed questions.");
-							}
-						});
-					}
-				});
-			}
-		});
-
-		this.toggleViewButton = Ext.create('Ext.Button', {
-			text: Messages.TWITTER_WALL_BUTTON,
-			hidden: true,
-			align: 'right',
-			scope: this,
-			handler: function () {
-				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.animateActiveItem(this.messagePanel, 'flip');
-			}
-		});
-
-		var toolbarTitle = Messages.QUESTIONS;
-
-		this.clockElement = Ext.create('Ext.Component', {
-			cls: 'x-toolbar-title x-title',
-			hidden: true,
-			align: 'left'
-		});
-
 		this.toolbar = Ext.create('Ext.TitleBar', {
-			title: toolbarTitle,
+			title: Messages.MY_QUESTIONS,
 			docked: 'top',
 			ui: 'light',
 			items: [
-				this.backButton,
-				this.toggleViewButton,
-				this.clockElement,
-				this.deleteAllButton
+				this.backButton
 			]
 		});
 
@@ -226,10 +152,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					}
 				},
 				itemtap: function (list, index, target, record, event) {
-					if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-						panel.speakerUtilities.initializeZoomComponents();
-					}
-
 					ARSnova.app.getController('Questions').detailsFeedbackQuestion({
 						question: record,
 						lastPanel: panel
@@ -238,16 +160,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 			}
 		});
 
-		this.speakerUtilities = Ext.create('ARSnova.view.speaker.SpeakerUtilities', {
-			parentReference: this,
-			showProjectorButton: true,
-			hidden: true
-		});
-
 		this.formPanel = Ext.create('Ext.form.Panel', {
 			scrollable: null,
 			style: {
-				marginTop: this.deleteAllButton.getHidden() ? '15px' : ''
+				marginTop: '15px'
 			},
 			items: [{
 				xtype: 'fieldset',
@@ -285,7 +201,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		this.add([
 			this.toolbar,
-			this.speakerUtilities,
 			this.questionRequestButton,
 			this.noQuestionsFound,
 			this.formPanel
@@ -297,44 +212,11 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		this.on('activate', function () {
 			this.getCheckFeedbackQuestionsTask().taskRunTime = 0;
-			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-
-			if (screenWidth > 700 && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				this.speakerUtilities.initializeZoomComponents();
-			}
-		});
-
-		this.on('painted', function () {
-			var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-			var isSpeakerRole = ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER;
-			var features = Ext.decode(sessionStorage.getItem("features"));
-
-			this.toggleViewButton.setHidden(!features.twitterWall && isSpeakerRole || !isSpeakerRole);
-			this.clockElement.setHidden(!isSpeakerRole);
-
-			if (screenWidth > 380) {
-				toolbarTitle = isSpeakerRole && ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel ?
-					Messages.QUESTIONS_FROM_STUDENTS : Messages.MY_QUESTIONS_AND_COMMENTS;
-			}
-
-			if (screenWidth > 700 && isSpeakerRole) {
-				this.speakerUtilities.setProjectorMode(this, ARSnova.app.projectorModeActive);
-				ARSnova.app.taskManager.start(this.getUpdateClockTask());
-				this.speakerUtilities.show();
-			}
 		});
 	},
 
 	setZoomLevel: function (size) {
-		ARSnova.app.getController('Application').setGlobalZoomLevel(size);
-		this.formPanel.setStyle('font-size: ' + size + '%;');
 		this.list.updateListHeight();
-	},
-
-	updateTime: function () {
-		var actualTime = new Date().toTimeString().substring(0, 8);
-		this.clockElement.setHtml(actualTime);
-		this.clockElement.setHidden(false);
 	},
 
 	prepareQuestionList: function () {
@@ -352,11 +234,9 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				if (questions.length === 0) {
 					panel.list.hide();
 					panel.noQuestionsFound.show();
-					panel.deleteAllButton.hide();
 				} else {
 					panel.list.show();
 					panel.noQuestionsFound.hide();
-					panel.deleteAllButton.show();
 					panel.list.updatePagination(questions.length, totalRange);
 
 					if (panel.list.getOffset() !== -1) {

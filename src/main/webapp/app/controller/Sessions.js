@@ -514,6 +514,7 @@ Ext.define("ARSnova.controller.Sessions", {
 			onAnimationEnd = (typeof onAnimationEnd === 'function') ?
 				onAnimationEnd : hideLoadMask;
 
+			tabPanel.feedbackQuestionsPanel.initializeQuestionsPanel();
 			ARSnova.app.getController('Sessions').reloadData({
 				listeners: {animationend: onAnimationEnd},
 				direction: animationDirection,

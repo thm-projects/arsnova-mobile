@@ -108,17 +108,12 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		});
 
 		this.fieldSet = Ext.create('Ext.form.FieldSet', {
+			instructions: Messages.TWITTER_WALL_PRIVACY_INFO,
 			items: [
 				this.markdownEditPanel,
 				this.subject,
 				this.text
 			]
-		});
-
-		this.on('painted', function () {
-			var features = Ext.decode(sessionStorage.getItem("features"));
-			var instruction = features.twitterWall ? Messages.TWITTER_WALL_PRIVACY_INFO : '';
-			this.fieldSet.setInstructions(instruction);
 		});
 
 		this.add([this.toolbar, {

@@ -108,11 +108,6 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 				shortLabel: Messages.USECASE_LIVE_FEEDBACK_SHORT,
 				details: Messages.USECASE_LIVE_FEEDBACK_DETAILS
 			}, {
-				value: 'twitterWall',
-				label: Messages.USECASE_TWITTER_WALL,
-				shortLabel: Messages.USECASE_TWITTER_WALL_SHORT,
-				details: Messages.USECASE_TWITTER_WALL_DETAILS
-			}, {
 				value: 'peerGrading',
 				label: Messages.USECASE_PEER_GRADING,
 				shortLabel: Messages.USECASE_PEER_GRADING_SHORT,
@@ -243,7 +238,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 	validateSelection: function () {
 		var selection = this.getUseCaseValues();
 		if (!selection.clicker && !selection.peerGrading && !selection.flashcard && !selection.interposedFeedback &&
-			!selection.liveFeedback && !selection.total && !selection.custom && !selection.liveClicker && !selection.twitterWall) {
+			!selection.liveFeedback && !selection.total && !selection.custom && !selection.liveClicker) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.FEATURE_SAVE_ERROR);
 			return false;
 		}

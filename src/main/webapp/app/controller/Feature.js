@@ -27,8 +27,7 @@ Ext.define("ARSnova.controller.Feature", {
 		liveFeedback: false,
 		interposedFeedback: false,
 		flashcard: false,
-		peerGrading: false,
-		twitterWall: false
+		peerGrading: false
 	},
 
 	features: {
@@ -52,10 +51,15 @@ Ext.define("ARSnova.controller.Feature", {
 			liveFeedback: this.applyLiveFeedbackUseCase,
 			interposedFeedback: this.applyInterposedFeedbackUseCase,
 			liveClicker: this.applyLiveClickerUseCase,
-			twitterWall: this.applyTwitterWallUseCase,
 			total: this.applyTotalUseCase,
 			custom: this.applyCustomUseCase
 		};
+
+		if (this.getLoneActiveFeatureKey(features) === 'twitterWall') {
+			features.twitterWall = false;
+			features.interposedFeedback = true;
+			sessionStorage.setItem("features", Ext.encode(features));
+		}
 
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER &&
 			prevFeatures && (prevFeatures.liveClicker || features.liveClicker)) {
@@ -99,26 +103,6 @@ Ext.define("ARSnova.controller.Feature", {
 			tabPanel.inClassPanel.changeActionButtonsMode('keynote');
 		} else {
 			tabPanel = tabPanel.userTabPanel;
-		}
-	},
-
-	applyTwitterWallUseCase: function (useCases) {
-		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-		var fqP = tabPanel.feedbackQuestionsPanel;
-
-		if (!useCases.total) {
-			this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
-		}
-
-		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-			if (!fqP.questionsPanel.messagePanel) {
-				fqP.questionsPanel.messagePanel = Ext.create('ARSnova.view.feedbackQuestions.QuestionsMessagePanel');
-			}
-
-			if (!useCases.custom) {
-				fqP.setActiveItem(fqP.questionsPanel.messagePanel);
-				tabPanel.speakerTabPanel.inClassPanel.feedbackQuestionButton.setText(Messages.TWITTER_WALL_BUTTON);
-			}
 		}
 	},
 
@@ -169,9 +153,7 @@ Ext.define("ARSnova.controller.Feature", {
 	getFeatureValues: function (useCases) {
 		var features = Ext.Object.merge({}, this.features, useCases);
 
-		if (useCases.total) {
-			features.twitterWall = true;
-		} else if (!useCases.custom) {
+		if (!useCases.custom) {
 			features.jitt = false;
 			features.learningProgress = false;
 			features.interposed = false;
@@ -187,8 +169,7 @@ Ext.define("ARSnova.controller.Feature", {
 				features.feedback = true;
 			}
 
-			if (useCases.twitterWall ||
-				useCases.interposedFeedback) {
+			if (useCases.interposedFeedback) {
 				features.interposed = true;
 			}
 
