@@ -238,7 +238,7 @@
 				QUESTION_SINGLE_CHOICE_SHORT: "SC",
 				QUESTION_FREETEXT: "Offene Frage (Freitextfrage)",
 				QUESTION_FREETEXT_SHORT: "Freitext",
-				OPEN_QUESTION: "Offene Frage",
+				OPEN_QUESTION: "Freigegebene Frage",
 				OPEN_CONTENT: "Offener Inhalt",
 				CLOSED_QUESTION: "Gesperrte Frage",
 				CLOSED_CONTENT: "Gesperrter Inhalt",
@@ -714,7 +714,7 @@
 				USECASE_LIVE_FEEDBACK: "Nur Live Feedback (Verständnisbarometer)",
 				USECASE_INTERPOSED_FEEDBACK: "Nur Zwischenfragen & Kommentare (Kummerkasten)",
 				USECASE_KEYNOTE: "Interaktiver Vortrag",
-				USECASE_ARSNOVA_CUSTOM: "Eigene Auswahl",
+				USECASE_ARSNOVA_CUSTOM: "Eigene Funktionsauswahl",
 
 				USECASES_CHOOSE_SHORT: "Welche Frageformate und Funktionen?",
 				USECASE_CLICKER_SHORT: "Nur Quizfragen MC, SC, Ja|Nein",
@@ -724,7 +724,7 @@
 				USECASE_LIVE_FEEDBACK_SHORT: "Nur Live Feedback",
 				USECASE_INTERPOSED_FEEDBACK_SHORT: "Nur Zwischenfragen & Kommentare",
 				USECASE_KEYNOTE_SHORT: "Interaktiver Vortrag",
-				USECASE_ARSNOVA_CUSTOM_SHORT: "Eigene Auswahl",
+				USECASE_ARSNOVA_CUSTOM_SHORT: "Eigene Funktionsauswahl",
 
 				USECASE_CLICKER_DETAILS: "###Quizfragen\n\n Nur die einfachen Frageformate:\n- Multiple-Choice (Mehrfachauswahl),\n- Single-Choice (Einfachauswahl) und\n- Ja|Nein (Entscheidungsfrage).\n\n ![SC-Frage](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/SC-Frage-1.png \"600xautoxcenter\")",
 				USECASE_ABCD_CLICKER_DETAILS: "###Publikumsfrage\n\n Wie bei Günther Jauch: nur A|B|C|D-Antwortoptionen ohne Fragetext. Keinerlei Aufwand für das Erstellen der Frage. Sie geben lediglich die Session-ID bekannt. Das Publikum wird automatisch auf die Abstimmseite geführt: ![Publikumsfrage](https://arsnova.thm.de/blog/wp-content/uploads/2015/12/ABCD-1-245x300.png \"245x300autoxcenter\") ",
@@ -732,8 +732,8 @@
 				USECASE_FLASHCARD_DETAILS: "###Lernkarten fürs Selbststudium\n\n Vorderseite mit Frage, Rückseite mit Lösung. Sie können Videos und Bilder einbinden.",
 				USECASE_LIVE_FEEDBACK_DETAILS: "###Live Feedback\n\n Falls nur ein \"Verständnisbarometer\" benötigt wird: Live Feedback zum Tempo und Verständnis der Vorlesung. Sie können die Abstimmung schließen und das aktuelle Ergebnis als Stimmungsbild festhalten. ![Live Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/Live-Feedback.png \"245xautoxcenter\") ",
 				USECASE_INTERPOSED_FEEDBACK_DETAILS: "###Zwischenfragen & Kommentare\n\n Falls nur ein digitaler \"Kummerkasten\" aufgestellt werden soll: Die Fragen und Kommentare der Studierenden sind anonym und nur sichtbar für die Lehrperson. ![Zwischenfrage](https://arsnova.thm.de/blog/wp-content/uploads/2016/02/Zwischenfrage.png \"245xautoxcenter\") ",
-				USECASE_KEYNOTE_DETAILS: "###Interaktiver Vortrag\n\n Alles, was ARSnova an Frageformaten und Unterstützungsfunktionen für die didaktischen Einsatz-Szenarien \"Peer Instruction\" und \"Inverted Classroom\" bietet, siehe die ARSnova-Broschüre [Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2015/08/ARSnova-Produktprospekt-v5.pdf). ![Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2013/07/ARSnova-Broschuere.png \"300xautoxcenter\") ",
-				USECASE_ARSNOVA_CUSTOM_DETAILS: "###Mein ARSnova\n\n Sie können die Funktionalität Ihrer Session kombinieren aus: \n- Hörsaalfragen \n- Vorbereitungsaufgaben\n- Fragen & Kommentare der Studierenden\n- Live Feedback\n- 2-Runden-Abstimmungen\n- Lernstandsberechnung\n- Twitter Wall",
+				USECASE_KEYNOTE_DETAILS: "###Interaktiver Vortrag\n\n Die Folienschlacht war gestern. Interagieren Sie mit Ihrem Publikum, während Sie vortragen! Neben den Frageformaten stehen Ihnen auch Folien zur Verfügung. Via Smartphone können Ihre Studierenden Kommentare auf die aktuell gezeigte Folie schreiben. Die Kopfzeile der Folie weist auf neue Kommentare hin. Auch werden Live-Feedback und Zwischenfragen auf der Folie angezeigt: Ein Klick genügt und Sie sehen die aktuellen Verständnisprobleme Ihrer Studierenden. Kombinieren Sie Ihre Folien mit Verständnisfragen und Sie können am Ende Ihres Vortrags am Lernstand des Kurses ablesen, ob das Lernziel erreicht wurde. ![](https://arsnova.thm.de/blog/wp-content/uploads/2015/05/Bildschirmfoto-2016-05-07-um-10.04.24.png \"300xautoxcenter\") \n\nMit diesem Use Case stehen Ihnen alle Frageformate und Unterstützungsfunktionen für die didaktischen Einsatz-Szenarien \"Peer Instruction\" und \"Inverted Classroom\" zur Verfügung, siehe die ARSnova-Broschüre [Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2015/08/ARSnova-Produktprospekt-v5.pdf). ![Feedback](https://arsnova.thm.de/blog/wp-content/uploads/2013/07/ARSnova-Broschuere.png \"300xautoxcenter\") ",
+				USECASE_ARSNOVA_CUSTOM_DETAILS: "###Eigene Funktionsauswahl\n\n Sie können die Funktionalität Ihrer Session kombinieren aus: \n- Hörsaalfragen \n- Vorbereitungsaufgaben\n- Fragen & Kommentare der Studierenden\n- Live Feedback\n- 2-Runden-Abstimmungen\n- Lernstandsberechnung",
 
 				TWITTER_WALL_PRIVACY_INFO: "Hinweis: Die Lehrperson kann Ihre Fragen und Kommentare auf der Twitter Wall anzeigen.",
 
