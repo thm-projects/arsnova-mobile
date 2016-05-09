@@ -23,7 +23,6 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 
 	config: {
 		minAnswers: 2,
-		maxAnswers: 8,
 		start: 4,
 		step: 1,
 		wording: {
@@ -145,7 +144,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			this.questionValueFieldset.add(this.questionValueComponents[i]);
 		}.bind(this);
 
-		for (i = 0; i < this.getMaxAnswers(); i++) {
+		for (i = 0; i < ARSnova.app.globalConfig.answerOptionLimit; i++) {
 			lpLoopFunc(i);
 		}
 
