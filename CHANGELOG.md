@@ -1,17 +1,25 @@
 # Changelog
 
+## 2.3.3
+Bug fixes:
+* Fixes JavaScript errors occuring with `question.answer-option-limit` set to
+  values other than `8`.
+* Fixes charset errors in German i18n of dates.
+* Fixes opening of external pages (blog, privacy, legal info) when they can not
+  be embedded in Firefox
+
 ## 2.3.2
 This patch release improves browser compatibility.
 
 Minor changes:
 * Improved browser detection
 
-Bugfixes:
+Bug fixes:
 * Fixes scrolling with touch devices for Edge browser
 * Fixes numerous usability and rendering errors with Internet Explorer
 
 ## 2.3.1
-Bugfixes:
+Bug fixes:
 * Fixes a regression leading to incorrect detection of Safari.
 
 ## 2.3
@@ -90,7 +98,7 @@ Minor features and changes:
   instead of opening a new browser tab.
 * Usability improvements and bug fixes
 
-Bugfixes:
+Bug fixes:
 * Fixed a rendering bug with latest Chrome versions (43+) which made question
   answering impossible.
 
@@ -169,6 +177,7 @@ Testing & Feedback: Kevin Atkins, Kathrin Jäger
 Sponsoring: [AG QLS](https://www.thm.de/site/en/hochschule/service/ag-qls.html),
 [HMWK](https://wissenschaft.hessen.de/wissenschaft/it-neue-medien/kompetenznetz-e-learning-hessen),
 [@LLZ](http://llz.uni-halle.de/)  
+
 
 ## 1.0
 **The initial release of ARSnova is brought to you by:**  

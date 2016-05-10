@@ -36,6 +36,8 @@ Ext.define('ARSnova.view.about.AboutTabPanel', {
 		}
 	},
 
+	page: null,
+
 	initialize: function () {
 		this.callParent(arguments);
 
@@ -57,15 +59,16 @@ Ext.define('ARSnova.view.about.AboutTabPanel', {
 				}
 			}]
 		});
-
 		this.add(this.toolbar);
 
-		this.on("painted", function () {
-			var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/manual/index.php/" + encodeURIComponent(moment.locale()) + "/";
+		var url = ARSnova.app.globalConfig.documentationUrl || "https://arsnova.eu/blog/arsnova-handbuch/";
+		this.page = this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
+			src: url,
+			handleEvents: false
+		}));
 
-			this.add(Ext.create('ARSnova.view.components.EmbeddedPage', {
-				src: url
-			}));
+		this.on('show', function () {
+			this.page.embedOrOpenTab();
 		});
 	}
 });
