@@ -86,6 +86,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 	initialize: function () {
 		this.callParent(arguments);
 		var panel = this;
+		this.listDisclosureLength = 114;
 
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
@@ -168,9 +169,13 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 
 			itemCls: 'feedbackMessage',
 			itemTpl: Ext.create('Ext.XTemplate',
-				'<div class="messageTitle">',
-					'<span class="messageTimestamp">{[this.getFormattedTime(values.timestamp)]}</span>',
+				'<tpl if="read === true">',
+					'<div class="messageTitle">',
+				'<tpl else>',
+					'<div class="messageTitle unread">',
+				'</tpl>',
 					'<span class="messageSubject">{subject:htmlEncode}</span>',
+					'<span class="messageTimestamp">{[this.getFormattedTime(values.timestamp)]}</span>',
 					'<span class="messageDeleteIcon"></span>',
 				'</div>',
 				'<div class="messageText">',
@@ -224,7 +229,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 						return text.replace(/\s/g, '').length;
 					},
 					showDisclosure: function (text, elements) {
-						if (text.length >= 114) {
+						if (text.length >= panel.listDisclosureLength) {
 							return true;
 						}
 
@@ -254,8 +259,13 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 				},
 				itemtap: function (list, index, target, record, event) {
 					var node = event.target;
+					var data = record.data;
+					var disclosed = list.config.itemTpl.showDisclosure(data.text, data.mediaElements);
+
 					if (node.className === 'messageDeleteIcon') {
 						panel.deleteEntry(record);
+					} else if (!data.read && !disclosed) {
+						record.read();
 					}
 				}
 			}
@@ -371,7 +381,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 		md.setContent(text, true, true, function (html) {
 			text = !html.getHtml().length ? '&nbsp;' : html.getHtml();
 			text = text.replace(/<\/?[^>]+>/gi, "");
-			text = Ext.String.ellipsis(text, 114, true);
+			text = Ext.String.ellipsis(text, panel.listDisclosureLength, true);
 			question.mediaElements = md.mediaElements;
 			question.mdtext = text;
 			panel.getStore().add(Ext.create('ARSnova.model.FeedbackQuestion', question));
