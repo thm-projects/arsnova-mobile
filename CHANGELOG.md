@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.3.3
+Bug fixes:
+* Fixes JavaScript errors occuring with `question.answer-option-limit` set to
+  values other than `8`.
+* Fixes charset errors in German i18n of dates.
+* Fixes opening of external pages (blog, privacy, legal info) when they can not
+  be embedded in Firefox
+
 ## 2.3.2
 This patch release improves browser compatibility.
 
