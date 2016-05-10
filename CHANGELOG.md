@@ -90,7 +90,7 @@ Minor features and changes:
   instead of opening a new browser tab.
 * Usability improvements and bug fixes
 
-Bugfixes:
+Bug fixes:
 * Fixed a rendering bug with latest Chrome versions (43+) which made question
   answering impossible.
 
@@ -169,6 +169,7 @@ Testing & Feedback: Kevin Atkins, Kathrin Jäger
 Sponsoring: [AG QLS](https://www.thm.de/site/en/hochschule/service/ag-qls.html),
 [HMWK](https://wissenschaft.hessen.de/wissenschaft/it-neue-medien/kompetenznetz-e-learning-hessen),
 [@LLZ](http://llz.uni-halle.de/)  
+
 
 ## 1.0
 **The initial release of ARSnova is brought to you by:**  
