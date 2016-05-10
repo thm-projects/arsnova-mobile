@@ -6,12 +6,12 @@ This patch release improves browser compatibility.
 Minor changes:
 * Improved browser detection
 
-Bugfixes:
+Bug fixes:
 * Fixes scrolling with touch devices for Edge browser
 * Fixes numerous usability and rendering errors with Internet Explorer
 
 ## 2.3.1
-Bugfixes:
+Bug fixes:
 * Fixes a regression leading to incorrect detection of Safari.
 
 ## 2.3
