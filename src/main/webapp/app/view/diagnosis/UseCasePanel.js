@@ -36,7 +36,8 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 			interposed: false,
 			learningProgress: false,
 			jitt: false,
-			pi: false
+			pi: false,
+			slides: false
 		},
 		scrollable: {
 			direction: 'vertical',

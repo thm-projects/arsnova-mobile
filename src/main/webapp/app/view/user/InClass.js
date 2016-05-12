@@ -527,7 +527,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	showNotification: function (questionIds, variant, newRound, round) {
 		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
-		if (features.lecture && variant === 'lecture' && !features.total ||
+		if (features.lecture && variant === 'lecture' && !features.slides ||
 			features.jitt && variant === 'preparation') {
 			this.showNotificationMessage(questionIds, variant, newRound, round);
 		}
@@ -688,7 +688,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	applyUIChanges: function (features) {
-		if (features.total) {
+		if (features.total || (features.slides && !features.lecture && !features.jitt)) {
 			this.caption.setBadgeTranslation({
 				feedback: Messages.QUESTIONS_FROM_STUDENTS,
 				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,

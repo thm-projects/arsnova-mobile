@@ -630,7 +630,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var lectureButtonText = Messages.NEW_QUESTION;
 
-		if (features.total) {
+		if (features.total || (features.slides && !features.lecture && !features.jitt)) {
 			this.toolbar.setTitle(Messages.SLIDE_LONG);
 			this.questionListContainer.setTitle(Messages.CONTENT_MANAGEMENT);
 			this.deleteAnswersButton.setButtonText(Messages.DELETE_COMMENTS);

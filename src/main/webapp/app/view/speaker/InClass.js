@@ -461,7 +461,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 				me.badgeOptions.numQuestions = numQuestions;
 
-				if (features.total) {
+				if (features.total || (features.slides && !features.lecture && !features.jitt)) {
 					singularText = pluralText = Messages.SHOWCASE_KEYNOTE;
 				} else if (features.flashcards) {
 					singularText = Messages.SHOWCASE_FLASHCARD;
@@ -471,7 +471,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 					pluralText = Messages.SHOWCASE_MODE_PLURAL;
 				}
 
-				if (numQuestions && features.lecture) {
+				if (numQuestions && (features.lecture || features.slides)) {
 					if (numQuestions === 1 || features.liveClicker) {
 						me.showcaseActionButton.setButtonText(singularText);
 					} else {
@@ -602,7 +602,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			features.peerGrading ? Messages.EVALUATION_ALT : Messages.COURSES_LEARNING_PROGRESS
 		);
 
-		if (features.total) {
+		if (features.total || (features.slides && !features.lecture && !features.jitt)) {
 			lectureButtonText = Messages.SLIDE_LONG;
 
 			this.createAdHocQuestionButton.element.down('.iconBtnImg').replaceCls('icon-question', 'icon-pencil');

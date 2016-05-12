@@ -308,6 +308,20 @@ Ext.define("ARSnova.controller.Feature", {
 	 * apply changes affecting the "slides" feature
 	 */
 	applySlidesFeature: function (enable) {
+		var tP = ARSnova.app.mainTabPanel.tabPanel;
+		var tabPanel, container, button, position;
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			tabPanel = tP.speakerTabPanel;
+			position = 1;
+		} else {
+			tabPanel = tP.userTabPanel;
+			position = 0;
+		}
+
+		container = tabPanel.inClassPanel.inClassButtons;
+		button = tabPanel.inClassPanel.lectureQuestionButton;
+		this.applyButtonChange(container, button, enable, position);
 	},
 
 	/**
@@ -332,7 +346,7 @@ Ext.define("ARSnova.controller.Feature", {
 	 * apply changes affecting combined feature activation/deactivation
 	 */
 	applyAdditionalChanges: function (features) {
-		var hasQuestionFeatures = features.lecture || features.jitt;
+		var hasQuestionFeatures = features.lecture || features.jitt || features.slides;
 		var feedbackWithoutInterposed = features.feedback && !features.interposed;
 		var isSpeaker = ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER;
 		var loneActiveFeature = this.getLoneActiveFeatureKey(features);
@@ -461,6 +475,7 @@ Ext.define("ARSnova.controller.Feature", {
 		switch (featureKey) {
 			case 'jitt':
 			case 'lecture':
+			case 'slides':
 				if (tP.getActiveItem() === tP.userQuestionsPanel) {
 					tP.userQuestionsPanel.removeAll();
 					tP.userQuestionsPanel.getUnansweredSkillQuestions();
@@ -517,6 +532,9 @@ Ext.define("ARSnova.controller.Feature", {
 
 		if (features.slides) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.SLIDE]]);
+			if (!features.lecture && !features.jitt) {
+				panel.optionsToolbar.setHidden(true);
+			}
 		} else if (features.flashcard) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.FLASHCARD]]);
 			panel.optionsToolbar.setHidden(true);
