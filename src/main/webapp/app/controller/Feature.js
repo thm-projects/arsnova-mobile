@@ -314,6 +314,7 @@ Ext.define("ARSnova.controller.Feature", {
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			tabPanel = tP.speakerTabPanel;
 			position = 1;
+			tP.speakerTabPanel.inClassPanel.changeActionButtonsMode('keynote');
 		} else {
 			tabPanel = tP.userTabPanel;
 			position = 0;
@@ -369,16 +370,18 @@ Ext.define("ARSnova.controller.Feature", {
 			inClass.feedbackQuestionButton.setText(inClass.feedbackQuestionButton.initialConfig.text);
 			inClass.updateActionButtonElements();
 
-			if (features.jitt && !features.lecture) {
-				inClass.changeActionButtonsMode('preparation');
-				tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('PreparationQuestions'));
-				tabPanel.showcaseQuestionPanel.setPreparationMode();
-				tabPanel.newQuestionPanel.setVariant('preparation');
-			} else {
-				inClass.changeActionButtonsMode('lecture');
-				tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('Questions'));
-				tabPanel.showcaseQuestionPanel.setLectureMode();
-				tabPanel.newQuestionPanel.setVariant('lecture');
+			if (!features.slides) {
+				if (features.jitt && !features.lecture) {
+					inClass.changeActionButtonsMode('preparation');
+					tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('PreparationQuestions'));
+					tabPanel.showcaseQuestionPanel.setPreparationMode();
+					tabPanel.newQuestionPanel.setVariant('preparation');
+				} else {
+					inClass.changeActionButtonsMode('lecture');
+					tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('Questions'));
+					tabPanel.showcaseQuestionPanel.setLectureMode();
+					tabPanel.newQuestionPanel.setVariant('lecture');
+				}
 			}
 		} else {
 			// hide questionsPanel tab when session has no question features active

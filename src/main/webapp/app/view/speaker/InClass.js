@@ -335,7 +335,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			this.showcaseActionButton.setButtonText(Messages.SHOWCASE_LIVE_CLICKER);
 		} else if (mode === 'keynote') {
 			this.showcaseActionButton.setButtonText(Messages.SHOWCASE_KEYNOTE);
-			this.createAdHocQuestionButton.setButtonText(Messages.NEW_SLIDE);
+			this.createAdHocQuestionButton.setButtonText(Messages.NEW_CONTENT);
 		} else if (mode === 'preparation') {
 			this.createAdHocQuestionButton.config.mode = 'preparation';
 			this.showcaseActionButton.setButtonText(this.showcaseActionButton.config.altText);

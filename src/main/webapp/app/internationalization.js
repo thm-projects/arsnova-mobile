@@ -660,6 +660,7 @@
 				CHANGE_ROLE_BUTTONTEXT: "Rolle<br/>wechseln",
 
 				NEW_SLIDE: "Folien<br/>erstellen",
+				NEW_CONTENT: "Inhalte<br/>erstellen",
 				DELETE_SLIDE: "Folie<br/>löschen",
 				DELETE_CONTENT: "Inhalte<br/>löschen",
 				RELEASE_SLIDE: "Folie<br/>freigeben",
@@ -1483,6 +1484,7 @@
 				CHANGE_ROLE_BUTTONTEXT: "Change<br/>role",
 
 				NEW_SLIDE: "Create new<br/>slides",
+				NEW_CONTENT: "Create new<br/>content",
 				DELETE_SLIDE: "Delete<br/>slide",
 				DELETE_CONTENT: "Delete<br/>content",
 				RELEASE_SLIDE: "Release<br/>slide",
