@@ -56,7 +56,7 @@ Ext.define('ARSnova.view.speaker.form.VoteQuestion', {
 		questionValueFieldset.add(this.sliderComponents);
 
 		this.on('painted', function () {
-			var features = Ext.decode(sessionStorage.getItem("features"));
+			var features = ARSnova.app.getController('Feature').getActiveFeatures();
 			questionValueFieldset.setHidden(!features.learningProgress);
 		});
 

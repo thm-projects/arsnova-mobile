@@ -340,7 +340,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	/* will be called whenever panel is shown */
 	refreshListeners: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		// tasks should get run immediately
 		if (features.interposed) {
@@ -356,7 +356,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	startTasks: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		if (features.interposed) {
 			ARSnova.app.taskManager.start(panel.countFeedbackQuestionsTask);
@@ -391,7 +391,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 	updateCaption: function () {
 		var hasOptions = false;
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		if (!features.lecture && !features.jitt) {
 			this.badgeOptions.numQuestions = 0;
@@ -525,7 +525,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	showNotification: function (questionIds, variant, newRound, round) {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		if (features.lecture && variant === 'lecture' && !features.total ||
 			features.jitt && variant === 'preparation') {
@@ -578,7 +578,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	countQuestionsAndAnswers: function (data) {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var hasData = data.unansweredLectureQuestions
 			|| data.lectureQuestionAnswers
 			|| data.unansweredPreparationQuestions

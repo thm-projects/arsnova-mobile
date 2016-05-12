@@ -193,7 +193,7 @@ Ext.define('ARSnova.view.speaker.RoundManagementPanel', {
 	},
 
 	checkRoundFeature: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var enableRoundManagement = features && features.pi;
 
 		if (enableRoundManagement && this.isBarChartQuestion()) {

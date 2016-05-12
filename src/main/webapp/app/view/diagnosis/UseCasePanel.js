@@ -183,7 +183,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 	},
 
 	onActivate: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var selection = [];
 
 		for (var item in features) {

@@ -328,7 +328,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	changeActionButtonsMode: function (mode) {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		if (mode === 'liveClicker') {
 			this.showcaseActionButton.setHandler(this.showcaseLiveQuestionHandler);
@@ -353,7 +353,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	updateActionButtonElements: function (showElements) {
 		var me = this;
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var hasQuestionFeature = features.lecture || features.jitt;
 
 		if (features.liveClicker) {
@@ -371,7 +371,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	/* will be called on session login */
 	registerListeners: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var inClassPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.inClassPanel;
 		ARSnova.app.taskManager.start(inClassPanel.countFeedbackQuestionsTask);
 
@@ -383,7 +383,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	/* will be called whenever panel is shown */
 	refreshListeners: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		// tasks should get run immediately
 		this.countFeedbackQuestionsTask.taskRunTime = 0;
@@ -401,7 +401,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	},
 
 	onActivate: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.inClassPanel.updateActionButtonElements(false);
 		sTP.inClassPanel.updateAudienceQuestionBadge();
@@ -410,7 +410,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	updateCaption: function () {
 		var me = this, hasOptions = false;
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		if (features) {
 			if (!features.lecture && !features.jitt) {
@@ -550,7 +550,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	countFeedbackQuestions: function () {
 		var me = this;
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		ARSnova.app.questionModel.countFeedbackQuestions(sessionStorage.getItem("keyword"), null, {
 			success: function (response) {

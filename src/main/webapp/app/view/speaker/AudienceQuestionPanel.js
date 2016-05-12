@@ -440,7 +440,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	getQuestions: function (callback) {
 		callback = typeof callback === 'function' ? callback : Ext.emptyFn;
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var hideLoadIndicator = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK, 1000);
 
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
@@ -466,7 +466,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					this.voteStatusButton.setMultiQuestionMode();
 				}
 
-				if (features.total) {
+				if (features.slides) {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_KEYNOTE);
 				}
 
@@ -627,7 +627,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 
 	applyUIChanges: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var lectureButtonText = Messages.NEW_QUESTION;
 
 		if (features.total) {

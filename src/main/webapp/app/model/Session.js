@@ -106,7 +106,7 @@ Ext.define('ARSnova.model.Session', {
 		}, this);
 
 		ARSnova.app.socket.on(ARSnova.app.socket.events.featureChange, function (features) {
-			var prevFeatures = Ext.decode(sessionStorage.getItem("features"));
+			var prevFeatures = ARSnova.app.getController('Feature').getActiveFeatures();
 
 			sessionStorage.setItem("features", Ext.encode(features));
 			ARSnova.app.getController('Feature').applyFeatures(prevFeatures);
@@ -296,7 +296,7 @@ Ext.define('ARSnova.model.Session', {
 		var me = this;
 		return this.getProxy().changeFeatures(keyword, features, {
 			success: function (features) {
-				var prev = Ext.decode(sessionStorage.getItem("features"));
+				var prev = ARSnova.app.getController('Feature').getActiveFeatures();
 				// Check if the features have actually changed...
 				var same = true;
 				for (var k in prev) {

@@ -229,7 +229,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 	prepareView: function () {
 		var me = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel.statisticPanel;
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			me.releaseFeedbackButton.setHidden(false);
@@ -336,7 +336,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 	},
 
 	updateTabBar: function (averageFeedback) {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var suspendedVotes = ARSnova.app.feedbackModel.currentSuspendedVotes;
 		var currentVotes = ARSnova.app.feedbackModel.currentValues;
 		var iconCls, lockedCls = ' lockedFeedback';

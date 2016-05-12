@@ -101,7 +101,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 					scope: this,
 					checkchange: function (field, isChecked) {
 						var component = this.questionValueComponents[i];
-						var features = Ext.decode(sessionStorage.getItem("features"));
+						var features = ARSnova.app.getController('Feature').getActiveFeatures();
 						var checked = this.answerComponents.filter(function (c) {
 							return c.isChecked();
 						});
@@ -210,7 +210,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 	},
 
 	initWithQuestion: function (question) {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var possibleAnswers = question.possibleAnswers;
 		if (possibleAnswers.length < this.getMinAnswers() || possibleAnswers.length > ARSnova.app.globalConfig.answerOptionLimit) {
 			return;

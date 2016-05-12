@@ -150,7 +150,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		this.add([this.toolbar, this.formPanel]);
 
 		this.on('activate', function () {
-			var features = Ext.decode(sessionStorage.getItem("features"));
+			var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 			if (features && features.custom) {
 				this.featureFormPanel.setValues(features);
