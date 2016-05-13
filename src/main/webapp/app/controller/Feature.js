@@ -151,9 +151,16 @@ Ext.define("ARSnova.controller.Feature", {
 			slides: this.applySlidesFeature
 		};
 
-		for (var property in features) {
-			if (typeof functions[property] === 'function') {
-				functions[property].call(this, features[property]);
+		/* Two loops are used to avoid race conditions. */
+		var property;
+		for (property in features) {
+			if (typeof functions[property] === 'function' && !features[property]) {
+				functions[property].call(this, false);
+			}
+		}
+		for (property in features) {
+			if (typeof functions[property] === 'function' && features[property]) {
+				functions[property].call(this, true);
 			}
 		}
 
