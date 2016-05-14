@@ -67,6 +67,7 @@
 				SPEAKER: "Dozent/in",
 				TITLE_ROLE: "Feedback & Interaktion",
 				/* loginPanel */
+				LOGIN: "Login",
 				GUEST: "Gast",
 				CHANGE_ROLE: "Rolle wechseln",
 				NO_GUEST_SPEAKER: "Hinweis: Um eine Session anzulegen, müssen Sie sich anmelden.",
@@ -888,6 +889,7 @@
 				SPEAKER: "Teacher",
 				TITLE_ROLE: "Feedback & Interaction",
 				/* loginPanel */
+				LOGIN: "Login",
 				GUEST: "Guest",
 				CHANGE_ROLE: "Change role",
 				NO_GUEST_SPEAKER: "Note: You have to log in to create a session.",
