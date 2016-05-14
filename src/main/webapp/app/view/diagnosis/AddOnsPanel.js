@@ -119,6 +119,9 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 				}, {
 					name: 'feedback',
 					label: Messages.LIVE_FEEDBACK
+				}, {
+					name: 'slides',
+					label: Messages.SLIDE_LONG
 				}]
 			}, this.optionalFieldSet]
 		});
@@ -150,7 +153,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 		this.add([this.toolbar, this.formPanel]);
 
 		this.on('activate', function () {
-			var features = Ext.decode(sessionStorage.getItem("features"));
+			var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 			if (features && features.custom) {
 				this.featureFormPanel.setValues(features);
@@ -174,7 +177,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 
 	validateSelection: function (button) {
 		var selection = this.getFeatureValues();
-		if (!selection.lecture && !selection.interposed && !selection.jitt && !selection.feedback) {
+		if (!selection.lecture && !selection.interposed && !selection.jitt && !selection.feedback && !selection.slides) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.FEATURE_SAVE_ERROR, function () {
 				button.enable();
 			});

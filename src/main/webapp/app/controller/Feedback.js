@@ -26,7 +26,7 @@ Ext.define("ARSnova.controller.Feedback", {
 
 	vote: function (options, voteReference) {
 		var fP;
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		if (!ARSnova.app.checkSessionLogin()) {
 			Ext.Msg.alert('Hinweis', 'Bitte loggen Sie sich erst in einen Kurs ein, bevor Sie diese Funktion nutzen!');
@@ -56,7 +56,7 @@ Ext.define("ARSnova.controller.Feedback", {
 	},
 
 	onLockedFeedback: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 			var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
@@ -72,7 +72,7 @@ Ext.define("ARSnova.controller.Feedback", {
 	},
 
 	onReleasedFeedback: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
 			var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
@@ -141,7 +141,7 @@ Ext.define("ARSnova.controller.Feedback", {
 	},
 
 	initializeVoteButtonConfigurations: function (panel) {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var buttonWidthCls = screenWidth < 400 ? 'smallerMatrixButtons' : '';
 		var buttonCls, buttonConfigurations = {};
@@ -187,7 +187,7 @@ Ext.define("ARSnova.controller.Feedback", {
 
 	initializeChartStore: function (panel) {
 		var chartData = [];
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		if (features.liveClicker) {
 			chartData = [

@@ -36,7 +36,8 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 			interposed: false,
 			learningProgress: false,
 			jitt: false,
-			pi: false
+			pi: false,
+			slides: false
 		},
 		scrollable: {
 			direction: 'vertical',
@@ -183,7 +184,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 	},
 
 	onActivate: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var selection = [];
 
 		for (var item in features) {

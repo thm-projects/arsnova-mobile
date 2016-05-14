@@ -440,7 +440,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	getQuestions: function (callback) {
 		callback = typeof callback === 'function' ? callback : Ext.emptyFn;
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var hideLoadIndicator = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK, 1000);
 
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
@@ -466,7 +466,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					this.voteStatusButton.setMultiQuestionMode();
 				}
 
-				if (features.total) {
+				if (features.slides) {
 					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_KEYNOTE);
 				}
 
@@ -627,10 +627,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 
 	applyUIChanges: function () {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var lectureButtonText = Messages.NEW_QUESTION;
 
-		if (features.total) {
+		if (features.total || features.slides) {
 			this.toolbar.setTitle(Messages.SLIDE_LONG);
 			this.questionListContainer.setTitle(Messages.CONTENT_MANAGEMENT);
 			this.deleteAnswersButton.setButtonText(Messages.DELETE_COMMENTS);
@@ -640,7 +640,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			this.questionStatusButton.setKeynoteWording();
 			this.voteStatusButton.setKeynoteWording();
 
-			lectureButtonText = Messages.NEW_SLIDE;
+			lectureButtonText = Messages.NEW_CONTENT;
 			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-question', 'icon-pencil');
 
 			this.caption.setTranslation({

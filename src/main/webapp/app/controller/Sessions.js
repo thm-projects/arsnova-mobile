@@ -193,7 +193,7 @@ Ext.define("ARSnova.controller.Sessions", {
 	},
 
 	reloadData: function (animation, hideLoadMask) {
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		hideLoadMask = hideLoadMask || Ext.emptyFn;
 
 		animation = animation || {
@@ -243,7 +243,7 @@ Ext.define("ARSnova.controller.Sessions", {
 
 	loadDefaultSession: function (animation, hideLoadMask) {
 		var tabPanel = ARSnova.app.mainTabPanel.tabPanel;
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var target;
 
 		if (ARSnova.app.isSessionOwner && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {

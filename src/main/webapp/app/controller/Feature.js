@@ -36,13 +36,24 @@ Ext.define("ARSnova.controller.Feature", {
 		lecture: true,
 		feedback: true,
 		interposed: true,
-		learningProgress: true
+		learningProgress: true,
+		slides: true
 	},
 
 	lastUpdate: 0,
 
-	applyFeatures: function (prevFeatures) {
+	getActiveFeatures: function () {
 		var features = Ext.decode(sessionStorage.getItem("features"));
+		if (features && features.total) {
+			/* Needed for backwards compatibility */
+			features.slides = true;
+		}
+
+		return features;
+	},
+
+	applyFeatures: function (prevFeatures) {
+		var features = this.getActiveFeatures();
 
 		var useCases = {
 			clicker: this.applyClickerUseCase,
@@ -128,7 +139,7 @@ Ext.define("ARSnova.controller.Feature", {
 	},
 
 	applyCustomUseCase: function (features) {
-		features = features || Ext.decode(sessionStorage.getItem("features"));
+		features = features || this.getActiveFeatures();
 
 		var functions = {
 			pi: this.applyPiFeature,
@@ -136,12 +147,20 @@ Ext.define("ARSnova.controller.Feature", {
 			lecture: this.applyLectureFeature,
 			feedback: this.applyFeedbackFeature,
 			interposed: this.applyInterposedFeature,
-			learningProgress: this.applyLearningProgressFeature
+			learningProgress: this.applyLearningProgressFeature,
+			slides: this.applySlidesFeature
 		};
 
-		for (var property in features) {
-			if (typeof functions[property] === 'function') {
-				functions[property].call(this, features[property]);
+		/* Two loops are used to avoid race conditions. */
+		var property;
+		for (property in features) {
+			if (typeof functions[property] === 'function' && !features[property]) {
+				functions[property].call(this, false);
+			}
+		}
+		for (property in features) {
+			if (typeof functions[property] === 'function' && features[property]) {
+				functions[property].call(this, true);
 			}
 		}
 
@@ -293,6 +312,27 @@ Ext.define("ARSnova.controller.Feature", {
 	},
 
 	/**
+	 * apply changes affecting the "slides" feature
+	 */
+	applySlidesFeature: function (enable) {
+		var tP = ARSnova.app.mainTabPanel.tabPanel;
+		var tabPanel, container, button, position;
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			tabPanel = tP.speakerTabPanel;
+			position = 1;
+			tP.speakerTabPanel.inClassPanel.changeActionButtonsMode('keynote');
+		} else {
+			tabPanel = tP.userTabPanel;
+			position = 0;
+		}
+
+		container = tabPanel.inClassPanel.inClassButtons;
+		button = tabPanel.inClassPanel.lectureQuestionButton;
+		this.applyButtonChange(container, button, enable, position);
+	},
+
+	/**
 	 * return key of lone active option
 	 */
 	getLoneActiveFeatureKey: function (features) {
@@ -314,7 +354,7 @@ Ext.define("ARSnova.controller.Feature", {
 	 * apply changes affecting combined feature activation/deactivation
 	 */
 	applyAdditionalChanges: function (features) {
-		var hasQuestionFeatures = features.lecture || features.jitt;
+		var hasQuestionFeatures = features.lecture || features.jitt || features.slides;
 		var feedbackWithoutInterposed = features.feedback && !features.interposed;
 		var isSpeaker = ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER;
 		var loneActiveFeature = this.getLoneActiveFeatureKey(features);
@@ -337,16 +377,18 @@ Ext.define("ARSnova.controller.Feature", {
 			inClass.feedbackQuestionButton.setText(inClass.feedbackQuestionButton.initialConfig.text);
 			inClass.updateActionButtonElements();
 
-			if (features.jitt && !features.lecture) {
-				inClass.changeActionButtonsMode('preparation');
-				tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('PreparationQuestions'));
-				tabPanel.showcaseQuestionPanel.setPreparationMode();
-				tabPanel.newQuestionPanel.setVariant('preparation');
-			} else {
-				inClass.changeActionButtonsMode('lecture');
-				tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('Questions'));
-				tabPanel.showcaseQuestionPanel.setLectureMode();
-				tabPanel.newQuestionPanel.setVariant('lecture');
+			if (!features.slides) {
+				if (features.jitt && !features.lecture) {
+					inClass.changeActionButtonsMode('preparation');
+					tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('PreparationQuestions'));
+					tabPanel.showcaseQuestionPanel.setPreparationMode();
+					tabPanel.newQuestionPanel.setVariant('preparation');
+				} else {
+					inClass.changeActionButtonsMode('lecture');
+					tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('Questions'));
+					tabPanel.showcaseQuestionPanel.setLectureMode();
+					tabPanel.newQuestionPanel.setVariant('lecture');
+				}
 			}
 		} else {
 			// hide questionsPanel tab when session has no question features active
@@ -368,7 +410,7 @@ Ext.define("ARSnova.controller.Feature", {
 			var lectureButtonText = Messages.LECTURE_QUESTIONS_LONG;
 			var questionsButtonText = Messages.MY_QUESTIONS_AND_COMMENTS;
 
-			if (features.total) {
+			if (features.slides) {
 				lectureButtonText = Messages.PRESENTATION;
 				questionsButtonText = Messages.MY_QUESTIONS;
 			} else if (features.flashcard) {
@@ -443,6 +485,7 @@ Ext.define("ARSnova.controller.Feature", {
 		switch (featureKey) {
 			case 'jitt':
 			case 'lecture':
+			case 'slides':
 				if (tP.getActiveItem() === tP.userQuestionsPanel) {
 					tP.userQuestionsPanel.removeAll();
 					tP.userQuestionsPanel.getUnansweredSkillQuestions();
@@ -493,12 +536,15 @@ Ext.define("ARSnova.controller.Feature", {
 
 	applyNewQuestionPanelChanges: function (panel) {
 		var indexMap = panel.getOptionIndexMap();
-		var features = Ext.decode(sessionStorage.getItem("features"));
+		var features = this.getActiveFeatures();
 		var options = panel.questionOptions.getInnerItems();
 		panel.questionOptions.setPressedButtons([1]);
 
-		if (features.total) {
+		if (features.slides) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.SLIDE]]);
+			if (!features.lecture && !features.jitt) {
+				panel.optionsToolbar.setHidden(true);
+			}
 		} else if (features.flashcard) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.FLASHCARD]]);
 			panel.optionsToolbar.setHidden(true);
@@ -516,6 +562,6 @@ Ext.define("ARSnova.controller.Feature", {
 			panel.questionOptions.config.showAllOptions();
 		}
 
-		options[indexMap[Messages.SLIDE]].setHidden(!features.total);
+		options[indexMap[Messages.SLIDE]].setHidden(!features.slides);
 	}
 });

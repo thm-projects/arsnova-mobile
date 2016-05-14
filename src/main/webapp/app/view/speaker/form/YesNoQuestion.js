@@ -86,7 +86,7 @@ Ext.define('ARSnova.view.speaker.form.YesNoQuestion', {
 				scope: this,
 				toggle: function (container, button, pressed) {
 					if (pressed) {
-						var features = Ext.decode(sessionStorage.getItem("features"));
+						var features = ARSnova.app.getController('Feature').getActiveFeatures();
 						if (button === this.yesButton) {
 							this.setPressed('yes');
 							questionValueFieldset.setHidden(!features.learningProgress);
