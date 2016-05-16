@@ -163,14 +163,37 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				'<span style="color:gray">{formattedTime}</span>',
 				'<tpl if="read === true || this.isStudent()">',
 					'<span style="padding-left:30px">{answerSubject:htmlEncode}</span>',
+					'<tpl if="this.isFixedAnswer() && successfulFreeTextAnswer === true">',
+						'<span style="float: right;" class="thm-green correct">',
+						Messages.CORRECT,
+						'</span>',
+					'</tpl>',
+					'<tpl if="this.isFixedAnswer() && successfulFreeTextAnswer === false">',
+						'<span style="float: right;" class="thm-red incorrect">',
+						Messages.WRONG,
+						'</span>',
+					'</tpl>',
 				'</tpl>',
 				'<tpl if="read === false && !this.isStudent()">',
 					'<span class="dangerLabel" style="padding-left:30px">{answerSubject:htmlEncode}</span>',
+					'<tpl if="this.isFixedAnswer() && successfulFreeTextAnswer === true">',
+						'<span style="float: right;" class="thm-green correct">',
+						Messages.CORRECT,
+						'</span>',
+					'</tpl>',
+					'<tpl if="this.isFixedAnswer() && successfulFreeTextAnswer === false">',
+						'<span style="float: right;" class="thm-red incorrect">',
+						Messages.WRONG,
+						'</span>',
+					'</tpl>',
 				'</tpl>',
 				'</div>',
 				{
 					isStudent: function () {
 						return ARSnova.app.isSessionOwner !== true;
+					},
+					isFixedAnswer: function () {
+						return self.questionObj.fixedAnswer;
 					}
 				}
 			),

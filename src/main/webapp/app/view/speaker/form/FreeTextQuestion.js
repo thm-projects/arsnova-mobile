@@ -21,7 +21,8 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 
 	requires: [
 		'Ext.field.Toggle',
-		'Ext.form.FieldSet'
+		'Ext.form.FieldSet',
+		'ARSnova.view.speaker.form.TextChecker'
 	],
 	config: {
 		scrollable: null,
@@ -30,6 +31,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 
 	imageQuestion: false,
 	textAnswerEnabled: true,
+	textChecker: null,
 
 	initialize: function () {
 		this.callParent(arguments);
@@ -89,7 +91,14 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				items: [this.imgUploadBtn]
 			});
 
-			this.add([answerFieldset, this.textAnswerFieldSet]);
+			this.textChecker = Ext.create('ARSnova.view.speaker.form.TextChecker', {
+				id: 'textChecker'
+			});
+
+			this.add([this.textChecker,
+				answerFieldset,
+				this.textAnswerFieldSet
+			]);
 		}
 	},
 
@@ -103,6 +112,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		var result = {};
 		result.imageQuestion = this.imageQuestion;
 		result.textAnswerEnabled = this.textAnswerEnabled;
+		Ext.apply(result, this.textChecker.getValues());
 		return result;
 	}
 });

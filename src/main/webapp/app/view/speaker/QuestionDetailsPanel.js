@@ -48,7 +48,9 @@ Ext.define('FreetextAnswer', {
 			'type',
 			'_rev',
 			'answerThumbnailImage',
-			'read'
+			'read',
+			'successfulFreeTextAnswer',
+			'freetextScore'
 		]
 	}
 });
@@ -67,7 +69,8 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		'ARSnova.view.speaker.form.VoteQuestion',
 		'ARSnova.view.speaker.form.YesNoQuestion',
 		'ARSnova.view.speaker.form.FlashcardQuestion',
-		'ARSnova.view.speaker.QuestionStatisticChart'
+		'ARSnova.view.speaker.QuestionStatisticChart',
+		'ARSnova.view.speaker.form.TextChecker'
 	],
 
 	config: {
@@ -415,7 +418,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (panel.questionObj.questionType === 'slide' ||
 						panel.questionObj.questionType === 'flashcard') {
 						panel.abstentionPart.hide();
-						panel.abstentionAlternative.hide();
+						panel.textCheckerPart.hide();
 						panel.hintForSolution.hide();
 					} else if (panel.questionObj.questionType === 'grid') {
 						panel.uploadView.show();
@@ -423,6 +426,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 					if (questionValues.gridType === "moderation") {
 						panel.abstentionPart.setHidden(true);
+						panel.textCheckerPart.setHidden(true);
 						panel.abstentionAlternative.show();
 					} else {
 						panel.abstentionAlternative.hide();
@@ -445,9 +449,24 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						question.set("subject", values.subject);
 						question.set("text", values.questionText);
 						question.set("abstention", panel.abstentionPart.getAbstention());
+						question.set("fixedAnswer", panel.textCheckerPart.getFixedAnswer());
+						question.set("strictMode", panel.textCheckerPart.getStrictMode());
+						question.set("rating", panel.textCheckerPart.getRating());
+						question.set("correctAnswer", panel.textCheckerPart.getCorrectAnswer());
+						question.set("ignoreCaseSensitive", panel.textCheckerPart.getIgnoreCaseSensitive());
+						question.set("ignoreWhitespaces", panel.textCheckerPart.getIgnoreWhitespaces());
+						question.set("ignorePunctuation", panel.textCheckerPart.getIgnorePunctuation());
+
 						question.raw.subject = values.subject;
 						question.raw.text = values.questionText;
 						question.raw.abstention = panel.abstentionPart.getAbstention();
+						question.raw.ignoreCaseSensitive = panel.textCheckerPart.getIgnoreCaseSensitive();
+						question.raw.ignoreWhitespaces = panel.textCheckerPart.getIgnoreWhitespaces();
+						question.raw.ignorePunctuation = panel.textCheckerPart.getIgnorePunctuation();
+						question.raw.fixedAnswer = panel.textCheckerPart.getFixedAnswer();
+						question.raw.strictMode = panel.textCheckerPart.getStrictMode();
+						question.raw.rating = panel.textCheckerPart.getRating();
+						question.raw.correctAnswer = panel.textCheckerPart.getCorrectAnswer();
 
 						panel.subject.resetOriginalValue();
 						panel.textarea.resetOriginalValue();
@@ -889,6 +908,17 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: true
 		});
 
+		this.textCheckerPart = Ext.create('ARSnova.view.speaker.form.TextChecker', {
+			fixedAnswer: this.questionObj.fixedAnswer,
+			strictMode: this.questionObj.strictMode,
+			rating: this.questionObj.rating,
+			correctAnswer: this.questionObj.correctAnswer,
+			ignoreCaseSensitive: this.questionObj.ignoreCaseSensitive,
+			ignoreWhitespaces: this.questionObj.ignoreWhitespaces,
+			ignorePunctuation: this.questionObj.ignorePunctuation,
+			hidden: true
+		});
+
 		this.abstentionAlternative = Ext.create('Ext.Spacer', {
 			hidden:	true,
 			height: 40
@@ -1028,6 +1058,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 				items: [this.contentForm, this.contentEditForm, this.previewPart]
 			},
 			this.abstentionPart,
+			this.textCheckerPart,
 			this.abstentionAlternative,
 			this.grid,
 			this.uploadView,
