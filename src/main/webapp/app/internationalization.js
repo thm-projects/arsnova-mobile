@@ -1456,7 +1456,7 @@
 				EVALUATION_MINUS: "disagree",
 				EVALUATION_MINUSMINUS: "strongly disagree",
 				IMAGE_QUESTION_LBL: "Upload image/photo as answer?",
-				EXPECT_ANSWER_TEXT: "Allow adding text to picture?",
+				EXPECT_ANSWER_TEXT: "Allow text answer?",
 
 				IMAGE_QUESTION_MINIATUR_VIEW: "Grid",
 				IMAGE_QUESTION_HORIZONTAL_VIEW: "Horizontal",

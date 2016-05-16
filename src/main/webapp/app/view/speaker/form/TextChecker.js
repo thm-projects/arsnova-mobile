@@ -84,7 +84,6 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 			text: Messages.TEXT_CHECKER_FREETEXT,
 			handler: function () {
 				mainFormPanel.hide();
-				selectField.hide();
 				ratingField.hide();
 				strictOptions.hide();
 				me.setFixedAnswer(false);
@@ -96,7 +95,6 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 			text: Messages.TEXT_CHECKER_ADD_SOLUTION,
 			handler: function () {
 				mainFormPanel.show();
-				selectField.show();
 				ratingField.show();
 				me.setFixedAnswer(true);
 				strictOptions.show();
@@ -118,29 +116,6 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 			items: [answerTypeSegmentedButton]
 		});
 
-		this.strictButton = Ext.create('Ext.Button', {
-			text: Messages.TEXT_CHECKER_MODE_STRICT,
-			handler: function () {
-				strictOptions.show();
-				me.setStrictMode(true);
-			},
-			pressed: this.getStrictMode() === true
-		});
-
-		var textCheckerModeSegmentedButton = Ext.create('Ext.SegmentedButton', {
-			style: 'margin: auto;',
-			defaults: {
-				ui: 'action',
-				style: 'width: 100%'
-			},
-			items: [this.strictButton]
-		});
-		var selectField = Ext.create('Ext.form.FieldSet', {
-			xtype: 'fieldset',
-			title: Messages.TEXT_CHECKER_MODE_LABEL,
-			items: [textCheckerModeSegmentedButton],
-			hidden: !me.config.fixedAnswer
-		});
 		this.rating = Ext.create("ARSnova.view.CustomSliderField", {
 			minValue: 0,
 			maxValue: 10,
@@ -175,7 +150,6 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 		this.add([
 			freefixField,
 			mainFormPanel,
-			selectField,
 			strictOptions,
 			ratingField
 		]);
@@ -187,12 +161,9 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 		result.strictMode = this.getStrictMode();
 		result.correctAnswer = this.textarea.getValue();
 		result.rating = this.rating.getSliderValue();
-
 		result.ignoreCaseSensitive = this.getIgnoreCaseSensitive();
 		result.ignoreWhitespaces = this.getIgnoreWhitespaces();
 		result.ignorePunctuation = this.getIgnorePunctuation();
-
-
 		return result;
 	},
 
