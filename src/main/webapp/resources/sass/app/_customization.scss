@@ -404,14 +404,17 @@ html, body,
 		.x-button-label {
 			color: $tabbar-button-label-color;
 		}
+
+		.x-button-icon:before {
+			color: $tabbar-button-icon-color;
+		}
 	}
 
 	.voteIcons:after {
 		box-shadow: inset 50px 50px 50px $tabbar-bg-color;
 	}
 
-	.voteIcons:before,
-	.x-button-icon:before {
+	.voteIcons:before {
 		color: $smiley-bg-color;
 	}
 
