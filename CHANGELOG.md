@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.1
+Bug fixes:
+* Theme variable `tabbar-button-icon-color` works again.
+
 ## 2.4
 Major features:
 * Slides: A new content format without any answer options has been added.
