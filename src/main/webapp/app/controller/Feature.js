@@ -179,6 +179,7 @@ Ext.define("ARSnova.controller.Feature", {
 			features.feedback = false;
 			features.lecture = false;
 			features.pi = false;
+			features.slides = false;
 
 			if (useCases.flashcard) {
 				features.lecture = true;
