@@ -1,5 +1,33 @@
 # Changelog
 
+## 2.4
+Major features:
+* Slides: A new content format without any answer options has been added.
+* Interactive keynote: A new use case including the 'slides' format has been
+  added. It replaces the 'All-inclusive' use case.
+
+Minor features and changes:
+* An overlay showing count of new student's questions and average feedback has
+  been added to presentation mode.
+* Student's questions and comments are now directly displayed instead of a list
+  of subjects.
+* JSON export and import now include session info and feature settings.
+
+Bug fixes:
+* Editor buttons now add new lines when necessary to produce correct Markdown.
+* New lines in Markdown content are now displayed as is.
+* All question formats apart from 'grid' are now correctly exported to CSV.
+
+Changes for developers:
+* Initial support for localization variations has been implemented.
+
+**This version is brought to you by:**  
+Project management: Klaus Quibeldey-Cirkel  
+Lead programming: Andreas Gärtner, Daniel Gerhardt, Tom "tekay" Käsler  
+Sponsoring: [AG QLS](https://www.thm.de/site/en/hochschule/service/ag-qls.html),
+[HMWK](https://wissenschaft.hessen.de/wissenschaft/it-neue-medien/kompetenznetz-e-learning-hessen)
+
+
 ## 2.3.3
 Bug fixes:
 * Fixes JavaScript errors occuring with `question.answer-option-limit` set to
