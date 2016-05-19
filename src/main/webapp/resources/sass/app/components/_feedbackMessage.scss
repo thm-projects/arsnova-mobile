@@ -19,12 +19,12 @@
 
 .feedbackMessageDataview {
 	.messageTimestamp {
-		padding-left: 6px;
+		padding-left: 10px;
 		color: $list-header-txt-color;
 	}
 
 	.messageSubject {
-		padding-left: 10px;
+		padding-left: 6px;
 		color: $list-header-txt-color;
 	}
 
@@ -96,7 +96,7 @@
 		color: $label-font-color !important;
 		background-color: transparent !important;
 	}
- 
+
 	&.x-list .feedbackMessage {
 		z-index: 10;
 		font-size: 90%;
@@ -138,7 +138,7 @@
 	}
 
 	.hyperlinkIcon::before {
-		
+
 	}
 
 	.buttonTooltip:before {
