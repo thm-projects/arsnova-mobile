@@ -22,6 +22,15 @@ Bug fixes:
 * New lines in Markdown content are now displayed as is.
 * All question formats apart from 'grid' are now correctly exported to CSV.
 
+New variables for theming:
+* `carousel-indicator-unanswered-question-color`
+* `icon-danger-color`
+* `icon-warning-color`
+* `list-header-txt-color`
+* `list-header-unread-color`
+* `tooltip-background-color`
+* `tooltip-text-color`
+
 Changes for developers:
 * Initial support for localization variations has been implemented.
 
