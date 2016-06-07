@@ -32,7 +32,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.HintForSolutionForm',
 		'ARSnova.view.speaker.form.FreeTextQuestion',
 		'ARSnova.view.speaker.form.ImageUploadPanel',
-		'ARSnova.view.MarkDownEditorPanel'
+		'ARSnova.view.MarkDownEditorPanel',
+		'ARSnova.view.speaker.form.TextChecker'
 	],
 
 	config: {
@@ -592,6 +593,13 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			releasedFor: values.releasedFor,
 			noCorrect: values.noCorrect,
 			abstention: values.abstention,
+			fixedAnswer: values.fixedAnswer,
+			strictMode: values.strictMode,
+			rating: values.rating,
+			correctAnswer: values.correctAnswer,
+			ignoreCaseSensitive: values.ignoreCaseSensitive,
+			ignoreWhitespaces: values.ignoreWhitespaces,
+			ignorePunctuation: values.ignorePunctuation,
 			showStatistic: values.questionType === 'slide' ? 0 : 1,
 			gridSize: values.gridSize,
 			offsetX: values.offsetX,

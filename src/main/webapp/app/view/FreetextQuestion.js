@@ -57,8 +57,13 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			name: "answerSubject",
 			placeHolder: Messages.QUESTION_SUBJECT_PLACEHOLDER,
 			label: Messages.QUESTION_SUBJECT,
-			maxLength: 140
+			maxLength: 140,
+			hidden: this.questionObj.fixedAnswer
 		});
+
+		if (this.questionObj.fixedAnswer) {
+			this.answerSubject.setValue(Messages.TEXT_CHECKER_SOLUTION_LABEL);
+		}
 
 		this.answerText = Ext.create('Ext.form.TextArea', {
 			placeHolder: Messages.FORMAT_PLACEHOLDER,
@@ -75,6 +80,7 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			processElement: this.answerText,
 			hidden: this.questionObj.imageQuestion &&
 				!this.questionObj.textAnswerEnabled
+				|| this.questionObj.fixedAnswer
 		});
 
 		// Create standard panel with framework support
