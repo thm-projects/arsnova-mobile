@@ -46,7 +46,7 @@ var splashscreen = (function (win) {
 
 		setTimeout(function () {
 			window.closeSplashScreen = true;
-			if (ARSnova && ARSnova.app && typeof ARSnova.app.closeSplashScreen === 'function') {
+			if (window.ARSnova && ARSnova.app && typeof ARSnova.app.closeSplashScreen === 'function') {
 				ARSnova.app.closeSplashScreen();
 			} else {
 				setTimeout(hideSplashScreen, 3000);
