@@ -103,18 +103,17 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	},
 
 	/**
-	 * Inits websocket
-	 * @param socket URL
-	 * @param promise
+	 * Get WebSocket URL
 	 */
-	initWebSocket: function (socketUrl, promise) {
+	getWebSocketUrl: function () {
+		var promise = new RSVP.Promise();
 		this.arsjax.request({
 			url: "socket/url",
 			success: function (data) {
 				promise.resolve(data.responseText);
 			},
 			failure: function () {
-				promise.resolve(socketUrl);
+				promise.reject();
 			}
 		});
 
