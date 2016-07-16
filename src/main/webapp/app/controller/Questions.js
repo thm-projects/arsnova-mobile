@@ -174,6 +174,7 @@ Ext.define("ARSnova.controller.Questions", {
 		var subjectError = false;
 		var checkedError = false;
 		var questionError = false;
+		var freetextError = false;
 
 		var validation = question.validate();
 		if (!validation.isValid()) {
@@ -247,6 +248,11 @@ Ext.define("ARSnova.controller.Questions", {
 					gridError = true;
 				}
 				break;
+			case 'freetext':
+				if (question.data.fixedAnswer && question.data.correctAnswer.trim() === "") {
+					freetextError = true;
+				}
+				break;
 		}
 
 		if (error) {
@@ -263,6 +269,9 @@ Ext.define("ARSnova.controller.Questions", {
 			}
 			if (answersError && question.get('questionType') === 'flashcard') {
 				message += '<li>' + Messages.MISSING_FLASHCARD + '</li>';
+			}
+			if (freetextError) {
+				message += '<li>' + Messages.MISSING_FREETEXT_ANSWER + '</li>';
 			} else if (answersError) {
 				message += '<li>' + Messages.MISSING_ANSWERS + '</li>';
 			}
