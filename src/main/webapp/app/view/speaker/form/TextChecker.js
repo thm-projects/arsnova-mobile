@@ -56,21 +56,21 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 				},
 				items: [{
 					text: Messages.TEXT_CHECKER_IGNORE_CASE_SENSITIVE,
-					pressed: this.getIgnoreCaseSensitive(),
+					pressed: !this.getIgnoreCaseSensitive(),
 					scope: this,
 					handler: function () {
 						this.setIgnoreCaseSensitive(!this.getIgnoreCaseSensitive());
 					}
 				}, {
 					text: Messages.TEXT_CHECKER_IGNORE_WHITESPACE,
-					pressed: this.getIgnoreWhitespaces(),
+					pressed: !this.getIgnoreWhitespaces(),
 					scope: this,
 					handler: function () {
 						this.setIgnoreWhitespaces(!this.getIgnoreWhitespaces());
 					}
 				}, {
 					text: Messages.TEXT_CHECKER_IGNORE_PUNCTUATION,
-					pressed: this.getIgnorePunctuation(),
+					pressed: !this.getIgnorePunctuation(),
 					scope: this,
 					handler: function () {
 						this.setIgnorePunctuation(!this.getIgnorePunctuation());
