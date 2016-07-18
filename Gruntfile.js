@@ -56,10 +56,15 @@ module.exports = function (grunt) {
 				},
 				proxies: [
 					{
-						context: ["/", "/api", "/arsnova-config"],
+						context: ["/api", "/arsnova-config"],
 						host: "localhost",
 						port: 8080,
-						xforward: true
+						ws: true,
+						xforward: true,
+						rewrite: {
+							"^/api/": "/",
+							"^/arsnova-config$": "/configuration/"
+						}
 					}
 				]
 			}
