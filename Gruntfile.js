@@ -65,6 +65,13 @@ module.exports = function (grunt) {
 							"^/api/": "/",
 							"^/arsnova-config$": "/configuration/"
 						}
+					},
+					{
+						context: ["/socket.io"],
+						host: "localhost",
+						port: 8090,
+						ws: true,
+						xforward: true
 					}
 				]
 			}
