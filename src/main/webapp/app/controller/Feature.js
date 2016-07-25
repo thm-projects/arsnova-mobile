@@ -111,7 +111,7 @@ Ext.define("ARSnova.controller.Feature", {
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			tabPanel = tabPanel.speakerTabPanel;
-			tabPanel.inClassPanel.changeActionButtonsMode('keynote');
+			tabPanel.inClassPanel.changeActionButtonsMode(useCases);
 		} else {
 			tabPanel = tabPanel.userTabPanel;
 		}
@@ -125,7 +125,7 @@ Ext.define("ARSnova.controller.Feature", {
 			localStorage.getItem('lastVisitedRole') === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.applyCustomUseCase(useCases, this.getFeatureValues(useCases));
 			tabPanel.speakerTabPanel.inClassPanel.showcaseActionButton.setHidden(false);
-			tabPanel.speakerTabPanel.inClassPanel.changeActionButtonsMode('liveClicker');
+			tabPanel.speakerTabPanel.inClassPanel.changeActionButtonsMode();
 			tabPanel.feedbackTabPanel.tab.show();
 		} else {
 			this.setSinglePageMode('feedback', {});
@@ -322,7 +322,7 @@ Ext.define("ARSnova.controller.Feature", {
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			tabPanel = tP.speakerTabPanel;
 			position = 1;
-			tP.speakerTabPanel.inClassPanel.changeActionButtonsMode('keynote');
+			tP.speakerTabPanel.inClassPanel.changeActionButtonsMode();
 		} else {
 			tabPanel = tP.userTabPanel;
 			position = 0;
@@ -378,18 +378,17 @@ Ext.define("ARSnova.controller.Feature", {
 			inClass.feedbackQuestionButton.setText(inClass.feedbackQuestionButton.initialConfig.text);
 			inClass.updateActionButtonElements();
 
-			if (!features.slides) {
-				if (features.jitt && !features.lecture) {
-					inClass.changeActionButtonsMode('preparation');
-					tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('PreparationQuestions'));
-					tabPanel.showcaseQuestionPanel.setPreparationMode();
-					tabPanel.newQuestionPanel.setVariant('preparation');
-				} else {
-					inClass.changeActionButtonsMode('lecture');
-					tabPanel.showcaseQuestionPanel.setController(ARSnova.app.getController('Questions'));
-					tabPanel.showcaseQuestionPanel.setLectureMode();
-					tabPanel.newQuestionPanel.setVariant('lecture');
-				}
+			if (features.jitt && !features.lecture) {
+				inClass.changeActionButtonsMode(features);
+				tabPanel.showcaseQuestionPanel.setPreparationMode();
+				tabPanel.newQuestionPanel.setVariant('preparation');
+			} else {
+				inClass.changeActionButtonsMode(features);
+				tabPanel.showcaseQuestionPanel.setLectureMode();
+				tabPanel.newQuestionPanel.setVariant('lecture');
+			}
+			if (features.slides) {
+				inClass.changeActionButtonsMode(features);
 			}
 		} else {
 			// hide questionsPanel tab when session has no question features active

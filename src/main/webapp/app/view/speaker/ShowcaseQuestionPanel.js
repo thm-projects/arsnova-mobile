@@ -341,11 +341,13 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 	},
 
 	setLectureMode: function () {
+		this.setController(ARSnova.app.getController('Questions'));
 		this.setQuestionTitleLong(Messages.LECTURE_QUESTION_LONG);
 		this.setQuestionTitleShort(Messages.LECTURE_QUESTIONS);
 	},
 
 	setPreparationMode: function () {
+		this.setController(ARSnova.app.getController('PreparationQuestions'));
 		this.setQuestionTitleLong(Messages.PREPARATION_QUESTION_LONG);
 		this.setQuestionTitleShort(Messages.PREPARATION_QUESTION_SHORT);
 	}
