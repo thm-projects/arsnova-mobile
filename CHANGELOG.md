@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.4.2
+Bug fixes:
+* Fixed a JavaScript `TypeError` which occured when presenting questions with
+  enabled slides feature and required a reload to make ARSnova usable again.
+* Button descriptions now adjust correctly when slides are enabled.
+* ARSnova no longer hangs because of a `ReferenceError` when loading for the
+  first time on slow connections.
+
 ## 2.4.1
 Bug fixes:
 * Theme variable `tabbar-button-icon-color` works again.
