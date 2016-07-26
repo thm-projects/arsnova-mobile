@@ -34,6 +34,14 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 		}
 	},
 
+	checkLearningProgressTask: {
+		name: 'check if my progress has changed',
+		run: function () {
+			this.checkLearningProgress();
+		},
+		interval: 20000
+	},
+
 	constructor: function () {
 		this.callParent(arguments);
 
@@ -65,6 +73,38 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 			disabledCls: '',
 			disabled: true
 		});
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
+			this.myLearningProgressButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+				itemId: 'myLearningProgress',
+				text: Messages.MY_LEARNING_PROGRESS,
+				cls: 'standardListButton roundedBox x-html',
+				badgeCls: 'badgeicon',
+				disabledCls: '',
+				disabled: true
+			});
+
+			this.swotBadge = Ext.create('Ext.Panel', {
+				cls: 'swotBadgeIcon',
+				hidden: true,
+				width: '100%',
+				height: '100px'
+			});
+
+			this.userBadges = Ext.create('Ext.Panel', {
+				style: {
+					marginBottom: '20px'
+				},
+				layout: {
+					type: 'hbox',
+					pack: 'center'
+				},
+
+				items: [
+					this.swotBadge
+				]
+			});
+		}
 
 		this.pointBasedExplanation = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			hidden: true
@@ -173,14 +213,70 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 						initialize: variantInitializer
 					}
 				}]
-			}, this.courseLearningProgressButton, this.pointBasedExplanation, this.questionBasedExplanation]
-		});
+			},
+			this.courseLearningProgressButton,
+			this.myLearningProgressButton || {},
+			this.userBadges || {},
+			this.pointBasedExplanation,
+			this.questionBasedExplanation
+		]});
 
-		this.on('show', function () {
-			this.showProgress(ARSnova.app.getController('Sessions').getLearningProgressOptions());
-		}, this);
+		this.checkLearningProgressTask.scope = this;
+
+		this.on('show', this.onShow, this);
+		this.on('hide', this.onHide, this);
 
 		this.add([this.toolbar, this.learningProgressChooser]);
+
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
+			// Reload learning progress, but do it using a random delay.
+			// We do not want to initiate a DDoS if every user is trying to reload at the same time.
+			// http://stackoverflow.com/a/1527820
+			var min = 500;
+			var max = 2500;
+			this.learningProgressChange = Ext.Function.createBuffered(function () {
+				// Reset run-time to enforce reload of learning progress
+				this.courseLearningProgressTask.taskRunTime = 0;
+			}, Math.random() * (max - min) + min, this);
+		}
+	},
+
+	onShow: function () {
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
+			this.checkLearningProgressTask.taskRunTime = 0;
+			ARSnova.app.taskManager.start(this.checkLearningProgressTask);
+			ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.learningProgressChange, this.learningProgressChange, this);
+		}
+		this.showProgress(ARSnova.app.getController('Sessions').getLearningProgressOptions());
+	},
+
+	onHide: function () {
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
+			ARSnova.app.taskManager.stop(this.checkLearningProgressTask);
+		}
+	},
+
+	checkLearningProgress: function () {
+		var me = this;
+		ARSnova.app.sessionModel.getMyLearningProgress(sessionStorage.getItem("keyword"), {
+			success: function (myprogressDescription, courseprogressDescription, p, progressType) {
+				var goodProgressThreshold = 95;
+				var vsBadge = {badgeText: Messages.VERSUS, badgeCls: "textbadgeicon"};
+
+				var getBadge = function (progress) {
+					return {badgeText: progress.text, badgeCls: progress.color + "badgeicon"};
+				};
+				me.myLearningProgressButton.setBadge([getBadge(myprogressDescription), vsBadge, getBadge(courseprogressDescription)]);
+
+				me.swotBadge.setCls('swotBadgeIcon greenbadgecolor');
+				me.swotBadge.setHidden(p.myProgress < goodProgressThreshold);
+			},
+			failure: function () {
+				me.myLearningProgressButton.setBadge([{badgeText: ""}]);
+				me.inClassButtons.remove(me.myLearningProgressButton, false);
+			}
+		});
 	},
 
 	showPointBasedCalculation: function () {

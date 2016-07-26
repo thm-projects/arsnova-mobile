@@ -38,14 +38,6 @@ Ext.define('ARSnova.view.user.InClass', {
 	feedbackButton: null,
 	quizButton: null,
 
-	checkLearningProgressTask: {
-		name: 'check if my progress has changed',
-		run: function () {
-			ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.checkLearningProgress();
-		},
-		interval: 20000
-	},
-
 	/**
 	* count every x seconds the number of feedback questions
 	*/
@@ -75,16 +67,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_THM) {
 			loggedInCls = 'thm';
 		}
-
-		// Reload learning progress, but do it using a random delay.
-		// We do not want to initiate a DDoS if every user is trying to reload at the same time.
-		// http://stackoverflow.com/a/1527820
-		var min = 250;
-		var max = 1750;
-		this.learningProgressChange = Ext.Function.createBuffered(function () {
-			// Reset run-time to enforce reload of learning progress
-			this.checkLearningProgressTask.taskRunTime = 0;
-		}, Math.random() * (max - min) + min, this);
 
 		this.sessionLogoutButton = Ext.create('Ext.Button', {
 			text: Messages.SESSIONS,
@@ -268,27 +250,6 @@ Ext.define('ARSnova.view.user.InClass', {
 			]
 		});
 
-		this.swotBadge = Ext.create('Ext.Panel', {
-			cls: 'swotBadgeIcon',
-			hidden: true,
-			width: '100%',
-			height: '100px'
-		});
-
-		this.userBadges = Ext.create('Ext.Panel', {
-			style: {
-				marginTop: '20px'
-			},
-			layout: {
-				type: 'hbox',
-				pack: 'center'
-			},
-
-			items: [
-				this.swotBadge
-			]
-		});
-
 		this.badgeOptions = {
 			numAnswers: 0,
 			numQuestions: 0,
@@ -296,7 +257,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			numUnredInterposed: 0
 		};
 
-		this.add([this.toolbar, this.inClass, this.userBadges]);
+		this.add([this.toolbar, this.inClass]);
 		this.on('painted', this.onPainted);
 		this.on('hide', this.onDeactivate);
 
@@ -335,7 +296,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.questionModel.on(ARSnova.app.questionModel.events.countQuestionsAndAnswers, panel.countQuestionsAndAnswers, panel);
 		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus, panel);
 		ARSnova.app.feedbackModel.on(ARSnova.app.feedbackModel.events.feedbackReset, panel.checkFeedbackRemoved, panel);
-		ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.learningProgressChange, panel.learningProgressChange, panel);
 	},
 
 	/* will be called whenever panel is shown */
@@ -345,9 +305,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		// tasks should get run immediately
 		if (features.interposed) {
 			this.countFeedbackQuestionsTask.taskRunTime = 0;
-		}
-		if (features.learningProgress) {
-			this.checkLearningProgressTask.taskRunTime = 0;
 		}
 
 		ARSnova.app.socket.setSession(null);
@@ -361,15 +318,11 @@ Ext.define('ARSnova.view.user.InClass', {
 		if (features.interposed) {
 			ARSnova.app.taskManager.start(panel.countFeedbackQuestionsTask);
 		}
-		if (features.learningProgress) {
-			ARSnova.app.taskManager.start(panel.checkLearningProgressTask);
-		}
 	},
 
 	stopTasks: function () {
 		var panel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
 		ARSnova.app.taskManager.stop(panel.countFeedbackQuestionsTask);
-		ARSnova.app.taskManager.stop(panel.checkLearningProgressTask);
 	},
 
 	/* will be called on session logout */
@@ -385,7 +338,6 @@ Ext.define('ARSnova.view.user.InClass', {
 		ARSnova.app.questionModel.un(ARSnova.app.questionModel.events.countQuestionsAndAnswers, panel.countQuestionsAndAnswers, panel);
 		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.sessionActive, panel.checkSessionStatus, panel);
 		ARSnova.app.feedbackModel.un(ARSnova.app.feedbackModel.events.feedbackReset, panel.checkFeedbackRemoved, panel);
-		ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.learningProgressChange, panel.learningProgressChange, panel);
 		panel.stopTasks();
 	},
 
@@ -663,28 +615,6 @@ Ext.define('ARSnova.view.user.InClass', {
 				}]
 			});
 		}
-	},
-
-	checkLearningProgress: function () {
-		var me = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel;
-		ARSnova.app.sessionModel.getMyLearningProgress(sessionStorage.getItem("keyword"), {
-			success: function (myprogressDescription, courseprogressDescription, p, progressType) {
-				var goodProgressThreshold = 95;
-				var vsBadge = {badgeText: Messages.VERSUS, badgeCls: "textbadgeicon"};
-
-				var getBadge = function (progress) {
-					return {badgeText: progress.text, badgeCls: progress.color + "badgeicon"};
-				};
-				me.myLearningProgressButton.setBadge([getBadge(myprogressDescription), vsBadge, getBadge(courseprogressDescription)]);
-
-				me.swotBadge.setCls('swotBadgeIcon greenbadgecolor');
-				me.swotBadge.setHidden(p.myProgress < goodProgressThreshold);
-			},
-			failure: function () {
-				me.myLearningProgressButton.setBadge([{badgeText: ""}]);
-				me.inClassButtons.remove(me.myLearningProgressButton, false);
-			}
-		});
 	},
 
 	applyUIChanges: function (features) {
