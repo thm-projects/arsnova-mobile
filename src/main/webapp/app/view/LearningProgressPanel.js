@@ -116,21 +116,11 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 		});
 		this.questionBasedExplanation.setContent(Messages.QUESTION_BASED_PROGRESS_EXPLANATION, true, true);
 
-		var typeInitializer = function (field) {
-			var options = ARSnova.app.getController('Sessions').getLearningProgressOptions();
-			if (field.getValue() === options.type) {
-				field.check();
-			}
-			this.showProgress(options);
-		};
-
-		var variantInitializer = function (field) {
-			var options = ARSnova.app.getController('Sessions').getLearningProgressOptions();
+		this.variantInitializer = function (field, options) {
 			if (field.getValue() === options.questionVariant) {
 				field.check();
 			}
-			this.showProgress(options);
-		};
+		}.bind(this);
 
 		this.learningProgressChooser = Ext.create('Ext.form.Panel', {
 			scrollable: null,
@@ -150,8 +140,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 						check: function (field) {
 							this.showQuestionBasedCalculation();
 							this.showProgress(this.learningProgressChooser.getValues());
-						},
-						initialize: typeInitializer
+						}
 					}
 				}, {
 					xtype: 'radiofield',
@@ -164,8 +153,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 						check: function (field) {
 							this.showPointBasedCalculation();
 							this.showProgress(this.learningProgressChooser.getValues());
-						},
-						initialize: typeInitializer
+						}
 					}
 				}]
 			}, {
@@ -182,8 +170,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 						scope: this,
 						check: function (field) {
 							this.showProgress(this.learningProgressChooser.getValues());
-						},
-						initialize: variantInitializer
+						}
 					}
 				}, {
 					xtype: 'radiofield',
@@ -195,8 +182,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 						scope: this,
 						check: function (field) {
 							this.showProgress(this.learningProgressChooser.getValues());
-						},
-						initialize: variantInitializer
+						}
 					}
 				}, {
 					xtype: 'radiofield',
@@ -209,8 +195,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 						scope: this,
 						check: function (field) {
 							this.showProgress(this.learningProgressChooser.getValues());
-						},
-						initialize: variantInitializer
+						}
 					}
 				}]
 			},
@@ -248,7 +233,11 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 			ARSnova.app.taskManager.start(this.checkLearningProgressTask);
 			ARSnova.app.sessionModel.on(ARSnova.app.sessionModel.events.learningProgressChange, this.learningProgressChange, this);
 		}
-		this.showProgress(ARSnova.app.getController('Sessions').getLearningProgressOptions());
+		var options = ARSnova.app.getController('Sessions').getLearningProgressOptions();
+		this.showProgress(options);
+		this.learningProgressChooser.query('radiofield').forEach(function (field) {
+			this.variantInitializer(field, options);
+		}.bind(this));
 	},
 
 	onHide: function () {
