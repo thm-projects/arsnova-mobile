@@ -106,6 +106,15 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 			});
 		}
 
+		this.learningProgressStatistics = Ext.create('Ext.form.FormPanel', {
+			cls: 'standardForm topPadding',
+			scrollable: null,
+			items: [
+				this.courseLearningProgressButton,
+				this.myLearningProgressButton || {}
+			]
+		});
+
 		this.pointBasedExplanation = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			hidden: true
 		});
@@ -199,8 +208,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 					}
 				}]
 			},
-			this.courseLearningProgressButton,
-			this.myLearningProgressButton || {},
+			this.learningProgressStatistics,
 			this.userBadges || {},
 			this.pointBasedExplanation,
 			this.questionBasedExplanation
