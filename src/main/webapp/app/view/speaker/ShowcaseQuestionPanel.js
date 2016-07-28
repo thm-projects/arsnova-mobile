@@ -149,6 +149,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	onPainted: function () {
 		this.updateEditButtons();
+		this.getActiveItem().setAnswerCount();
 	},
 
 	onItemChange: function (panel, newQuestion, oldQuestion) {
@@ -165,6 +166,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 				newQuestion.setPadding('0 0 50 0');
 			}
 
+			if (newQuestion.questionObj.questionType !== 'slide') {
+				panel.speakerUtilities.commentOverlay.setHidden(true);
+			}
+
+			panel.getActiveItem().setAnswerCount();
 			panel.updateControlButtonHiddenState();
 			panel.speakerUtilities.setHidden(screenWidth < 700);
 			panel.speakerUtilities.checkQuestionType(newQuestion);

@@ -446,6 +446,7 @@ Ext.define("ARSnova.controller.Questions", {
 		var mainTabPanel = ARSnova.app.mainTabPanel;
 		var tP = mainTabPanel.tabPanel;
 		var panel = tP.userQuestionsPanel || tP.speakerTabPanel;
+		var hideOverlay = true;
 
 		if (tP.getActiveItem() === tP.speakerTabPanel) {
 			var showcasePanel = panel.showcaseQuestionPanel;
@@ -453,7 +454,10 @@ Ext.define("ARSnova.controller.Questions", {
 			if (tP.speakerTabPanel.getActiveItem() === showcasePanel) {
 				if (showcasePanel.getActiveItem().getItemId() === id) {
 					if (showcasePanel.getActiveItem().questionObj.questionType === 'slide') {
+						hideOverlay = !parseInt(answerCount) || !ARSnova.app.projectorModeActive;
 						showcasePanel.toolbar.setAnswerCounter(answerCount, Messages.COMMENT);
+						showcasePanel.speakerUtilities.commentOverlay.setBadgeText(answerCount);
+						showcasePanel.speakerUtilities.commentOverlay.setHidden(hideOverlay);
 					} else if (!answerCount && abstentionCount) {
 						showcasePanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 					} else {

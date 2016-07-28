@@ -79,6 +79,24 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 			hidden: true
 		});
 
+		this.commentOverlay = Ext.create('Ext.Button', {
+			ui: 'action',
+			docked: 'bottom',
+			cls: 'commentOverlay',
+			badgeText: '0',
+			badgeCls: 'badgeicon',
+			iconCls: 'icon-comment',
+			callFn: ARSnova.app.getController('Questions').listFeedbackQuestions,
+			handler: function () {
+				var activeItem = me.getParent().getActiveItem();
+				var questionObj = activeItem.questionObj;
+				if (questionObj && questionObj.questionType === 'slide') {
+					ARSnova.app.getController('Statistics').prepareStatistics(activeItem);
+				}
+			},
+			hidden: true
+		});
+
 		this.projectorButton = Ext.create('Ext.Button', {
 			ui: 'action',
 			docked: 'bottom',
@@ -146,6 +164,7 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		this.add([
 			this.interposedOverlay,
 			this.feedbackOverlay,
+			this.commentOverlay,
 			this.hideShowcaseControlButton,
 			this.projectorButton,
 			this.zoomButton
