@@ -88,10 +88,10 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 
 				ARSnova.app.innerScrollPanel = false;
 				ARSnova.app.taskManager.stop(me.checkFreetextAnswersTask);
-				me.speakerUtilities.initializeZoomComponents();
 
 				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 					object = speakerTabPanel.statisticTabPanel.roundManagementPanel.editButtons.questionObj;
+					me.speakerUtilities.initializeZoomComponents();
 
 					switch (speakerTabPanel.getActiveItem()) {
 						case speakerTabPanel.showcaseQuestionPanel:
