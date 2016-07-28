@@ -110,7 +110,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.roleIconButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.CHANGE_ROLE_BUTTONTEXT,
 			buttonConfig: 'icon',
-			imageCls: 'icon-users',
+			imageCls: 'icon-speaker',
 			hidden: !ARSnova.app.isSessionOwner,
 			controller: 'Sessions',
 			action: 'changeRole',
