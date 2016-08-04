@@ -262,10 +262,6 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				this.disableQuestion(false);
 			}
 
-			if (this.viewOnly) {
-				this.setAnswerCount();
-			}
-
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER && this.editButtons) {
 				this.editButtons.changeHiddenState();
 			}
@@ -352,7 +348,10 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					abstentionCount = parseInt(numAnswers[1]);
 
 				if (me.questionObj.questionType === 'slide') {
+					var hideOverlay = !parseInt(answerCount) || !ARSnova.app.projectorModeActive;
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount, Messages.COMMENT);
+					sTP.showcaseQuestionPanel.speakerUtilities.commentOverlay.setBadgeText(answerCount);
+					sTP.showcaseQuestionPanel.speakerUtilities.commentOverlay.setHidden(hideOverlay);
 				} else if (!answerCount && abstentionCount) {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 				} else {

@@ -144,7 +144,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			text: Messages.CHANGE_ROLE_BUTTONTEXT,
 			cls: 'smallerActionButton',
 			buttonConfig: 'icon',
-			imageCls: 'icon-speaker',
+			imageCls: 'icon-users',
 			handler: function () {
 				ARSnova.app.getController('Sessions').changeRole();
 			}
