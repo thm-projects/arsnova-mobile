@@ -783,7 +783,12 @@
 				QUESTIONS_CSV_EXPORT_BUTTON: "Fragen<br>exportieren",
 				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Inhalte exportieren",
 				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "Die Inhalte werden als CSV-Datei exportiert. Fragen vom Typ \"Hot Spots\" werden übersprungen. Für den gesamten Export der Session steht der Export auf der Sessionübersichtseite zur Verfügung. <br>Fragen exportieren?",
-
+				QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON: "Antworten<br>exportieren",
+				QUESTIONS_CSV_EXPORT_ANSWERS_TIME: "Uhrzeit",
+				QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT: "Antwort-Thema",
+				
+				
+				
 				/* CSV import*/
 				QUESTIONS_CSV_IMPORT_BUTTON: "Fragen<br>importieren",
 				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Inhalte importieren",
@@ -1620,7 +1625,10 @@
 				QUESTIONS_CSV_EXPORT_BUTTON: "Export<br>questions",
 				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Export content",
 				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "The questions will be exported as a CSV file. \"Hot Spots\" questions won't be exported. For exporting the whole session please use the export function on the session overview.<br>Export questions?",
-
+				QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON: "Export<br>answers",
+				QUESTIONS_CSV_EXPORT_ANSWERS_TIME: "Time",
+				QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT: "Answer-Subject",
+				
 				/* CSV import */
 				QUESTIONS_CSV_IMPORT_BUTTON: "Import<br>questions",
 				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Import content",
