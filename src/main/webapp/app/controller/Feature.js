@@ -542,9 +542,7 @@ Ext.define("ARSnova.controller.Feature", {
 
 		if (features.slides) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.SLIDE]]);
-			if (!features.lecture && !features.jitt) {
-				panel.optionsToolbar.setHidden(true);
-			}
+			panel.optionsToolbar.setHidden(!features.lecture && !features.jitt);
 		} else if (features.flashcard) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.FLASHCARD]]);
 			panel.optionsToolbar.setHidden(true);
