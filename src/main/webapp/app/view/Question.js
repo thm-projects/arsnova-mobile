@@ -700,7 +700,8 @@ Ext.define('ARSnova.view.Question', {
 	},
 
 	disableQuestion: function (afterInitialization) {
-		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER) {
+		if (ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER
+				&& this.questionObj.questionType !== 'flashcard') {
 			this.setDisabled(true);
 			this.mask(this.customMask);
 

@@ -616,7 +616,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			gridScaleFactor: values.gridScaleFactor,
 			imageQuestion: values.imageQuestion,
 			textAnswerEnabled: values.textAnswerEnabled,
-			votingDisabled: values.questionType === 'slide' ? 0 : 1,
+			votingDisabled: ['flashcard', 'slide'].indexOf(values.questionType) !== -1 ? 0 : 1,
 			hint: values.hint,
 			solution: values.solution,
 			saveButton: button,
