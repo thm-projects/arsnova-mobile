@@ -540,9 +540,9 @@ Ext.define("ARSnova.controller.Feature", {
 		var options = panel.questionOptions.getInnerItems();
 		panel.questionOptions.setPressedButtons([1]);
 
-		if (features.slides) {
+		if (features.slides && !features.lecture && !features.jitt) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.SLIDE]]);
-			panel.optionsToolbar.setHidden(!features.lecture && !features.jitt);
+			panel.optionsToolbar.setHidden(true);
 		} else if (features.flashcard) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.FLASHCARD]]);
 			panel.optionsToolbar.setHidden(true);
@@ -555,9 +555,13 @@ Ext.define("ARSnova.controller.Feature", {
 			options[indexMap[Messages.EVALUATION]].hide();
 			options[indexMap[Messages.SCHOOL]].hide();
 			options[indexMap[Messages.GRID]].hide();
+			panel.optionsToolbar.setHidden(false);
 		} else {
 			panel.optionsToolbar.setHidden(false);
 			panel.questionOptions.config.showAllOptions();
+			if (features.slides) {
+				panel.questionOptions.setPressedButtons([indexMap[Messages.SLIDE]]);
+			}
 		}
 
 		options[indexMap[Messages.SLIDE]].setHidden(!features.slides);
