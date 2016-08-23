@@ -555,6 +555,7 @@ Ext.define("ARSnova.controller.Feature", {
 			options[indexMap[Messages.EVALUATION]].hide();
 			options[indexMap[Messages.SCHOOL]].hide();
 			options[indexMap[Messages.GRID]].hide();
+			panel.optionsToolbar.setHidden(false);
 		} else {
 			panel.optionsToolbar.setHidden(false);
 			panel.questionOptions.config.showAllOptions();
