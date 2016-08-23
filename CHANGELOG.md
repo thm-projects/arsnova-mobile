@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.4.3
+Bug fixes:
+* Buttons of the question format bar are now correctly shown or hidden when
+  switching use cases.
+* Flipping of flashcards is no longer inhibited.
+
 ## 2.4.2
 Bug fixes:
 * Fixed a JavaScript `TypeError` which occured when presenting questions with
