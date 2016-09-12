@@ -101,8 +101,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		return questions;
 	},
 
-	saveFileOnFileSystem: function (csv, filename) {
-		var blob = new Blob([csv], {type: "application/csv;charset=utf-8"});
+	makeAndClickDownloadLink: function (blob, filename) {
 		var ua = window.navigator.userAgent;
 		var msie = ua.indexOf("MSIE ");
 
@@ -118,6 +117,13 @@ Ext.define("ARSnova.controller.QuestionExport", {
 			document.body.appendChild(a);
 			a.click();
 		}
+	},
+
+	saveFileOnFileSystem: function (csv, filename) {
+		var blob = new Blob([csv], {type: "application/csv;charset=utf-8"});
+
+		this.makeAndClickDownloadLink(blob, filename);
+
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		hTP.animateActiveItem(hTP.mySessionsPanel, {
 			type: 'slide',
@@ -126,10 +132,80 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		});
 	},
 
+	saveClickQuestionOnFileSystem: function (questionObj) {
+		var rawJson = JSON.stringify(questionObj);
+		var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
+		this.makeAndClickDownloadLink(blob, "ARSnovaClickQuestion");
+	},
+
 	parseJsonToCsv: function (records) {
 		var preparsedQuestion = this.preparseJsontoCsv(records);
 		var csv = ARSnova.utils.CsvUtil.jsonToCsv(preparsedQuestion);
 		this.saveFileOnFileSystem(csv, this.filename());
-	}
+	},
 
+	parseAnswerOptionsForClick: function (answerOptions, questionType) {
+		var clickAnswerOptions = [];
+		for (var i = 0; i < answerOptions.length; i++) {
+			clickAnswerOptions.push({
+				hashtag: "ImportFromARSnova",
+				questionIndex: 0,
+				answerText: answerOptions[i].text,
+				answerOptionNumber: i,
+				isCorrect: answerOptions[i].correct,
+				type: "DefaultAnswerOption"
+			});
+		}
+		return clickAnswerOptions;
+	},
+
+	exportQuestionToClick: function (question) {
+		var clickQuestion = {
+			hashtag: "ImportFromARSnova",
+			questionText: question.subject + "\\n" + question.text,
+			timer: 20,
+			startTime: 0,
+			questionIndex: 0,
+			answerOptionList: this.parseAnswerOptionsForClick(question.possibleAnswers, question.questionType)
+		};
+		switch (question.questionType) {
+			case "yesno":
+				clickQuestion.type = "YesNoSingleChoiceQuestion";
+				break;
+			case "school":
+			case "vote":
+				clickQuestion.type = "SurveyQuestion";
+				break;
+			case "mc":
+				clickQuestion.type = "MultipleChoiceQuestion";
+				break;
+			case "sc":
+			case "abcd":
+				clickQuestion.type = "SingleChoiceQuestion";
+				break;
+		}
+		var session = {
+			hashtag: "ImportFromARSnova",
+			questionList: [clickQuestion],
+			type: "DefaultQuestionGroup",
+			configuration: {
+				hashtag: "ImportFromARSnova",
+				music: {
+					hashtag: "Hashtag",
+					isEnabled: 0,
+					title: "Song1",
+					volume: 80
+				},
+				theme: "theme-blackbeauty",
+				nicks: {
+					hashtag: "ImportFromARSnova",
+					blockIllegal: true,
+					selectedValues: [],
+					restrictToCASLogin: false
+				},
+				readingConfirmationEnabled: false
+			}
+		};
+		return session;
+	}
 });
