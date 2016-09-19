@@ -276,6 +276,7 @@
 				HINT_FOR_SOLUTION: "Lösungshinweis",
 				HINT_FOR_SOLUTION_EDIT: "Lösungshinweis?",
 				SAMPLE_SOLUTION: "Musterlösung",
+				EXPORT_TO_CLICK: "Exportiere nach Click",
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Fragen sortieren",
