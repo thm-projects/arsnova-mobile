@@ -25,6 +25,7 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 		    placeHolder: 'Session',
 		    listeners:{
 		    	change: function(field, newValue){
+		    		me.subjectSelect.setOptions([]);
 		    		ARSnova.app.questionModel.getLectureQuestions(me.sessions[newValue].keyword, {
 		    			success: function(response)
 		    			{
