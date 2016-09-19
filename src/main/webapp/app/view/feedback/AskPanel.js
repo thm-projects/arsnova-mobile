@@ -142,6 +142,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 
 		var field;
 		var validation = question.validate();
+		var errorOtherThanSubject = false;
 		if (!validation.isValid()) {
 			me.down('fieldset').items.items.forEach(function (el) {
 				if (el.xtype === 'textfield') {
@@ -150,14 +151,19 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 			});
 
 			validation.items.forEach(function (el) {
-				field = me.down('textfield[name=' + el.getField() + ']');
-				field.addCls("required");
-				field.element.select(".x-input-text").addCls('formInvalid');
+				if (el.config.field !== "subject") {
+					errorOtherThanSubject = true;
+					field = me.down('textfield[name=' + el.getField() + ']');
+					field.addCls("required");
+					field.element.select(".x-input-text").addCls('formInvalid');
+				}
 			});
-
-			Ext.Msg.alert(Messages.NOTIFICATION, Messages.INCOMPLETE_INPUTS);
-			return;
-		} else {
+			if (errorOtherThanSubject) {
+				Ext.Msg.alert(Messages.NOTIFICATION, Messages.INCOMPLETE_INPUTS);
+				return;
+			}
+		}
+		if (!errorOtherThanSubject) {
 			me.down('fieldset').items.items.forEach(function (el) {
 				el.removeCls("required");
 				el.element.select(".x-input-text").removeCls('formInvalid');
