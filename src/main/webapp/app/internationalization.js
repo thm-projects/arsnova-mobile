@@ -786,9 +786,7 @@
 				QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON: "Antworten<br>exportieren",
 				QUESTIONS_CSV_EXPORT_ANSWERS_TIME: "Uhrzeit",
 				QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT: "Antwort-Thema",
-				
-				
-				
+
 				/* CSV import*/
 				QUESTIONS_CSV_IMPORT_BUTTON: "Fragen<br>importieren",
 				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Inhalte importieren",
@@ -1628,7 +1626,7 @@
 				QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON: "Export<br>answers",
 				QUESTIONS_CSV_EXPORT_ANSWERS_TIME: "Time",
 				QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT: "Answer-Subject",
-				
+
 				/* CSV import */
 				QUESTIONS_CSV_IMPORT_BUTTON: "Import<br>questions",
 				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Import content",
