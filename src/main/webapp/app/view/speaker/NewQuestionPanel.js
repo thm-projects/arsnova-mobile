@@ -100,7 +100,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				} else
 				{
 					this.saveHandler(button).then(function (response) {
-						console.log(Ext.decode(response.responseText));
 						ARSnova.app.getController('Questions').details({
 							question: Ext.decode(response.responseText)
 						});
