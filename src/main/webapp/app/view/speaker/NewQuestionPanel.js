@@ -79,7 +79,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}
 		});
 
-		var me=this;
+		var me = this;
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
 			text: Messages.SAVE,
 			ui: 'confirm',
@@ -87,8 +87,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			style: 'width: 89px',
 			handler: function (button) {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
-				var txt=panel.questionOptions.getPressedButtons()[0]._text;
-				if(txt==Messages.IMPORT||txt==Messages.IMPORT_LONG)
+				var txt = panel.questionOptions.getPressedButtons()[0]._text;
+				if (txt == Messages.IMPORT || txt == Messages.IMPORT_LONG)
 				{
 					me.importQuestion.importSelectedQuestions();
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
@@ -97,8 +97,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						direction: 'right',
 						duration: 700
 					});
-				}
-				else
+				} else
 				{
 					this.saveHandler(button).then(function (response) {
 						console.log(Ext.decode(response.responseText));
@@ -214,7 +213,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		this.keynoteSlide = Ext.create('ARSnova.view.speaker.form.NullQuestion', {
 			hidden: true
 		});
-		
+
 		this.importQuestion = Ext.create('ARSnova.view.speaker.form.ImportQuestion', {
 			hidden: true
 		});
@@ -385,7 +384,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.markdownEditPanel.hide();
 								me.hintForSolution.hide();
 								me.saveAndContinueButton.hide();
-								
+
 								title = label(Messages.QUESTION_IMPORT, Messages.QUESTION_IMPORT_SHORT);
 							} else {
 								me.abstentionPart.show();
