@@ -38,7 +38,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			type: 'vbox',
 			pack: 'center'
 		},
-		controller: null
+		controller: null,
+		variant: 'lecture'
 	},
 
 	monitorOrientation: true,
@@ -446,6 +447,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response, totalRange) {
 				var questions = Ext.decode(response.responseText);
+				var showcaseButtonText = Messages.SHOWCASE_MODE_PLURAL;
 				for (var i = 0; i < questions.length; i++) {
 					questions[i].sequenceNo = i;
 				}
@@ -455,21 +457,29 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.handleAnswerCount();
 
 				if (questions.length === 1) {
-					this.showcaseActionButton.setButtonText(
-						features.flashcard ? Messages.SHOWCASE_FLASHCARD : Messages.SHOWCASE_MODE);
 					this.questionStatusButton.setSingleQuestionMode();
 					this.voteStatusButton.setSingleQuestionMode();
+					showcaseButtonText = this.getVariant() === 'flashcard' ?
+						Messages.SHOWCASE_FLASHCARD :
+						Messages.SHOWCASE_MODE;
 				} else {
-					this.showcaseActionButton.setButtonText(
-						features.flashcard ? Messages.SHOWCASE_FLASHCARDS : Messages.SHOWCASE_MODE_PLURAL);
 					this.questionStatusButton.setMultiQuestionMode();
 					this.voteStatusButton.setMultiQuestionMode();
+					showcaseButtonText = this.getVariant() === 'flashcard' ?
+						Messages.SHOWCASE_FLASHCARDS :
+						Messages.SHOWCASE_MODE_PLURAL;
 				}
 
-				if (features.slides) {
-					this.showcaseActionButton.setButtonText(Messages.SHOWCASE_KEYNOTE);
+				if (this.getVariant() !== 'flashcard') {
+					this.voteStatusButton.checkInitialStatus();
+					this.voteStatusButton.show();
+
+					if (features.slides) {
+						showcaseButtonText = Messages.SHOWCASE_KEYNOTE;
+					}
 				}
 
+				this.showcaseActionButton.setButtonText(showcaseButtonText);
 				this.questionList.updatePagination(questions.length, totalRange);
 				callback.apply();
 
@@ -477,9 +487,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionListContainer.show();
 				this.questionList.show();
 				this.questionStatusButton.checkInitialStatus();
-				this.voteStatusButton.checkInitialStatus();
 				this.questionStatusButton.show();
-				this.voteStatusButton.show();
+
 				// this.sortQuestionsButton.show();
 				this.deleteQuestionsButton.show();
 				hideLoadIndicator.apply();
@@ -629,51 +638,79 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	applyUIChanges: function () {
 		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var lectureButtonText = Messages.NEW_QUESTION;
+		var questionListText = this.questionListContainer.config.title;
+		var deleteAnswersText = this.deleteAnswersButton.config.text;
+		var deleteQuestionsText = this.deleteQuestionsButton.config.text;
+		var exportText = this.exportCsvQuestionsButton.config.text;
+		var importText = this.questionsImport.config.text;
+		var toolbarTitle = this.toolbar.config.title;
+		var captionTranslation = this.caption.config.translation;
+		var badgeTranslation = this.caption.config.badgeTranslation;
 
 		if (features.total || features.slides) {
-			this.toolbar.setTitle(Messages.SLIDE_LONG);
-			this.questionListContainer.setTitle(Messages.CONTENT_MANAGEMENT);
-			this.deleteAnswersButton.setButtonText(Messages.DELETE_COMMENTS);
-			this.deleteQuestionsButton.setButtonText(Messages.DELETE_CONTENT);
-			this.exportCsvQuestionsButton.setButtonText(Messages.EXPORT_CONTENT);
-			this.questionsImport.setButtonText(Messages.IMPORT_CONTENT);
+			toolbarTitle = Messages.SLIDE_LONG;
+			exportText = Messages.EXPORT_CONTENT;
+			importText = Messages.IMPORT_CONTENT;
+			questionListText = Messages.CONTENT_MANAGEMENT;
+			deleteAnswersText = Messages.DELETE_COMMENTS;
+			deleteQuestionsText = Messages.DELETE_CONTENT;
+			lectureButtonText = Messages.NEW_CONTENT;
+
 			this.questionStatusButton.setKeynoteWording();
 			this.voteStatusButton.setKeynoteWording();
-
-			lectureButtonText = Messages.NEW_CONTENT;
 			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-question', 'icon-pencil');
 
-			this.caption.setTranslation({
+			captionTranslation = {
 				active: Messages.OPEN_CONTENT,
 				inactive: Messages.CLOSED_CONTENT,
 				disabledVote: Messages.CLOSED_COMMENTATION
-			});
+			};
 
-			this.caption.setBadgeTranslation({
+			badgeTranslation = {
 				feedback: Messages.QUESTIONS_FROM_STUDENTS,
 				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
 				questions: Messages.QUESTIONS,
 				answers: Messages.COMMENTS
-			});
+			};
 		} else {
-			this.toolbar.setTitle(this.toolbar.config.title);
-			this.questionListContainer.setTitle(this.questionListContainer.config.title);
-			this.deleteAnswersButton.setButtonText(this.deleteAnswersButton.config.text);
-			this.deleteQuestionsButton.setButtonText(this.deleteQuestionsButton.config.text);
-			this.exportCsvQuestionsButton.setButtonText(this.exportCsvQuestionsButton.config.text);
-			this.questionsImport.setButtonText(this.questionsImport.config.text);
 			this.questionStatusButton.setDefaultWording();
 			this.voteStatusButton.setDefaultWording();
-
-			this.caption.setTranslation(this.caption.config.translation);
-			this.caption.setBadgeTranslation(this.caption.config.badgeTranslation);
 			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-pencil', 'icon-question');
 		}
 
-		if (features.flashcard) {
+		if (this.getVariant() === 'flashcard') {
 			lectureButtonText = Messages.NEW_FLASHCARD;
+			toolbarTitle = Messages.FLASHCARDS;
+			exportText = Messages.EXPORT_FLASHCARDS;
+			importText = Messages.IMPORT_FLASHCARDS;
+			questionListText = Messages.CONTENT_MANAGEMENT;
+			deleteAnswersText = Messages.DELETE_FLASHCARD_VIEWS;
+			deleteQuestionsText = Messages.DELETE_ALL_FLASHCARDS;
+
+			this.questionStatusButton.setFlashcardsWording();
+
+			captionTranslation = {
+				active: Messages.OPEN_CONTENT,
+				inactive: Messages.CLOSED_CONTENT,
+				disabledVote: ""
+			};
+
+			badgeTranslation = {
+				feedback: "",
+				unredFeedback: "",
+				questions: "",
+				answers: Messages.FLASHCARD_VIEWS
+			};
 		}
 
+		this.toolbar.setTitle(toolbarTitle);
+		this.questionListContainer.setTitle(questionListText);
 		this.newQuestionButton.setButtonText(lectureButtonText);
+		this.deleteAnswersButton.setButtonText(deleteAnswersText);
+		this.deleteQuestionsButton.setButtonText(deleteQuestionsText);
+		this.exportCsvQuestionsButton.setButtonText(exportText);
+		this.questionsImport.setButtonText(importText);
+		this.caption.setTranslation(captionTranslation);
+		this.caption.setBadgeTranslation(badgeTranslation);
 	}
 });
