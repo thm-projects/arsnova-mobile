@@ -27,6 +27,11 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		},
 		slideWording: {
 			release: Messages.RELEASE_SLIDE
+		},
+		flashcardWording: {
+			release: Messages.RELEASE_FLASHCARD,
+			confirm: Messages.CONFIRM_CLOSE_FLASHCARD,
+			confirmMessage: Messages.CONFIRM_CLOSE_FLASHCARD_MESSAGE
 		}
 	},
 
@@ -43,8 +48,16 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		this.parentPanel = args.parentPanel;
 
 		this.isOpen = this.questionObj && this.questionObj.active;
-		var label = this.questionObj && this.questionObj.questionType === 'slide' ?
-			this.getSlideWording().release : this.getWording().release;
+		var label = this.getWording().release;
+
+		if (this.questionObj) {
+			if (this.questionObj.questionType === 'slide') {
+				label = this.getSlideWording().release;
+			} else if (this.questionObj.questionType === 'flashcard') {
+				label = this.getFlashcardWording().release;
+				this.setWording(this.getFlashcardWording());
+			}
+		}
 
 		this.button = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
