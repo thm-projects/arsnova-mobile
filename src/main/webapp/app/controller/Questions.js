@@ -57,6 +57,7 @@ Ext.define("ARSnova.controller.Questions", {
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setLectureMode();
 		sTP.audienceQuestionPanel.prepareQuestionList();
+		sTP.audienceQuestionPanel.setVariant('lecture');
 		sTP.audienceQuestionPanel.voteStatusButton.setLecturerQuestionsMode();
 		sTP.audienceQuestionPanel.questionStatusButton.setLecturerQuestionsMode();
 		sTP.audienceQuestionPanel.toolbar.getTitle().setTitle(Messages.LECTURE_QUESTIONS);
