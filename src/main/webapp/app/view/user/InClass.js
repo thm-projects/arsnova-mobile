@@ -163,6 +163,16 @@ Ext.define('ARSnova.view.user.InClass', {
 			handler: this.buttonClicked
 		});
 
+		this.flashcardQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			ui: 'normal',
+			text: Messages.FLASHCARDS,
+			cls: 'forwardListButton',
+			badgeCls: 'badgeicon',
+			controller: 'FlashcardQuestions',
+			action: 'flashcardIndex',
+			handler: this.buttonClicked
+		});
+
 		this.myQuestionsButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			ui: 'normal',
 			text: Messages.MY_QUESTIONS_AND_COMMENTS,
@@ -188,6 +198,7 @@ Ext.define('ARSnova.view.user.InClass', {
 		var buttons = [];
 		buttons.push(
 			this.lectureQuestionButton,
+			this.flashcardQuestionButton,
 			this.preparationQuestionButton,
 			this.myQuestionsButton
 		);

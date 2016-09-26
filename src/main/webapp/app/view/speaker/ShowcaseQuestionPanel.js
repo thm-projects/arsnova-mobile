@@ -356,5 +356,11 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.setController(ARSnova.app.getController('PreparationQuestions'));
 		this.setQuestionTitleLong(Messages.PREPARATION_QUESTION_LONG);
 		this.setQuestionTitleShort(Messages.PREPARATION_QUESTION_SHORT);
+	},
+
+	setFlashcardMode: function () {
+		this.setController(ARSnova.app.getController('FlashcardQuestions'));
+		this.setQuestionTitleLong(Messages.FLASHCARD);
+		this.setQuestionTitleShort(Messages.FLASHCARD_SHORT);
 	}
 });

@@ -122,6 +122,14 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 		this.setMode('lecture');
 	},
 
+	setFlashcardMode: function () {
+		this.setQuestionCountLoader(Ext.bind(ARSnova.app.questionModel.countFlashcards, ARSnova.app.questionModel));
+		this.setQuestionLoader(Ext.bind(ARSnova.app.questionModel.getFlashcardsForUser, ARSnova.app.questionModel));
+		this.setQuestionTitle(Messages.FLASHCARDS);
+		this.setQuestionTitleShort(Messages.FLASHCARD_SHORT);
+		this.setMode('flashcard');
+	},
+
 	getUnansweredSkillQuestions: function () {
 		var self = this;
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH_QUESTIONS);
