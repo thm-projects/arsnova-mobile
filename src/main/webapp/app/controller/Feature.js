@@ -146,6 +146,7 @@ Ext.define("ARSnova.controller.Feature", {
 			jitt: this.applyJittFeature,
 			lecture: this.applyLectureFeature,
 			feedback: this.applyFeedbackFeature,
+			flashcardFeature: this.applyFlashcardsFeature,
 			interposed: this.applyInterposedFeature,
 			learningProgress: this.applyLearningProgressFeature,
 			slides: this.applySlidesFeature
@@ -175,6 +176,7 @@ Ext.define("ARSnova.controller.Feature", {
 		if (!useCases.custom && !useCases.total) {
 			features.jitt = false;
 			features.learningProgress = false;
+			features.flashcardFeature = false;
 			features.interposed = false;
 			features.feedback = false;
 			features.lecture = false;
@@ -182,7 +184,7 @@ Ext.define("ARSnova.controller.Feature", {
 			features.slides = false;
 
 			if (useCases.flashcard) {
-				features.lecture = true;
+				features.flashcardFeature = true;
 			}
 
 			if (useCases.liveFeedback) {
@@ -260,12 +262,32 @@ Ext.define("ARSnova.controller.Feature", {
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			inClassPanel = tP.speakerTabPanel.inClassPanel;
 			container = inClassPanel.inClassButtons;
-			this.applyButtonChange(container, inClassPanel.liveFeedbackButton, enable, 3);
+			this.applyButtonChange(container, inClassPanel.liveFeedbackButton, enable, 4);
 		} else {
 			inClassPanel = tP.userTabPanel.inClassPanel;
 			container = inClassPanel.actionButtonPanel;
-			this.applyButtonChange(container, inClassPanel.voteButton, enable, 3);
+			this.applyButtonChange(container, inClassPanel.voteButton, enable, 4);
 		}
+	},
+
+	/**
+	 * apply changes affecting the "flashcards" feature
+	 */
+	applyFlashcardsFeature: function (enable) {
+		var tP = ARSnova.app.mainTabPanel.tabPanel;
+		var inClassPanel, container, position;
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			inClassPanel = tP.speakerTabPanel.inClassPanel;
+			container = inClassPanel.inClassButtons;
+			position = 3;
+		} else {
+			inClassPanel = tP.userTabPanel.inClassPanel;
+			container = inClassPanel.inClassButtons;
+			position = 2;
+		}
+
+		this.applyButtonChange(container, inClassPanel.flashcardQuestionButton, enable, position);
 	},
 
 	/**
@@ -379,17 +401,17 @@ Ext.define("ARSnova.controller.Feature", {
 			inClass.updateActionButtonElements();
 
 			if (features.jitt && !features.lecture) {
-				inClass.changeActionButtonsMode(features);
 				tabPanel.showcaseQuestionPanel.setPreparationMode();
 				tabPanel.newQuestionPanel.setVariant('preparation');
+			} else if (features.flashcardFeature) {
+				tabPanel.showcaseQuestionPanel.setFlashcardMode();
+				tabPanel.newQuestionPanel.setVariant('flashcard');
 			} else {
-				inClass.changeActionButtonsMode(features);
 				tabPanel.showcaseQuestionPanel.setLectureMode();
 				tabPanel.newQuestionPanel.setVariant('lecture');
 			}
-			if (features.slides) {
-				inClass.changeActionButtonsMode(features);
-			}
+
+			inClass.changeActionButtonsMode(features);
 		} else {
 			// hide questionsPanel tab when session has no question features active
 			tP.userQuestionsPanel.tab.setHidden(!hasQuestionFeatures);
@@ -413,8 +435,6 @@ Ext.define("ARSnova.controller.Feature", {
 			if (features.slides) {
 				lectureButtonText = Messages.PRESENTATION;
 				questionsButtonText = Messages.MY_QUESTIONS;
-			} else if (features.flashcard) {
-				lectureButtonText = Messages.FLASHCARDS;
 			} else if (features.peerGrading) {
 				lectureButtonText = Messages.EVALUATION_QUESTIONS;
 			}
@@ -543,15 +563,11 @@ Ext.define("ARSnova.controller.Feature", {
 		if (features.slides && !features.lecture && !features.jitt) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.SLIDE]]);
 			panel.optionsToolbar.setHidden(true);
-		} else if (features.flashcard) {
-			panel.questionOptions.setPressedButtons([indexMap[Messages.FLASHCARD]]);
-			panel.optionsToolbar.setHidden(true);
 		} else if (features.peerGrading) {
 			panel.questionOptions.setPressedButtons([indexMap[Messages.EVALUATION]]);
 			panel.optionsToolbar.setHidden(true);
 		} else if (features.clicker) {
 			options[indexMap[Messages.FREETEXT]].hide();
-			options[indexMap[Messages.FLASHCARD]].hide();
 			options[indexMap[Messages.EVALUATION]].hide();
 			options[indexMap[Messages.SCHOOL]].hide();
 			options[indexMap[Messages.GRID]].hide();
@@ -559,6 +575,7 @@ Ext.define("ARSnova.controller.Feature", {
 		} else {
 			panel.optionsToolbar.setHidden(false);
 			panel.questionOptions.config.showAllOptions();
+			options[indexMap[Messages.FLASHCARD]].hide();
 			if (features.slides) {
 				panel.questionOptions.setPressedButtons([indexMap[Messages.SLIDE]]);
 			}

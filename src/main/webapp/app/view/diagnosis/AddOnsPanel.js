@@ -114,6 +114,9 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 					name: 'jitt',
 					label: Messages.PREPARATION_QUESTIONS_LONG
 				}, {
+					name: 'flashcardFeature',
+					label: Messages.FLASHCARDS
+				}, {
 					name: 'interposed',
 					label: Messages.QUESTIONS_FROM_STUDENTS
 				}, {
@@ -177,7 +180,7 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 
 	validateSelection: function (button) {
 		var selection = this.getFeatureValues();
-		if (!selection.lecture && !selection.interposed && !selection.jitt && !selection.feedback && !selection.slides) {
+		if (!selection.lecture && !selection.interposed && !selection.jitt && !selection.flashcardFeature && !selection.feedback && !selection.slides) {
 			Ext.Msg.alert(Messages.NOTIFICATION, Messages.FEATURE_SAVE_ERROR, function () {
 				button.enable();
 			});
