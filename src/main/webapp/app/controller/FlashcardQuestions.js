@@ -28,9 +28,19 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 	listQuestions: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('flashcard');
+		sTP.audienceQuestionPanel.setVariant('flashcard');
 		sTP.audienceQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
+	},
+
+	flashcardIndex: function (options) {
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setFlashcardMode();
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.FLASHCARDS);
+		if (options && options.renew) {
+			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew(options.ids);
+		}
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 	},
 
 	destroyAll: function () {
@@ -38,8 +48,12 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		question.deleteAllFlashcards.apply(question, arguments);
 	},
 
-	getQuestions: function () {
+	deleteAllQuestionsAnswers: function (callbacks) {
 		var question = Ext.create('ARSnova.model.Question');
-		question.getFlashcards.apply(question, arguments);
+		question.deleteAllFlashcardViews(sessionStorage.getItem("keyword"), callbacks);
+	},
+
+	getQuestions: function () {
+		ARSnova.app.questionModel.getFlashcards.apply(ARSnova.app.questionModel, arguments);
 	}
 });
