@@ -189,6 +189,14 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			handler: this.buttonClicked
 		});
 
+		this.flashcardQuestionButton = Ext.create('ARSnova.view.MultiBadgeButton', {
+			text: Messages.FLASHCARDS,
+			cls: 'forwardListButton',
+			controller: 'FlashcardQuestions',
+			action: 'listQuestions',
+			handler: this.buttonClicked
+		});
+
 		this.liveFeedbackButton = Ext.create('ARSnova.view.MultiBadgeButton', {
 			text: Messages.LIVE_FEEDBACK,
 			cls: 'forwardListButton',
@@ -221,6 +229,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			this.feedbackQuestionButton,
 			this.lectureQuestionButton,
 			this.preparationQuestionButton,
+			this.flashcardQuestionButton,
 			this.liveFeedbackButton
 		];
 
@@ -468,9 +477,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 				if (features.total || features.slides) {
 					singularText = pluralText = Messages.SHOWCASE_KEYNOTE;
-				} else if (features.flashcards) {
-					singularText = Messages.SHOWCASE_FLASHCARD;
-					pluralText = Messages.SHOWCASE_FLASHCARDS;
 				} else {
 					singularText = Messages.SHOWCASE_MODE;
 					pluralText = Messages.SHOWCASE_MODE_PLURAL;
@@ -537,6 +543,28 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			});
 		} else {
 			prepPromise.resolve(0);
+		}
+
+		if (features.flashcardFeature) {
+			ARSnova.app.questionModel.countFlashcards(sessionStorage.getItem("keyword"), {
+				success: function (response) {
+					var numFlashcards = parseInt(response.responseText);
+
+					if (!features.jitt && !features.lecture && features.flashcard) {
+						if (numFlashcards === 1) {
+							me.showcaseActionButton.setButtonText(Messages.SHOWCASE_FLASHCARD);
+						} else {
+							me.showcaseActionButton.setButtonText(Messages.SHOWCASE_FLASHCARDS);
+						}
+						me.updateActionButtonElements(!!numFlashcards);
+					}
+
+					me.flashcardQuestionButton.setBadge([
+						{badgeText: numFlashcards, badgeCls: "questionsBadgeIcon"}
+					]);
+				},
+				failure: failureCallback
+			});
 		}
 
 		RSVP.all([lecturePromise, prepPromise]).then(function (questions) {
@@ -622,9 +650,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			this.createAdHocQuestionButton.element.down('.iconBtnImg').replaceCls('icon-pencil', 'icon-question');
 		}
 
-		if (features.flashcard) {
-			lectureButtonText = Messages.FLASHCARDS;
-		} else if (features.peerGrading) {
+		if (features.peerGrading) {
 			lectureButtonText = Messages.EVALUATION_QUESTIONS;
 		}
 
