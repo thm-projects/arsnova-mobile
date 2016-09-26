@@ -320,8 +320,8 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().getLectureQuestions(sessionKeyword, callbacks, offset, limit, requestImageData);
 	},
 
-	getFlashcards: function (sessionKeyword, callbacks) {
-		return this.getProxy().getFlashcards(sessionKeyword, callbacks);
+	getFlashcards: function (sessionKeyword, callbacks, offset, limit, requestImageData) {
+		return this.getProxy().getFlashcards(sessionKeyword, callbacks, offset, limit, requestImageData);
 	},
 
 	getPreparationQuestions: function (sessionKeyword, callbacks, offset, limit, requestImageData) {
@@ -408,6 +408,10 @@ Ext.define('ARSnova.model.Question', {
 		return this.getProxy().getPreparationQuestionsForUser(sessionKeyword, callbacks);
 	},
 
+	getFlashcardsForUser: function (sessionKeyword, callbacks) {
+		return this.getProxy().getFlashcardsForUser(sessionKeyword, callbacks);
+	},
+
 	releasedByCourseId: function (courseId, callbacks) {
 		return this.getProxy().releasedByCourseId(courseId, callbacks);
 	},
@@ -422,6 +426,10 @@ Ext.define('ARSnova.model.Question', {
 
 	deleteAllPreparationAnswers: function (sessionKeyword, callbacks) {
 		return this.getProxy().delAllPreparationAnswers(sessionKeyword, callbacks);
+	},
+
+	deleteAllFlashcardViews: function (sessionKeyword, callbacks) {
+		return this.getProxy().delAllFlashcardViews(sessionKeyword, callbacks);
 	},
 
 	getSubjectPreparationSort: function (sessionKeyword, callbacks) {

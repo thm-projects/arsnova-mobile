@@ -331,10 +331,17 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
-	getFlashcards: function (sessionKeyword, callbacks) {
+	getFlashcards: function (sessionKeyword, callbacks, offset, limit, requestImageData) {
+		var me = this;
 		this.arsjax.request({
-			url: "lecturerquestion/?sessionkey=" + encodeURIComponent(sessionKeyword) + "&flashcardsonly=true",
-			success: callbacks.success,
+			url: "lecturerquestion/?sessionkey=" + encodeURIComponent(sessionKeyword) +
+				"&flashcardsonly=true" + "&requestImageData=" + !!requestImageData,
+			headers: {
+				Range: this.constructRangeString(offset, limit)
+			},
+			success: function (response) {
+				callbacks.success(response, me.getTotalRangeSize(response));
+			},
 			204: callbacks.empty,
 
 			failure: callbacks.failure
@@ -736,6 +743,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	delAllFlashcardViews: function (sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/answers?sessionkey=" + encodeURIComponent(sessionKeyword) + "&flashcardsonly=true",
+			method: "DELETE",
+			success: callbacks.succcess,
+			failure: callbacks.failure
+		});
+	},
+
 	getAnswerByUserAndSession: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/myanswers",
@@ -930,6 +946,22 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			params: {
 				sessionkey: sessionKeyword,
 				preparationquestionsonly: true
+			},
+			success: function (response) {
+				var json = response.responseText || "[]";
+				callbacks.success(Ext.decode(json));
+			},
+			failure: callbacks.failure
+		});
+	},
+
+	getFlashcardsForUser: function (sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "lecturerquestion/",
+			method: "GET",
+			params: {
+				sessionkey: sessionKeyword,
+				flashcardsonly: true
 			},
 			success: function (response) {
 				var json = response.responseText || "[]";
