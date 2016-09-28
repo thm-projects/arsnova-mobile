@@ -276,7 +276,6 @@
 				HINT_FOR_SOLUTION: "Lösungshinweis",
 				HINT_FOR_SOLUTION_EDIT: "Lösungshinweis?",
 				SAMPLE_SOLUTION: "Musterlösung",
-				EXPORT_TO_CLICK: "Exportiere nach Click",
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Fragen sortieren",
@@ -779,6 +778,11 @@
 				IMP_ERROR_FORMAT: "JSON-Datei ist falsch formatiert",
 				IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden",
 				IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe.",
+
+				/* Export to click */
+				QUESTION_EXPORT_TO_CLICK: "Exportiere nach Click",
+				QUESTION_EXPORT_TO_CLICK_MSBOX_TITLE: "Export nach arsnova.click",
+				QUESTION_EXPORT_TO_CLICK_MSBOX_INFO: "Diese Frage wird als JSON-Datei exportiert und wird als ### gespeichert. Sie können diese unter http://arsnova.click/ importieren. Beim Import werden Sie nach einem Hashtag gefragt, unter dem Sie diese Frage als Quiz eröffnen wollen.",
 
 				/* CSV export*/
 				QUESTIONS_CSV_EXPORT_BUTTON: "Fragen<br>exportieren",
@@ -1616,6 +1620,11 @@
 				IMP_ERROR_FORMAT: "JSON file is not formated correctly",
 				IMP_ERROR_SAVE: "Could not save session to database.",
 				IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size.",
+
+				/* Export to click */
+				QUESTION_EXPORT_TO_CLICK: "Export to click",
+				QUESTION_EXPORT_TO_CLICK_MSBOX_TITLE: "Export to arsnova.click",
+				QUESTION_EXPORT_TO_CLICK_MSBOX_INFO: "This question gets exported as a JSON-File and will be saved as ###. You can import this under http://arsnova.click/. You will be asked to enter a hashtag under which this question will be opened as a quiz.",
 
 				/* CSV export */
 				QUESTIONS_CSV_EXPORT_BUTTON: "Export<br>questions",
