@@ -137,6 +137,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.exportToClickButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.QUESTION_EXPORT_TO_CLICK,
 			cls: this.config.buttonClass,
+			hidden: !ARSnova.app.globalConfig.features.exportToClick,
 			imageCls: 'icon-cloud-download',
 			scope: this,
 			handler: function () {
