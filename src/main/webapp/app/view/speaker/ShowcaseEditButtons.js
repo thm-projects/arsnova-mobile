@@ -142,7 +142,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			handler: function () {
 				var questionExportController = ARSnova.app.getController('QuestionExport');
 				var clickQuestionObject = questionExportController.exportQuestionToClick(this.questionObj);
-				questionExportController.saveClickQuestionOnFileSystem(clickQuestionObject);
+				questionExportController.saveClickQuestionOnFileSystem(clickQuestionObject, this.questionObj.subject);
 			}
 		});
 

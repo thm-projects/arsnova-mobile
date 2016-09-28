@@ -132,10 +132,10 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		});
 	},
 
-	saveClickQuestionOnFileSystem: function (questionObj) {
+	saveClickQuestionOnFileSystem: function (questionObj, questionSubject) {
 		var rawJson = JSON.stringify(questionObj);
-		var blob = new Blob([rawJson], {type: "text/plain;charset=utf-8"});
-		this.makeAndClickDownloadLink(blob, "ARSnovaClickQuestion");
+		var blob = new Blob([rawJson], {type: "application/json;charset=utf-8"});
+		this.makeAndClickDownloadLink(blob, localStorage.getItem('shortName') + "_" + questionSubject + ".json");
 	},
 
 	parseJsonToCsv: function (records) {
