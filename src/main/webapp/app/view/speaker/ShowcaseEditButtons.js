@@ -135,14 +135,35 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		});
 
 		this.exportToClickButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.EXPORT_TO_CLICK,
+			text: Messages.QUESTION_EXPORT_TO_CLICK,
 			cls: this.config.buttonClass,
+			hidden: !ARSnova.app.globalConfig.features.exportToClick,
 			imageCls: 'icon-cloud-download',
 			scope: this,
 			handler: function () {
-				var questionExportController = ARSnova.app.getController('QuestionExport');
-				var clickQuestionObject = questionExportController.exportQuestionToClick(this.questionObj);
-				questionExportController.saveClickQuestionOnFileSystem(clickQuestionObject);
+				var messageBox = Ext.create('Ext.MessageBox', {
+					title: Messages.QUESTION_EXPORT_TO_CLICK_MSBOX_TITLE,
+					message: Messages.QUESTION_EXPORT_TO_CLICK_MSBOX_INFO.replace(/###/, localStorage.getItem("shortName") + "_" + this.questionObj.subject + ".json"),
+					cls: 'exportToClickBox',
+					hide: function () {
+					}
+				});
+
+				var question = this.questionObj;
+
+				messageBox.setButtons([{
+					text: Messages.CONTINUE,
+					itemId: 'continue',
+					ui: 'action',
+					handler: function () {
+						var questionExportController = ARSnova.app.getController('QuestionExport');
+						var clickQuestionObject = questionExportController.exportQuestionToClick(question);
+						questionExportController.saveClickQuestionOnFileSystem(clickQuestionObject, question.subject);
+						messageBox.hide();
+					}
+				}]);
+
+				messageBox.show();
 			}
 		});
 
