@@ -782,7 +782,7 @@
 				/* Export to click */
 				QUESTION_EXPORT_TO_CLICK: "Exportiere nach Click",
 				QUESTION_EXPORT_TO_CLICK_MSBOX_TITLE: "Export nach arsnova.click",
-				QUESTION_EXPORT_TO_CLICK_MSBOX_INFO: "Diese Frage wird als JSON-Datei exportiert und wird als ### gespeichert. Sie können diese unter http://arsnova.click/ importieren. Beim Import werden Sie nach einem Hashtag gefragt, unter dem Sie diese Frage als Quiz eröffnen wollen.",
+				QUESTION_EXPORT_TO_CLICK_MSBOX_INFO: "Diese Frage wird als JSON-Datei exportiert und wird als ### gespeichert. Sie können diese Frage als Quiz unter Wettbewerbsbedingungen unter <b>https://arsnova.click/</b> importieren. Beim Import werden Sie nach einem Titel gefragt, unter dem Sie diese Frage als Quiz eröffnen wollen.",
 
 				/* CSV export*/
 				QUESTIONS_CSV_EXPORT_BUTTON: "Fragen<br>exportieren",
@@ -1624,7 +1624,7 @@
 				/* Export to click */
 				QUESTION_EXPORT_TO_CLICK: "Export to click",
 				QUESTION_EXPORT_TO_CLICK_MSBOX_TITLE: "Export to arsnova.click",
-				QUESTION_EXPORT_TO_CLICK_MSBOX_INFO: "This question gets exported as a JSON-File and will be saved as ###. You can import this under http://arsnova.click/. You will be asked to enter a hashtag under which this question will be opened as a quiz.",
+				QUESTION_EXPORT_TO_CLICK_MSBOX_INFO: "This question gets exported as a JSON-File and will be saved as ###. You can import this as a quiz under <b>http://arsnova.click/</b>. You will be asked to enter a hashtag under which this question will be opened as a quiz.",
 
 				/* CSV export */
 				QUESTIONS_CSV_EXPORT_BUTTON: "Export<br>questions",
