@@ -11,11 +11,25 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 	subjectSelect: null,
 	questionFieldSet: null,
 	selectedQuestions: null,
+	saveButton: null,
 
 
 	initialize: function () {
 		this.callParent(arguments);
 		var me = this;
+		
+		this.saveButton = Ext.create('Ext.Button', {
+			ui: 'confirm',
+			cls: 'saveButton centered',
+			text: Messages.IMPORT_AND_ASK_NEW_QUESTION,
+			style: 'margin-top: 20px; margin-bottom: 20px;',
+			handler: function (button) {
+				me.importSelectedQuestions();
+			},
+			scope: me,
+			hidden: true
+		});
+		
 		me.selectedQuestions = [];
 		this.sessionSelect = Ext.create('Ext.field.Select', {
 			label: Messages.IMPORT_SELECT_SESSION,
@@ -23,6 +37,7 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 			listeners: {
 				change: function (field, newValue) {
 					me.subjectSelect.setOptions([]);
+					me.saveButton.setHidden(true);
 					ARSnova.app.questionModel.getLectureQuestions(me.sessions[newValue].keyword, {
 						success: function (response){
 							if (response.status === 200){
@@ -39,6 +54,7 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 									}
 								});
 								me.subjectSelect.setOptions(subjectArray);
+								me.saveButton.setHidden(false);
 							}
 						}
 					}, -1, -1, false);
@@ -89,17 +105,6 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 			}
 		});
 
-		var saveButton = Ext.create('Ext.Button', {
-			ui: 'confirm',
-			cls: 'saveButton centered',
-			text: Messages.IMPORT_AND_ASK_NEW_QUESTION,
-			style: 'margin-top: 20px; margin-bottom: 20px;',
-			handler: function (button) {
-				me.importSelectedQuestions();
-			},
-			scope: me
-		});
-
 		this.add([{
 			xtype: 'formpanel',
 			scrollable: null,
@@ -108,7 +113,7 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 				items: [me.sessionSelect, me.subjectSelect]
 			},
 			me.questionFieldSet,
-			saveButton]
+			me.saveButton]
 		}]);
 	},
 
@@ -160,11 +165,15 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 			success: function (response) {
 				me.sessions = Ext.decode(response.responseText);
 				var sessionArray = [];
+				var currSession=sessionStorage.getItem("keyword");
 				me.sessions.forEach(function (element, index, array) {
-					sessionArray.push({
-						text: element.name + " (" + element.keyword + ")",
-						value: index
-					});
+					if(element.keyword!=currSession)
+					{
+						sessionArray.push({
+							text: element.name + " (" + element.keyword + ")",
+							value: index
+						});
+					}
 				});
 				me.sessionSelect.setOptions(sessionArray);
 			}
