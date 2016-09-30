@@ -225,7 +225,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			{text: Messages["FREETEXT" + messageAppendix], itemId: Messages.FREETEXT},
 			{text: Messages["EVALUATION" + messageAppendix], itemId: Messages.EVALUATION},
 			{text: Messages["SCHOOL" + messageAppendix], itemId: Messages.SCHOOL},
-			{text: Messages["IMPORT" + messageAppendix], itemId: Messages.IMPORT}
 		];
 
 		var config = ARSnova.app.globalConfig;
@@ -248,6 +247,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				hidden: true
 			});
 		}
+		formatItems.push({text: Messages["IMPORT" + messageAppendix], itemId: Messages.IMPORT});
 
 		me.questionOptions = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
