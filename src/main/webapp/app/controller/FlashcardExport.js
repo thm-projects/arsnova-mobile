@@ -39,54 +39,18 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 		controller.getQuestions(sessionStorage.getItem('keyword'), {
 			success: function (response) {
 				var flashcards = me.preparseJson(Ext.decode(response.responseText));
-
-				for (var i = 0, json = ''; i < flashcards.length; i++) {
-					json += JSON.stringify(flashcards[i], null, '\t');
-					json += i < flashcards.length - 1 ? ', ' : '';
-				}
-
+				var json = this.stringifyFlashcards(flashcards);
 				me.exportJsonFile(json);
 			}
 		});
 	},
 
-	parseBackPage: function (questionData) {
-		var correctAnswers = [];
-		var answer = '';
-
-		for (var i = 0, back = null; i < questionData.possibleAnswers.length; i++) {
-			if (questionData.possibleAnswers[i].correct) {
-				answer = questionData.possibleAnswers[i].text;
-				if (questionData.questionType === 'abcd') {
-					answer = answer.slice(3, answer.length);
-				}
-				correctAnswers.push(answer);
-			}
+	stringifyFlashcards: function (flashcards) {
+		for (var i = 0, json = ''; i < flashcards.length; i++) {
+			json += JSON.stringify(flashcards[i], null, '\t');
+			json += i < flashcards.length - 1 ? ', ' : '';
 		}
-
-		if (correctAnswers.length) {
-			back = correctAnswers.join(', ');
-		}
-
-		return back;
- 	},
-
-	formatFlashcard: function (questionData) {
-		var flashcard = {};
-		var questionType = questionData.questionType;
-
-		if (this.suitableTypes.indexOf(questionData.questionType) === -1) {
-			return null;
-		}
-
-		switch(questionType) {
-			case 'mc': case 'abcd': case 'yesno': case 'flashcard':
-				flashcard.back = this.parseBackPage(questionData);
-				break;
-		}
-
-		flashcard.front = questionData.text;
-		return flashcard;
+		return json;
 	},
 
 	preparseJson: function (records) {
@@ -102,6 +66,33 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 		}
 
 		return flashcards;
+	},
+
+	formatFlashcard: function (questionData) {
+		var flashcard = {};
+		switch (questionData.questionType) {
+			case 'mc': case 'abcd': case 'yesno': case 'flashcard':
+				flashcard.back = this.parseBackPage(questionData);
+				break;
+		}
+
+		flashcard.front = questionData.text;
+		return flashcard;
+	},
+
+	parseBackPage: function (questionData) {
+		var possibleAnswers = questionData.possibleAnswers;
+		var correctAnswers = [];
+
+		for (var i = 0, answer = ''; i < possibleAnswers.length; i++) {
+			if (possibleAnswers[i].correct) {
+				answer = possibleAnswers[i].text;
+				correctAnswers.push(questionData.questionType !== 'abcd' ?
+					answer : answer.slice(3, answer.length));
+			}
+		}
+
+		return correctAnswers.join(', ');
 	},
 
 	saveFileOnFileSystem: function (data, filename) {
