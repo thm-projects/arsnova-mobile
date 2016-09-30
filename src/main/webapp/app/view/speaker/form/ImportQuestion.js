@@ -24,16 +24,13 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 				change: function (field, newValue) {
 					me.subjectSelect.setOptions([]);
 					ARSnova.app.questionModel.getLectureQuestions(me.sessions[newValue].keyword, {
-						success: function (response)
-						{
-							if (response.status == 200)
-							{
+						success: function (response){
+							if (response.status === 200){
 								me.questions = Ext.decode(response.responseText);
 								var subjectArray = [];
 								var tmp = [];
 								me.questions.forEach(function (element, index, array) {
-									if (!Ext.Array.contains(tmp, element.subject))
-									{
+									if (!Ext.Array.contains(tmp, element.subject)){
 										subjectArray.push({
 											text: element.subject,
 											value: element.subject
@@ -61,31 +58,25 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 					me.questionFieldSet.removeAll();
 					me.selectedQuestions = [];
 					me.questions.forEach(function (element, index, array) {
-						if (element.subject == newValue)
-						{
+						if (element.subject === newValue){
 							var cb = new Ext.form.Checkbox({
 								name: 'question-cb-' + index,
 								label: element.text,
 								fieldLabel: element.text,
 								value: index,
 								listeners: {
-									check: function (checkbox)
-									{
+									check: function (checkbox){
 										me.selectedQuestions.push(this.getSubmitValue());
 									},
-									uncheck: function (checkbox)
-									{
+									uncheck: function (checkbox){
 										var indx = -1;
-										for (var i = 0; i < me.selectedQuestions.length;i++)
-										{
-											if (me.selectedQuestions[i] == this._value)
-											{
+										for (var i = 0; i < me.selectedQuestions.length;i++){
+											if (me.selectedQuestions[i] === this._value){
 												indx = i;
 												break;
 											}
 										}
-										if (indx > -1)
-										{
+										if (indx > -1){
 											me.selectedQuestions.splice(indx, 1);
 										}
 									}
@@ -126,7 +117,7 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 		var countImported = 0;
 		var countFailed = 0;
 		var numSelected = me.selectedQuestions.length;
-		if (numSelected == 0)
+		if (numSelected === 0)
 		{
 			Ext.toast(Messages.IMPORT_NO_QUESTIONS_SELECTED, 3000);
 			return;
@@ -141,8 +132,7 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 			question.saveSkillQuestion({
 				success: function (response, eOpts) {
 					countImported += 1;
-					if (countImported + countFailed == numSelected)
-					{
+					if (countImported + countFailed === numSelected){
 						Ext.toast(countImported + Messages.QUESTIONS_IMPORTED, 3000);
 						hideLoadMask();
 					}
@@ -150,16 +140,14 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 				failure: function (response, eOpts) {
 					countFailed++;
 					Ext.Msg.alert(Messages.NOTICE, Messages.QUESTION_CREATION_ERROR);
-					if (countImported + countFailed == numSelected)
-					{
+					if (countImported + countFailed === numSelected){
 						Ext.toast(countImported + Messages.QUESTIONS_IMPORTED, 3000);
 						hideLoadMask();
 					}
 				}
 			});
 		});
-		me.questionFieldSet._items.items.forEach(function (element)
-		{
+		me.questionFieldSet._items.items.forEach(function (element){
 			element.setChecked(false);
 		});
 		var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
