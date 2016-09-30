@@ -88,8 +88,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			handler: function (button) {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 				var txt = panel.questionOptions.getPressedButtons()[0]._text;
-				if (txt === Messages.IMPORT || txt === Messages.IMPORT_LONG)
-				{
+				if (txt === Messages.IMPORT || txt === Messages.IMPORT_LONG){
 					me.importQuestion.importSelectedQuestions();
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					sTP.animateActiveItem(sTP.audienceQuestionPanel, {
@@ -97,8 +96,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						direction: 'right',
 						duration: 700
 					});
-				} else
-				{
+				} else{
 					this.saveHandler(button).then(function (response) {
 						ARSnova.app.getController('Questions').details({
 							question: Ext.decode(response.responseText)
@@ -475,7 +473,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		if (me.gridQuestion) {
 			me.add(me.gridQuestion);
 		}
-
 		me.add([
 			me.releasePart, {
 				xtype: 'fieldset',
