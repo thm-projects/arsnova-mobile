@@ -120,36 +120,21 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			}
 		});
 
+		this.exportButton = Ext.create('Ext.Button', {
+			xtype: 'button',
+			text: Messages.QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON,
+			align: 'right',
+			handler: function () {
+				ARSnova.app.getController('QuestionExport').downloadQuestionAnswers(self.questionObj, self.freetextAnswerStore);
+			},
+			hidden: (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT)
+		});
+
 		this.toolbar = Ext.create('Ext.TitleBar', {
 			docked: 'top',
 			ui: 'light',
 			title: Ext.util.Format.htmlEncode(this.questionObj.subject),
-			items: [this.backButton, {
-				xtype: 'button',
-				text: Messages.QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON,
-				align: 'right',
-				handler: function () {
-					//Format
-					var exp = "data:text/csv;charset=utf-8,";
-					//Subject and Question
-					exp += Messages.QUESTION_SUBJECT + ": " + self.questionObj.subject + ";" + Messages.QUESTION + ": " + self.questionObj.text;
-					//Table header
-					exp += "\n" + Messages.QUESTION_DATE + ";" + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_TIME + ";" + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT + ";" + Messages.FREETEXT_DETAIL_ANSWER + ";Timestamp";
-					//Table contents (answers)
-					self.freetextAnswerStore._data.all.forEach(function (item) {
-						exp += "\n" + item._data.groupDate + ";" + item._data.formattedTime + ";" + item._data.answerSubject + ";" + item._data.answerText + ";" + item._data.timestamp;
-					});
-					//Download file
-					//stackoverflow.com/questions/14964035/
-					var encodedUri = encodeURI(exp);
-					var link = document.createElement("a");
-					link.setAttribute("href", encodedUri);
-					link.setAttribute("download", self.questionObj.subject + "_" + self.questionObj.text + "-Answers.csv");
-					document.body.appendChild(link);// Required for FF
-					link.click();
-				},
-				hidden: (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT)
-			}]
+			items: [this.backButton, this.exportButton]
 		});
 
 		// Create standard panel with framework support

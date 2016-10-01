@@ -130,6 +130,39 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		var preparsedQuestion = this.preparseJsontoCsv(records);
 		var csv = ARSnova.utils.CsvUtil.jsonToCsv(preparsedQuestion);
 		this.saveFileOnFileSystem(csv, this.filename());
+	},
+
+	downloadQuestionAnswers: function (questionObj, answers) {
+		//Format
+		var exp = "data:text/csv;charset=utf-8,";
+		//Subeject and Question
+		exp += Messages.QUESTION_SUBJECT + ": " + questionObj.subject + ";" + Messages.QUESTION + ": " + questionObj.text;
+		if (questionObj.questionType === 'freetext') {
+			//Table header
+			exp += "\n" + Messages.QUESTION_DATE + ";" + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_TIME + ";" + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT + ";" + Messages.FREETEXT_DETAIL_ANSWER + ";Timestamp";
+			//Table contents (answers)
+			answers._data.all.forEach(function (item) {
+				exp += "\n" + item._data.groupDate + ";" + item._data.formattedTime + ";" + item._data.answerSubject + ";" + item._data.answerText.replace(/(?:\r\n|\r|\n)/g, ' ') + ";" + item._data.timestamp;
+			});
+		} else {
+			//Table header
+			exp += "\n" + Messages.ANSWERS + ";"
+				+ Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_RELATIVE + ";" + Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE + ";"
+				+ Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_RELATIVE + ";" + Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE;
+			//Table contents (answers)
+			answers.each(function (record) {
+				exp += "\n" + record.get('text') + ";" + record.get('percent-round1') + ";" + record.get('value-round1') + ";" + record.get('percent-round2') + ";" + record.get('value-round2');
+			});
+		}
+
+		//Download file
+		//stackoverflow.com/questions/14964035/
+		var encodedUri = encodeURI(exp);
+		var link = document.createElement("a");
+		link.setAttribute("href", encodedUri);
+		link.setAttribute("download", questionObj.subject + "_" + questionObj.text + "-Answers.csv");
+		document.body.appendChild(link);// Required for FF
+		link.click();
 	}
 
 });

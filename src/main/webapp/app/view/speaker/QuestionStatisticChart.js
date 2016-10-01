@@ -169,27 +169,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				text: Messages.QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON,
 				align: 'right',
 				handler: function () {
-					//Format
-					var exp = "data:text/csv;charset=utf-8,";
-					//Subeject and Question
-					exp += Messages.QUESTION_SUBJECT + ": " + me.questionObj.subject + ";" + Messages.QUESTION + ": " + me.questionObj.text;
-					//Table header
-					exp += "\n" + Messages.ANSWERS + ";"
-						+ Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_RELATIVE + ";" + Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE + ";"
-						+ Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_RELATIVE + ";" + Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE;
-					//Table contents (answers)
-					me.questionStore.each(function (record) {
-						exp += "\n" + record.get('text') + ";" + record.get('percent-round1') + ";" + record.get('value-round1') + ";" + record.get('percent-round2') + ";" + record.get('value-round2');
-					});
-
-					//Download file
-					//stackoverflow.com/questions/14964035/
-					var encodedUri = encodeURI(exp);
-					var link = document.createElement("a");
-					link.setAttribute("href", encodedUri);
-					link.setAttribute("download", me.questionObj.subject + "_" + me.questionObj.text + "-Answers.csv");
-					document.body.appendChild(link);// Required for FF
-					link.click();
+					ARSnova.app.getController('QuestionExport').downloadQuestionAnswers(me.questionObj, me.questionStore);
 				},
 				hidden: (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT || me.questionObj.questionType === 'grid')
 			}
