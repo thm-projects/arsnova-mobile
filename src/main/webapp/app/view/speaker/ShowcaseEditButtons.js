@@ -41,6 +41,9 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 				|| (['grid'].indexOf(type) !== -1 && type === 'moderation')) {
 			this.hasCorrectAnswers = false;
 		}
+		if (['yesno', 'school', 'vote', 'mc', 'sc', 'abcd'].indexOf(type) !== -1) {
+			this.isExportableToClick = true;
+		}
 
 		this.releaseStatisticButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
@@ -131,6 +134,39 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			}
 		});
 
+		this.exportToClickButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.QUESTION_EXPORT_TO_CLICK,
+			cls: this.config.buttonClass,
+			hidden: !ARSnova.app.globalConfig.features.exportToClick,
+			imageCls: 'icon-cloud-download',
+			scope: this,
+			handler: function () {
+				var messageBox = Ext.create('Ext.MessageBox', {
+					title: Messages.QUESTION_EXPORT_TO_CLICK_MSBOX_TITLE,
+					message: Messages.QUESTION_EXPORT_TO_CLICK_MSBOX_INFO.replace(/###/, localStorage.getItem("shortName") + "_" + this.questionObj.subject + ".json"),
+					cls: 'exportToClickBox',
+					hide: function () {
+					}
+				});
+
+				var question = this.questionObj;
+
+				messageBox.setButtons([{
+					text: Messages.CONTINUE,
+					itemId: 'continue',
+					ui: 'action',
+					handler: function () {
+						var questionExportController = ARSnova.app.getController('QuestionExport');
+						var clickQuestionObject = questionExportController.exportQuestionToClick(question);
+						questionExportController.saveClickQuestionOnFileSystem(clickQuestionObject, question.subject);
+						messageBox.hide();
+					}
+				}]);
+
+				messageBox.show();
+			}
+		});
+
 		this.voteManagementButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.RELEASE_VOTE,
 			cls: this.config.buttonClass,
@@ -205,6 +241,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.showCorrectAnswerButton.setCls(this.config.buttonClass);
 		this.statusButton.button.setCls(this.config.buttonClass);
 		this.releaseStatisticButton.setCls(this.config.buttonClass);
+		this.exportToClickButton.setCls(this.config.buttonClass);
 
 		return [{
 			xtype: 'panel',
@@ -213,6 +250,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 				this.voteManagementButton,
 				this.statusButton,
 				this.releaseStatisticButton,
+				this.isExportableToClick ? this.exportToClickButton : {},
 				this.hasCorrectAnswers ? this.showCorrectAnswerButton : {}
 			]
 		}];
@@ -222,7 +260,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		var firstRowComponents = [
 			this.voteManagementButton,
 			this.statusButton,
-			this.releaseStatisticButton
+			this.releaseStatisticButton,
+			this.isExportableToClick ? this.exportToClickButton : {}
 		];
 
 		var secondRowComponents = [
@@ -232,6 +271,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 		this.showCorrectAnswerButton.removeCls(this.config.buttonClass);
 		this.statusButton.button.removeCls(this.config.buttonClass);
 		this.releaseStatisticButton.removeCls(this.config.buttonClass);
+		this.exportToClickButton.removeCls(this.config.buttonClass);
 
 		return [{
 			xtype: 'panel',
