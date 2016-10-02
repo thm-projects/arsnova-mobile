@@ -373,6 +373,8 @@
 				ARE_YOU_SURE: "Sind Sie sicher?",
 				DELETE_QUESTION_TITLE: "Frage löschen",
 				DELETE_QUESTIONS_TITLE: "Fragen löschen",
+				DELETE_FLASHCARD_TITLE: "Lernkarte löschen",
+				DELETE_FLASHCARDS_TITLE: "Lernkarten löschen",
 				DELETE_SESSION_TITLE: "Session löschen",
 				DELETE_SESSION_NOTICE: "Es werden alle Fragen und Antworten der Session gelöscht",
 				CATEGORY: "Thema",
@@ -404,12 +406,16 @@
 				STATISTICS: "Statistiken",
 				ALL_CORRECT: "Komplett richtig",
 				ALL_WRONG: "Komplett falsch",
-				LEARNING_STATUS:	"Lernstand des Kurses",
+				LEARNING_STATUS: "Lernstand des Kurses",
 				DELETE_ALL: "Alle löschen",
 				DELETE_ANSWERS_REQUEST: "Antworten löschen?",
 				DELETE_ALL_ANSWERS_REQUEST: "Alle Antworten löschen?",
+				DELETE_VIEWS_REQUEST: "Ansichten löschen?",
+				DELETE_ALL_VIEWS_REQUEST: "Alle Ansichten löschen?",
 				ALL_QUESTIONS_REMAIN: "Alle Fragen bleiben erhalten",
+				ALL_FLASHCARDS_REMAIN: "Alle Lernkarten bleiben erhalten",
 				QUESTION_REMAINS: "Die Frage bleibt erhalten",
+				FLASHCARD_REMAINS: "Die Lernkarte bleibt erhalten",
 				INCOMPLETE_INPUTS: "Ihre Eingaben sind unvollständig",
 				DELETE_ALL_ANSWERS_INFO: "Es werden auch alle bisher gegebenen Antworten gelöscht",
 				DELETE_ROUND_ANSWERS_COMPLETED: "Die Antworten der aktuellen Runde wurden gelöscht",
@@ -793,18 +799,21 @@
 				IMP_ERROR_SAVE: "Session konnte nicht gespeichert werden",
 				IMP_ERROR_IMAGE: "Session konnte nicht gespeichert werden. Bild überschreitet maximale Größe.",
 
-				/* CSV export*/
-				QUESTIONS_CSV_EXPORT_BUTTON: "Fragen<br>exportieren",
-				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Inhalte exportieren",
-				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "Die Inhalte werden als CSV-Datei exportiert. Fragen vom Typ \"Hot Spots\" werden übersprungen. Für den gesamten Export der Session steht der Export auf der Sessionübersichtseite zur Verfügung. <br>Fragen exportieren?",
+				/* content export*/
+				QUESTIONS_EXPORT_BUTTON: "Fragen<br>exportieren",
+				QUESTIONS_EXPORT_MSBOX_TITLE: "Inhalte exportieren",
+				QUESTIONS_EXPORT_MSBOX_INFO: "Die Inhalte können wahlweise als CSV-Datei oder für den Import in ARSnova-Cards als JSON-Datei exportiert werden. Fragen vom Typ \"Hot Spots\" werden übersprungen. Für den gesamten Export der Session steht der Export auf der Sessionübersichtseite zur Verfügung.",
+				ARSNOVA_CARDS: "ARSnova.cards",
+				CSV_FILE: "CSV-Datei",
 
-				/* CSV import*/
-				QUESTIONS_CSV_IMPORT_BUTTON: "Fragen<br>importieren",
-				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Inhalte importieren",
-				QUESTIONS_CSV_IMPORT_ERR_IN_ROW: "in Zeile",
-				QUESTIONS_CSV_IMPORT_TYPE_ERROR: "Ungültiger Fragentyp",
-				QUESTIONS_CSV_IMPORT_ABSTENTION_ERROR: "Fehler im Feld 'abstention'",
-				QUESTIONS_CSV_IMPORT_INVALID_FORMAT: "Ungültiges Dateiformat"
+				/* content import*/
+				QUESTIONS_IMPORT_BUTTON: "Fragen<br>importieren",
+				QUESTIONS_IMPORT_MSBOX_TITLE: "Inhalte importieren",
+				QUESTIONS_IMPORT_ERR_IN_ROW: "in Zeile",
+				QUESTIONS_IMPORT_TYPE_ERROR: "Ungültiger Fragentyp",
+				QUESTIONS_IMPORT_ABSTENTION_ERROR: "Fehler im Feld 'abstention'",
+				QUESTIONS_IMPORT_INVALID_FORMAT: "Ungültiges Dateiformat",
+				FLASHCARDS_CHOOSE_SUBJECT: "Legen Sie ein Thema für das zu importierende Lernkarten-Set fest"
 			};
 
 			switch (variation) {
@@ -1218,6 +1227,8 @@
 				ARE_YOU_SURE: "Are you sure?",
 				DELETE_QUESTION_TITLE: "Delete question",
 				DELETE_QUESTIONS_TITLE: "Delete questions",
+				DELETE_FLASHCARD_TITLE: "Delete flashcard",
+				DELETE_FLASHCARDS_TITLE: "Delete flashcards",
 				DELETE_SESSION_TITLE: "Delete session",
 				DELETE_SESSION_NOTICE: "All questions and answers of this session will be deleted.",
 				CATEGORY: "Subject",
@@ -1253,12 +1264,16 @@
 				DELETE_ALL: "Delete all",
 				DELETE_ANSWERS_REQUEST: "Delete answers?",
 				DELETE_ALL_ANSWERS_REQUEST: "Delete all answers?",
+				DELETE_VIEWS_REQUEST: "Delete views?",
+				DELETE_ALL_VIEWS_REQUEST: "Delete all views?",
 				DELETE_ROUND_ANSWERS_COMPLETED: "All answers of the actual round have been deleted.",
 				RELEASE_LIVE_VOTING: "Release voting",
 				CLOSE_LIVE_VOTING: "Freeze voting",
 				QUESTION_REMAINS: "The question itself stays unaffected.",
+				FLASHCARD_REMAINS: "The flashcard itself stays unaffected.",
 				INCOMPLETE_INPUTS: "Your inputs are incomplete.",
 				ALL_QUESTIONS_REMAIN: "The questions themselves stay unaffected.",
+				ALL_FLASHCARDS_REMAIN: "The flashcards themselves stay unaffected",
 				DELETE_ALL_ANSWERS_INFO: "This will also delete all previously given answers.",
 				CHANGE_RELEASE: "Changing the release...",
 				TYPE: 'Type',
@@ -1644,18 +1659,21 @@
 				IMP_ERROR_SAVE: "Could not save session to database.",
 				IMP_ERROR_IMAGE: "Could not save session, image exceeds maximal size.",
 
-				/* CSV export */
-				QUESTIONS_CSV_EXPORT_BUTTON: "Export<br>questions",
-				QUESTIONS_CSV_EXPORT_MSBOX_TITLE: "Export content",
-				QUESTIONS_CSV_EXPORT_MSBOX_INFO: "The questions will be exported as a CSV file. \"Hot Spots\" questions won't be exported. For exporting the whole session please use the export function on the session overview.<br>Export questions?",
+				/* content export */
+				QUESTIONS_EXPORT_BUTTON: "Export<br>content",
+				QUESTIONS_EXPORT_MSBOX_TITLE: "Export content",
+				QUESTIONS_EXPORT_MSBOX_INFO: "The content can be exported as a CSV file or preformatted for ARSnova.cards as a JSON file. \"Hot Spots\" questions won't be exported. For exporting the whole session please use the export function on the session overview.",
+				ARSNOVA_CARDS: "ARSnova.cards",
+				CSV_FILE: "CSV file",
 
-				/* CSV import */
-				QUESTIONS_CSV_IMPORT_BUTTON: "Import<br>questions",
-				QUESTIONS_CSV_IMPORT_MSBOX_TITLE: "Import content",
-				QUESTIONS_CSV_IMPORT_ERR_IN_ROW: "at line",
-				QUESTIONS_CSV_IMPORT_TYPE_ERROR: "Invalid question type",
-				QUESTIONS_CSV_IMPORT_ABSTENTION_ERROR: "Error in field 'abstention'",
-				QUESTIONS_CSV_IMPORT_INVALID_FORMAT: "Invalid file format"
+				/* content import */
+				QUESTIONS_IMPORT_BUTTON: "Import<br>content",
+				QUESTIONS_IMPORT_MSBOX_TITLE: "Import content",
+				QUESTIONS_IMPORT_ERR_IN_ROW: "at line",
+				QUESTIONS_IMPORT_TYPE_ERROR: "Invalid question type",
+				QUESTIONS_IMPORT_ABSTENTION_ERROR: "Error in field 'abstention'",
+				QUESTIONS_IMPORT_INVALID_FORMAT: "Invalid file format",
+				FLASHCARDS_CHOOSE_SUBJECT: "Enter a subject for the imported flashcard-set"
 			};
 
 			switch (variation) {

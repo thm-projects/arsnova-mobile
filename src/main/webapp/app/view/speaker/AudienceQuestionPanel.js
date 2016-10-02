@@ -50,9 +50,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 	questions: null,
 	newQuestionButton: null,
-
 	questionStore: null,
-	reader: new FileReader(),
 
 	updateAnswerCount: {
 		name: 'refresh the number of answers inside the badges',
@@ -70,16 +68,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var actionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
 		this.screenWidth = screenWidth;
-
-		this.reader.onload = function (event) {
-			ARSnova.app.getController('QuestionImport').importCsvFile(self.reader.result);
-			var field = self.loadFilePanel.query('filefield')[0];
-			// field.setValue currently has no effect - Sencha bug?
-			field.setValue(null);
-			// Workaround: Directly reset value on DOM element
-			field.element.query('input')[0].value = null;
-			field.enable();
-		};
 
 		this.questionStore = Ext.create('Ext.data.JsonStore', {
 			model: 'ARSnova.model.Question',
@@ -210,7 +198,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 
 		this.questionsImport = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.QUESTIONS_CSV_IMPORT_BUTTON,
+			text: Messages.QUESTIONS_IMPORT_BUTTON,
 			buttonConfig: 'icon',
 			imageCls: 'icon-cloud-upload',
 			cls: 'actionButton',
@@ -224,49 +212,113 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			centered: true
 		});
 
-		this.loadFilePanel = Ext.create('Ext.Panel', {
-			modal: true,
-			centered: true,
-			ui: 'light',
-			items: [
-				{
-					xtype: 'toolbar',
-					docked: 'top',
-					title: Messages.QUESTIONS_CSV_IMPORT_MSBOX_TITLE,
-					ui: 'light',
-					items: [{
-							xtype: 'spacer'
-						}, {
-							xtype: 'button',
-							ui: 'plain',
-							iconCls: 'delete',
-							iconMask: true,
-							text: '',
-							action: 'hideModal'
-						}
-					]
-				},
-				{
-					xtype: 'filefield',
-					accept: 'text/csv',
-					listeners: {
-						change: function (element, newValue, oldValue) {
-							// Workaround: The change event is triggered twice in Chrome
-							if (element.isDisabled()) {
-								return;
-							}
-							element.disable();
+		this.uploadField = Ext.create('Ext.ux.Fileup', {
+			xtype: 'fileupload',
+			autoUpload: true,
+			loadAsDataUrl: true,
+			cls: 'importFileField',
+			flex: 0,
+			listeners: {
+				loadsuccess: function (data) {
+					if (!Ext.os.is.iOS) {
+						// remove prefix and decode
+						var str = data.substring(data.indexOf("base64,") + 7);
+						data = decodeURIComponent(window.escape(atob(str)));
 
-							var path = element.getValue();
-							var fileType = path.substring(path.lastIndexOf('.'));
-							if (fileType === '.csv') {
-								var file = element.bodyElement.dom.firstElementChild.firstElementChild.files[0];
-								self.reader.readAsText(file);
+						if (self.getVariant() === 'flashcard') {
+							self.loadFilePanel.hide();
+							if (this.importCsv) {
+								ARSnova.app.getController('FlashcardImport').importCsvFile(data);
+							} else if (this.importFlashcards) {
+								ARSnova.app.getController('FlashcardImport').importJsonFile(data);
 							}
+						} else {
+							ARSnova.app.getController('QuestionImport').importCsvFile(data);
 						}
+
+						this.importCsv = false;
+						this.importFlashcards = false;
 					}
-				}
-			]
+				},
+				loadfailure: function (message) {}
+			}
+		});
+
+		this.loadFilePanel = Ext.create('Ext.MessageBox', {
+			hideOnMaskTap: true,
+			cls: 'importExportFilePanel',
+			title: Messages.QUESTIONS_IMPORT_MSBOX_TITLE,
+			items: [{
+				xtype: 'button',
+				iconCls: 'icon-close',
+				cls: 'closeButton',
+				handler: function () { this.getParent().hide(); }
+			}, {
+				xtype: 'container',
+				layout: 'hbox',
+				defaults: {
+					xtype: 'button',
+					cls: 'overlayButton',
+					ui: 'action',
+					scope: this,
+					flex: 1
+				},
+				items: [this.uploadField, {
+					text: Messages.CSV_FILE,
+					handler: function () {
+						this.uploadField.importCsv = true;
+						this.uploadField.fileElement.dom.accept = 'text/csv';
+						this.uploadField.fileElement.dom.click();
+					}
+				}, {
+					text: Messages.ARSNOVA_CARDS,
+					itemId: 'flashcardImportButton',
+					handler: function () {
+						this.uploadField.importFlashcards = true;
+						this.uploadField.fileElement.dom.accept = 'application/json';
+						this.uploadField.fileElement.dom.click();
+					}
+				}]
+			}]
+		});
+
+		this.exportFilePanel = Ext.create('Ext.MessageBox', {
+			hideOnMaskTap: true,
+			cls: 'importExportFilePanel',
+			title: Messages.QUESTIONS_EXPORT_MSBOX_TITLE,
+			items: [{
+				xtype: 'button',
+				iconCls: 'icon-close',
+				cls: 'closeButton',
+				handler: function () { this.getParent().hide(); }
+			}, {
+				html: Messages.QUESTIONS_EXPORT_MSBOX_INFO,
+				cls: 'x-msgbox-text'
+			}, {
+				xtype: 'container',
+				layout: 'hbox',
+				defaults: {
+					xtype: 'button',
+					ui: 'action',
+					scope: this,
+					flex: 1
+				},
+				items: [{
+					text: Messages.CSV_FILE,
+					handler: function () {
+						ARSnova.app.getController('QuestionExport')
+							.exportQuestions(this.getController());
+						this.exportFilePanel.hide();
+					}
+				}, {
+					text: Messages.ARSNOVA_CARDS,
+					handler: function () {
+						ARSnova.app.getController('FlashcardExport')
+							.exportFlashcards(this.getController());
+						this.exportFilePanel.hide();
+					}
+				}]
+			}]
 		});
 
 		this.actionButtonPanel = Ext.create('Ext.Panel', {
@@ -319,10 +371,17 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			cls: actionButtonCls,
 			scope: this,
 			handler: function () {
-				var me = this;
-				Ext.Msg.confirm(Messages.DELETE_ALL_ANSWERS_REQUEST, Messages.ALL_QUESTIONS_REMAIN, function (answer) {
+				var title = Messages.DELETE_ALL_ANSWERS_REQUEST;
+				var message = Messages.ALL_QUESTIONS_REMAIN;
+
+				if (this.getVariant() === 'flashcard') {
+					title = Messages.DELETE_ALL_VIEWS_REQUEST;
+					message = Messages.ALL_FLASHCARDS_REMAIN;
+				}
+
+				Ext.Msg.confirm(title, message, function (answer) {
 					if (answer === 'yes') {
-						me.getController().deleteAllQuestionsAnswers({
+						this.getController().deleteAllQuestionsAnswers({
 							success: Ext.bind(this.handleDeleteAnswers, this),
 							failure: Ext.emptyFn
 						});
@@ -340,8 +399,15 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;
-				msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
-				Ext.Msg.confirm(Messages.DELETE_QUESTIONS_TITLE, msg, function (answer) {
+				var title = Messages.DELETE_QUESTIONS_TITLE;
+
+				if (this.getVariant() === 'flashcard') {
+					title = Messages.DELETE_FLASHCARDS_TITLE;
+				} else {
+					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
+				}
+
+				Ext.Msg.confirm(title, msg, function (answer) {
 					if (answer === 'yes') {
 						this.getController().destroyAll(sessionStorage.getItem("keyword"), {
 							success: Ext.bind(this.onActivate, this),
@@ -357,23 +423,14 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.exportCsvQuestionsButton = Ext.create('ARSnova.view.MatrixButton', {
 			hidden: true,
 			buttonConfig: 'icon',
-			text: Messages.QUESTIONS_CSV_EXPORT_BUTTON,
+			text: Messages.QUESTIONS_EXPORT_BUTTON,
 			imageCls: 'icon-cloud-download',
 			cls: 'actionButton',
 			scope: this,
 			handler: function () {
-				var msg = Messages.QUESTIONS_CSV_EXPORT_MSBOX_INFO;
-
-				Ext.Msg.confirm(Messages.QUESTIONS_CSV_EXPORT_MSBOX_TITLE, msg, function (answer) {
-					if (answer === 'yes') {
-						this.getController().getQuestions(sessionStorage.getItem('keyword'), {
-							success: function (response) {
-								var questions = Ext.decode(response.responseText);
-								ARSnova.app.getController('QuestionExport').parseJsonToCsv(questions);
-							}
-						});
-					}
-				}, this);
+				var msg = Messages.QUESTIONS_EXPORT_MSBOX_INFO;
+				Ext.Viewport.add(this.exportFilePanel);
+				this.exportFilePanel.show();
 			}
 		});
 
@@ -427,6 +484,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			return;
 		}
 		ARSnova.app.taskManager.start(this.updateAnswerCount);
+		this.flashcardImportButton = Ext.ComponentQuery.query('#flashcardImportButton')[0];
 		this.applyUIChanges();
 		this.questionStore.removeAll();
 		this.getQuestions();
@@ -686,6 +744,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			questionListText = Messages.CONTENT_MANAGEMENT;
 			deleteAnswersText = Messages.DELETE_FLASHCARD_VIEWS;
 			deleteQuestionsText = Messages.DELETE_ALL_FLASHCARDS;
+			this.flashcardImportButton.show();
 
 			this.questionStatusButton.setFlashcardsWording();
 
@@ -701,6 +760,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				questions: "",
 				answers: Messages.FLASHCARD_VIEWS
 			};
+		} else {
+			this.flashcardImportButton.hide();
 		}
 
 		this.toolbar.setTitle(toolbarTitle);

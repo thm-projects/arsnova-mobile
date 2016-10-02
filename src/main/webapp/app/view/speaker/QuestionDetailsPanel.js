@@ -704,7 +704,9 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			imageCls: 'icon-close warningIconColor',
 			scope: this,
 			handler: function () {
-				Ext.Msg.confirm(Messages.DELETE_ANSWERS_REQUEST, Messages.QUESTION_REMAINS, function (answer) {
+				var title = this.isFlashcard ? Messages.DELETE_VIEWS_REQUEST : Messages.DELETE_ANSWERS_REQUEST;
+				var message = this.isFlashcard ? Messages.FLASHCARD_REMAINS : Messages.QUESTION_REMAINS;
+				Ext.Msg.confirm(title, message, function (answer) {
 					if (answer === 'yes') {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						ARSnova.app.questionModel.deleteAnswers(panel.questionObj._id, {
@@ -742,10 +744,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;
-				if (this.questionObj.active) {
+				var title = this.isFlashcard ? Messages.DELETE_FLASHCARD_TITLE :
+					Messages.DELETE_QUESTION_TITLE;
+
+				if (this.questionObj.active && !this.isFlashcard) {
 					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
 				}
-				Ext.Msg.confirm(Messages.DELETE_QUESTION_TITLE, msg, function (answer) {
+
+				Ext.Msg.confirm(title, msg, function (answer) {
 					if (answer === 'yes') {
 						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 						ARSnova.app.questionModel.destroy(sTP.questionDetailsPanel.questionObj, {
