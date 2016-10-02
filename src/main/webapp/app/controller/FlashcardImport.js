@@ -48,7 +48,6 @@ Ext.define("ARSnova.controller.FlashcardImport", {
 		var questions = [], json = '';
 
 		try {
-			this.showLoadMask();
 			json = JSON.parse(ARSnova.utils.CsvUtil.csvToJson(csv));
 			json.splice(0, 1);
 
@@ -65,18 +64,34 @@ Ext.define("ARSnova.controller.FlashcardImport", {
 		}
 	},
 
-	importJsonFile: function (json) {
+	importJsonFile: function (json, showPrompt) {
 		var me = this;
+		var flashcards = [];
 
 		try {
-			this.showLoadMask();
 			json = JSON.parse('[' + json + ']');
-
 			if (!this.hasValidationError(json)) {
-				var flashcards = this.formatFlashcards(json);
-				ARSnova.app.restProxy.bulkSaveSkillQuestions(flashcards, {
-					success: function (response) { me.refreshPanel(false); },
-					failure: function (response) { throw true; }
+				Ext.Msg.show({
+					message: Messages.FLASHCARDS_CHOOSE_SUBJECT,
+					cls: 'importSubjectPrompt',
+					buttons: [
+						{text: Messages.CANCEL, itemId: 'cancel', ui: 'action'},
+						{text: Messages.SAVE, itemId: 'save', ui: 'action'}
+					],
+					prompt: {xtype: 'textfield', placeHolder: Messages.FLASHCARDS},
+					fn: function (buttonId, subject) {
+						if (buttonId === 'save') {
+							me.showLoadMask();
+							subject = subject === '' ? Messages.FLASHCARDS : subject;
+							flashcards = me.formatFlashcards(json, subject);
+							ARSnova.app.restProxy.bulkSaveSkillQuestions(flashcards, {
+								success: function (response) { me.refreshPanel(false); },
+								failure: function (response) { me.refreshPanel(true); }
+							});
+						} else {
+							me.refreshPanel(false);
+						}
+					}
 				});
 			} else {
 				throw true;
@@ -88,7 +103,7 @@ Ext.define("ARSnova.controller.FlashcardImport", {
 
 	formatFlashcards: function (flashcards, subject) {
 		var flashcardSet = [];
-		subject = 'test';
+
 		for (var i = 0, flashcard = {}; i < flashcards.length; i++) {
 			flashcard = Ext.create('ARSnova.model.Question', {
 				abstention: false,
