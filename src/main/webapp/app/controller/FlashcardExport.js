@@ -39,7 +39,7 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 		controller.getQuestions(sessionStorage.getItem('keyword'), {
 			success: function (response) {
 				var flashcards = me.preparseJson(Ext.decode(response.responseText));
-				var json = this.stringifyFlashcards(flashcards);
+				var json = me.stringifyFlashcards(flashcards);
 				me.exportJsonFile(json);
 			}
 		});
