@@ -277,5 +277,18 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				console.log('server side error');
 			}
 		}, this.list.getStartIndex(), this.list.getEndIndex() + 1);
+	},
+
+	deleteEntry: function (record) {
+		var panel = this;
+		ARSnova.app.questionModel.deleteInterposed(record, {
+			success: function () {
+				panel.lastTimestamp = 0;
+				panel.getCheckFeedbackQuestionsTask().taskRunTime = 0;
+			},
+			failure: function (response) {
+				console.log('server-side error delete question');
+			}
+		});
 	}
 });
