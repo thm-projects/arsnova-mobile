@@ -83,10 +83,7 @@ Ext.define('ARSnova.view.speaker.form.ExpandingAnswerForm', {
 			items: [answerFieldset]
 		});
 
-		if (ARSnova.app.globalConfig.parseAnswerOptionFormatting) {
-			answerOptions.add(previewButton);
-		}
-
+		answerOptions.add(previewButton);
 		var answerOptionEntryId = Ext.id();
 
 		var optionsLoopFunc = function (i) {
