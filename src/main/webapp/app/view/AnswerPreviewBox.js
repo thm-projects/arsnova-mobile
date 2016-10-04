@@ -146,40 +146,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 				this.grid.setEditable(true);
 			}
 		} else if (options.questionType === 'flashcard') {
-			var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-				style: 'word-wrap: break-word;',
-				cls: ''
-			});
-
-			this.answerList = Ext.create('Ext.Container', {
-				layout: 'vbox',
-				cls: 'roundedBox',
-				hidden: true,
-				style: 'margin-bottom: 10px;',
-				styleHtmlContent: true
-			});
-
-			this.answerList.add(answerPanel);
-			answerPanel.setContent(this.answers[0].text, true, true);
-
-			var flashcardButton = {
-				xtype: 'button',
-				cls: 'login-button',
-				ui: 'confirm',
-				text: Messages.SHOW_FLASHCARD_ANSWER,
-				handler: function (button) {
-					if (this.answerList.isHidden()) {
-						this.answerList.show();
-						button.setText(Messages.HIDE_FLASHCARD_ANSWER);
-					} else {
-						this.answerList.hide();
-						button.setText(Messages.SHOW_FLASHCARD_ANSWER);
-					}
-				},
-				scope: this
-			};
-
-			this.mainPanel.add([flashcardButton, this.answerList]);
+			this.prepareFlashcardQuestion(options);
 		} else {
 			this.answerList = Ext.create('ARSnova.view.components.List', {
 				store: Ext.create('Ext.data.Store', {
@@ -228,11 +195,15 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			this.mainPanel.add([this.answerList]);
 		}
 
-		this.mainPanel.add([
-			this.confirmButton
-		]);
-
 		this.show();
+
+		if (options.questionType === 'flashcard') {
+			this.resizeFlashcardContainer();
+		} else {
+			this.mainPanel.add([
+				this.confirmButton
+			]);
+		}
 
 		// for IE: unblock input fields
 		Ext.util.InputBlocker.unblockInputs();
@@ -253,6 +224,80 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		}
 
 		this.questionPanel.setContent(questionString, true, true);
+	},
+
+	prepareFlashcardQuestion: function (options) {
+		this.remove(this.mainPanel, false);
+		this.mainPanel.remove(this.confirmButton, false);
+		this.answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			style: 'word-wrap: break-word;'
+		});
+
+		this.questionContainer = Ext.create('Ext.Container', {
+			cls: "questionPanel flashcard",
+			items: [this.questionPanel, this.answerPanel]
+		});
+
+		this.formPanel = Ext.create('Ext.form.Panel', {
+			scrollable: null,
+			cls: 'flashcardContainer',
+			items: [this.questionContainer]
+		});
+
+		// add css classes for 3d flip animation
+		this.questionPanel.addCls('front');
+		this.answerPanel.addCls('back');
+		this.answerPanel.setContent(options.answers[0].text, true, true);
+
+		this.formPanel.add([{
+			xtype: 'button',
+			cls: 'saveButton centered',
+			ui: 'confirm',
+			text: Messages.SHOW_FLASHCARD_ANSWER,
+			handler: function (button) {
+				if (!this.questionContainer.isFlipped) {
+					this.questionContainer.isFlipped = true;
+					this.questionContainer.addCls('flipped');
+					button.setText(Messages.HIDE_FLASHCARD_ANSWER);
+				} else {
+					this.questionContainer.isFlipped = false;
+					this.questionContainer.removeCls('flipped');
+					button.setText(Messages.SHOW_FLASHCARD_ANSWER);
+				}
+			},
+			scope: this
+		}, this.confirmButton]);
+
+		this.add(this.formPanel, this.mainPanel);
+	},
+
+	resizeFlashcardContainer: function () {
+		var back = this.answerPanel;
+		var front = this.questionPanel;
+		var container = this.questionContainer;
+		var hiddenEl = container.isFlipped ? front : back;
+		var heightBack, heightFront;
+
+		back.setHeight('initial');
+		front.setHeight('initial');
+		hiddenEl.setStyle({display: 'block', position: 'absolute'});
+		heightBack = back.element.dom.getBoundingClientRect().height;
+		heightFront = front.element.dom.getBoundingClientRect().height;
+		hiddenEl.setStyle({display: '', position: '', visibility: ''});
+
+		if (!heightFront || !heightBack) {
+			return;
+		}
+
+		if (heightBack > heightFront) {
+			container.setHeight(heightBack + 20);
+			front.setHeight(heightBack);
+			back.setHeight(heightBack);
+		} else {
+			container.setHeight(heightFront + 20);
+			front.setHeight(heightFront);
+			back.setHeight(heightFront);
+		}
 	},
 
 	statisticsButtonHandler: function () {
