@@ -109,53 +109,76 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 
 		this.list = Ext.create('ARSnova.view.components.List', {
 			activeCls: 'search-item-active',
-			cls: 'roundedCorners',
-
-			style: {
-				marginBottom: '20px',
-				backgroundColor: 'transparent'
-			},
-
+			cls: 'feedbackMessageDataview',
+			inline: true,
 			loadHandler: this.getFeedbackQuestions,
 			loadScope: this,
 
-			itemCls: 'forwardListButton',
+			itemCls: 'feedbackMessage',
 			itemTpl: Ext.create('Ext.XTemplate',
-				'<div class="search-item noOverflow">',
-					'<span style="color:gray;">{[this.getFormattedTime(values.timestamp)]}</span>',
-					'<tpl if="read === true">',
-						'<span style="padding-left:30px;">{subject:htmlEncode}</span>',
-					'</tpl>',
-					'<tpl if="read === false"">',
-						'<span class="dangerLabel" style="padding-left:30px;font-weight:normal;">{subject:htmlEncode}</span>',
+				'<tpl if="read === true">',
+					'<div class="messageTitle">',
+				'<tpl else>',
+					'<div class="messageTitle unread">',
+				'</tpl>',
+					'<span class="messageTimestamp">{[this.getFormattedTime(values.timestamp)]}</span>',
+					'<span class="messageSubject">{subject:htmlEncode}</span>',
+					'<span class="messageDeleteIcon"></span>',
+				'</div>',
+				'<div class="messageText">',
+					'<tpl if="this.hasMessageText(text)">',
+						'{text}',
+					'<tpl else>',
+						'<div class="noText">{[Messages.NO_TEXT_SUBMITTED]}</div>',
 					'</tpl>',
 				'</div>',
 				{
 					getFormattedTime: function (timestamp) {
 						var time = new Date(timestamp);
 						return moment(time).format('LT');
+					},
+					hasMessageText: function (text) {
+						return text.replace(/\s/g, '').length;
+					},
+					showDisclosure: function (text, elements) {
+						if (text.length >= panel.listDisclosureLength) {
+							return true;
+						}
+
+						for (var element in elements) {
+							if (elements[element]) {
+								return true;
+							}
+						}
+
+						return false;
 					}
 				}
 			),
 			grouped: true,
 			store: this.getStore(),
 			listeners: {
-				scope: this,
-				itemswipe: function (list, index, target) {
-					var el = target.element,
-						hasClass = el.hasCls(this.activeCls);
-
-					if (hasClass) {
-						el.removeCls(this.activeCls);
-					} else {
-						el.addCls(this.activeCls);
+				disclose: function (list, record, target, index) {
+					if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+						panel.speakerUtilities.initializeZoomComponents();
+						ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(false);
 					}
-				},
-				itemtap: function (list, index, target, record, event) {
+
 					ARSnova.app.getController('Questions').detailsFeedbackQuestion({
 						question: record,
 						lastPanel: panel
 					});
+				},
+				itemtap: function (list, index, target, record, event) {
+					var node = event.target;
+					var data = record.data;
+					var disclosed = list.config.itemTpl.showDisclosure(data.text, data.mediaElements);
+
+					if (node.className === 'messageDeleteIcon') {
+						panel.deleteEntry(record);
+					} else if (!data.read && !disclosed) {
+						record.read();
+					}
 				}
 			}
 		});
