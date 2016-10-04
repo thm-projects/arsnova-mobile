@@ -120,11 +120,21 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			}
 		});
 
+		this.exportButton = Ext.create('Ext.Button', {
+			xtype: 'button',
+			text: Messages.QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON,
+			align: 'right',
+			handler: function () {
+				ARSnova.app.getController('QuestionExport').downloadQuestionAnswers(self.questionObj, self.freetextAnswerStore);
+			},
+			hidden: (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT)
+		});
+
 		this.toolbar = Ext.create('Ext.TitleBar', {
 			docked: 'top',
 			ui: 'light',
 			title: Ext.util.Format.htmlEncode(this.questionObj.subject),
-			items: [this.backButton]
+			items: [this.backButton, this.exportButton]
 		});
 
 		// Create standard panel with framework support
