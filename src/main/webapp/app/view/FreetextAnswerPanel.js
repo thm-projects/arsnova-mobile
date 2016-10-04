@@ -155,50 +155,52 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 		});
 
 		this.freetextAnswerList = Ext.create('ARSnova.view.components.List', {
+			cls: 'feedbackMessageDataview',
 			activeCls: 'search-item-active',
 			store: this.freetextAnswerStore,
-
-			style: {
-				marginBottom: '20px',
-				backgroundColor: 'transparent'
-			},
 
 			loadHandler: this.checkFreetextAnswers,
 			loadScope: this,
 
-			itemCls: 'forwardListButton',
+			itemCls: 'feedbackMessage',
 			// Display unread answers for teachers only
 			itemTpl: Ext.create('Ext.XTemplate',
-				'<div class="search-item noOverflow">',
-				'<span style="color:gray">{formattedTime}</span>',
-				'<tpl if="read === true || this.isStudent()">',
-					'<span style="padding-left:30px">{answerSubject:htmlEncode}</span>',
-					'<tpl if="this.isFixedAnswer() && successfulFreeTextAnswer === true">',
-						'<span style="float: right;" class="thm-green correct">',
-						Messages.CORRECT,
-						'</span>',
-					'</tpl>',
-					'<tpl if="this.isFixedAnswer() && successfulFreeTextAnswer === false">',
-						'<span style="float: right;" class="thm-red incorrect">',
-						Messages.WRONG,
-						'</span>',
-					'</tpl>',
+				'<tpl if="read === true">',
+					'<div class="messageTitle">',
+				'<tpl else>',
+					'<div class="messageTitle unread">',
 				'</tpl>',
-				'<tpl if="read === false && !this.isStudent()">',
-					'<span class="dangerLabel" style="padding-left:30px">{answerSubject:htmlEncode}</span>',
-					'<tpl if="this.isFixedAnswer() && successfulFreeTextAnswer === true">',
-						'<span style="float: right;" class="thm-green correct">',
-						Messages.CORRECT,
-						'</span>',
+					'<span class="messageTimestamp">{[this.getFormattedTime(values.timestamp)]}</span>',
+					'<tpl if="this.isFixedAnswer()">',
+						'<tpl if="successfulFreeTextAnswer === true">',
+							'<span class="messageSubject thm-green correct">',
+							Messages.CORRECT,
+							'</span>',
+						'<tpl else>',
+							'<span class="messageSubject thm-red incorrect">',
+							Messages.WRONG,
+							'</span>',
+						'</tpl>',
+					'<tpl else>',
+						'<span class="messageSubject">{answerSubject:htmlEncode}</span>',
 					'</tpl>',
-					'<tpl if="this.isFixedAnswer() && successfulFreeTextAnswer === false">',
-						'<span style="float: right;" class="thm-red incorrect">',
-						Messages.WRONG,
-						'</span>',
+					'<span class="messageDeleteIcon"></span>',
+				'</div>',
+				'<div class="messageText">',
+					'<tpl if="this.hasMessageText(answerText)">',
+						'{answerText}',
+					'<tpl else>',
+						'<div class="noText">{[Messages.NO_TEXT_SUBMITTED]}</div>',
 					'</tpl>',
-				'</tpl>',
 				'</div>',
 				{
+					getFormattedTime: function (timestamp) {
+						var time = new Date(timestamp);
+						return moment(time).format('LT');
+					},
+					hasMessageText: function (text) {
+						return text.replace(/\s/g, '').length;
+					},
 					isStudent: function () {
 						return ARSnova.app.isSessionOwner !== true;
 					},
