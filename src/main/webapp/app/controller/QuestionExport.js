@@ -205,10 +205,10 @@ Ext.define("ARSnova.controller.QuestionExport", {
 			case "yesno":
 				clickQuestion.type = "YesNoSingleChoiceQuestion";
 				break;
-			case "school":
+			/*case "school":
 			case "vote":
 				clickQuestion.type = "SurveyQuestion";
-				break;
+				break;*/
 			case "mc":
 				clickQuestion.type = "MultipleChoiceQuestion";
 				break;
