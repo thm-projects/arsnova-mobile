@@ -108,6 +108,12 @@ Ext.define('ARSnova.view.CustomCarousel', {
 			screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 			showNavigationElements = screenWidth >= 840 && innerItemCount > 0 && activeIndex !== -1;
 
+		if (showNavigationElements) {
+			this.addCls('setMaxCaruselWidth');
+		} else {
+			this.removeCls('setMaxCaruselWidth');
+		}
+
 		if (showNavigationElements && activeIndex !== 0) {
 			this.leftArrow.removeCls('hidden');
 		} else {
