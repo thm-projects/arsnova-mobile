@@ -177,17 +177,31 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		link.click();
 	},
 
-	parseAnswerOptionsForClick: function (answerOptions, questionType) {
+	parseAnswerOptionsForClick: function (question) {
 		var clickAnswerOptions = [];
-		for (var i = 0; i < answerOptions.length; i++) {
+		if (question.questionType === "freetext" && question.fixedAnswer) {
 			clickAnswerOptions.push({
 				hashtag: "ImportFromARSnova",
 				questionIndex: 0,
-				answerText: answerOptions[i].text,
-				answerOptionNumber: i,
-				isCorrect: answerOptions[i].correct,
-				type: "DefaultAnswerOption"
+				answerText: question.correctAnswer,
+				answerOptionNumber: 0,
+				configCaseSensitive: !question.ignoreCaseSensitive,
+				configTrimWhitespaces: !question.ignoreWhiteSpaces,
+				configUsePunctuation: !question.ignorePunctuation,
+				configUseKeywords: true,
+				type: "FreeTextAnswerOption"
 			});
+		} else {
+			for (var i = 0; i < question.answerOptions.length; i++) {
+				clickAnswerOptions.push({
+					hashtag: "ImportFromARSnova",
+					questionIndex: 0,
+					answerText: question.answerOptions[i].text,
+					answerOptionNumber: i,
+					isCorrect: question.answerOptions[i].correct,
+					type: "DefaultAnswerOption"
+				});
+			}
 		}
 		return clickAnswerOptions;
 	},
@@ -195,26 +209,29 @@ Ext.define("ARSnova.controller.QuestionExport", {
 	exportQuestionToClick: function (question) {
 		var clickQuestion = {
 			hashtag: "ImportFromARSnova",
-			questionText: question.subject + "\\n" + question.text,
-			timer: 20,
+			questionText: "## " + question.subject + " ##" + "\n" + question.text,
+			timer: 30,
 			startTime: 0,
 			questionIndex: 0,
-			answerOptionList: this.parseAnswerOptionsForClick(question.possibleAnswers, question.questionType)
+			answerOptionList: this.parseAnswerOptionsForClick(question)
 		};
 		switch (question.questionType) {
 			case "yesno":
 				clickQuestion.type = "YesNoSingleChoiceQuestion";
 				break;
-			case "school":
+			/*case "school":
 			case "vote":
 				clickQuestion.type = "SurveyQuestion";
-				break;
+				break;*/
 			case "mc":
 				clickQuestion.type = "MultipleChoiceQuestion";
 				break;
 			case "sc":
 			case "abcd":
 				clickQuestion.type = "SingleChoiceQuestion";
+				break;
+			case "freetext":
+				clickQuestion.type = "FreeTextQuestion";
 				break;
 		}
 		var session = {
@@ -224,10 +241,10 @@ Ext.define("ARSnova.controller.QuestionExport", {
 			configuration: {
 				hashtag: "ImportFromARSnova",
 				music: {
-					hashtag: "Hashtag",
+					hashtag: "ImportFromARSnova",
 					isEnabled: 0,
 					title: "Song1",
-					volume: 80
+					volume: 100
 				},
 				theme: "theme-blackbeauty",
 				nicks: {
