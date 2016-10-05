@@ -195,7 +195,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 	exportQuestionToClick: function (question) {
 		var clickQuestion = {
 			hashtag: "ImportFromARSnova",
-			questionText: question.subject + "\\n" + question.text,
+			questionText: "## " + question.subject + " ##" + "\n" + question.text,
 			timer: 20,
 			startTime: 0,
 			questionIndex: 0,
