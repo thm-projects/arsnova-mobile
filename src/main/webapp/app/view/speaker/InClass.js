@@ -604,9 +604,10 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.tab.setBadgeText(questionCount.unread);
 
 				if (features.interposed && ARSnova.app.activeSpeakerUtility) {
-					var hideOverlay = !parseInt(questionCount.unread) || !ARSnova.app.projectorModeActive;
+					var hideOverlay = !parseInt(questionCount.unread);
 					ARSnova.app.activeSpeakerUtility.interposedOverlay.setBadgeText(questionCount.unread);
-					ARSnova.app.activeSpeakerUtility.interposedOverlay.setHidden(hideOverlay);
+					ARSnova.app.activeSpeakerUtility.hideInterposedOverlay = hideOverlay;
+					ARSnova.app.activeSpeakerUtility.checkOverlayVisibility();
 				}
 
 				me.badgeOptions.numInterposed = !me.badgeOptions.numInterposed ? questionCount.total :

@@ -32,6 +32,10 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		cls: Ext.baseCSSPrefix + 'speaker-utils'
 	},
 
+	hideFeedbackOverlay: true,
+	hideInterposedOverlay: true,
+	hideCommentOverlay: true,
+
 	initialize: function () {
 		this.callParent(arguments);
 
@@ -306,6 +310,20 @@ Ext.define('ARSnova.view.speaker.SpeakerUtilities', {
 		me.restoreZoomLevel();
 		me.setProjectorMode(me.getParent(), false);
 		setTimeout(this.config.callFn, 1000);
+	},
+
+	checkOverlayVisibility: function () {
+		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+
+		if (screenWidth >= 840) {
+			this.feedbackOverlay.setHidden(this.hideFeedbackOverlay);
+			this.interposedOverlay.setHidden(this.hideInterposedOverlay);
+			this.commentOverlay.setHidden(this.hideCommentOverlay);
+		} else {
+			this.feedbackOverlay.setHidden(true);
+			this.interposedOverlay.setHidden(true);
+			this.commentOverlay.setHidden(true);
+		}
 	},
 
 	getActivePanel: function () {

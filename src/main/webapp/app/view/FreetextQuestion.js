@@ -347,16 +347,18 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 					answerCount = parseInt(numAnswers[0]),
 					abstentionCount = parseInt(numAnswers[1]);
 
+				sTP.showcaseQuestionPanel.speakerUtilities.hideCommentOverlay = true;
+
 				if (me.questionObj.questionType === 'slide') {
-					var hideOverlay = !parseInt(answerCount) || !ARSnova.app.projectorModeActive;
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount, Messages.COMMENT);
 					sTP.showcaseQuestionPanel.speakerUtilities.commentOverlay.setBadgeText(answerCount);
-					sTP.showcaseQuestionPanel.speakerUtilities.commentOverlay.setHidden(hideOverlay);
+					sTP.showcaseQuestionPanel.speakerUtilities.hideCommentOverlay = !parseInt(answerCount);
 				} else if (!answerCount && abstentionCount) {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 				} else {
 					sTP.showcaseQuestionPanel.toolbar.setAnswerCounter(answerCount);
 				}
+				sTP.showcaseQuestionPanel.speakerUtilities.checkOverlayVisibility();
 			},
 			failure: function () {
 				console.log('server-side error');
