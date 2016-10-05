@@ -41,7 +41,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 				|| (['grid'].indexOf(type) !== -1 && type === 'moderation')) {
 			this.hasCorrectAnswers = false;
 		}
-		if (['yesno', 'mc', 'sc', 'abcd'].indexOf(type) !== -1) {
+		if ((['yesno', 'mc', 'sc', 'abcd'].indexOf(type) !== -1) || (type === "freetext" && this.questionObj.fixedAnswer)) {
 			this.isExportableToClick = true;
 		}
 
