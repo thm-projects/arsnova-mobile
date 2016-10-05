@@ -149,7 +149,9 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	onPainted: function () {
 		this.updateEditButtons();
-		this.getActiveItem().setAnswerCount();
+		if (this.getActiveItem()) {
+			this.getActiveItem().setAnswerCount();
+		}
 	},
 
 	onItemChange: function (panel, newQuestion, oldQuestion) {
