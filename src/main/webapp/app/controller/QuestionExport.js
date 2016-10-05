@@ -210,7 +210,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		var clickQuestion = {
 			hashtag: "ImportFromARSnova",
 			questionText: "## " + question.subject + " ##" + "\n" + question.text,
-			timer: 20,
+			timer: 30,
 			startTime: 0,
 			questionIndex: 0,
 			answerOptionList: this.parseAnswerOptionsForClick(question)
@@ -244,7 +244,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 					hashtag: "ImportFromARSnova",
 					isEnabled: 0,
 					title: "Song1",
-					volume: 80
+					volume: 100
 				},
 				theme: "theme-blackbeauty",
 				nicks: {
