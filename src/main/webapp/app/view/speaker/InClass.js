@@ -123,9 +123,17 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			scope: this,
 			handler: function () {
 				var button = this.createAdHocQuestionButton;
-				button.config.controller = button.config.mode === 'preparation' ?
-					'PreparationQuestions' : 'Questions';
 
+				switch (button.config.mode) {
+					case 'preparation':
+						button.config.controller = 'PreparationQuestions';
+						break;
+					case 'flashcard':
+						button.config.controller = 'FlashcardQuestions';
+						break;
+					default:
+						button.config.controller = 'Questions';
+				}
 				this.buttonClicked(button);
 			}
 		});
@@ -339,6 +347,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	changeActionButtonsMode: function (features) {
 		features = features || ARSnova.app.getController('Feature').getActiveFeatures();
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		this.createAdHocQuestionButton.setImageCls(this.createAdHocQuestionButton.config.imageCls);
 
 		if (features.liveClicker) {
 			this.showcaseActionButton.setHandler(this.showcaseLiveQuestionHandler);
@@ -349,14 +358,18 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			this.showcaseActionButton.setButtonText(this.showcaseActionButton.config.altText);
 			this.createAdHocQuestionButton.setButtonText(this.createAdHocQuestionButton.config.altText);
 			this.showcaseActionButton.setHandler(this.showcaseHandler);
+		} else if (features.flashcard) {
+			sTP.showcaseQuestionPanel.setFlashcardMode();
+			this.createAdHocQuestionButton.config.mode = 'flashcard';
+			this.showcaseActionButton.setHandler(this.showcaseHandler);
+			this.createAdHocQuestionButton.setButtonText(Messages.NEW_FLASHCARD);
+			this.createAdHocQuestionButton.setImageCls('icon-newsession');
 		} else {
 			sTP.showcaseQuestionPanel.setLectureMode();
 			this.createAdHocQuestionButton.config.mode = 'lecture';
 			this.showcaseActionButton.setButtonText(this.showcaseActionButton.config.text);
 			this.showcaseActionButton.setHandler(this.showcaseHandler);
-			this.createAdHocQuestionButton.setButtonText(
-				features.flashcard ? Messages.NEW_FLASHCARD : this.createAdHocQuestionButton.config.text
-			);
+			this.createAdHocQuestionButton.setButtonText(this.createAdHocQuestionButton.config.text);
 		}
 		if (features.slides) {
 			this.showcaseActionButton.setButtonText(Messages.SHOWCASE_KEYNOTE);
@@ -367,7 +380,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	updateActionButtonElements: function (showElements) {
 		var me = this;
 		var features = ARSnova.app.getController('Feature').getActiveFeatures();
-		var hasQuestionFeature = features.lecture || features.jitt;
+		var hasQuestionFeature = features.lecture || features.jitt || features.flashcardFeature;
 
 		if (features.liveClicker) {
 			showElements = true;
@@ -630,15 +643,20 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 	applyUIChanges: function (features) {
 		var lectureButtonText = Messages.LECTURE_QUESTIONS_LONG;
+		var adHocIconEl = this.createAdHocQuestionButton.element.down('.iconBtnImg');
 
 		this.courseLearningProgressButton.setText(
 			features.peerGrading ? Messages.EVALUATION_ALT : Messages.COURSES_LEARNING_PROGRESS
 		);
 
+		if (features.total || features.slides || features.flashcard) {
+			adHocIconEl.replaceCls('icon-question', 'icon-pencil');
+		} else {
+			adHocIconEl.replaceCls('icon-pencil', 'icon-question');
+		}
+
 		if (features.total || features.slides) {
 			lectureButtonText = Messages.SLIDE_LONG;
-
-			this.createAdHocQuestionButton.element.down('.iconBtnImg').replaceCls('icon-question', 'icon-pencil');
 			this.caption.setBadgeTranslation({
 				feedback: Messages.QUESTIONS_FROM_STUDENTS,
 				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
@@ -647,7 +665,6 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			});
 		} else {
 			this.caption.setBadgeTranslation(this.caption.config.badgeTranslation);
-			this.createAdHocQuestionButton.element.down('.iconBtnImg').replaceCls('icon-pencil', 'icon-question');
 		}
 
 		if (features.peerGrading) {

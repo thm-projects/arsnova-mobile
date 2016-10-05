@@ -55,5 +55,41 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 
 	getQuestions: function () {
 		ARSnova.app.questionModel.getFlashcards.apply(ARSnova.app.questionModel, arguments);
+	},
+
+	adHoc: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.sortQuestionsPanel.setController(this);
+		sTP.audienceQuestionPanel.setController(this);
+		sTP.showcaseQuestionPanel.setController(this);
+		sTP.newQuestionPanel.setVariant('flashcard');
+		sTP.animateActiveItem(sTP.newQuestionPanel, {
+			type: 'slide',
+			duration: 700
+		});
+
+		/* change the backButton-redirection to inClassPanel,
+		 * but only for one function call */
+		var backButton = sTP.newQuestionPanel.down('button[ui=back]');
+		backButton.setHandler(function () {
+			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+			sTP.animateActiveItem(sTP.inClassPanel, {
+				type: 'slide',
+				direction: 'right',
+				duration: 700
+			});
+		});
+		backButton.setText(Messages.SESSION);
+		sTP.newQuestionPanel.on('deactivate', function (panel) {
+			panel.backButton.handler = function () {
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+					type: 'slide',
+					direction: 'right',
+					duration: 700
+				});
+			};
+			panel.backButton.setText(Messages.TASKS);
+		}, this, {single: true});
 	}
 });

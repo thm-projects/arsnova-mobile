@@ -377,7 +377,7 @@ Ext.define("ARSnova.controller.Feature", {
 	 * apply changes affecting combined feature activation/deactivation
 	 */
 	applyAdditionalChanges: function (features) {
-		var hasQuestionFeatures = features.lecture || features.jitt || features.slides;
+		var hasQuestionFeatures = features.lecture || features.jitt || features.slides || features.flashcardFeature;
 		var feedbackWithoutInterposed = features.feedback && !features.interposed;
 		var isSpeaker = ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER;
 		var loneActiveFeature = this.getLoneActiveFeatureKey(features);
@@ -423,6 +423,10 @@ Ext.define("ARSnova.controller.Feature", {
 				tP.userQuestionsPanel.setPreparationMode();
 				tabPanel.inClassPanel.updateQuestionsPanelBadge();
 				tP.userQuestionsPanel.tab.setTitle(Messages.TASKS);
+			} else if (features.flashcardFeature && !features.lecture) {
+				tP.userQuestionsPanel.setFlashcardMode();
+				tabPanel.inClassPanel.updateQuestionsPanelBadge();
+				tP.userQuestionsPanel.tab.setTitle(Messages.FLASHCARDS);
 			} else {
 				tP.userQuestionsPanel.setLectureMode();
 				tabPanel.inClassPanel.updateQuestionsPanelBadge();
@@ -505,6 +509,7 @@ Ext.define("ARSnova.controller.Feature", {
 		switch (featureKey) {
 			case 'jitt':
 			case 'lecture':
+			case 'flashcardFeature':
 			case 'slides':
 				if (tP.getActiveItem() === tP.userQuestionsPanel) {
 					tP.userQuestionsPanel.removeAll();
