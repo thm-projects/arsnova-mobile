@@ -726,3 +726,9 @@ code {
 		margin: 8px;
 	}
 }
+
+.setMaxCaruselWidth {
+	.x-container.x-form {
+		max-width: $carousel-inner-max-width;
+	}
+}

@@ -207,7 +207,8 @@ $statistics-incorrect-color: $brand-danger;
 $statistics-abstention-color: $default-grey-color;
 
 
-/** carousel indicator and navigation color configuration **/
+/** carousel width, indicator and navigation configuration **/
+$carousel-inner-max-width: 85%;
 $carousel-indicator-color: $brand-primary;
 $carousel-indicator-active-color: $brand-secondary;
 $carousel-indicator-unanswered-question-color: $brand-warning;
