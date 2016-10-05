@@ -265,6 +265,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			numAnswers: 0,
 			numQuestions: 0,
 			numInterposed: 0,
+			numFlashcards: 0,
 			numUnredInterposed: 0
 		};
 
@@ -545,13 +546,15 @@ Ext.define('ARSnova.view.user.InClass', {
 		var hasData = data.unansweredLectureQuestions
 			|| data.lectureQuestionAnswers
 			|| data.unansweredPreparationQuestions
-			|| data.preparationQuestionAnswers;
+			|| data.preparationQuestionAnswers
+			|| data.flashcardCount;
 		if (hasData && features.learningProgress) {
 			this.inClassButtons.add(this.myLearningProgressButton);
 		} else {
 			this.inClassButtons.remove(this.myLearningProgressButton, false);
 		}
 
+		this.badgeOptions.numFlashcards = data.flashcardCount;
 		this.badgeOptions.numAnswers = data.lectureQuestionAnswers;
 		this.badgeOptions.numQuestions = data.unansweredLectureQuestions;
 		this.badgeOptions.numPrepAnswers = data.preparationQuestionAnswers;
@@ -565,6 +568,9 @@ Ext.define('ARSnova.view.user.InClass', {
 		this.preparationQuestionButton.setBadge([
 			{badgeText: data.unansweredPreparationQuestions, badgeCls: "questionsBadgeIcon"},
 			{badgeText: data.preparationQuestionAnswers, badgeCls: "answersBadgeIcon"}
+		]);
+		this.flashcardQuestionButton.setBadge([
+			{badgeText: data.flashcardCount, badgeCls: "questionsBadgeIcon"}
 		]);
 	},
 
