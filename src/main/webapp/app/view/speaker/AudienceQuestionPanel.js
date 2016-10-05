@@ -715,8 +715,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			lectureButtonText = Messages.NEW_CONTENT;
 
 			this.questionStatusButton.setKeynoteWording();
-			this.voteStatusButton.setKeynoteWording();
 			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-question', 'icon-pencil');
+			this.voteStatusButton.setKeynoteWording();
+			this.voteStatusButton.show();
 
 			captionTranslation = {
 				active: Messages.OPEN_CONTENT,
@@ -732,8 +733,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			};
 		} else {
 			this.questionStatusButton.setDefaultWording();
-			this.voteStatusButton.setDefaultWording();
 			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-pencil', 'icon-question');
+			this.voteStatusButton.setDefaultWording();
+			this.voteStatusButton.show();
 		}
 
 		if (this.getVariant() === 'flashcard') {
@@ -745,8 +747,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			deleteAnswersText = Messages.DELETE_FLASHCARD_VIEWS;
 			deleteQuestionsText = Messages.DELETE_ALL_FLASHCARDS;
 			this.flashcardImportButton.show();
+			this.voteStatusButton.hide();
 
 			this.questionStatusButton.setFlashcardsWording();
+			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-question', 'icon-pencil');
 
 			captionTranslation = {
 				active: Messages.OPEN_CONTENT,
