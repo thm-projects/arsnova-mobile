@@ -113,6 +113,7 @@ Ext.define('ARSnova.model.Question', {
 		countLectureQuestionAnswers: "arsnova/question/lecturer/lecture/answercount",
 		countPreparationQuestionAnswers: "arsnova/question/lecturer/preparation/answercount",
 		countQuestionsAndAnswers: "arsnova/question/unanswered-question-and-answer-count",
+		countFlashcards: "arsnova/question/lecturer/flashcard/count",
 		internalUpdate: "arsnova/question/internal/update"
 	},
 
@@ -120,6 +121,7 @@ Ext.define('ARSnova.model.Question', {
 	numUnansweredPreparationQuestions: 0,
 	numLectureQuestionAnswers: 0,
 	numPreparationQuestionAnswers: 0,
+	numFlashcards: 0,
 
 	constructor: function () {
 		this.callParent(arguments);
@@ -235,12 +237,19 @@ Ext.define('ARSnova.model.Question', {
 			this.fireEvent(this.events.internalUpdate);
 		}, this);
 
+		ARSnova.app.socket.on(ARSnova.app.socket.events.countFlashcards, function (count) {
+			this.numFlashcards = count;
+			this.fireEvent(this.events.countFlashcards, count);
+			this.fireEvent(this.events.internalUpdate);
+		}, this);
+
 		this.on(this.events.internalUpdate, function () {
 			this.fireEvent(this.events.countQuestionsAndAnswers, {
 				unansweredLectureQuestions: this.numUnanswerdLectureQuestions,
 				unansweredPreparationQuestions: this.numUnansweredPreparationQuestions,
 				lectureQuestionAnswers: this.numLectureQuestionAnswers,
-				preparationQuestionAnswers: this.numPreparationQuestionAnswers
+				preparationQuestionAnswers: this.numPreparationQuestionAnswers,
+				flashcardCount: this.numFlashcards
 			});
 		}, this);
 	},
