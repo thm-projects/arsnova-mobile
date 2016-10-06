@@ -111,6 +111,7 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		sTP.sortQuestionsPanel.setController(this);
 		sTP.audienceQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setController(this);
+		sTP.audienceQuestionPanel.setVariant('flashcard');
 		sTP.newQuestionPanel.setVariant('flashcard');
 		sTP.animateActiveItem(sTP.newQuestionPanel, {
 			type: 'slide',
