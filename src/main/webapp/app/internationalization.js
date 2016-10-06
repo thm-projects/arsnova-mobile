@@ -328,8 +328,8 @@
 				PREPARATION: "Vorbereitung",
 				LECTURE: "Hörsaal",
 				RESET_ALL_ANSWERS: "Alle Antworten zurücksetzen",
-				SHOW_FLASHCARD_ANSWER: "Antwort anzeigen",
-				HIDE_FLASHCARD_ANSWER: "Antwort ausblenden",
+				SHOW_FLASHCARD_ANSWER: "Rückseite anzeigen",
+				HIDE_FLASHCARD_ANSWER: "Vorderseite anzeigen",
 				IMAGE_NEEDED: "Es soll ein Bild als Antwort hochgeladen werden",
 				COMPRESSING_MASK: "Ihr Bild wird komprimiert...",
 				PICTURE_RIGHT_INFORMATION: ['Bitte beachten Sie, dass Sie keine Bilder verwenden, für deren Verwendung Sie keine Rechte haben (Urheberrechtsgesetz) oder die pornografische oder volksverhetzende (§130 StGB) Inhalte zeigen.\n',
@@ -705,6 +705,8 @@
 				DELETE_FLASHCARD_VIEWS: "Ansichten<br/>löschen",
 				RELEASE_FLASHCARD: "Lernkarte<br/>freigeben",
 				RELEASE_FLASHCARDS: "Lernkarten<br/>freigeben",
+				FLIP_FLASHCARDS_SHORT: "Lernkarten<br/>umdrehen",
+				FLIP_FLASHCARDS: "Alle Lernkarten<br/>umdrehen",
 
 				/* about */
 				MANUAL: "Anleitung",
@@ -1573,6 +1575,8 @@
 				DELETE_FLASHCARD_VIEWS: "Delete<br/>views",
 				RELEASE_FLASHCARD: "Release<br/>flashcard",
 				RELEASE_FLASHCARDS: "Release<br/>flashcards",
+				FLIP_FLASHCARDS_SHORT: "Flip all<br/>flashcards",
+				FLIP_FLASHCARDS: "Flip all<br/>flashcards",
 
 				/* about */
 				MANUAL: "Manual",

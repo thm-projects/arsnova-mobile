@@ -37,7 +37,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 		controller: null,
 		questionTitleLong: Messages.LECTURE_QUESTION_LONG,
-		questionTitleShort: Messages.LECTURE_QUESTIONS
+		questionTitleShort: Messages.LECTURE_QUESTIONS,
+		mode: 'lecture'
 	},
 
 	updateClockTask: {
@@ -352,17 +353,20 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		this.setController(ARSnova.app.getController('Questions'));
 		this.setQuestionTitleLong(Messages.LECTURE_QUESTION_LONG);
 		this.setQuestionTitleShort(Messages.LECTURE_QUESTIONS);
+		this.setMode('lecture');
 	},
 
 	setPreparationMode: function () {
 		this.setController(ARSnova.app.getController('PreparationQuestions'));
 		this.setQuestionTitleLong(Messages.PREPARATION_QUESTION_LONG);
 		this.setQuestionTitleShort(Messages.PREPARATION_QUESTION_SHORT);
+		this.setMode('preparation');
 	},
 
 	setFlashcardMode: function () {
 		this.setController(ARSnova.app.getController('FlashcardQuestions'));
 		this.setQuestionTitleLong(Messages.FLASHCARD);
 		this.setQuestionTitleShort(Messages.FLASHCARD_SHORT);
+		this.setMode('flashcard');
 	}
 });
