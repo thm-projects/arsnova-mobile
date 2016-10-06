@@ -565,6 +565,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					if (features.slides) {
 						showcaseButtonText = Messages.SHOWCASE_KEYNOTE;
 					}
+				} else {
+					this.flipFlashcardsButton.show();
 				}
 
 				this.showcaseActionButton.setButtonText(showcaseButtonText);
@@ -584,6 +586,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				}
 			}, this),
 			empty: Ext.bind(function () {
+				this.flipFlashcardsButton.hide();
 				this.showcaseActionButton.hide();
 				this.questionListContainer.hide();
 				this.questionList.show();
