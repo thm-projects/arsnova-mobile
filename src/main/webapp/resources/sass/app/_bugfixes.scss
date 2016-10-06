@@ -65,3 +65,14 @@ body.x-android.splashscreenClosed {
 body.x-windows {
 	touch-action: none !important;
 }
+
+/* fix flexbox rendering in firefox 48+ */
+.x-firefox {
+	.x-button,
+	.x-layout-box,
+	.x-layout-box > .x-layout-box-item {
+		display: -webkit-box !important;
+		display: -ms-flexbox !important;
+		display: flex !important;
+	}
+}
