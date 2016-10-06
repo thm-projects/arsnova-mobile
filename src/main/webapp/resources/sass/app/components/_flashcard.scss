@@ -17,7 +17,7 @@
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-.flashcardContainer {
+.flashcardContainer > .x-inner {
 	-webkit-perspective: 600px;
 	perspective: 600px;
 }
@@ -51,6 +51,11 @@
 		p {
 			color: $flashcard-front-font-color;
 		}
+
+		&:before {
+			content: '1';
+			color: $flashcard-front-font-color;
+		}
 	}
 
 	.back {
@@ -62,7 +67,24 @@
 		border-style: $flashcard-back-border-style;
 
 		p {
-			color: $flashcard-front-font-color;
+			color: $flashcard-back-font-color;
+		}
+
+		&:before {
+			content: '2';
+			color: $flashcard-back-font-color;
+		}
+	}
+
+	.back, .front {
+		&:before {
+			right: 8px;
+			bottom: 1px;
+			opacity: 0.3;
+			font-size: 0.75em;
+			position: absolute;
+			-webkit-backface-visibility: hidden;
+			backface-visibility: hidden;
 		}
 	}
 
