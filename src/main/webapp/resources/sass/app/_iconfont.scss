@@ -73,6 +73,8 @@
 @include icon("icon-warning" , "\f071", "arsnova");
 @include icon("icon-pencil" , "\f045", "arsnova");
 @include icon("icon-comment" , "\f075", "arsnova");
+@include icon("icon-flashcard-front", "\f24a", "arsnova");
+@include icon("icon-flashcard-back", "\f249", "arsnova");
 
 @include icon("icon-undo", "\f0e2", "arsnova");
 @include icon("icon-drag", "\f0dc", "arsnova");
@@ -394,6 +396,11 @@
 		color: $icon-release-timer-color;
 		font-size: 52px !important;
 		margin: 14px 0 0 17px !important;
+	}
+
+	.icon-flashcard-back,
+	.icon-flashcard-front {
+		margin: 16px 0 0 16px !important;
 	}
 }
 
