@@ -149,9 +149,15 @@ Ext.define('ARSnova.view.Question', {
 		}
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+			var showcasePanel = tabPanel.showcaseQuestionPanel;
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj,
-				buttonClass: 'smallerActionButton'
+				buttonClass: 'smallerActionButton',
+				hideFlipFlashcardButton:
+					this.questionObj.questionType !== 'flashcard' ||
+					this.questionObj.questionType === 'flashcard' &&
+					showcasePanel.getMode() !== 'flashcard'
 			});
 
 			this.on('painted', function () {
@@ -500,24 +506,17 @@ Ext.define('ARSnova.view.Question', {
 		this.questionPanel.addCls('front');
 		this.answerPanel.addCls('back');
 
-		if (this.questionObj.fcImage) {
-			this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
-				editable: false,
-				gridIsHidden: true,
-				style: 'margin-bottom: 20px'
-			});
-			me.flashcardGrid.prepareRemoteImage(me.questionObj, true);
-			this.questionContainer.add(this.flashcardGrid);
+		if (ARSnova.app.getController('FlashcardQuestions').flip) {
+			this.questionContainer.addCls('flipped');
 		}
 
 		this.questionContainer.add(this.answerPanel);
 		this.answerPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
-
-		this.formPanel.add([{
-			xtype: 'button',
+		this.flashcardToggleButton = Ext.create('Ext.Button', {
 			cls: 'saveButton centered',
 			ui: 'confirm',
-			text: Messages.SHOW_FLASHCARD_ANSWER,
+			text: ARSnova.app.getController('FlashcardQuestions').flip ?
+				Messages.HIDE_FLASHCARD_ANSWER : Messages.SHOW_FLASHCARD_ANSWER,
 			handler: function (button) {
 				if (!this.questionContainer.isFlipped) {
 					this.questionContainer.isFlipped = true;
@@ -542,7 +541,9 @@ Ext.define('ARSnova.view.Question', {
 				}
 			},
 			scope: this
-		}]);
+		});
+
+		this.formPanel.add([this.flashcardToggleButton]);
 	},
 
 	saveAnswer: function (answer) {

@@ -189,6 +189,34 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true
 		});
 
+		this.flipFlashcardsButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: actionButtonCls === 'smallerActionButton' ?
+				Messages.FLIP_FLASHCARDS_SHORT :
+				Messages.FLIP_FLASHCARDS,
+			cls: actionButtonCls,
+			imageCls: 'icon-flashcard-front',
+			ctrl: ARSnova.app.getController('FlashcardQuestions'),
+			flip: function () {
+				var button = self.flipFlashcardsButton;
+				if (button.config.ctrl.flip) {
+					button.element.down('.iconBtnImg').replaceCls(
+						'icon-flashcard-front', 'icon-flashcard-back');
+				} else {
+					button.element.down('.iconBtnImg').replaceCls(
+						'icon-flashcard-back', 'icon-flashcard-front');
+				}
+			},
+			handler: function (button) {
+				var flip = button.config.ctrl.flip;
+				ARSnova.app.sessionModel.flipFlashcards(!flip, {
+					success: function (response) {
+						button.config.flip();
+					},
+					failure: function (response) {}
+				});
+			}
+		});
+
 		this.newQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.NEW_QUESTION,
 			buttonConfig: 'icon',
@@ -530,6 +558,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 				if (this.getVariant() !== 'flashcard') {
 					this.voteStatusButton.checkInitialStatus();
+					this.questionStatusButton.checkInitialStatus();
+					this.questionStatusButton.show();
 					this.voteStatusButton.show();
 
 					if (features.slides) {
@@ -544,8 +574,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.showcaseActionButton.show();
 				this.questionListContainer.show();
 				this.questionList.show();
-				this.questionStatusButton.checkInitialStatus();
-				this.questionStatusButton.show();
 
 				// this.sortQuestionsButton.show();
 				this.deleteQuestionsButton.show();
@@ -717,7 +745,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			this.questionStatusButton.setKeynoteWording();
 			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-question', 'icon-pencil');
 			this.voteStatusButton.setKeynoteWording();
-			this.voteStatusButton.show();
 
 			captionTranslation = {
 				active: Messages.OPEN_CONTENT,
@@ -735,7 +762,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			this.questionStatusButton.setDefaultWording();
 			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-pencil', 'icon-question');
 			this.voteStatusButton.setDefaultWording();
-			this.voteStatusButton.show();
 		}
 
 		if (this.getVariant() === 'flashcard') {
@@ -751,6 +777,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 			this.questionStatusButton.setFlashcardsWording();
 			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-question', 'icon-pencil');
+			this.actionButtonPanel.remove(this.questionStatusButton, false);
+			this.actionButtonPanel.insert(0, this.flipFlashcardsButton);
+			this.flipFlashcardsButton.config.flip();
 
 			captionTranslation = {
 				active: Messages.OPEN_CONTENT,
@@ -766,6 +795,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			};
 		} else {
 			this.flashcardImportButton.hide();
+			this.actionButtonPanel.remove(this.flipFlashcardsButton, false);
+			this.actionButtonPanel.insert(0, this.questionStatusButton);
+			this.voteStatusButton.show();
 		}
 
 		this.toolbar.setTitle(toolbarTitle);
@@ -777,5 +809,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.questionsImport.setButtonText(importText);
 		this.caption.setTranslation(captionTranslation);
 		this.caption.setBadgeTranslation(badgeTranslation);
+		this.questionStatusButton.setHidden(this.getVariant() === 'flashcard');
+		ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.showcaseQuestionPanel.setMode(this.getVariant());
 	}
 });

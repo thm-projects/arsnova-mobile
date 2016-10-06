@@ -399,18 +399,6 @@ Ext.define("ARSnova.controller.Feature", {
 			inClass.createAdHocQuestionButton.setHidden(!hasQuestionFeatures);
 			inClass.feedbackQuestionButton.setText(inClass.feedbackQuestionButton.initialConfig.text);
 			inClass.updateActionButtonElements();
-
-			if (features.jitt && !features.lecture) {
-				tabPanel.showcaseQuestionPanel.setPreparationMode();
-				tabPanel.newQuestionPanel.setVariant('preparation');
-			} else if (features.flashcardFeature) {
-				tabPanel.showcaseQuestionPanel.setFlashcardMode();
-				tabPanel.newQuestionPanel.setVariant('flashcard');
-			} else {
-				tabPanel.showcaseQuestionPanel.setLectureMode();
-				tabPanel.newQuestionPanel.setVariant('lecture');
-			}
-
 			inClass.changeActionButtonsMode(features);
 		} else {
 			// hide questionsPanel tab when session has no question features active

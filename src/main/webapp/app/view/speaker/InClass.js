@@ -358,7 +358,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			this.showcaseActionButton.setButtonText(this.showcaseActionButton.config.altText);
 			this.createAdHocQuestionButton.setButtonText(this.createAdHocQuestionButton.config.altText);
 			this.showcaseActionButton.setHandler(this.showcaseHandler);
-		} else if (features.flashcard) {
+		} else if (features.flashcardFeature) {
 			sTP.showcaseQuestionPanel.setFlashcardMode();
 			this.createAdHocQuestionButton.config.mode = 'flashcard';
 			this.showcaseActionButton.setHandler(this.showcaseHandler);
@@ -563,7 +563,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				success: function (response) {
 					var numFlashcards = parseInt(response.responseText);
 
-					if (!features.jitt && !features.lecture && features.flashcard) {
+					if (!features.jitt && !features.lecture && features.flashcardFeature) {
 						if (numFlashcards === 1) {
 							me.showcaseActionButton.setButtonText(Messages.SHOWCASE_FLASHCARD);
 						} else {
@@ -645,6 +645,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 	applyUIChanges: function (features) {
 		var lectureButtonText = Messages.LECTURE_QUESTIONS_LONG;
 		var adHocIconEl = this.createAdHocQuestionButton.element.down('.iconBtnImg');
+		var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 
 		this.courseLearningProgressButton.setText(
 			features.peerGrading ? Messages.EVALUATION_ALT : Messages.COURSES_LEARNING_PROGRESS
@@ -654,6 +655,17 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			adHocIconEl.replaceCls('icon-question', 'icon-pencil');
 		} else {
 			adHocIconEl.replaceCls('icon-pencil', 'icon-question');
+		}
+
+		if (features.jitt && !features.lecture) {
+			tabPanel.showcaseQuestionPanel.setPreparationMode();
+			tabPanel.newQuestionPanel.setVariant('preparation');
+		} else if (features.flashcardFeature && !features.lecture) {
+			tabPanel.showcaseQuestionPanel.setFlashcardMode();
+			tabPanel.newQuestionPanel.setVariant('flashcard');
+		} else {
+			tabPanel.showcaseQuestionPanel.setLectureMode();
+			tabPanel.newQuestionPanel.setVariant('lecture');
 		}
 
 		if (features.total || features.slides) {

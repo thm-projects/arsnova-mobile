@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.CustomCarousel', {
 		this.getIndicator().element.dom.style.bottom = "";
 
 		this.on('add', function (carousel, item, index) {
-			if (item.getActiveItem()) {
+			if (item.xtype === 'panel' && item.getActiveItem) {
 				item.getActiveItem().setStyle('margin-top: 56px');
 			}
 		});

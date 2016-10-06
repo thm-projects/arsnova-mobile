@@ -1574,6 +1574,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 	applyUIChanges: function () {
 		if (this.isSlide) {
 			this.toolbar.setTitle(Messages.SLIDE);
+			this.questionStatusButton.setHidden(false);
 			this.statisticButton.setButtonText(Messages.SHOW_COMMENTS);
 			this.deleteAnswersButton.setButtonText(Messages.DELETE_COMMENTS);
 			this.deleteQuestionButton.setButtonText(Messages.DELETE_SLIDE);
@@ -1582,6 +1583,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 
 		if (this.isFlashcard) {
 			this.toolbar.setTitle(Messages.FLASHCARD);
+			this.questionStatusButton.setHidden(true);
 			this.deleteQuestionButton.setButtonText(Messages.DELETE_FLASHCARD);
 			this.deleteAnswersButton.setButtonText(Messages.DELETE_FLASHCARD_VIEWS);
 		}
