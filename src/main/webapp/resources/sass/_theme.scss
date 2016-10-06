@@ -140,7 +140,7 @@ $question-container-border-color: $default-white-color;
 
 /** flashcard front side configuration **/
 $flashcard-front-font-color: $brand-text;
-$flashcard-front-background: linear-gradient(0, #DFE8EC 0%, white 5%) 0 0;
+$flashcard-front-background: linear-gradient(to top, #DFE8EC 0%, white 5%) 0 20px;
 $flashcard-front-background-size: 100% 30px;
 $flashcard-front-border-width: 5px;
 $flashcard-front-border-color: white;
@@ -149,7 +149,7 @@ $flashcard-front-border-style: solid;
 
 /** flashcard back side configuration **/
 $flashcard-back-font-color: $brand-text;
-$flashcard-back-background: linear-gradient(0, #DFE8EC 0%, white 5%) 0 0;
+$flashcard-back-background: linear-gradient(to top, #DFE8EC 0%, white 5%) 0 20px;
 $flashcard-back-background-size: 100% 30px;
 $flashcard-back-border-width: 5px;
 $flashcard-back-border-color: white;
