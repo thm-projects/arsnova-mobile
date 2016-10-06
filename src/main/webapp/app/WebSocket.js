@@ -55,7 +55,8 @@ Ext.define('ARSnova.WebSocket', {
 		countPreparationQuestionAnswers: "arsnova/socket/question/lecturer/preparation/answercount",
 		learningProgressOptions: "arsnova/socket/session/learningprogress/options",
 		learningProgressChange: "arsnova/socket/session/learningprogress/change",
-		countFlashcards: "arsnova/question/lecturer/flashcard/count"
+		countFlashcards: "arsnova/question/lecturer/flashcard/count",
+		flipFlashcards: "arsnova/session/flashcards/flip"
 	},
 
 	memoization: {},
@@ -249,6 +250,11 @@ Ext.define('ARSnova.WebSocket', {
 			this.socket.on('countFlashcards', Ext.bind(function (count) {
 				console.debug("Socket.IO: countFlashcards", count);
 				this.fireEvent(this.events.countFlashcards, count);
+			}, this));
+
+			this.socket.on('flipFlashcards', Ext.bind(function (flip) {
+				console.debug("Socket.IO: flipFlashcards", flip);
+				this.fireEvent(this.events.flipFlashcards, flip);
 			}, this));
 
 			this.socket.on('learningProgressOptions', Ext.bind(function (options) {
