@@ -41,23 +41,29 @@
 	}
 
 	.front {
-		color: $flashcard-front-font-color;
 		background: white;
 		background: $flashcard-front-background;
 		background-size: $flashcard-front-background-size;
 		border-width: $flashcard-front-border-width;
 		border-color: $flashcard-front-border-color;
 		border-style: $flashcard-front-border-style;
+
+		p {
+			color: $flashcard-front-font-color;
+		}
 	}
 
 	.back {
-		color: $flashcard-back-font-color;
 		background: white;
 		background: $flashcard-back-background;
 		background-size: $flashcard-front-background-size;
 		border-width: $flashcard-back-border-width;
 		border-color: $flashcard-back-border-color;
 		border-style: $flashcard-back-border-style;
+
+		p {
+			color: $flashcard-front-font-color;
+		}
 	}
 
 	&.flipped .front .x-innerhtml,
