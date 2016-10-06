@@ -904,6 +904,18 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	flipFlashcards: function (sessionKeyword, flip, callbacks) {
+		this.arsjax.request({
+			url: "session/" + sessionKeyword + "/flipflashcards",
+			method: "POST",
+			params: {
+				flip: flip
+			},
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	getFeedback: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "session/" + sessionKeyword + "/feedback/",
