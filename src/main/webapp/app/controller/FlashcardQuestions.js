@@ -25,6 +25,8 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		models: ['ARSnova.model.Question']
 	},
 
+	flip: false,
+
 	listQuestions: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('flashcard');
@@ -55,6 +57,53 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 
 	getQuestions: function () {
 		ARSnova.app.questionModel.getFlashcards.apply(ARSnova.app.questionModel, arguments);
+	},
+
+	flipFlashcards: function (flip) {
+		this.flip = flip;
+		this.flipAllFlashcards(flip);
+	},
+
+	flipAllFlashcards: function (flip) {
+		var tabPanel, carousel;
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+			carousel = tabPanel.showcaseQuestionPanel;
+		} else {
+			tabPanel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+			carousel = tabPanel.userQuestionsPanel;
+		}
+
+		if (tabPanel.getActiveItem() === carousel &&
+			carousel.getMode() === 'flashcard') {
+			carousel.getInnerItems().forEach(function (flashcard) {
+				if (flashcard.questionObj.questionType === 'flashcard') {
+					flashcard.questionContainer.isFlipped = flip;
+					if (flip) {
+						flashcard.questionContainer.addCls('flipped');
+						flashcard.flashcardToggleButton.setText(
+							Messages.HIDE_FLASHCARD_ANSWER);
+
+						if (flashcard.editButtons) {
+							flashcard.editButtons.flipFlashcardsButton
+								.element.down('.iconBtnImg').replaceCls(
+								'icon-flashcard-front', 'icon-flashcard-back');
+						}
+					} else {
+						flashcard.questionContainer.removeCls('flipped');
+						flashcard.flashcardToggleButton.setText(
+							Messages.SHOW_FLASHCARD_ANSWER);
+
+						if (flashcard.editButtons) {
+							flashcard.editButtons.flipFlashcardsButton
+								.element.down('.iconBtnImg').replaceCls(
+								'icon-flashcard-back', 'icon-flashcard-front');
+						}
+					}
+				}
+			});
+		}
 	},
 
 	adHoc: function () {
