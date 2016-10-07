@@ -135,10 +135,12 @@ Ext.define("ARSnova.controller.QuestionExport", {
 	},
 
 	saveFileOnFileSystem: function (csv, filename) {
-		var blob = new Blob([csv], {type: "application/csv;charset=utf-8"});
+		var blob = new Blob([csv], {
+			type: Ext.browser.is.Safari ? "text/plain;charset=utf-8" :
+				"application/csv;charset=utf-8"
+		});
 
 		this.makeAndClickDownloadLink(blob, filename);
-
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		hTP.animateActiveItem(hTP.mySessionsPanel, {
 			type: 'slide',

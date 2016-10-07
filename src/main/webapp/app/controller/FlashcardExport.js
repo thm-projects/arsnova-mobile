@@ -96,7 +96,10 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 	},
 
 	saveFileOnFileSystem: function (data, filename) {
-		var blob = new Blob([data], {type: "application/json;charset=utf-8"});
+		var blob = new Blob([data], {
+			type: Ext.browser.is.Safari ? "text/plain;charset=utf-8" :
+				"application/json;charset=utf-8"
+		});
 		var ua = window.navigator.userAgent;
 		var msie = ua.indexOf("MSIE ");
 
