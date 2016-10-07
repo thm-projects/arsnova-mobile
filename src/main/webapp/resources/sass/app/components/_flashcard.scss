@@ -18,11 +18,13 @@
  */
 
 .flashcardContainer > .x-inner {
+	transform: translate3d(0px, 0px, 0px);
 	-webkit-perspective: 600px;
 	perspective: 600px;
 }
 
 .questionPanel.flashcard {
+	transform: translate3d(0px, 0px, 0px);
 	-webkit-transform-style: preserve-3d;
 	-webkit-transition: all 0.5s;
     transform-style: preserve-3d;
@@ -33,6 +35,7 @@
 	padding: 0;
 
 	.front, .back {
+		transform: translate3d(0px, 0px, 0px);
 		-webkit-backface-visibility: hidden;
 		backface-visibility: hidden;
 		position: absolute;
@@ -84,6 +87,11 @@
 			font-size: 0.75em;
 			position: absolute;
 		}
+	}
+
+	&.flipped .front:after,
+	&:not(.flipped) .back:after {
+		opacity: 0;
 	}
 
 	&.flipped .front .x-innerhtml,
