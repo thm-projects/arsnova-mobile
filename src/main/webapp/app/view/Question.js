@@ -515,35 +515,38 @@ Ext.define('ARSnova.view.Question', {
 		this.flashcardToggleButton = Ext.create('Ext.Button', {
 			cls: 'saveButton centered',
 			ui: 'confirm',
+			scope: this,
+			handler: this.flipFlashcardHandler,
 			text: ARSnova.app.getController('FlashcardQuestions').flip ?
-				Messages.HIDE_FLASHCARD_ANSWER : Messages.SHOW_FLASHCARD_ANSWER,
-			handler: function (button) {
-				if (!this.questionContainer.isFlipped) {
-					this.questionContainer.isFlipped = true;
-					this.questionContainer.addCls('flipped');
-					button.setText(Messages.HIDE_FLASHCARD_ANSWER);
-
-					me.getUserAnswer().then(function (answer) {
-						var answerObj = me.questionObj.possibleAnswers[0];
-						answer.set('answerText', answerObj.text);
-						if (!me.viewOnly) {
-							me.saveAnswer(answer);
-						}
-					});
-				} else {
-					this.questionContainer.isFlipped = false;
-					this.questionContainer.removeCls('flipped');
-					button.setText(Messages.SHOW_FLASHCARD_ANSWER);
-
-					if (!this.viewOnly) {
-						ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
-					}
-				}
-			},
-			scope: this
+				Messages.HIDE_FLASHCARD_ANSWER : Messages.SHOW_FLASHCARD_ANSWER
 		});
 
 		this.formPanel.add([this.flashcardToggleButton]);
+	},
+
+	flipFlashcardHandler: function () {
+		var me = this;
+		if (!this.questionContainer.isFlipped) {
+			this.questionContainer.isFlipped = true;
+			this.questionContainer.addCls('flipped');
+			this.flashcardToggleButton.setText(Messages.HIDE_FLASHCARD_ANSWER);
+
+			me.getUserAnswer().then(function (answer) {
+				var answerObj = me.questionObj.possibleAnswers[0];
+				answer.set('answerText', answerObj.text);
+				if (!me.viewOnly) {
+					me.saveAnswer(answer);
+				}
+			});
+		} else {
+			this.questionContainer.isFlipped = false;
+			this.questionContainer.removeCls('flipped');
+			this.flashcardToggleButton.setText(Messages.SHOW_FLASHCARD_ANSWER);
+
+			if (!this.viewOnly) {
+				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
+			}
+		}
 	},
 
 	saveAnswer: function (answer) {

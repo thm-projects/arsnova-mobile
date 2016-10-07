@@ -175,6 +175,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 			panel.getActiveItem().setAnswerCount();
 			panel.updateControlButtonHiddenState();
+			panel.toolbar.checkFlashcard(newQuestion);
 			panel.speakerUtilities.setHidden(screenWidth < 700);
 			panel.speakerUtilities.checkQuestionType(newQuestion);
 			panel.toolbar.checkStatisticButtonIcon(newQuestion.questionObj);

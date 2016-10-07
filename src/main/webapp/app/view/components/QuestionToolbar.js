@@ -59,6 +59,13 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			align: 'right'
 		});
 
+		this.flipFlashcardButton = Ext.create('Ext.Button', {
+			iconCls: 'icon-flip',
+			style: 'padding: 0; width: 44px',
+			align: 'right',
+			hidden: true
+		});
+
 		this.statisticsButton = Ext.create('Ext.Button', {
 			iconCls: 'icon-chart',
 			style: 'padding: 0; width: 44px',
@@ -70,7 +77,8 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			this.backButton,
 			this.clockElement,
 			this.answerCounter,
-			this.statisticsButton
+			this.statisticsButton,
+			this.flipFlashcardButton
 		]);
 	},
 
@@ -135,6 +143,16 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 		} else {
 			this.statisticsButton.setIconCls(this.statisticsButton.config.iconCls);
 		}
+	},
+
+	checkFlashcard: function (questionPanel) {
+		var questionObj = questionPanel.questionObj;
+		if (questionObj && questionObj.questionType === 'flashcard') {
+			this.flipFlashcardButton.setScope(questionPanel);
+			this.flipFlashcardButton.setHandler(questionPanel.flipFlashcardHandler);
+		}
+		this.flipFlashcardButton.setHidden(!questionObj ||
+			questionObj && questionObj.questionType !== 'flashcard');
 	},
 
 	checkStatistics: function (question, isDisabled) {
