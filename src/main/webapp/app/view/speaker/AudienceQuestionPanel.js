@@ -209,9 +209,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			handler: function (button) {
 				var flip = button.config.ctrl.flip;
 				ARSnova.app.sessionModel.flipFlashcards(!flip, {
-					success: function (response) {
-						button.config.flip();
-					},
+					success: function (response) {},
 					failure: function (response) {}
 				});
 			}
