@@ -138,6 +138,24 @@ $question-container-border-width: 3px;
 $question-container-border-color: $default-white-color;
 
 
+/** flashcard front side configuration **/
+$flashcard-front-font-color: $brand-text;
+$flashcard-front-background: linear-gradient(to top, #DFE8EC 0%, white 5%) 0 20px;
+$flashcard-front-background-size: 100% 30px;
+$flashcard-front-border-width: 5px;
+$flashcard-front-border-color: white;
+$flashcard-front-border-style: solid;
+
+
+/** flashcard back side configuration **/
+$flashcard-back-font-color: $brand-text;
+$flashcard-back-background: linear-gradient(to top, #DFE8EC 0%, white 5%) 0 20px;
+$flashcard-back-background-size: 100% 30px;
+$flashcard-back-border-width: 5px;
+$flashcard-back-border-color: white;
+$flashcard-back-border-style: solid;
+
+
 /** toolbar color configuration **/
 $toolbar-bg-color: $brand-secondary;
 $toolbar-title-txt-color: $default-white-color;
@@ -189,7 +207,8 @@ $statistics-incorrect-color: $brand-danger;
 $statistics-abstention-color: $default-grey-color;
 
 
-/** carousel indicator and navigation color configuration **/
+/** carousel width, indicator and navigation configuration **/
+$carousel-inner-max-width: 80%;
 $carousel-indicator-color: $brand-primary;
 $carousel-indicator-active-color: $brand-secondary;
 $carousel-indicator-unanswered-question-color: $brand-warning;

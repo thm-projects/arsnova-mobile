@@ -539,6 +539,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							field.setDisabled(false);
 							break;
 						case Messages.QUESTION:
+						case Messages.FLASHCARD_FRONT_PAGE:
 							field.setDisabled(false);
 							break;
 						case Messages.DURATION:
@@ -561,6 +562,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 							field.setDisabled(true);
 							break;
 						case Messages.QUESTION:
+						case Messages.FLASHCARD_FRONT_PAGE:
 							field.setDisabled(true);
 							break;
 						case Messages.DURATION:
@@ -585,7 +587,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		this.toolbar = Ext.create('Ext.Toolbar', {
-			title: this.isSlide ? Messages.SLIDE : this.getType() + '-' + Messages.QUESTION,
+			title: this.getType() + '-' + Messages.QUESTION,
 			cls: 'speakerTitleText',
 			docked: 'top',
 			ui: 'light',
@@ -609,7 +611,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.releaseStatisticButton = Ext.create('ARSnova.view.MatrixButton', {
 			buttonConfig: 'togglefield',
 			cls: actionButtonCls,
-			text: this.isSlide ? Messages.RELEASE_COMMENTS : Messages.RELEASE_STATISTIC,
+			text: Messages.RELEASE_STATISTIC,
 			toggleConfig: {
 				scope: this,
 				label: false,
@@ -698,11 +700,13 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			hidden: this.isFlashcard,
 			buttonConfig: 'icon',
 			cls: actionButtonCls,
-			text: this.isSlide ? Messages.DELETE_COMMENTS : Messages.DELETE_ANSWERS,
+			text: Messages.DELETE_ANSWERS,
 			imageCls: 'icon-close warningIconColor',
 			scope: this,
 			handler: function () {
-				Ext.Msg.confirm(Messages.DELETE_ANSWERS_REQUEST, Messages.QUESTION_REMAINS, function (answer) {
+				var title = this.isFlashcard ? Messages.DELETE_VIEWS_REQUEST : Messages.DELETE_ANSWERS_REQUEST;
+				var message = this.isFlashcard ? Messages.FLASHCARD_REMAINS : Messages.QUESTION_REMAINS;
+				Ext.Msg.confirm(title, message, function (answer) {
 					if (answer === 'yes') {
 						var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.questionDetailsPanel;
 						ARSnova.app.questionModel.deleteAnswers(panel.questionObj._id, {
@@ -720,7 +724,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		});
 
 		this.statisticButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: this.isSlide ? Messages.SHOW_COMMENTS : Messages.SHOW_STATISTIC,
+			text: Messages.SHOW_STATISTIC,
 			buttonConfig: 'icon',
 			imageCls: this.questionObj.questionType === 'slide' ? 'icon-comment' : 'icon-chart',
 			cls: actionButtonCls,
@@ -735,15 +739,19 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			xtype: 'button',
 			cls: actionButtonCls,
 			buttonConfig: 'icon',
-			text: this.isSlide ? Messages.DELETE_SLIDE : Messages.DELETE_QUESTION,
+			text: Messages.DELETE_QUESTION,
 			imageCls: 'icon-close',
 			scope: this,
 			handler: function () {
 				var msg = Messages.ARE_YOU_SURE;
-				if (this.questionObj.active) {
+				var title = this.isFlashcard ? Messages.DELETE_FLASHCARD_TITLE :
+					Messages.DELETE_QUESTION_TITLE;
+
+				if (this.questionObj.active && !this.isFlashcard) {
 					msg += "<br>" + Messages.DELETE_ALL_ANSWERS_INFO;
 				}
-				Ext.Msg.confirm(Messages.DELETE_QUESTION_TITLE, msg, function (answer) {
+
+				Ext.Msg.confirm(title, msg, function (answer) {
 					if (answer === 'yes') {
 						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 						ARSnova.app.questionModel.destroy(sTP.questionDetailsPanel.questionObj, {
@@ -1046,11 +1054,14 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.possibleAnswers = {};
 
 		if (this.questionObj.questionType === 'flashcard') {
+			this.textarea.setLabel(Messages.FLASHCARD_FRONT_PAGE);
 			this.answerListPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 				style: 'word-wrap: break-word;',
 				cls: ''
 			});
 		}
+
+		this.applyUIChanges();
 
 		/* END QUESTION DETAILS */
 
@@ -1557,6 +1568,24 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 			// clearImage resets everything, so make sure that some settings remain present
 			this.grid.setEditable(false);
 			this.grid.setGridIsHidden(true);
+		}
+	},
+
+	applyUIChanges: function () {
+		if (this.isSlide) {
+			this.toolbar.setTitle(Messages.SLIDE);
+			this.questionStatusButton.setHidden(false);
+			this.statisticButton.setButtonText(Messages.SHOW_COMMENTS);
+			this.deleteAnswersButton.setButtonText(Messages.DELETE_COMMENTS);
+			this.deleteQuestionButton.setButtonText(Messages.DELETE_SLIDE);
+			this.releaseStatisticButton.setButtonText(Messages.RELEASE_COMMENTS);
+		}
+
+		if (this.isFlashcard) {
+			this.toolbar.setTitle(Messages.FLASHCARD);
+			this.questionStatusButton.setHidden(true);
+			this.deleteQuestionButton.setButtonText(Messages.DELETE_FLASHCARD);
+			this.deleteAnswersButton.setButtonText(Messages.DELETE_FLASHCARD_VIEWS);
 		}
 	}
 });

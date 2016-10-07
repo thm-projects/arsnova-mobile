@@ -29,6 +29,16 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		this.saveFileOnFileSystem(csv, this.filename());
 	},
 
+	exportQuestions: function (controller) {
+		var me = this;
+		controller.getQuestions(sessionStorage.getItem('keyword'), {
+			success: function (response) {
+				var questions = Ext.decode(response.responseText);
+				me.parseJsonToCsv(questions);
+			}
+		});
+	},
+
 	getActualDate: function () {
 		var d = new Date();
 		return ('0' + d.getFullYear()).slice(-2) + '-'
@@ -74,9 +84,14 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		question.answer7 = options[6];
 		question.answer8 = options[7];
 		if (questionTypeModel === 'yesno') {
-			correctAnswer = 'n';
-			if (questionModel.possibleAnswers[0].correct) {
+			correctAnswer = '';
+			if (!questionModel.possibleAnswers[0].correct &&
+				!questionModel.possibleAnswers[1].correct) {
+				correctAnswer = '';
+			} else if (questionModel.possibleAnswers[0].correct) {
 				correctAnswer = 'y';
+			} else if (questionModel.possibleAnswers[1].correct) {
+				correctAnswer = 'n';
 			}
 			question.correctAnswer = correctAnswer;
 		} else if (questionTypeModel === 'freetext') {

@@ -383,7 +383,8 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 		if (features.feedback && ARSnova.app.activeSpeakerUtility) {
 			ARSnova.app.activeSpeakerUtility.feedbackOverlay.setIconCls(iconCls);
 			ARSnova.app.activeSpeakerUtility.feedbackOverlay.setBadgeText(voteBadge);
-			ARSnova.app.activeSpeakerUtility.feedbackOverlay.setHidden(!voteCount || !ARSnova.app.projectorModeActive);
+			ARSnova.app.activeSpeakerUtility.hideFeedbackOverlay = !voteCount;
+			ARSnova.app.activeSpeakerUtility.checkOverlayVisibility();
 		}
 
 		if (ARSnova.app.feedbackModel.lock) {

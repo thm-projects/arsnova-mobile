@@ -34,12 +34,19 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 			releaseAll: Messages.RELEASE_CONTENT,
 			confirm: Messages.CONFIRM_CLOSE_ALL_QUESTIONS,
 			confirmMessage: Messages.CONFIRM_CLOSE_ALL_QUESTIONS_MESSAGE
+		},
+		flashcardWording: {
+			release: Messages.RELEASE_FLASHCARD,
+			releaseAll: Messages.RELEASE_FLASHCARDS,
+			confirm: Messages.CONFIRM_CLOSE_ALL_FLASHCARDS,
+			confirmMessage: Messages.CONFIRM_CLOSE_ALL_FLASHCARDS_MESSAGE
 		}
 	},
 
 	constructor: function () {
 		this.callParent(arguments);
 		this.checkInitialStatus();
+		this.wording = this.getWording();
 	},
 
 	checkInitialStatus: function () {
@@ -48,7 +55,6 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		this.getQuestionStore().each(function (item) {
 			hasActiveQuestions = hasActiveQuestions || item.get("active");
 		});
-		this.wording = this.getWording();
 
 		if (hasActiveQuestions) {
 			this.isOpen = true;
@@ -72,6 +78,16 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 	setKeynoteWording: function () {
 		this.wording = this.getSlideWording();
 		this.setSingleQuestionMode();
+	},
+
+	setFlashcardsWording: function () {
+		this.wording = this.getFlashcardWording();
+
+		if (this.singleMode) {
+			this.setSingleQuestionMode();
+		} else {
+			this.setMultiQuestionMode();
+		}
 	},
 
 	setDefaultWording: function () {
@@ -114,7 +130,7 @@ Ext.define('ARSnova.view.speaker.MultiQuestionStatusButton', {
 		};
 
 		if (this.isOpen) {
-			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
+			Ext.Msg.confirm(this.wording.confirm, this.wording.confirmMessage, function (buttonId) {
 				if (buttonId !== "no") {
 					/* close all questions */
 					ARSnova.app.getController('Questions').setAllActive({

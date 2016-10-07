@@ -211,8 +211,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 
 		var me = this;
 		var config = ARSnova.app.globalConfig;
+
 		formatItems.push({
 			itemId: Messages.FLASHCARD,
+			hidden: this.getVariant !== "flashcard",
 			text: messageAppendix.length ?
 					Messages.FLASHCARD :
 					Messages.FLASHCARD_SHORT
@@ -444,6 +446,12 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 	onActivate: function () {
 		this.releasePart.setHidden(!localStorage.getItem('courseId'));
 		ARSnova.app.getController('Feature').applyNewQuestionPanelChanges(this);
+
+		if (this.getVariant() === 'flashcard') {
+			var indexMap = this.getOptionIndexMap();
+			this.questionOptions.setPressedButtons([indexMap[Messages.FLASHCARD]]);
+			this.optionsToolbar.setHidden(true);
+		}
 	},
 
 	getOptionIndexMap: function () {

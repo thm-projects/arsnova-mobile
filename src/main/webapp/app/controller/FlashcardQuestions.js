@@ -25,12 +25,24 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		models: ['ARSnova.model.Question']
 	},
 
+	flip: false,
+
 	listQuestions: function () {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.newQuestionPanel.setVariant('flashcard');
+		sTP.audienceQuestionPanel.setVariant('flashcard');
 		sTP.audienceQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, 'slide');
+	},
+
+	flashcardIndex: function (options) {
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.setFlashcardMode();
+		ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.toolbar.setTitle(Messages.FLASHCARDS);
+		if (options && options.renew) {
+			ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.renew(options.ids);
+		}
+		ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel, 'slide');
 	},
 
 	destroyAll: function () {
@@ -38,8 +50,96 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		question.deleteAllFlashcards.apply(question, arguments);
 	},
 
-	getQuestions: function () {
+	deleteAllQuestionsAnswers: function (callbacks) {
 		var question = Ext.create('ARSnova.model.Question');
-		question.getFlashcards.apply(question, arguments);
+		question.deleteAllFlashcardViews(sessionStorage.getItem("keyword"), callbacks);
+	},
+
+	getQuestions: function () {
+		ARSnova.app.questionModel.getFlashcards.apply(ARSnova.app.questionModel, arguments);
+	},
+
+	flipFlashcards: function (flip) {
+		this.flip = flip;
+		this.flipAllFlashcards(flip);
+	},
+
+	flipAllFlashcards: function (flip) {
+		var tabPanel, carousel;
+
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+			carousel = tabPanel.showcaseQuestionPanel;
+		} else {
+			tabPanel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
+			carousel = tabPanel.userQuestionsPanel;
+		}
+
+		if (tabPanel.getActiveItem() === carousel &&
+			carousel.getMode() === 'flashcard') {
+			carousel.getInnerItems().forEach(function (flashcard) {
+				if (flashcard.questionObj.questionType === 'flashcard') {
+					flashcard.questionContainer.isFlipped = flip;
+					if (flip) {
+						flashcard.questionContainer.addCls('flipped');
+						flashcard.flashcardToggleButton.setText(
+							Messages.HIDE_FLASHCARD_ANSWER);
+
+						if (flashcard.editButtons) {
+							flashcard.editButtons.flipFlashcardsButton
+								.element.down('.iconBtnImg').replaceCls(
+								'icon-flashcard-front', 'icon-flashcard-back');
+						}
+					} else {
+						flashcard.questionContainer.removeCls('flipped');
+						flashcard.flashcardToggleButton.setText(
+							Messages.SHOW_FLASHCARD_ANSWER);
+
+						if (flashcard.editButtons) {
+							flashcard.editButtons.flipFlashcardsButton
+								.element.down('.iconBtnImg').replaceCls(
+								'icon-flashcard-back', 'icon-flashcard-front');
+						}
+					}
+				}
+			});
+		}
+	},
+
+	adHoc: function () {
+		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+		sTP.sortQuestionsPanel.setController(this);
+		sTP.audienceQuestionPanel.setController(this);
+		sTP.showcaseQuestionPanel.setController(this);
+		sTP.audienceQuestionPanel.setVariant('flashcard');
+		sTP.newQuestionPanel.setVariant('flashcard');
+		sTP.animateActiveItem(sTP.newQuestionPanel, {
+			type: 'slide',
+			duration: 700
+		});
+
+		/* change the backButton-redirection to inClassPanel,
+		 * but only for one function call */
+		var backButton = sTP.newQuestionPanel.down('button[ui=back]');
+		backButton.setHandler(function () {
+			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+			sTP.animateActiveItem(sTP.inClassPanel, {
+				type: 'slide',
+				direction: 'right',
+				duration: 700
+			});
+		});
+		backButton.setText(Messages.SESSION);
+		sTP.newQuestionPanel.on('deactivate', function (panel) {
+			panel.backButton.handler = function () {
+				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+					type: 'slide',
+					direction: 'right',
+					duration: 700
+				});
+			};
+			panel.backButton.setText(Messages.TASKS);
+		}, this, {single: true});
 	}
 });

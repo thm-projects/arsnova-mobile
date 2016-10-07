@@ -149,9 +149,15 @@ Ext.define('ARSnova.view.Question', {
 		}
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			var tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+			var showcasePanel = tabPanel.showcaseQuestionPanel;
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj,
-				buttonClass: 'smallerActionButton'
+				buttonClass: 'smallerActionButton',
+				hideFlipFlashcardButton:
+					this.questionObj.questionType !== 'flashcard' ||
+					this.questionObj.questionType === 'flashcard' &&
+					showcasePanel.getMode() !== 'flashcard'
 			});
 
 			this.on('painted', function () {
@@ -182,12 +188,17 @@ Ext.define('ARSnova.view.Question', {
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 				this.editButtons.changeHiddenState();
 			}
+
+			if (this.questionObj.questionType === 'flashcard') {
+				this.getParent().on('resize', this.resizeFlashcardContainer, this);
+			}
 		});
 
 		this.on('deactivate', function () {
 			this.countdownTimer.stop();
 		});
 
+		this.onBefore('resize', this.resizeFlashcardContainer);
 		this.on('preparestatisticsbutton', function (button) {
 			var scope = me;
 			button.scope = this;
@@ -228,6 +239,7 @@ Ext.define('ARSnova.view.Question', {
 			this.questionPanel.removeCls('allCapsHeader');
 		}
 		this.questionPanel.setContent(questionString, true, true);
+		this.resizeFlashcardContainer();
 	},
 
 	initializeAnswerStore: function () {
@@ -450,46 +462,67 @@ Ext.define('ARSnova.view.Question', {
 		}
 	},
 
+	resizeFlashcardContainer: function () {
+		if (this.questionObj.questionType === 'flashcard') {
+			var back = this.answerPanel;
+			var front = this.questionPanel;
+			var container = this.questionContainer;
+			var hiddenEl = container.isFlipped ? front : back;
+			var heightBack, heightFront;
+
+			front.setHeight('initial');
+			back.setHeight('initial');
+			hiddenEl.setStyle({display: 'block', visibility: 'hidden'});
+			heightBack = back.element.dom.getBoundingClientRect().height;
+			heightFront = front.element.dom.getBoundingClientRect().height;
+			hiddenEl.setStyle({display: '', visibility: ''});
+
+			if (!heightFront || !heightBack) {
+				return;
+			}
+
+			if (heightBack > heightFront) {
+				container.setHeight(heightBack + 20);
+				front.setHeight(heightBack);
+				back.setHeight(heightBack);
+			} else {
+				container.setHeight(heightFront + 20);
+				front.setHeight(heightFront);
+				back.setHeight(heightFront);
+			}
+		}
+	},
+
 	prepareFlashcardQuestion: function () {
 		var me = this;
-
-		var answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			style: 'word-wrap: break-word;',
-			cls: ''
+		this.answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			style: 'word-wrap: break-word; visibility: hidden;'
 		});
 
-		this.answerList = Ext.create('Ext.Container', {
-			layout: 'vbox',
-			cls: 'roundedBox',
-			style: 'margin-bottom: 10px;',
-			styleHtmlContent: true,
-			hidden: true
-		});
+		// add css classes for 3d flip animation
+		this.questionContainer.setCls('questionPanel');
+		this.questionContainer.addCls('flashcard');
+		this.formPanel.addCls('flashcardContainer');
+		this.questionPanel.addCls('front');
+		this.answerPanel.addCls('back');
 
-		if (this.questionObj.fcImage) {
-			this.flashcardGrid = Ext.create('ARSnova.view.components.GridImageContainer', {
-				editable: false,
-				gridIsHidden: true,
-				style: 'margin-bottom: 20px'
-			});
-
-			me.flashcardGrid.prepareRemoteImage(me.questionObj, true);
-			this.answerList.add(this.flashcardGrid);
+		if (ARSnova.app.getController('FlashcardQuestions').flip) {
+			this.questionContainer.addCls('flipped');
 		}
 
-		this.answerList.add(answerPanel);
-		this.answerList.bodyElement.dom.style.padding = "0";
-		answerPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
-
-		this.flashcardContainer = {
-			xtype: 'button',
+		this.questionContainer.add(this.answerPanel);
+		this.answerPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
+		this.flashcardToggleButton = Ext.create('Ext.Button', {
 			cls: 'saveButton centered',
 			ui: 'confirm',
-			text: Messages.SHOW_FLASHCARD_ANSWER,
+			text: ARSnova.app.getController('FlashcardQuestions').flip ?
+				Messages.HIDE_FLASHCARD_ANSWER : Messages.SHOW_FLASHCARD_ANSWER,
 			handler: function (button) {
-				if (this.answerList.isHidden()) {
-					this.answerList.show(true);
+				if (!this.questionContainer.isFlipped) {
+					this.questionContainer.isFlipped = true;
+					this.questionContainer.addCls('flipped');
 					button.setText(Messages.HIDE_FLASHCARD_ANSWER);
+
 					me.getUserAnswer().then(function (answer) {
 						var answerObj = me.questionObj.possibleAnswers[0];
 						answer.set('answerText', answerObj.text);
@@ -498,7 +531,8 @@ Ext.define('ARSnova.view.Question', {
 						}
 					});
 				} else {
-					this.answerList.hide(true);
+					this.questionContainer.isFlipped = false;
+					this.questionContainer.removeCls('flipped');
 					button.setText(Messages.SHOW_FLASHCARD_ANSWER);
 
 					if (!this.viewOnly) {
@@ -507,9 +541,9 @@ Ext.define('ARSnova.view.Question', {
 				}
 			},
 			scope: this
-		};
+		});
 
-		this.formPanel.add([this.answerList, this.flashcardContainer]);
+		this.formPanel.add([this.flashcardToggleButton]);
 	},
 
 	saveAnswer: function (answer) {
@@ -519,7 +553,7 @@ Ext.define('ARSnova.view.Question', {
 			success: function () {
 				var questionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
 				var questionsArr = Ext.decode(localStorage.getItem(me.questionObj.questionVariant + 'QuestionIds'));
-				if (questionsArr.indexOf(me.questionObj._id) === -1) {
+				if (questionsArr && questionsArr.indexOf(me.questionObj._id) === -1) {
 					questionsArr.push(me.questionObj._id);
 				}
 				localStorage.setItem(me.questionObj.questionVariant + 'QuestionIds', Ext.encode(questionsArr));

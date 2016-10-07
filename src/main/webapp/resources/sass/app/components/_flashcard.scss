@@ -1,0 +1,98 @@
+/*
+ * This file is part of ARSnova Mobile.
+ * Copyright (C) 2011-2012 Christian Thomas Weber
+ * Copyright (C) 2012-2016 The ARSnova Team
+ *
+ * ARSnova Mobile is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * ARSnova Mobile is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.flashcardContainer > .x-inner {
+	-webkit-perspective: 600px;
+	perspective: 600px;
+}
+
+.questionPanel.flashcard {
+	-webkit-transform-style: preserve-3d;
+	-webkit-transition: all 0.5s;
+    transform-style: preserve-3d;
+	transition: all 0.5s;
+
+	border-color: transparent;
+	margin-right: 20px;
+	padding: 0;
+
+	.front, .back {
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
+		position: absolute;
+		padding: 35px;
+		width: 100%;
+	}
+
+	.front {
+		background: white;
+		background: $flashcard-front-background;
+		background-size: $flashcard-front-background-size;
+		border-width: $flashcard-front-border-width;
+		border-color: $flashcard-front-border-color;
+		border-style: $flashcard-front-border-style;
+
+		p {
+			color: $flashcard-front-font-color;
+		}
+
+		&:after {
+			content: '1';
+			color: $flashcard-front-font-color;
+		}
+	}
+
+	.back {
+		background: white;
+		background: $flashcard-back-background;
+		background-size: $flashcard-front-background-size;
+		border-width: $flashcard-back-border-width;
+		border-color: $flashcard-back-border-color;
+		border-style: $flashcard-back-border-style;
+
+		p {
+			color: $flashcard-back-font-color;
+		}
+
+		&:after {
+			content: '2';
+			color: $flashcard-back-font-color;
+		}
+	}
+
+	.back, .front {
+		&:after {
+			right: 8px;
+			bottom: 1px;
+			opacity: 0.3;
+			font-size: 0.75em;
+			position: absolute;
+		}
+	}
+
+	&.flipped .front .x-innerhtml,
+	&:not(.flipped) .back .x-innerhtml {
+		overflow: hidden;
+	}
+
+	&.flipped, .back {
+		transform: rotateX(180deg);
+		-webkit-transform: rotateX(180deg);
+	}
+ }

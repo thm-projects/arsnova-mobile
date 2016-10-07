@@ -74,7 +74,10 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 		updateClockTask: {
 			name: 'renew the actual time at the titlebar',
 			run: function () {
-				ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel.questionsPanel.updateTime();
+				var fQP = ARSnova.app.mainTabPanel.tabPanel.feedbackQuestionsPanel;
+				if (typeof fQP.questionsPanel.updateTime === 'function') {
+					fQP.questionsPanel.updateTime();
+				}
 			},
 			interval: 1000 // 1 second
 		}

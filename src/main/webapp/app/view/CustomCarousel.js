@@ -47,7 +47,7 @@ Ext.define('ARSnova.view.CustomCarousel', {
 		this.getIndicator().element.dom.style.bottom = "";
 
 		this.on('add', function (carousel, item, index) {
-			if (item.getActiveItem()) {
+			if (item.xtype === 'panel' && item.getActiveItem) {
 				item.getActiveItem().setStyle('margin-top: 56px');
 			}
 		});
@@ -107,6 +107,12 @@ Ext.define('ARSnova.view.CustomCarousel', {
 			innerItemCount = this.getInnerItems().length,
 			screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width,
 			showNavigationElements = screenWidth >= 840 && innerItemCount > 0 && activeIndex !== -1;
+
+		if (showNavigationElements) {
+			this.addCls('setMaxCaruselWidth');
+		} else {
+			this.removeCls('setMaxCaruselWidth');
+		}
 
 		if (showNavigationElements && activeIndex !== 0) {
 			this.leftArrow.removeCls('hidden');

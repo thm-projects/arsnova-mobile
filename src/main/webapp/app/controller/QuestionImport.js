@@ -147,10 +147,13 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		if (correctAnswers === 'y') {
 			return [this.getYesNoAnswerObj(true, Messages.YES),
 				this.getYesNoAnswerObj(false, Messages.NO)];
-		} else {
+		} else if (correctAnswers === 'n') {
 			return [this.getYesNoAnswerObj(true, Messages.NO),
 				this.getYesNoAnswerObj(false, Messages.YES)];
 		}
+
+		return [this.getYesNoAnswerObj(false, Messages.YES),
+			this.getYesNoAnswerObj(false, Messages.NO)];
 	},
 
 	getYesNoAnswerObj: function (isCorrect, text) {
@@ -191,10 +194,10 @@ Ext.define("ARSnova.controller.QuestionImport", {
 					}
 				});
 			} else {
-				this.refreshPanel();
+				refreshPanel();
 			}
 		} else {
-			this.refreshPanel();
+			refreshPanel();
 		}
 	},
 
@@ -244,7 +247,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 					var correctAnswers = [];
 					var answers = [];
 					var i;
-					var questionType = '';
+					var questionType = row[QUESTION_TYPE];
 					var hasRightAnswers = true;
 
 					// check if subject and text is set.
@@ -269,17 +272,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 						}
 					}
 
-					questionType = row[QUESTION_TYPE];
-
-					// Check if values for right answers are set, for all questions except txt
-					if (row[QUESTION_TYPE] && questionType === 'sc') {
-						if (!valuesRightAnswers) {
-							error = true;
-							answersError = true;
-							hasRightAnswers = false;
-						}
-					}
-					switch (questionType){
+					switch (questionType) {
 						case 'mc' :
 							for (i = INDEX_FIRST_ANSWER; i <= INDEX_LAST_ANSWER; i++) {
 								if (row[i].trim() !== '') {
@@ -296,13 +289,12 @@ Ext.define("ARSnova.controller.QuestionImport", {
 							 * Check if we have at minimum 2 answers
 							 * and check if the colums according to a answers numbers exists
 							 */
-							if (valuesRightAnswers.length < 1 || valuesRightAnswers.length !== correctAnswers.length) {
+							if (answers.length < 2 || answers.length < correctAnswers.length) {
 								error = true;
 								answersError = true;
 							}
-
 							break;
-						case 'sc' :
+						case 'abcd' :
 							for (i = INDEX_FIRST_ANSWER; i <= INDEX_LAST_ANSWER; i++) {
 								if (row[i].trim() !== '') {
 									answers.push(row[i]);
@@ -318,13 +310,12 @@ Ext.define("ARSnova.controller.QuestionImport", {
 							 * Check if we have exactly 1 answer
 							 * and check if the colums according to a answers numbers exists
 							 */
-							if (answers <= 1 || valuesRightAnswers.length !== 1) {
+							if (answers.length < 2 || correctAnswers.length > 1) {
 								error = true;
 								answersError = true;
 							}
-
 							break;
-						case 'yn' :
+						case 'yesno' :
 							if (row[RIGHT_ANSWER]) {
 								if (!(row[RIGHT_ANSWER].toLowerCase() === 'y' || row[RIGHT_ANSWER].toLowerCase() === 'n')) {
 									error = true;
@@ -350,7 +341,7 @@ Ext.define("ARSnova.controller.QuestionImport", {
 
 	showErrMsg: function (lineCnt, error, answersError, subjectError, questionError, questionTypeError, abstentionError) {
 		if (error) {
-			var message = Messages.QUESTIONS_CSV_IMPORT_INVALID_FORMAT + ':<ul class="newQuestionWarning"><br>';
+			var message = Messages.QUESTIONS_IMPORT_INVALID_FORMAT + ':<ul class="newQuestionWarning"><br>';
 
 			if (answersError) {
 				message += '<li>' + Messages.MISSING_ANSWERS + '</li>';
@@ -362,13 +353,13 @@ Ext.define("ARSnova.controller.QuestionImport", {
 				message += '<li>' + Messages.MISSING_QUESTION + '</li>';
 			}
 			if (questionTypeError) {
-				message += '<li>' + Messages.QUESTIONS_CSV_IMPORT_TYPE_ERROR + '</li>';
+				message += '<li>' + Messages.QUESTIONS_IMPORT_TYPE_ERROR + '</li>';
 			}
 			if (abstentionError) {
-				message += '<li>' + Messages.QUESTIONS_CSV_IMPORT_ABSTENTION_ERROR + '</li>';
+				message += '<li>' + Messages.QUESTIONS_IMPORT_ABSTENTION_ERROR + '</li>';
 			}
 
-			Ext.Msg.alert(Messages.NOTIFICATION, message + Messages.QUESTIONS_CSV_IMPORT_ERR_IN_ROW + " " + lineCnt + '</ul>');
+			Ext.Msg.alert(Messages.NOTIFICATION, message + Messages.QUESTIONS_IMPORT_ERR_IN_ROW + " " + lineCnt + '</ul>');
 			return;
 		}
 	}

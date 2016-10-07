@@ -57,6 +57,7 @@ Ext.define("ARSnova.controller.Questions", {
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.showcaseQuestionPanel.setLectureMode();
 		sTP.audienceQuestionPanel.prepareQuestionList();
+		sTP.audienceQuestionPanel.setVariant('lecture');
 		sTP.audienceQuestionPanel.voteStatusButton.setLecturerQuestionsMode();
 		sTP.audienceQuestionPanel.questionStatusButton.setLecturerQuestionsMode();
 		sTP.audienceQuestionPanel.toolbar.getTitle().setTitle(Messages.LECTURE_QUESTIONS);
@@ -453,16 +454,17 @@ Ext.define("ARSnova.controller.Questions", {
 
 			if (tP.speakerTabPanel.getActiveItem() === showcasePanel) {
 				if (showcasePanel.getActiveItem().getItemId() === id) {
+					showcasePanel.speakerUtitlites.hideCommentOverlay = true;
 					if (showcasePanel.getActiveItem().questionObj.questionType === 'slide') {
-						hideOverlay = !parseInt(answerCount) || !ARSnova.app.projectorModeActive;
 						showcasePanel.toolbar.setAnswerCounter(answerCount, Messages.COMMENT);
 						showcasePanel.speakerUtilities.commentOverlay.setBadgeText(answerCount);
-						showcasePanel.speakerUtilities.commentOverlay.setHidden(hideOverlay);
+						showcasePanel.speakerUtitlites.hideCommentOverlay = !parseInt(answerCount);
 					} else if (!answerCount && abstentionCount) {
 						showcasePanel.toolbar.setAnswerCounter(abstentionCount, Messages.ABSTENTION);
 					} else {
 						showcasePanel.toolbar.updateAnswerCounter(answerCount);
 					}
+					showcasePanel.speakerUtilities.checkOverlayVisibility();
 				}
 			}
 		}
