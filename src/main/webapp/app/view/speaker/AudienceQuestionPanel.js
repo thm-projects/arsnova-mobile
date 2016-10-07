@@ -783,15 +783,12 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			this.flipFlashcardsButton.config.flip();
 
 			captionTranslation = {
-				active: Messages.OPEN_CONTENT,
-				inactive: Messages.CLOSED_CONTENT,
-				disabledVote: ""
+				active: Messages.FLASHCARDS,
+				inactive: "", disabledVote: ""
 			};
 
 			badgeTranslation = {
-				feedback: "",
-				unredFeedback: "",
-				questions: "",
+				feedback: "", unredFeedback: "", questions: "",
 				answers: Messages.FLASHCARD_VIEWS
 			};
 		} else {
