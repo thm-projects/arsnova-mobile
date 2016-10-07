@@ -52,7 +52,7 @@
 			color: $flashcard-front-font-color;
 		}
 
-		&:before {
+		&:after {
 			content: '1';
 			color: $flashcard-front-font-color;
 		}
@@ -70,21 +70,19 @@
 			color: $flashcard-back-font-color;
 		}
 
-		&:before {
+		&:after {
 			content: '2';
 			color: $flashcard-back-font-color;
 		}
 	}
 
 	.back, .front {
-		&:before {
+		&:after {
 			right: 8px;
 			bottom: 1px;
 			opacity: 0.3;
 			font-size: 0.75em;
 			position: absolute;
-			-webkit-backface-visibility: hidden;
-			backface-visibility: hidden;
 		}
 	}
 
