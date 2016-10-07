@@ -70,6 +70,7 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 			carousel = tabPanel.showcaseQuestionPanel;
+			tabPanel.audienceQuestionPanel.flipFlashcardsButton.config.flip();
 		} else {
 			tabPanel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 			carousel = tabPanel.userQuestionsPanel;

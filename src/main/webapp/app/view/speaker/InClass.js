@@ -358,7 +358,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			this.showcaseActionButton.setButtonText(this.showcaseActionButton.config.altText);
 			this.createAdHocQuestionButton.setButtonText(this.createAdHocQuestionButton.config.altText);
 			this.showcaseActionButton.setHandler(this.showcaseHandler);
-		} else if (features.flashcardFeature) {
+		} else if (features.flashcardFeature && !features.lecture) {
 			sTP.showcaseQuestionPanel.setFlashcardMode();
 			this.createAdHocQuestionButton.config.mode = 'flashcard';
 			this.showcaseActionButton.setHandler(this.showcaseHandler);
