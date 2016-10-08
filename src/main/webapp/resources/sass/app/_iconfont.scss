@@ -75,6 +75,7 @@
 @include icon("icon-comment" , "\f075", "arsnova");
 @include icon("icon-flashcard-front", "\f24a", "arsnova");
 @include icon("icon-flashcard-back", "\f249", "arsnova");
+@include icon("icon-flip", "\ea2e", "arsnova");
 
 @include icon("icon-undo", "\f0e2", "arsnova");
 @include icon("icon-drag", "\f0dc", "arsnova");
@@ -132,6 +133,10 @@
 .icon-logo-nova {
 	color: $logo-nova-color;
 	content: "n";
+}
+
+.icon-flip {
+	font-size: 0.75em;
 }
 
 .voteIcons {
