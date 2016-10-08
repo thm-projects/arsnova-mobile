@@ -66,6 +66,25 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			hidden: true
 		});
 
+		this.flipAllFlashcardsButton = Ext.create('Ext.Button', {
+			iconCls: ARSnova.app.getController('FlashcardQuestions').flip ?
+				'icon-flashcard-back' : 'icon-flashcard-front',
+			style: 'padding: 0; width: 44px',
+			align: 'right',
+			hidden: true,
+			handler: function () {
+				var ctrl = ARSnova.app.getController('FlashcardQuestions');
+				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+					ARSnova.app.sessionModel.flipFlashcards(!ctrl.flip, {
+						success: function (response) {},
+						failure: function (response) {}
+					});
+				} else {
+					ctrl.flipFlashcards(!ctrl.flip);
+				}
+			}
+		});
+
 		this.statisticsButton = Ext.create('Ext.Button', {
 			iconCls: 'icon-chart',
 			style: 'padding: 0; width: 44px',
@@ -78,7 +97,8 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			this.clockElement,
 			this.answerCounter,
 			this.statisticsButton,
-			this.flipFlashcardButton
+			this.flipFlashcardButton,
+			this.flipAllFlashcardsButton
 		]);
 	},
 
@@ -147,12 +167,17 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 
 	checkFlashcard: function (questionPanel) {
 		var questionObj = questionPanel.questionObj;
-		if (questionObj && questionObj.questionType === 'flashcard') {
+		var isFlashcard = questionObj && questionObj.questionType === 'flashcard';
+
+		if (isFlashcard) {
 			this.flipFlashcardButton.setScope(questionPanel);
 			this.flipFlashcardButton.setHandler(questionPanel.flipFlashcardHandler);
+			this.flipAllFlashcardsButton.setHidden(false);
+			this.flipFlashcardButton.setHidden(false);
+		} else {
+			this.flipAllFlashcardsButton.setHidden(true);
+			this.flipFlashcardButton.setHidden(true);
 		}
-		this.flipFlashcardButton.setHidden(!questionObj ||
-			questionObj && questionObj.questionType !== 'flashcard');
 	},
 
 	checkStatistics: function (question, isDisabled) {
