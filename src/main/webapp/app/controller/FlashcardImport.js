@@ -42,19 +42,46 @@ Ext.define("ARSnova.controller.FlashcardImport", {
 		}
 	},
 
+	isFlashcardCsvFile: function (json) {
+		return json.length && json[0].length === 3;
+	},
+
+	importFile: function (data, isCsvFile, isFlashcardJson) {
+		if (isCsvFile) {
+			this.importCsvFile(data);
+		} else if (isFlashcardJson) {
+			this.showPromptAndImportJsonFile(data);
+		}
+	},
+
+	importJsonFile: function (json, subject) {
+		var me = this;
+		var checkSubject = typeof subject === 'undefined';
+
+		if (!this.hasValidationError(json, checkSubject)) {
+			this.showLoadMask();
+			var flashcards = this.formatFlashcards(json, subject);
+			ARSnova.app.restProxy.bulkSaveSkillQuestions(flashcards, {
+				success: function (response) { me.refreshPanel(false); },
+				failure: function (response) { me.refreshPanel(true); }
+			});
+		}
+	},
+
 	importCsvFile: function (csv) {
 		var questionImportCtrl = ARSnova.app.getController('QuestionImport');
 		var flashcardExportCtrl = ARSnova.app.getController('FlashcardExport');
-		var questions = [], json = '';
+		var flashcards = [], json = '';
 
 		try {
 			json = JSON.parse(ARSnova.utils.CsvUtil.csvToJson(csv));
 			json.splice(0, 1);
 
-			if (!questionImportCtrl.hasValidationError(json)) {
-				questions = questionImportCtrl.formatQuestions(json, 'flashcard');
-				json = flashcardExportCtrl.preparseJson(questions);
-				json = flashcardExportCtrl.stringifyFlashcards(json);
+			if (this.isFlashcardCsvFile(json)) {
+				this.importJsonFile(this.parseCsvToJson(json));
+			} else if (!questionImportCtrl.hasValidationError(json, true)) {
+				flashcards = questionImportCtrl.formatQuestions(json, 'flashcard');
+				json = flashcardExportCtrl.preparseFlashcards(flashcards, 'csv');
 				this.importJsonFile(json);
 			} else {
 				throw true;
@@ -64,13 +91,13 @@ Ext.define("ARSnova.controller.FlashcardImport", {
 		}
 	},
 
-	importJsonFile: function (json, showPrompt) {
+	showPromptAndImportJsonFile: function (json) {
 		var me = this;
 		var flashcards = [];
 
 		try {
 			json = JSON.parse('[' + json + ']');
-			if (!this.hasValidationError(json)) {
+			if (!this.hasValidationError(json, false)) {
 				Ext.Msg.show({
 					message: Messages.FLASHCARDS_CHOOSE_SUBJECT,
 					cls: 'importSubjectPrompt',
@@ -81,13 +108,7 @@ Ext.define("ARSnova.controller.FlashcardImport", {
 					prompt: {xtype: 'textfield', placeHolder: Messages.FLASHCARDS},
 					fn: function (buttonId, subject) {
 						if (buttonId === 'save') {
-							me.showLoadMask();
-							subject = subject === '' ? Messages.FLASHCARDS : subject;
-							flashcards = me.formatFlashcards(json, subject);
-							ARSnova.app.restProxy.bulkSaveSkillQuestions(flashcards, {
-								success: function (response) { me.refreshPanel(false); },
-								failure: function (response) { me.refreshPanel(true); }
-							});
+							me.importJsonFile(json, subject);
 						} else {
 							me.refreshPanel(false);
 						}
@@ -103,6 +124,7 @@ Ext.define("ARSnova.controller.FlashcardImport", {
 
 	formatFlashcards: function (flashcards, subject) {
 		var flashcardSet = [];
+		subject = !subject || subject === '' ? Messages.FLASHCARDS : subject;
 
 		for (var i = 0, flashcard = {}; i < flashcards.length; i++) {
 			flashcard = Ext.create('ARSnova.model.Question', {
@@ -112,7 +134,7 @@ Ext.define("ARSnova.controller.FlashcardImport", {
 				active: 1,
 				number: 0,
 
-				subject: subject,
+				subject: flashcards[i].subject || subject,
 				text: flashcards[i].front,
 				possibleAnswers: [{
 					text: flashcards[i].back,
@@ -134,24 +156,43 @@ Ext.define("ARSnova.controller.FlashcardImport", {
 		return flashcardSet;
 	},
 
-	hasValidationError: function (parsedQuestions) {
-		var error = false, answersError = false, questionError = false;
-		var question = {};
+	parseCsvToJson: function (flashcards) {
+		var json = [];
+		for (var i = 0; i < flashcards.length; i++) {
+			if (!flashcards[i][0] || !flashcards[i][1] || !flashcards[i][2]) {
+				continue;
+			}
+			json.push({
+				subject: flashcards[i][0],
+				front: flashcards[i][1],
+				back: flashcards[i][2]
+			});
+		}
+		return json;
+	},
 
-		for (var i = 0; i < parsedQuestions.length; i++) {
-			question = parsedQuestions[i];
-			if (typeof question.front !== 'string' || !question.front.length) {
+	hasValidationError: function (parsedFlashcards, isCsv) {
+		var error = false, answersError = false, questionError = false, subjectError = false;
+
+		for (var i = 0, flashcard = {}; i < parsedFlashcards.length; i++) {
+			flashcard = parsedFlashcards[i];
+
+			if (typeof flashcard.front !== 'string' || !flashcard.front.length) {
 				questionError = error = true;
 			}
-			if (typeof question.back !== 'string' || !question.back.length) {
+			if (typeof flashcard.back !== 'string' || !flashcard.back.length) {
 				answersError = error = true;
 			}
+			if (isCsv && (!flashcard.subject || typeof flashcard.subject !== 'string' ||
+				!flashcard.subject.length)) {
+				subjectError = error = true;
+			}
 		}
-		this.showErrMsg(error, answersError, questionError);
+		this.showErrMsg(error, answersError, questionError, subjectError);
 		return error;
 	},
 
-	showErrMsg: function (lineCnt, error, answersError, questionError) {
+	showErrMsg: function (error, answersError, questionError, subjectError) {
 		if (error) {
 			var message = Messages.QUESTIONS_IMPORT_INVALID_FORMAT +
 				':<ul class="newQuestionWarning"><br>';
@@ -161,6 +202,9 @@ Ext.define("ARSnova.controller.FlashcardImport", {
 			}
 			if (questionError) {
 				message += '<li>' + Messages.MISSING_QUESTION + '</li>';
+			}
+			if (subjectError) {
+				message += '<li>' + Messages.MISSING_SUBJECT + '</li>';
 			}
 
 			Ext.Msg.alert(Messages.NOTIFICATION, message + '</ul>');

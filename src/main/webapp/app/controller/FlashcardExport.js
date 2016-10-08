@@ -21,31 +21,31 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 
 	suitableTypes: ['mc', 'abcd', 'yesno', 'flashcard'],
 
-	filename: function () {
-		var filename = 'flashcards' + this.getActualDate() + '.json';
+	filename: function (format) {
+		var filename = 'flashcards' + this.getActualDate() + '.' + format;
 		return filename;
-	},
-
-	exportJsonFile: function (json) {
-		this.saveFileOnFileSystem(json, this.filename());
 	},
 
 	getActualDate: function () {
 		return ARSnova.app.getController('QuestionExport').getActualDate();
 	},
 
-	exportFlashcards: function (controller) {
+	exportFlashcards: function (controller, format) {
 		var me = this;
+		format = format === 'csv' ? 'csv' : 'json';
 		controller.getQuestions(sessionStorage.getItem('keyword'), {
 			success: function (response) {
-				var flashcards = me.preparseJson(Ext.decode(response.responseText));
-				var json = me.stringifyFlashcards(flashcards);
-				me.exportJsonFile(json);
+				var resp = Ext.decode(response.responseText);
+				var flashcards = me.preparseFlashcards(resp, format);
+				var data = format !== 'csv' ? me.stringifyJson(flashcards) :
+					ARSnova.utils.CsvUtil.jsonToCsv(flashcards);
+
+				me.saveFileOnFileSystem(data, me.filename(format), format);
 			}
 		});
 	},
 
-	stringifyFlashcards: function (flashcards) {
+	stringifyJson: function (flashcards) {
 		for (var i = 0, json = ''; i < flashcards.length; i++) {
 			json += JSON.stringify(flashcards[i], null, '\t');
 			json += i < flashcards.length - 1 ? ', ' : '';
@@ -53,11 +53,11 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 		return json;
 	},
 
-	preparseJson: function (records) {
+	preparseFlashcards: function (records, format) {
 		var flashcards = [];
 		for (var i = 0, flashcard; i < records.length; i++) {
 			if (this.suitableTypes.indexOf(records[i].questionType) !== -1) {
-				flashcard = this.formatFlashcard(records[i]);
+				flashcard = this.formatFlashcard(records[i], format);
 
 				if (flashcard.back && flashcard.front) {
 					flashcards.push(flashcard);
@@ -68,15 +68,20 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 		return flashcards;
 	},
 
-	formatFlashcard: function (questionData) {
+	formatFlashcard: function (questionData, format) {
 		var flashcard = {};
+
+		if (format === 'csv') {
+			flashcard.subject = questionData.subject;
+		}
+
+		flashcard.front = questionData.text;
 		switch (questionData.questionType) {
 			case 'mc': case 'abcd': case 'yesno': case 'flashcard':
 				flashcard.back = this.parseBackPage(questionData);
 				break;
 		}
 
-		flashcard.front = questionData.text;
 		return flashcard;
 	},
 
@@ -95,10 +100,12 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 		return correctAnswers.join(', ');
 	},
 
-	saveFileOnFileSystem: function (data, filename) {
+	saveFileOnFileSystem: function (data, filename, format) {
+		var type = format === 'csv' ? "application/csv;charset=utf-8" :
+			"application/json;charset=utf-8";
+
 		var blob = new Blob([data], {
-			type: Ext.browser.is.Safari ? "text/plain;charset=utf-8" :
-				"application/json;charset=utf-8"
+			type: Ext.browser.is.Safari ? "text/plain;charset=utf-8" : type
 		});
 		var ua = window.navigator.userAgent;
 		var msie = ua.indexOf("MSIE ");
