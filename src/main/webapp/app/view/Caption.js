@@ -29,6 +29,7 @@ Ext.define('ARSnova.view.Caption', {
 		badgeTranslation: {
 			feedback: Messages.QUESTIONS_FROM_STUDENTS,
 			unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
+			flashcards: Messages.FLASHCARDS,
 			questions: Messages.QUESTIONS,
 			answers: Messages.ANSWERS
 		}
@@ -115,6 +116,7 @@ Ext.define('ARSnova.view.Caption', {
 			answers: true,
 			interposed: true,
 			unredInterposed: true,
+			flashcards: true,
 			unanswered: false
 		});
 
@@ -122,6 +124,7 @@ Ext.define('ARSnova.view.Caption', {
 		var hasUnreadFeedbackQuestions = false;
 		var hasQuestions = false;
 		var hasUnansweredQuestions = false;
+		var hasFlashcards = false;
 		var hasAnswers = false;
 		badges.forEach(function (item) {
 			if (Ext.isNumber(item)) {
@@ -131,15 +134,20 @@ Ext.define('ARSnova.view.Caption', {
 				hasUnreadFeedbackQuestions = hasUnreadFeedbackQuestions || item.hasUnredFeedbackQuestions || item.numUnredInterposed > 0;
 				hasQuestions = hasQuestions || item.hasQuestions || item.numQuestions > 0;
 				hasUnansweredQuestions = hasUnansweredQuestions || item.hasUnansweredQuestions || item.numUnanswered > 0;
+				hasFlashcards = hasFlashcards || item.hasFlashcards || item.numFlashcards > 0;
 				hasAnswers = hasAnswers || item.hasAnswers || item.numAnswers > 0;
 			}
 		});
+
 		this.listButton.setBadge([{
 				badgeText: options.interposed && hasFeedbackQuestions ? this.getBadgeTranslation().questions : "",
 				badgeCls: "feedbackQuestionsBadgeIcon"
 			}, {
 				badgeText: (options.unredInterposed && hasUnreadFeedbackQuestions) ? this.getBadgeTranslation().unredQuestions : "",
 				badgeCls: "unreadFeedbackQuestionsBadgeIcon"
+			}, {
+				badgeText: options.flashcards && hasFlashcards ? this.getBadgeTranslation().flashcards : "",
+				badgeCls: "flashcardBadgeIcon"
 			}, {
 				badgeText: (options.questions && hasQuestions) || (options.unanswered && hasUnansweredQuestions) ? this.getBadgeTranslation().questions : "",
 				badgeCls: "questionsBadgeIcon"
@@ -148,6 +156,7 @@ Ext.define('ARSnova.view.Caption', {
 				badgeCls: "answersBadgeIcon"
 			}
 		]);
+
 		return badges;
 	},
 
