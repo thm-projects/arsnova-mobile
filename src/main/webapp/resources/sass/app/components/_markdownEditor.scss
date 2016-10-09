@@ -60,6 +60,8 @@ div[id^=ext-mathJaxMarkDownPanel] * {
 }
 
 .videoImageContainer {
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
 	position: relative;
 	display: inline-block;
 	max-width: 320px;
@@ -233,7 +235,7 @@ div[id^=ext-mathJaxMarkDownPanel] {
 	pointer-events: none;
 	opacity: 0;
 	left: 10%;
-	bottom: 120%;	
+	bottom: 120%;
 }
 
 .buttonTooltip:hover:after {
