@@ -189,32 +189,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			hidden: true
 		});
 
-		this.flipFlashcardsButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: actionButtonCls === 'smallerActionButton' ?
-				Messages.FLIP_FLASHCARDS_SHORT :
-				Messages.FLIP_FLASHCARDS,
-			cls: actionButtonCls,
-			imageCls: 'icon-flashcard-front',
-			ctrl: ARSnova.app.getController('FlashcardQuestions'),
-			flip: function () {
-				var button = self.flipFlashcardsButton;
-				if (button.config.ctrl.flip) {
-					button.element.down('.iconBtnImg').replaceCls(
-						'icon-flashcard-front', 'icon-flashcard-back');
-				} else {
-					button.element.down('.iconBtnImg').replaceCls(
-						'icon-flashcard-back', 'icon-flashcard-front');
-				}
-			},
-			handler: function (button) {
-				var flip = button.config.ctrl.flip;
-				ARSnova.app.sessionModel.flipFlashcards(!flip, {
-					success: function (response) {},
-					failure: function (response) {}
-				});
-			}
-		});
-
 		this.newQuestionButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.NEW_QUESTION,
 			buttonConfig: 'icon',
@@ -565,8 +539,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 					if (features.slides) {
 						showcaseButtonText = Messages.SHOWCASE_KEYNOTE;
 					}
-				} else {
-					this.flipFlashcardsButton.show();
 				}
 
 				this.showcaseActionButton.setButtonText(showcaseButtonText);
@@ -586,7 +558,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				}
 			}, this),
 			empty: Ext.bind(function () {
-				this.flipFlashcardsButton.hide();
 				this.showcaseActionButton.hide();
 				this.questionListContainer.hide();
 				this.questionList.show();
@@ -781,8 +752,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			this.questionStatusButton.setFlashcardsWording();
 			this.newQuestionButton.element.down('.iconBtnImg').replaceCls('icon-question', 'icon-pencil');
 			this.actionButtonPanel.remove(this.questionStatusButton, false);
-			this.actionButtonPanel.insert(0, this.flipFlashcardsButton);
-			this.flipFlashcardsButton.config.flip();
 
 			captionTranslation = {
 				active: Messages.FLASHCARDS,
@@ -795,7 +764,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			};
 		} else {
 			this.flashcardImportButton.hide();
-			this.actionButtonPanel.remove(this.flipFlashcardsButton, false);
 			this.actionButtonPanel.insert(0, this.questionStatusButton);
 			this.voteStatusButton.show();
 		}

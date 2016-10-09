@@ -72,7 +72,6 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			tabPanel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 			carousel = tabPanel.showcaseQuestionPanel;
-			tabPanel.audienceQuestionPanel.flipFlashcardsButton.config.flip();
 		} else {
 			tabPanel = ARSnova.app.mainTabPanel.tabPanel;
 			carousel = tabPanel.userQuestionsPanel;
@@ -92,11 +91,6 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 						flashcard.flashcardToggleButton.setText(
 							Messages.SHOW_FLASHCARD_ANSWER);
 					}
-				}
-
-				if (flashcard.editButtons) {
-					flashcard.editButtons.flipFlashcardsButton
-						.element.down('.iconBtnImg').replaceCls(oldCls, newCls);
 				}
 			});
 		}
