@@ -454,7 +454,7 @@ Ext.define("ARSnova.controller.Questions", {
 
 			if (tP.speakerTabPanel.getActiveItem() === showcasePanel) {
 				if (showcasePanel.getActiveItem().getItemId() === id) {
-					showcasePanel.speakerUtitlites.hideCommentOverlay = true;
+					showcasePanel.speakerUtilities.hideCommentOverlay = true;
 					if (showcasePanel.getActiveItem().questionObj.questionType === 'slide') {
 						showcasePanel.toolbar.setAnswerCounter(answerCount, Messages.COMMENT);
 						showcasePanel.speakerUtilities.commentOverlay.setBadgeText(answerCount);

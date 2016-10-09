@@ -253,11 +253,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 						if (self.getVariant() === 'flashcard') {
 							self.loadFilePanel.hide();
-							if (this.importCsv) {
-								ARSnova.app.getController('FlashcardImport').importCsvFile(data);
-							} else if (this.importFlashcards) {
-								ARSnova.app.getController('FlashcardImport').importJsonFile(data);
-							}
+							ARSnova.app.getController('FlashcardImport')
+								.importFile(data, this.importCsv, this.importFlashcards);
 						} else {
 							ARSnova.app.getController('QuestionImport').importCsvFile(data);
 						}
@@ -332,15 +329,20 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				items: [{
 					text: Messages.CSV_FILE,
 					handler: function () {
-						ARSnova.app.getController('QuestionExport')
-							.exportQuestions(this.getController());
+						if (this.getVariant() === 'flashcard') {
+							ARSnova.app.getController('FlashcardExport')
+								.exportFlashcards(this.getController(), 'csv');
+						} else {
+							ARSnova.app.getController('QuestionExport')
+								.exportQuestions(this.getController());
+						}
 						this.exportFilePanel.hide();
 					}
 				}, {
 					text: Messages.ARSNOVA_CARDS,
 					handler: function () {
 						ARSnova.app.getController('FlashcardExport')
-							.exportFlashcards(this.getController());
+							.exportFlashcards(this.getController(), 'json');
 						this.exportFilePanel.hide();
 					}
 				}]

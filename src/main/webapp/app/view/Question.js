@@ -547,6 +547,8 @@ Ext.define('ARSnova.view.Question', {
 				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
 			}
 		}
+		// animated scrolling to top
+		this.getScrollable().getScroller().scrollToTop(true);
 	},
 
 	saveAnswer: function (answer) {
