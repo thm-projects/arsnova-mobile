@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.4
+Bug fixes:
+* Fix layout problems in Firefox 49+
+* ARSnova no longer hangs because of a `ReferenceError` when loading for the
+  first time on slow connections.
+
 ## 2.3.3
 Bug fixes:
 * Fixes JavaScript errors occuring with `question.answer-option-limit` set to
