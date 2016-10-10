@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.4.4
+Bug fixes:
+* Fix layout problems in Firefox 49+
+
+## 2.3.4
+Bug fixes:
+* Fix layout problems in Firefox 49+
+* ARSnova no longer hangs because of a `ReferenceError` when loading for the
+  first time on slow connections.
+
 ## 2.4.3
 Bug fixes:
 * Buttons of the question format bar are now correctly shown or hidden when
