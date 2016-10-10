@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4.4
+Bug fixes:
+* Fix layout problems in Firefox 49+
+
 ## 2.3.4
 Bug fixes:
 * Fix layout problems in Firefox 49+
