@@ -121,6 +121,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	showPreview: function (options) {
 		this.answers = options.answers;
 		this.content = options.content;
+		this.questionType = options.questionType;
 		this.setQuestionPanelContent(options.title, options.content);
 
 		if (options.image) {
@@ -198,7 +199,9 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		this.show();
 
 		if (options.questionType === 'flashcard') {
+			var me = this;
 			this.resizeFlashcardContainer();
+			setTimeout(function () { me.resizeFlashcardContainer.call(me); }, 750);
 		} else {
 			this.mainPanel.add([
 				this.confirmButton
@@ -329,6 +332,10 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		this.remove(this.toolbar, false);
 		this.remove(this.mainPanel, false);
 
+		if (this.questionType === 'flashcard') {
+			this.remove(this.formPanel, false);
+		}
+
 		embeddedPage.setBackHandler(function () {
 			me.setHideOnMaskTap(true);
 
@@ -341,7 +348,12 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 
 			// add default elements to preview
 			me.add(me.toolbar);
-			me.add(me.mainPanel);
+
+			if (me.questionType === 'flashcard') {
+				me.add(me.formPanel, me.mainPanel);
+			} else {
+				me.add(me.mainPanel);
+			}
 		});
 
 		// add embeddedPage to preview

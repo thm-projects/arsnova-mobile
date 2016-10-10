@@ -153,11 +153,7 @@ Ext.define('ARSnova.view.Question', {
 			var showcasePanel = tabPanel.showcaseQuestionPanel;
 			this.editButtons = Ext.create('ARSnova.view.speaker.ShowcaseEditButtons', {
 				questionObj: this.questionObj,
-				buttonClass: 'smallerActionButton',
-				hideFlipFlashcardButton:
-					this.questionObj.questionType !== 'flashcard' ||
-					this.questionObj.questionType === 'flashcard' &&
-					showcasePanel.getMode() !== 'flashcard'
+				buttonClass: 'smallerActionButton'
 			});
 
 			this.on('painted', function () {
@@ -169,6 +165,10 @@ Ext.define('ARSnova.view.Question', {
 			this.formPanel, this.countdownTimer,
 			this.editButtons ? this.editButtons : {}
 		]);
+
+		if (this.questionObj.questionType === 'flashcard') {
+			this.add(this.buttonContainer);
+		}
 
 		this.on('activate', function () {
 			this.checkPiRoundActivation();
@@ -496,13 +496,13 @@ Ext.define('ARSnova.view.Question', {
 	prepareFlashcardQuestion: function () {
 		var me = this;
 		this.answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			style: 'word-wrap: break-word; visibility: hidden;'
+			style: 'visibility: hidden;'
 		});
 
 		// add css classes for 3d flip animation
+		this.formPanel.addCls('flashcardContainer');
 		this.questionContainer.setCls('questionPanel');
 		this.questionContainer.addCls('flashcard');
-		this.formPanel.addCls('flashcardContainer');
 		this.questionPanel.addCls('front');
 		this.answerPanel.addCls('back');
 
@@ -521,7 +521,8 @@ Ext.define('ARSnova.view.Question', {
 				Messages.HIDE_FLASHCARD_ANSWER : Messages.SHOW_FLASHCARD_ANSWER
 		});
 
-		this.formPanel.add([this.flashcardToggleButton]);
+		this.buttonContainer.add([this.flashcardToggleButton]);
+		this.buttonContainer.setHidden(false);
 	},
 
 	flipFlashcardHandler: function () {

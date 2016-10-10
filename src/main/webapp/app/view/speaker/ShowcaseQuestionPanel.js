@@ -157,19 +157,21 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 
 	onItemChange: function (panel, newQuestion, oldQuestion) {
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+		var questionObj = newQuestion.questionObj;
 
 		if (oldQuestion && oldQuestion.questionObj && oldQuestion.countdownTimer) {
 			oldQuestion.countdownTimer.stop();
 		}
 
-		if (newQuestion.questionObj) {
+		if (questionObj) {
 			var title = screenWidth >= 520 ? newQuestion.getQuestionTypeMessage() : '';
+			var isFlashcard = questionObj.questionType === 'flashcard';
 
-			if (panel.speakerUtilities.isZoomElementActive()) {
+			if (panel.speakerUtilities.isZoomElementActive() && !isFlashcard) {
 				newQuestion.setPadding('0 0 50 0');
 			}
 
-			if (newQuestion.questionObj.questionType !== 'slide') {
+			if (questionObj.questionType !== 'slide') {
 				panel.speakerUtilities.commentOverlay.setHidden(true);
 			}
 
@@ -178,7 +180,8 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 			panel.toolbar.checkFlashcard(newQuestion);
 			panel.speakerUtilities.setHidden(screenWidth < 700);
 			panel.speakerUtilities.checkQuestionType(newQuestion);
-			panel.toolbar.checkStatisticButtonIcon(newQuestion.questionObj);
+			panel.toolbar.checkStatisticButtonIcon(questionObj);
+			panel.speakerUtilities.hideShowcaseControlButton.setHidden(isFlashcard);
 			panel.setProjectorMode(this, ARSnova.app.projectorModeActive && screenWidth > 700, true);
 			panel.toolbar.setTitle(Ext.util.Format.htmlEncode(title));
 			newQuestion.setZoomLevel(ARSnova.app.globalZoomLevel);
@@ -208,6 +211,10 @@ Ext.define('ARSnova.view.speaker.ShowcaseQuestionPanel', {
 		}
 
 		sTP.showcaseQuestionPanel.speakerUtilities.setProjectorMode(showcasePanel, activate, noFullscreen);
+
+		if (hasActiveItem && activePanel.questionObj.questionType === 'flashcard') {
+			setTimeout(function () { activePanel.resizeFlashcardContainer(); }, 750);
+		}
 	},
 
 	updateControlButtonHiddenState: function (panel) {

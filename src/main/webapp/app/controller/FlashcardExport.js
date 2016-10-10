@@ -104,6 +104,11 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 		var type = format === 'csv' ? "application/csv;charset=utf-8" :
 			"application/json;charset=utf-8";
 
+		ARSnova.app.sessionModel.flipFlashcards(false, {
+			success: function (response) {},
+			failure: function (response) {}
+		});
+
 		var blob = new Blob([data], {
 			type: Ext.browser.is.Safari ? "text/plain;charset=utf-8" : type
 		});

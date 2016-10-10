@@ -308,6 +308,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			numAnswers: 0,
 			numQuestions: 0,
 			numInterposed: 0,
+			numFlashcards: 0,
 			numUnredInterposed: 0
 		};
 
@@ -452,12 +453,17 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				this.badgeOptions.numInterposed = 0;
 				this.badgeOptions.numUnredInterposed = 0;
 			}
+
+			if (!features.flashcardFeature) {
+				this.badgeOptions.numFlashcards = 0;
+			}
 		}
 
 		hasOptions = this.badgeOptions.numAnswers ||
 			this.badgeOptions.numUnredInterposed ||
 			this.badgeOptions.numInterposed ||
-			this.badgeOptions.numQuestions;
+			this.badgeOptions.numQuestions ||
+			this.badgeOptions.numFlashcards;
 
 		if (hasOptions) {
 			me.caption.explainBadges([me.badgeOptions]);
@@ -480,6 +486,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 
 		var lecturePromise = new RSVP.Promise();
 		var prepPromise = new RSVP.Promise();
+		var fcPromise = new RSVP.Promise();
 
 		ARSnova.app.questionModel.countLectureQuestions(sessionStorage.getItem("keyword"), {
 			success: function (response) {
@@ -562,6 +569,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			ARSnova.app.questionModel.countFlashcards(sessionStorage.getItem("keyword"), {
 				success: function (response) {
 					var numFlashcards = parseInt(response.responseText);
+					me.badgeOptions.numFlashcards = numFlashcards;
 
 					if (!features.jitt && !features.lecture && features.flashcardFeature) {
 						if (numFlashcards === 1) {
@@ -572,15 +580,18 @@ Ext.define('ARSnova.view.speaker.InClass', {
 						me.updateActionButtonElements(!!numFlashcards);
 					}
 
+					fcPromise.resolve(numFlashcards);
 					me.flashcardQuestionButton.setBadge([
-						{badgeText: numFlashcards, badgeCls: "questionsBadgeIcon"}
+						{badgeText: numFlashcards, badgeCls: "flashcardBadgeIcon"}
 					]);
 				},
 				failure: failureCallback
 			});
+		} else {
+			fcPromise.resolve(0);
 		}
 
-		RSVP.all([lecturePromise, prepPromise]).then(function (questions) {
+		RSVP.all([lecturePromise, prepPromise, fcPromise]).then(function (questions) {
 			var numQuestions = questions.reduce(function (a, b) {
 				return a + b;
 			}, 0);
@@ -674,6 +685,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 				feedback: Messages.QUESTIONS_FROM_STUDENTS,
 				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
 				questions: Messages.CONTENT_PLURAL,
+				flashcards: Messages.FLASHCARDS,
 				answers: Messages.COMMENTS
 			});
 		} else {

@@ -27,8 +27,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			pack: 'center'
 		},
 
-		buttonClass: '',
-		hideFlipFlashcardButton: true
+		buttonClass: ''
 	},
 
 	initialize: function () {
@@ -180,21 +179,6 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			}
 		});
 
-		this.flipFlashcardsButton = Ext.create('ARSnova.view.MatrixButton', {
-			text: Messages.FLIP_FLASHCARDS,
-			cls: 'actionButton',
-			hidden: this.config.hideFlipFlashcardButton,
-			imageCls: ARSnova.app.getController('FlashcardQuestions').flip ?
-				'icon-flashcard-back' : 'icon-flashcard-front',
-			handler: function (button) {
-				var ctrl = ARSnova.app.getController('FlashcardQuestions');
-				ARSnova.app.sessionModel.flipFlashcards(!ctrl.flip, {
-					success: function (response) {},
-					failure: function (response) {}
-				});
-			}
-		});
-
 		this.statusButton = Ext.create('ARSnova.view.QuestionStatusButton', {
 			cls: this.config.buttonClass,
 			questionObj: this.questionObj,
@@ -214,7 +198,7 @@ Ext.define('ARSnova.view.speaker.ShowcaseEditButtons', {
 			components = [{
 				xtype: 'panel',
 				layout: this.config.layoutTemplate,
-				items: [this.flipFlashcardsButton]
+				items: []
 			}];
 		} else {
 			components = this.twoRows ?
