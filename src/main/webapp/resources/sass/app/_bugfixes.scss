@@ -70,15 +70,9 @@ body.x-firefox {
 	/* Override bad CSS code of Sencha Touch which breaks layout in Firefox 49+.
 	 * See https://hacks.mozilla.org/2016/09/firefox-49-fixes-sites-designed-with-webkit-in-mind-and-more/
 	 */
-	.x-button, .x-layout-box {
-		display: flex;
-	}
-
+	.x-button,
+	.x-layout-box,
 	.x-layout-box > .x-layout-box-item {
-		display: flex !important;
-	}
-
-	.x-stretched.x-container > .x-inner, .x-stretched.x-container > .x-body, .x-stretched.x-container > .x-body > .x-inner {
 		display: flex !important;
 	}
 }
