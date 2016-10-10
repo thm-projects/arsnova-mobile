@@ -32,6 +32,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.HintForSolutionForm',
 		'ARSnova.view.speaker.form.FreeTextQuestion',
 		'ARSnova.view.speaker.form.ImageUploadPanel',
+		'ARSnova.view.speaker.form.ImportQuestion',
 		'ARSnova.view.MarkDownEditorPanel',
 		'ARSnova.view.speaker.form.TextChecker'
 	],
@@ -78,17 +79,30 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			}
 		});
 
+		var me = this;
 		this.saveButtonToolbar = Ext.create('Ext.Button', {
 			text: Messages.SAVE,
 			ui: 'confirm',
 			cls: 'saveQuestionButton',
 			style: 'width: 89px',
 			handler: function (button) {
-				this.saveHandler(button).then(function (response) {
-					ARSnova.app.getController('Questions').details({
-						question: Ext.decode(response.responseText)
+				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
+				var txt = panel.questionOptions.getPressedButtons()[0]._text;
+				if (txt === Messages.IMPORT || txt === Messages.IMPORT_LONG) {
+					me.importQuestion.importSelectedQuestions();
+					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
+					sTP.animateActiveItem(sTP.audienceQuestionPanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 700
 					});
-				});
+				} else {
+					this.saveHandler(button).then(function (response) {
+						ARSnova.app.getController('Questions').details({
+							question: Ext.decode(response.responseText)
+						});
+					});
+				}
 			},
 			scope: this
 		});
@@ -197,6 +211,10 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true
 		});
 
+		this.importQuestion = Ext.create('ARSnova.view.speaker.form.ImportQuestion', {
+			hidden: true
+		});
+
 		var messageAppendix = screenWidth >= 650 ? "_LONG" : "";
 
 		var formatItems = [
@@ -209,7 +227,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			{text: Messages["SCHOOL" + messageAppendix], itemId: Messages.SCHOOL}
 		];
 
-		var me = this;
 		var config = ARSnova.app.globalConfig;
 
 		formatItems.push({
@@ -232,6 +249,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 				hidden: true
 			});
 		}
+		formatItems.push({text: Messages["IMPORT" + messageAppendix], itemId: Messages.IMPORT});
 
 		me.questionOptions = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
@@ -353,6 +371,30 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.hintForSolution.show();
 							}
 							break;
+						case Messages.IMPORT:
+						case Messages.IMPORT_LONG:
+							if (pressed) {
+								me.importQuestion.show();
+								me.importQuestion.onShow();
+								me.abstentionPart.hide();
+								me.textarea.hide();
+								me.subject.hide();
+								me.markdownEditPanel.hide();
+								me.hintForSolution.hide();
+								me.saveAndContinueButton.hide();
+
+								title = label(Messages.QUESTION_IMPORT, Messages.QUESTION_IMPORT_SHORT);
+							} else {
+								me.abstentionPart.show();
+								me.hintForSolution.show();
+								me.textarea.show();
+								me.subject.show();
+								me.markdownEditPanel.show();
+								me.saveAndContinueButton.show();
+								me.importQuestion.hide();
+								me.importQuestion.onHide();
+							}
+							break;
 						default:
 							title = Messages.NEW_QUESTION_TITLE;
 							break;
@@ -419,7 +461,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			me.yesNoQuestion,
 			me.schoolQuestion,
 			me.abcdQuestion,
-			me.freetextQuestion
+			me.freetextQuestion,
+			me.importQuestion
 		]);
 		if (me.flashcardQuestion) {
 			me.add(me.flashcardQuestion);
@@ -432,7 +475,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		if (me.gridQuestion) {
 			me.add(me.gridQuestion);
 		}
-
 		me.add([
 			me.releasePart, {
 				xtype: 'fieldset',
