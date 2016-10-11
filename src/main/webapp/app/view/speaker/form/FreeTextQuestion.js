@@ -37,6 +37,11 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 		this.callParent(arguments);
 		var me = this;
 
+		this.textChecker = Ext.create('ARSnova.view.speaker.form.TextChecker', {
+			id: 'textChecker'
+		});
+		this.add(this.textChecker);
+
 		if (ARSnova.app.globalConfig.features.imageAnswer) {
 			this.expectAnswerText = Ext.create('ARSnova.view.MatrixButton', {
 				cls: 'actionButton',
@@ -91,11 +96,7 @@ Ext.define('ARSnova.view.speaker.form.FreeTextQuestion', {
 				items: [this.imgUploadBtn]
 			});
 
-			this.textChecker = Ext.create('ARSnova.view.speaker.form.TextChecker', {
-				id: 'textChecker'
-			});
-
-			this.add([this.textChecker,
+			this.add([
 				answerFieldset,
 				this.textAnswerFieldSet
 			]);
