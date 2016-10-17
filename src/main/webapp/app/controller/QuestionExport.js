@@ -196,6 +196,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 
 	parseAnswerOptionsForClick: function (question) {
 		var clickAnswerOptions = [];
+		console.log(question);
 		if (question.questionType === "freetext" && question.fixedAnswer) {
 			clickAnswerOptions.push({
 				hashtag: "ImportFromARSnova",
@@ -209,13 +210,13 @@ Ext.define("ARSnova.controller.QuestionExport", {
 				type: "FreeTextAnswerOption"
 			});
 		} else {
-			for (var i = 0; i < question.answerOptions.length; i++) {
+			for (var i = 0; i < question.possibleAnswers.length; i++) {
 				clickAnswerOptions.push({
 					hashtag: "ImportFromARSnova",
 					questionIndex: 0,
-					answerText: question.answerOptions[i].text,
+					answerText: question.possibleAnswers[i].text,
 					answerOptionNumber: i,
-					isCorrect: question.answerOptions[i].correct,
+					isCorrect: question.possibleAnswers[i].correct,
 					type: "DefaultAnswerOption"
 				});
 			}
