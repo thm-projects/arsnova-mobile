@@ -196,7 +196,6 @@ Ext.define("ARSnova.controller.QuestionExport", {
 
 	parseAnswerOptionsForClick: function (question) {
 		var clickAnswerOptions = [];
-		console.log(question);
 		if (question.questionType === "freetext" && question.fixedAnswer) {
 			clickAnswerOptions.push({
 				hashtag: "ImportFromARSnova",
