@@ -82,17 +82,18 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 
 	changeStatus: function () {
 		var me = this;
-		var id = this.questionObj._id;
+		var question = this.questionObj;
 
 		if (this.isOpen) {
 			Ext.Msg.confirm(this.getWording().confirm, this.getWording().confirmMessage, function (buttonId) {
 				if (buttonId !== "no") {
 					/* close this question */
 					ARSnova.app.getController('Questions').setActive({
-						questionId: id,
+						questionId: question._id,
 						active: 0,
 						statusButton: me
 					});
+					question.active = false;
 				} else {
 					me.button.setToggleFieldValue(true);
 				}
@@ -100,10 +101,11 @@ Ext.define('ARSnova.view.QuestionStatusButton', {
 		} else {
 			/* open this question */
 			ARSnova.app.getController('Questions').setActive({
-				questionId: id,
+				questionId: question._id,
 				active: 1,
 				statusButton: me
 			});
+			question.active = true;
 		}
 	},
 
