@@ -682,7 +682,7 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		if (features.total || features.slides) {
 			lectureButtonText = Messages.SLIDE_LONG;
 			this.caption.setBadgeTranslation({
-				feedback: Messages.QUESTIONS_FROM_STUDENTS,
+				feedback: Messages.COMMENTS,
 				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
 				questions: Messages.CONTENT_PLURAL,
 				flashcards: Messages.FLASHCARDS,
