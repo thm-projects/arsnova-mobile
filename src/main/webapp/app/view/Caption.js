@@ -27,7 +27,7 @@ Ext.define('ARSnova.view.Caption', {
 			inactive: Messages.CLOSED_SESSION
 		},
 		badgeTranslation: {
-			feedback: Messages.QUESTIONS_FROM_STUDENTS,
+			feedback: Messages.COMMENTS,
 			unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
 			flashcards: Messages.FLASHCARDS,
 			questions: Messages.QUESTIONS,
@@ -140,7 +140,7 @@ Ext.define('ARSnova.view.Caption', {
 		});
 
 		this.listButton.setBadge([{
-				badgeText: options.interposed && hasFeedbackQuestions ? this.getBadgeTranslation().questions : "",
+				badgeText: options.interposed && hasFeedbackQuestions ? this.getBadgeTranslation().feedback : "",
 				badgeCls: "feedbackQuestionsBadgeIcon"
 			}, {
 				badgeText: (options.unredInterposed && hasUnreadFeedbackQuestions) ? this.getBadgeTranslation().unredQuestions : "",
