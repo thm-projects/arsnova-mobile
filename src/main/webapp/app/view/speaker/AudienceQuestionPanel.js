@@ -226,7 +226,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 						var str = data.substring(data.indexOf("base64,") + 7);
 						data = atob(str);
 						try {
-							data = decodeURIComponent(window.escape(atob(str)));
+							data = decodeURIComponent(window.escape(data));
 						} catch (e) {
 							error = true;
 							console.warn("Invalid charset: UTF-8 expected");
