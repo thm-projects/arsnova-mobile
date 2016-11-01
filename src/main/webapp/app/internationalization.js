@@ -831,6 +831,7 @@
 				QUESTIONS_IMPORT_TYPE_ERROR: "Ungültiger Fragentyp",
 				QUESTIONS_IMPORT_ABSTENTION_ERROR: "Fehler im Feld 'abstention'",
 				QUESTIONS_IMPORT_INVALID_FORMAT: "Ungültiges Dateiformat",
+				QUESTIONS_IMPORT_INVALID_CHARSET: "Ungültiger Zeichensatz",
 				FLASHCARDS_CHOOSE_SUBJECT: "Legen Sie ein Thema für das zu importierende Lernkarten-Set fest",
 				ARSNOVA_CARDS: "ARSnova.cards",
 				CSV_FILE: "CSV-Datei"
@@ -1711,6 +1712,7 @@
 				QUESTIONS_IMPORT_TYPE_ERROR: "Invalid question type",
 				QUESTIONS_IMPORT_ABSTENTION_ERROR: "Error in field 'abstention'",
 				QUESTIONS_IMPORT_INVALID_FORMAT: "Invalid file format",
+				QUESTIONS_IMPORT_INVALID_CHARSET: "Invalid charset",
 				FLASHCARDS_CHOOSE_SUBJECT: "Enter a subject for the imported flashcard-set",
 				ARSNOVA_CARDS: "ARSnova.cards",
 				CSV_FILE: "CSV file"

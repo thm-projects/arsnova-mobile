@@ -220,10 +220,17 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			flex: 0,
 			listeners: {
 				loadsuccess: function (data) {
+					var error = false;
 					if (!Ext.os.is.iOS) {
 						// remove prefix and decode
 						var str = data.substring(data.indexOf("base64,") + 7);
-						data = decodeURIComponent(window.escape(atob(str)));
+						data = atob(str);
+						try {
+							data = decodeURIComponent(window.escape(atob(str)));
+						} catch (e) {
+							error = true;
+							console.warn("Invalid charset: UTF-8 expected");
+						}
 
 						if (self.getVariant() === 'flashcard') {
 							self.loadFilePanel.hide();
@@ -235,6 +242,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 						this.importCsv = false;
 						this.importFlashcards = false;
+					}
+
+					if (error) {
+						Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTIONS_IMPORT_INVALID_CHARSET);
 					}
 				},
 				loadfailure: function (message) {}
