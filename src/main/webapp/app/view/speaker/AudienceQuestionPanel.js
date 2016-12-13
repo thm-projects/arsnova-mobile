@@ -497,8 +497,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			 */
 			return;
 		}
-		this.questionLoadingIndex = null;
-		ARSnova.app.taskManager.start(this.updateAnswerCount);
+		if (this.getVariant() !== 'flashcard') {
+			this.questionLoadingIndex = null;
+			ARSnova.app.taskManager.start(this.updateAnswerCount);
+		}
 		this.flashcardImportButton = Ext.ComponentQuery.query('#flashcardImportButton')[0];
 		this.applyUIChanges();
 		this.questionStore.removeAll();
@@ -527,7 +529,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.questionStore.add(questions);
 				this.caption.show();
 				this.caption.explainStatus(questions);
-				this.handleAnswerCount();
+
+				if (this.getVariant() !== 'flashcard') {
+					this.handleAnswerCount();
+				}
 
 				if (questions.length === 1) {
 					this.questionStatusButton.setSingleQuestionMode();
