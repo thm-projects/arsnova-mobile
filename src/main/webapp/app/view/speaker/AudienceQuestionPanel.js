@@ -51,6 +51,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	questions: null,
 	newQuestionButton: null,
 	questionStore: null,
+	questionLoadingIndex: null,
 
 	updateAnswerCount: {
 		name: 'refresh the number of answers inside the badges',
@@ -496,6 +497,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			 */
 			return;
 		}
+		this.questionLoadingIndex = null;
 		ARSnova.app.taskManager.start(this.updateAnswerCount);
 		this.flashcardImportButton = Ext.ComponentQuery.query('#flashcardImportButton')[0];
 		this.applyUIChanges();
@@ -632,7 +634,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		});
 	},
 
-	getQuestionAnswers: function () {
+	getQuestionAnswers: function (index) {
 		var me = this;
 		var getAnswerCount = function (questionRecord, promise) {
 			if (questionRecord.get('questionType') === 'freetext') {
@@ -669,11 +671,18 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		};
 
 		var promises = [];
-		this.questionStore.each(function (questionRecord) {
+		if (index == null) {
+			this.questionStore.each(function (questionRecord) {
+				var promise = new RSVP.Promise();
+				getAnswerCount(questionRecord, promise);
+				promises.push(promise);
+			}, this);
+		} else {
+			var questionRecord = this.questionStore.getAt(index);
 			var promise = new RSVP.Promise();
 			getAnswerCount(questionRecord, promise);
 			promises.push(promise);
-		}, this);
+		}
 
 		return promises;
 	},
@@ -692,7 +701,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 
 	handleAnswerCount: function () {
-		RSVP.all(this.getQuestionAnswers())
+		RSVP.all(this.getQuestionAnswers(this.questionLoadingIndex))
 		.then(Ext.bind(this.caption.explainBadges, this.caption))
 		.then(Ext.bind(function (badgeInfos) {
 			var hasAnswers = badgeInfos.filter(function (item) {
@@ -700,6 +709,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			}, this);
 			this.deleteAnswersButton.setHidden(hasAnswers.length === 0);
 		}, this));
+		this.questionLoadingIndex =
+			(this.questionLoadingIndex == null || this.questionLoadingIndex >= this.questionStore.getCount() - 1) ?
+				0 : this.questionLoadingIndex + 1;
 	},
 
 	questionsImportHandler: function () {
