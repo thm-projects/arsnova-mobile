@@ -208,6 +208,18 @@ Ext.define("ARSnova.controller.QuestionExport", {
 				configUseKeywords: true,
 				type: "FreeTextAnswerOption"
 			});
+		} else if (question.questionType === "abcd") {
+			// slice off the "A", "B".. from the answer options
+			for (var j = 0; j < question.possibleAnswers.length; j++) {
+				clickAnswerOptions.push({
+					hashtag: "ImportFromARSnova",
+					questionIndex: 0,
+					answerText: question.possibleAnswers[j].text.slice(3),
+					answerOptionNumber: j,
+					isCorrect: question.possibleAnswers[j].correct,
+					type: "DefaultAnswerOption"
+				});
+			}
 		} else {
 			for (var i = 0; i < question.possibleAnswers.length; i++) {
 				clickAnswerOptions.push({
@@ -230,6 +242,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 			timer: 30,
 			startTime: 0,
 			questionIndex: 0,
+			displayAnswerText: false,
 			answerOptionList: this.parseAnswerOptionsForClick(question)
 		};
 		switch (question.questionType) {
@@ -259,11 +272,18 @@ Ext.define("ARSnova.controller.QuestionExport", {
 				hashtag: "ImportFromARSnova",
 				music: {
 					hashtag: "ImportFromARSnova",
-					isEnabled: 0,
-					title: "Song1",
-					volume: 100
+					isUsingGlobalVolume: true,
+					lobbyEnabled: true,
+					lobbyTitle: "Song1",
+					lobbyVolume: 80,
+					countdownRunningEnabled: true,
+					countdownRunningTitle: "Song1",
+					countdownRunningVolume: 80,
+					countdownEndEnabled: true,
+					countdownEndTitle: "Song1",
+					countdownEndVolume: 80
 				},
-				theme: "theme-blackbeauty",
+				theme: "default",
 				nicks: {
 					hashtag: "ImportFromARSnova",
 					blockIllegal: true,
