@@ -249,10 +249,6 @@ Ext.define("ARSnova.controller.QuestionExport", {
 			case "yesno":
 				clickQuestion.type = "YesNoSingleChoiceQuestion";
 				break;
-			/*case "school":
-			case "vote":
-				clickQuestion.type = "SurveyQuestion";
-				break;*/
 			case "mc":
 				clickQuestion.type = "MultipleChoiceQuestion";
 				break;
@@ -267,31 +263,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		var session = {
 			hashtag: "ImportFromARSnova",
 			questionList: [clickQuestion],
-			type: "DefaultQuestionGroup",
-			configuration: {
-				hashtag: "ImportFromARSnova",
-				music: {
-					hashtag: "ImportFromARSnova",
-					isUsingGlobalVolume: true,
-					lobbyEnabled: true,
-					lobbyTitle: "Song1",
-					lobbyVolume: 80,
-					countdownRunningEnabled: true,
-					countdownRunningTitle: "Song1",
-					countdownRunningVolume: 80,
-					countdownEndEnabled: true,
-					countdownEndTitle: "Song1",
-					countdownEndVolume: 80
-				},
-				theme: "default",
-				nicks: {
-					hashtag: "ImportFromARSnova",
-					blockIllegal: true,
-					selectedValues: [],
-					restrictToCASLogin: false
-				},
-				readingConfirmationEnabled: false
-			}
+			type: "DefaultQuestionGroup"
 		};
 		return session;
 	}
