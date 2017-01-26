@@ -10,6 +10,3 @@ script:
 notifications:
   slack: f112a:GOZb6ewuAf2AVxduDXzdiCTG
   email: admin@arsnova.eu
-
-addons:
-  sauce_connect: true
