@@ -208,6 +208,18 @@ Ext.define("ARSnova.controller.QuestionExport", {
 				configUseKeywords: true,
 				type: "FreeTextAnswerOption"
 			});
+		} else if (question.questionType === "abcd") {
+			// slice off the "A", "B".. from the answer options
+			for (var j = 0; j < question.possibleAnswers.length; j++) {
+				clickAnswerOptions.push({
+					hashtag: "ImportFromARSnova",
+					questionIndex: 0,
+					answerText: question.possibleAnswers[j].text.slice(3),
+					answerOptionNumber: j,
+					isCorrect: question.possibleAnswers[j].correct,
+					type: "DefaultAnswerOption"
+				});
+			}
 		} else {
 			for (var i = 0; i < question.possibleAnswers.length; i++) {
 				clickAnswerOptions.push({
@@ -230,16 +242,13 @@ Ext.define("ARSnova.controller.QuestionExport", {
 			timer: 30,
 			startTime: 0,
 			questionIndex: 0,
+			displayAnswerText: false,
 			answerOptionList: this.parseAnswerOptionsForClick(question)
 		};
 		switch (question.questionType) {
 			case "yesno":
 				clickQuestion.type = "YesNoSingleChoiceQuestion";
 				break;
-			/*case "school":
-			case "vote":
-				clickQuestion.type = "SurveyQuestion";
-				break;*/
 			case "mc":
 				clickQuestion.type = "MultipleChoiceQuestion";
 				break;
@@ -254,24 +263,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		var session = {
 			hashtag: "ImportFromARSnova",
 			questionList: [clickQuestion],
-			type: "DefaultQuestionGroup",
-			configuration: {
-				hashtag: "ImportFromARSnova",
-				music: {
-					hashtag: "ImportFromARSnova",
-					isEnabled: 0,
-					title: "Song1",
-					volume: 100
-				},
-				theme: "theme-blackbeauty",
-				nicks: {
-					hashtag: "ImportFromARSnova",
-					blockIllegal: true,
-					selectedValues: [],
-					restrictToCASLogin: false
-				},
-				readingConfirmationEnabled: false
-			}
+			type: "DefaultQuestionGroup"
 		};
 		return session;
 	}
