@@ -501,13 +501,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.flashcardImportButton = Ext.ComponentQuery.query('#flashcardImportButton')[0];
 		this.applyUIChanges();
 		this.questionStore.removeAll();
-		this.getQuestions().then(function (questions) {
+		this.getQuestions().then(Ext.bind(function () {
 			if (this.getVariant() !== 'flashcard') {
 				this.questionLoadingIndex = null;
 				this.indexedQuestionsWithAnswers = [];
 				ARSnova.app.taskManager.start(this.updateAnswerCount);
 			}
-		});
+		}, this));
 	},
 
 	onDeactivate: function () {
@@ -706,12 +706,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 
 	handleDeleteAnswers: function () {
-		this.handleAnswerCount();
-
 		this.questionStore.each(function (question) {
 			question.set("votingDisabled", false);
 			question.raw.votingDisabled = false;
 		});
+		this.questionLoadingIndex = null;
+		this.indexedQuestionsWithAnswers = [];
+		this.handleAnswerCount();
 	},
 
 	handleAnswerCount: function () {
