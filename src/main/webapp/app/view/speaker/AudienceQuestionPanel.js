@@ -52,6 +52,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	newQuestionButton: null,
 	questionStore: null,
 	questionLoadingIndex: null,
+	indexedQuestionsWithAnswers: [],
 
 	updateAnswerCount: {
 		name: 'refresh the number of answers inside the badges',
@@ -497,14 +498,16 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			 */
 			return;
 		}
-		if (this.getVariant() !== 'flashcard') {
-			this.questionLoadingIndex = null;
-			ARSnova.app.taskManager.start(this.updateAnswerCount);
-		}
 		this.flashcardImportButton = Ext.ComponentQuery.query('#flashcardImportButton')[0];
 		this.applyUIChanges();
 		this.questionStore.removeAll();
-		this.getQuestions();
+		this.getQuestions().then(function (questions) {
+			if (this.getVariant() !== 'flashcard') {
+				this.questionLoadingIndex = null;
+				this.indexedQuestionsWithAnswers = [];
+				ARSnova.app.taskManager.start(this.updateAnswerCount);
+			}
+		});
 	},
 
 	onDeactivate: function () {
@@ -519,6 +522,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var hideLoadIndicator = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK, 1000);
 
+		var promise = new RSVP.Promise();
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response, totalRange) {
 				var questions = Ext.decode(response.responseText);
@@ -574,6 +578,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				if (this.screenWidth > 550) {
 					this.exportCsvQuestionsButton.show();
 				}
+				promise.resolve();
 			}, this),
 			empty: Ext.bind(function () {
 				this.showcaseActionButton.hide();
@@ -586,12 +591,16 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				this.deleteQuestionsButton.hide();
 				this.exportCsvQuestionsButton.hide();
 				hideLoadIndicator.apply();
+				promise.resolve();
 			}, this),
 			failure: function (response) {
 				console.log('server-side error questionModel.getSkillQuestions');
 				hideLoadIndicator.apply();
+				promise.reject();
 			}
 		}, this.questionList.getStartIndex(), this.questionList.getEndIndex());
+
+		return promise;
 	},
 
 	newQuestionHandler: function () {
@@ -706,17 +715,31 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 
 	handleAnswerCount: function () {
+		console.log("handleAC", "index", this.questionLoadingIndex);
 		RSVP.all(this.getQuestionAnswers(this.questionLoadingIndex))
-		.then(Ext.bind(this.caption.explainBadges, this.caption))
 		.then(Ext.bind(function (badgeInfos) {
-			var hasAnswers = badgeInfos.filter(function (item) {
-				return item.hasAnswers;
+			console.log("handleAC", "then", badgeInfos);
+			badgeInfos.forEach(function (item) {
+				console.log("handleAC", "bI forEach", item, "index", this.questionLoadingIndex);
+				var value = item.hasAnswers ? item : null;
+				if (this.questionLoadingIndex) {
+					this.indexedQuestionsWithAnswers[this.questionLoadingIndex] = value;
+				} else {
+					this.indexedQuestionsWithAnswers.push(value);
+				}
 			}, this);
-			this.deleteAnswersButton.setHidden(hasAnswers.length === 0);
+			var allQuestionsWithAnswers = this.indexedQuestionsWithAnswers.filter(function (item) {
+				console.log("handleAC", "allQuestionsWithAnswers filter", item);
+				return !!item;
+			});
+			console.log("handleAC", "allQuestionsWithAnswers", allQuestionsWithAnswers);
+			this.deleteAnswersButton.setHidden(allQuestionsWithAnswers.length === 0);
+			this.caption.explainBadges(allQuestionsWithAnswers);
+
+			this.questionLoadingIndex =
+				(this.questionLoadingIndex == null || this.questionLoadingIndex >= this.questionStore.getCount() - 1) ?
+					0 : this.questionLoadingIndex + 1;
 		}, this));
-		this.questionLoadingIndex =
-			(this.questionLoadingIndex == null || this.questionLoadingIndex >= this.questionStore.getCount() - 1) ?
-				0 : this.questionLoadingIndex + 1;
 	},
 
 	questionsImportHandler: function () {
