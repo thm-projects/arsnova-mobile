@@ -147,7 +147,7 @@
             "lib/moment.de.min.js",
             "lib/moment.min.js",
             "lib/rsvp.min.js",
-            "lib/socket.io.min.js",
+            "lib/socket.io.slim.min.js",
             "lib/qrcode.min.js"
         ],
         /**
@@ -176,7 +176,7 @@
         "favicon.png",
         "splashscreen.js",
         "lib/highlight.pack.min.js",
-        "lib/socket.io.min.js",
+        "lib/socket.io.slim.min.js",
         "lib/qrcode.min.js",
         "WEB-INF"
     ],
