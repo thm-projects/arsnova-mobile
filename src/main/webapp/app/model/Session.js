@@ -51,9 +51,25 @@ Ext.define('ARSnova.model.Session', {
 
 		validations: [
 			{type: 'presence', field: 'type'},
-			{type: 'presence', field: 'name', min: 1, max: 50},
-			{type: 'length', field: 'shortName', min: 1, max: 12},
-			{type: 'presence', field: 'creator'}
+			{
+				type: 'presence',
+				field: 'name',
+				min: 1,
+				max: 50,
+				message: Messages.SESSION_NAME + ':\t' + Messages.SESSIONPOOL_NOTIFICATION_SESSION_NAME
+			},
+			{
+				type: 'length',
+				field: 'shortName',
+				min: 1,
+				max: 12,
+				message: Messages.SESSION_SHORT_NAME + ':\t' + Messages.SESSIONPOOL_NOTIFICATION_SESSION_SHORTNAME
+			},
+			{
+				type: 'presence',
+				field: 'creator',
+				message: Messages.EXPORT_FIELD_NAME + ':\t' + Messages.SESSIONPOOL_NOTIFICATION_NAME
+			}
 		],
 
 		learningProgress: {
