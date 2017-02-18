@@ -50,6 +50,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 	listOffset: 10,
 	mySessionsObject: null,
 	visitedSessionsObject: null,
+	courseSessionsObject: null,
 
 	initialize: function () {
 		var me = this;
@@ -187,11 +188,17 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			title: Messages.MY_SESSIONS
 		});
 
+		this.myCourseSessionsForm = Ext.create('ARSnova.view.home.SessionList', {
+			scrollable: null,
+			title: Messages.YOUR_COURSE_SESSIONS
+		});
+
 		this.add([
 			this.toolbar,
 			this.sessionLoginForm,
 			this.lastVisitedSessionsForm,
-			this.mySessionsForm
+			this.mySessionsForm,
+			this.myCourseSessionsForm
 		]);
 
 		if (config.features.publicPool) {
@@ -268,11 +275,13 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			};
 			var p1 = this.loadVisitedSessions();
 			var p2 = this.loadMySessions();
+			var p3 = this.loadCourseSessions();
 			// get the summary of all session lists
-			RSVP.all([p1, p2]).then(handler, function error() {
+			RSVP.all([p1, p2, p3]).then(handler, function error() {
 				// errors swallow results, retest each promise seperately to figure out if one succeeded
 				p1.then(handler);
 				p2.then(handler);
+				p3.then(handler);
 			});
 			ARSnova.app.restProxy.getMotdsForStudents({
 				success: function (response) {
@@ -336,6 +345,26 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		});
 	},
 
+	resizeCourseSessionsButtons: function () {
+		var buttons = this.myCourseSessionsForm.getInnerItems()[0].getInnerItems();
+		var offset = this.myCourseSessionsForm.bodyElement.dom.firstChild.offsetLeft * 2;
+		var width = this.element.dom.clientWidth;
+
+		buttons.forEach(function (button) {
+			if (width < 720) {
+				button.setWidth(width - offset);
+			} else {
+				button.setWidth('100%');
+			}
+		});
+	},
+
+	/**
+	 *
+	 * @returns {RSVP.Promise|undefined}
+	 * pagination object
+	 *
+	 */
 	loadVisitedSessions: function () {
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			return;
@@ -395,7 +424,6 @@ Ext.define('ARSnova.view.home.HomePanel', {
 			me.mySessionsObject.offset, {
 			success: function (response) {
 				var sessions = Ext.decode(response.responseText);
-
 				me.displaySessions(
 					sessions, me.mySessionsForm, me.mySessionsObject, hideLoadingMask,
 					me.loadMySessions
@@ -426,6 +454,67 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				promise.reject();
 			}
 		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
+		return promise;
+	},
+
+	loadCourseSessions: function () {
+		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			return;
+		}
+		var me = this;
+		var promise = new RSVP.Promise();
+
+		var hideLoadingMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SEARCH);
+
+		ARSnova.app.courseModel.getMyCourses({
+			success: Ext.bind(function (response) {
+				var courseIds = [];
+				var courses = Ext.decode(response.responseText);
+				courses.forEach(function addElemen(element, index, array) {
+					courseIds.push(parseInt(element.id));
+				});
+				ARSnova.app.sessionModel.getSessionsForCourses(
+					me.courseSessionsObject.getStartIndex(),
+					me.courseSessionsObject.offset,
+					courseIds, {
+						success: function (sessions) {
+							me.displaySessions(
+								sessions, me.myCourseSessionsForm, me.courseSessionsObject, hideLoadingMask,
+								me.loadCourseSessions
+								);
+							me.resizeCourseSessionsButtons();
+							if (sessions.length > 0) {
+								promise.resolve(sessions);
+							} else {
+								promise.reject();
+							}
+						},
+						empty: function () {
+							hideLoadingMask();
+							me.myCourseSessionsForm.hide();
+							promise.reject();
+						}
+					});
+			}, this),
+			empty: function () {
+				hideLoadingMask();
+				me.myCourseSessionsForm.hide();
+				promise.reject();
+			},
+			unauthenticated: function () {
+				hideLoadingMask();
+				ARSnova.app.getController('Auth').login({
+					mode: ARSnova.app.loginMode
+				});
+				promise.reject();
+			},
+			failure: function () {
+				hideLoadingMask();
+				console.log('server-side error loadCourseSessions');
+				ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.homePanel.myCourseSessionsForm.hide();
+				promise.reject();
+			}
+		}, (window.innerWidth > 321 ? 'name' : 'shortname'), false);
 		return promise;
 	},
 
@@ -539,13 +628,16 @@ Ext.define('ARSnova.view.home.HomePanel', {
 
 		this.mySessionsObject = Object.create(pageNumObject);
 		this.visitedSessionsObject = Object.create(pageNumObject);
+		this.courseSessionsObject = Object.create(pageNumObject);
 	},
 
 	resetPaginationState: function () {
 		this.mySessionsObject.sessions = [];
 		this.visitedSessionsObject.sessions = [];
+		this.courseSessionsObject.sessions = [];
 		this.mySessionsObject.resetOffsetState();
 		this.visitedSessionsObject.resetOffsetState();
+		this.courseSessionsObject.resetOffsetState();
 	},
 
 	/**
