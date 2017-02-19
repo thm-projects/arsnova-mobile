@@ -255,6 +255,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 		this.on('resize', function () {
 			this.resizeSessionButtons();
 			this.resizeLastVisitedSessionButtons();
+			this.resizeCourseSessionsButtons();
 		});
 	},
 
