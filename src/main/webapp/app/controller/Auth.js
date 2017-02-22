@@ -80,15 +80,11 @@ Ext.define("ARSnova.controller.Auth", {
 			var enabledServices;
 			if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT) {
 				enabledServices = services.filter(function (service) {
-					return ['ldap', 'cas'].indexOf(service.id) !== -1;
+					return service.allowedRoles.indexOf('student') !== -1;
 				});
-				var guestLogin = services.filter(function (service) {
-					return service.id === 'guest';
-				});
-				var guest;
 
-				if (enabledServices.length === 0 && guestLogin.length > 0) {
-					this.login({service: guestLogin[0]});
+				if (enabledServices.length === 1) {
+					this.login({service: enabledServices[0]});
 				} else {
 					ARSnova.app.mainTabPanel.tabPanel.loginPanel.addButtons("student");
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(
@@ -97,7 +93,7 @@ Ext.define("ARSnova.controller.Auth", {
 				}
 			} else {
 				enabledServices = services.filter(function (service) {
-					return service.allowLecturer;
+					return service.allowedRoles.indexOf('speaker') !== -1;
 				});
 
 				if (enabledServices.length === 1) {
