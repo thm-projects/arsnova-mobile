@@ -230,7 +230,7 @@ Ext.define('ARSnova.view.LearningProgressPanel', {
 			var max = 2500;
 			this.learningProgressChange = Ext.Function.createBuffered(function () {
 				// Reset run-time to enforce reload of learning progress
-				this.courseLearningProgressTask.taskRunTime = 0;
+				this.checkLearningProgressTask.taskRunTime = 0;
 			}, Math.random() * (max - min) + min, this);
 		}
 	},
