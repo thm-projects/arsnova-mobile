@@ -361,6 +361,17 @@ Ext.define("ARSnova.controller.Sessions", {
 		activePanel.animateActiveItem(useCasePanel, 'slide');
 	},
 
+	loadLmsOptions: function (options) {
+		var activePanel = ARSnova.app.mainTabPanel.tabPanel.getActiveItem();
+		var lmsOptionsPanel = Ext.create('ARSnova.view.diagnosis.LmsOptionsPanel', {
+			options: options,
+			sessionInfo: options.sessionInfo
+		});
+
+		activePanel.animateActiveItem(lmsOptionsPanel, 'slide');
+		lmsOptionsPanel.onShow();
+	},
+
 	validateSessionOptions: function (options) {
 		var session = ARSnova.app.sessionModel;
 
