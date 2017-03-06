@@ -820,9 +820,8 @@
 				QUESTIONS_EXPORT_BUTTON: "Fragen<br>exportieren",
 				QUESTIONS_EXPORT_MSBOX_TITLE: "Inhalte exportieren",
 				QUESTIONS_EXPORT_MSBOX_INFO: "Die Inhalte können wahlweise als CSV-Datei oder für den Import in ARSnova-Cards als JSON-Datei exportiert werden. Fragen vom Typ \"Hot Spots\" werden übersprungen. Für den gesamten Export der Session steht der Export auf der Sessionübersichtseite zur Verfügung.",
-				QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON: "Antworten<br>exportieren",
 				QUESTIONS_CSV_EXPORT_ANSWERS_TIME: "Uhrzeit",
-				QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT: "Antwort-Thema",
+				QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT: "Antwortthema",
 
 				/* content import*/
 				QUESTIONS_IMPORT_BUTTON: "Fragen<br>importieren",
@@ -1701,9 +1700,8 @@
 				QUESTIONS_EXPORT_BUTTON: "Export<br>content",
 				QUESTIONS_EXPORT_MSBOX_TITLE: "Export content",
 				QUESTIONS_EXPORT_MSBOX_INFO: "The content can be exported as a CSV file or preformatted for ARSnova.cards as a JSON file. \"Hot Spots\" questions won't be exported. For exporting the whole session please use the export function on the session overview.",
-				QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON: "Export<br>answers",
 				QUESTIONS_CSV_EXPORT_ANSWERS_TIME: "Time",
-				QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT: "Answer-Subject",
+				QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT: "Answer Subject",
 
 				/* content import */
 				QUESTIONS_IMPORT_BUTTON: "Import<br>content",

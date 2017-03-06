@@ -166,7 +166,7 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 					(ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT && !this.questionObj.showAnswer)
 			}, {
 				xtype: 'button',
-				text: Messages.QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON,
+				text: Messages.EXPORT_BUTTON_LABEL,
 				align: 'right',
 				handler: function () {
 					ARSnova.app.getController('QuestionExport').downloadQuestionAnswers(me.questionObj, me.questionStore);
