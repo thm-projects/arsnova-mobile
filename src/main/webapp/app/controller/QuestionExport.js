@@ -176,8 +176,8 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		} else {
 			//Table header
 			exp += "\n" + Messages.ANSWERS + ";"
-				+ Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_RELATIVE + ";" + Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE + ";"
-				+ Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_RELATIVE + ";" + Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE;
+				+ Messages.FIRST_ROUND + " " + Messages.QUESTIONS_EXPORT_RELATIVE + ";" + Messages.FIRST_ROUND + Messages.QUESTIONS_EXPORT_ABSOLUTE + ";"
+				+ Messages.SECOND_ROUND + " " + Messages.QUESTIONS_EXPORT_RELATIVE + ";" + Messages.SECOND_ROUND + Messages.QUESTIONS_EXPORT_ABSOLUTE;
 			//Table contents (answers)
 			answers.each(function (record) {
 				exp += "\n" + record.get('text') + ";" + record.get('percent-round1') + ";" + record.get('value-round1') + ";" + record.get('percent-round2') + ";" + record.get('value-round2');
