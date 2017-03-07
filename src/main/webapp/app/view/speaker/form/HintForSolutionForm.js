@@ -143,7 +143,11 @@ Ext.define('ARSnova.view.speaker.form.HintForSolutionForm', {
 	previewHandler: function () {
 		var questionPreview = Ext.create('ARSnova.view.QuestionPreviewBox', {
 			equalPanelSize: true,
-			toolbarTitle: Messages.QUESTION_PREVIEW_BUTTON_TITLE
+			toolbarTitle: Messages.QUESTION_PREVIEW_BUTTON_TITLE,
+			formatting: {
+				mdInTitle: true,
+				mjInTitle: true
+			}
 		});
 		questionPreview.showPreview(this.getHintValue(), this.getSolutionValue());
 	},
