@@ -122,7 +122,7 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 
 		this.exportButton = Ext.create('Ext.Button', {
 			xtype: 'button',
-			text: Messages.QUESTIONS_CSV_EXPORT_ANSWERS_BUTTON,
+			text: Messages.EXPORT_BUTTON_LABEL,
 			align: 'right',
 			handler: function () {
 				ARSnova.app.getController('QuestionExport').downloadQuestionAnswers(self.questionObj, self.freetextAnswerStore);
