@@ -29,7 +29,13 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 			directionLock: true
 		},
 		hideOnMaskTap: true,
-		layout: 'vbox'
+		layout: 'vbox',
+		formatting: {
+			mdInTitle: false,
+			mdInBody: true,
+			mjInTitle: false,
+			mjInBody: true
+		}
 	},
 
 	initialize: function (args) {
@@ -131,8 +137,8 @@ Ext.define('ARSnova.view.QuestionPreviewBox', {
 	showPreview: function (title, content) {
 		ARSnova.app.innerScrollPanel = this;
 		ARSnova.app.activePreviewPanel = true;
-		this.titlePanel.setContent(title.replace(/\./, "\\."), false, true);
-		this.contentPanel.setContent(content, true, true);
+		this.titlePanel.setContent(title, this.getFormatting().mjInTitle, this.getFormatting().mdInTitle);
+		this.contentPanel.setContent(content, this.getFormatting().mjInBody, this.getFormatting().mdInBody);
 
 		this.add([
 			this.toolbar,

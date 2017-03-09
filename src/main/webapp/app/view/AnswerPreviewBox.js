@@ -85,10 +85,20 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		});
 
 		// Create standard panel with framework support
-		this.questionPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+		this.titlePanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			cls: ""
+		});
+
+		this.bodyPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
+			cls: ""
+		});
+
+		this.questionPanel = Ext.create('Ext.Panel', {
 			cls: "roundedBox",
 			style: 'min-height: 82px;'
 		});
+
+		this.questionPanel.add([this.titlePanel, this.bodyPanel]);
 
 		// answer preview box content panel
 		this.mainPanel = Ext.create('Ext.Container', {
@@ -122,7 +132,8 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		this.answers = options.answers;
 		this.content = options.content;
 		this.questionType = options.questionType;
-		this.setQuestionPanelContent(options.title, options.content);
+		this.titlePanel.setContent(options.title, false, false);
+		this.bodyPanel.setContent(options.content, true, true);
 
 		if (options.image) {
 			this.grid = Ext.create('ARSnova.view.components.GridImageContainer', {
@@ -210,23 +221,6 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 
 		// for IE: unblock input fields
 		Ext.util.InputBlocker.unblockInputs();
-	},
-
-	setQuestionPanelContent: function (title, content) {
-		var questionString;
-		// Setup question title and text to display in the same field; markdown handles HTML encoding
-
-		if (title.length === 0) {
-			this.questionPanel.removeCls('allCapsHeader');
-			questionString = content;
-		} else {
-			this.questionPanel.addCls('allCapsHeader');
-			questionString = title.replace(/\./, "\\.")
-				+ '\n\n' // inserts one blank line between subject and text
-				+ content;
-		}
-
-		this.questionPanel.setContent(questionString, true, true);
 	},
 
 	prepareFlashcardQuestion: function (options) {
