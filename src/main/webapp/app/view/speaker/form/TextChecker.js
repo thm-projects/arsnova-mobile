@@ -132,7 +132,7 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			name: 'text',
-			placeHolder: Messages.FORMAT_PLACEHOLDER + "sdfsdfsdf",
+			placeHolder: Messages.FORMAT_PLACEHOLDER,
 			value: me.config.correctAnswer,
 			listeners: {
 				painted: function (e) {
