@@ -132,8 +132,17 @@ Ext.define('ARSnova.view.speaker.form.TextChecker', {
 
 		this.textarea = Ext.create('Ext.plugins.ResizableTextArea', {
 			name: 'text',
-			placeHolder: Messages.FORMAT_PLACEHOLDER,
-			value: me.config.correctAnswer
+			placeHolder: Messages.FORMAT_PLACEHOLDER + "sdfsdfsdf",
+			value: me.config.correctAnswer,
+			listeners: {
+				painted: function (e) {
+					console.debug(this);
+					/* Disable touch scrolling of view in textarea */
+					this.innerElement.on('touchmove', function (e) {
+						e.stopPropagation();
+					});
+				}
+			}
 		});
 
 		var mainFormPanel = Ext.create('Ext.form.FormPanel', {
