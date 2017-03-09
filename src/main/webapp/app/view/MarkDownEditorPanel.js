@@ -25,6 +25,7 @@ Ext.define('ARSnova.view.MarkDownEditorPanel', {
 		cls: 'markDownEditorPanel x-field',
 		listeners: {
 			painted: function (e) {
+				/* Disable touch scrolling of view in textarea */
 				this.getProcessElement().innerElement.on('touchmove', function (e) {
 					e.stopPropagation();
 				});
