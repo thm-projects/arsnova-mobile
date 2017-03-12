@@ -845,7 +845,7 @@
 						QUESTIONS_FROM_STUDENTS: "Fragen & Kommentare der Zuhörer/innen",
 						LECTURE_QUESTIONS: "Seminar",
 						LECTURE_QUESTION_LONG: "Seminarfrage",
-						LECTURE_QUESTIONS_LONG: "Seninarfragen",
+						LECTURE_QUESTIONS_LONG: "Seminarfragen",
 						ONE_NEW_LECTURE_QUESTION: "1 neue Seminarfrage",
 						SEVERAL_NEW_LECTURE_QUESTIONS: '### neue Seminarfragen',
 						LECTURE: "Seminar",
