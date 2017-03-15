@@ -32,7 +32,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 		'ARSnova.view.speaker.form.HintForSolutionForm',
 		'ARSnova.view.speaker.form.FreeTextQuestion',
 		'ARSnova.view.speaker.form.ImageUploadPanel',
-		'ARSnova.view.speaker.form.ImportQuestion',
+		'ARSnova.view.speaker.form.ImportDuplicateQuestion',
 		'ARSnova.view.MarkDownEditorPanel',
 		'ARSnova.view.speaker.form.TextChecker'
 	],
@@ -88,8 +88,13 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			handler: function (button) {
 				var panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newQuestionPanel;
 				var txt = panel.questionOptions.getPressedButtons()[0]._text;
-				if (txt === Messages.IMPORT || txt === Messages.IMPORT_LONG) {
-					me.importQuestion.importSelectedQuestions();
+				var importQuestion = (txt === Messages.IMPORT || txt === Messages.IMPORT_LONG);
+				if (importQuestion || txt === Messages.DUPLICATE || txt === Messages.DUPLICATE_LONG) {
+					if (importQuestion) {
+						me.importQuestion.importSelectedQuestions();
+					} else {
+						me.duplicateQuestion.importSelectedQuestions();
+					}
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 						type: 'slide',
@@ -211,8 +216,14 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			hidden: true
 		});
 
-		this.importQuestion = Ext.create('ARSnova.view.speaker.form.ImportQuestion', {
-			hidden: true
+		this.importQuestion = Ext.create('ARSnova.view.speaker.form.ImportDuplicateQuestion', {
+			hidden: true,
+			duplicateMode: false
+		});
+
+		this.duplicateQuestion = Ext.create('ARSnova.view.speaker.form.ImportDuplicateQuestion', {
+			hidden: true,
+			duplicateMode: true
 		});
 
 		var messageAppendix = screenWidth >= 650 ? "_LONG" : "";
@@ -250,6 +261,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			});
 		}
 		formatItems.push({text: Messages["IMPORT" + messageAppendix], itemId: Messages.IMPORT});
+		formatItems.push({text: Messages["DUPLICATE" + messageAppendix], itemId: Messages.DUPLICATE});
 
 		me.questionOptions = Ext.create('Ext.SegmentedButton', {
 			allowDepress: false,
@@ -395,6 +407,30 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.importQuestion.onHide();
 							}
 							break;
+						case Messages.DUPLICATE:
+						case Messages.DUPLICATE_LONG:
+							if (pressed) {
+								me.duplicateQuestion.show();
+								me.duplicateQuestion.onShow();
+								me.abstentionPart.hide();
+								me.textarea.hide();
+								me.subject.hide();
+								me.markdownEditPanel.hide();
+								me.hintForSolution.hide();
+								me.saveAndContinueButton.hide();
+
+								title = label(Messages.QUESTION_DUPLICATE, Messages.QUESTION_DUPLICATE_SHORT);
+							} else {
+								me.abstentionPart.show();
+								me.hintForSolution.show();
+								me.textarea.show();
+								me.subject.show();
+								me.markdownEditPanel.show();
+								me.saveAndContinueButton.show();
+								me.duplicateQuestion.hide();
+								me.duplicateQuestion.onHide();
+							}
+							break;
 						default:
 							title = Messages.NEW_QUESTION_TITLE;
 							break;
@@ -462,7 +498,8 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 			me.schoolQuestion,
 			me.abcdQuestion,
 			me.freetextQuestion,
-			me.importQuestion
+			me.importQuestion,
+			me.duplicateQuestion
 		]);
 		if (me.flashcardQuestion) {
 			me.add(me.flashcardQuestion);

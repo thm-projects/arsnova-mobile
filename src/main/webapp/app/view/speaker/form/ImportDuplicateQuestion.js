@@ -16,10 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with ARSnova Mobile.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
+Ext.define('ARSnova.view.speaker.form.ImportDuplicateQuestion', {
 	extend: 'Ext.Container',
 
 	requires: ['Ext.field.Select', 'Ext.form.Checkbox', 'Ext.form.*'],
+
+	config: {
+		duplicateMode: true
+	},
 
 	sessions: null,
 	questions: null,
@@ -39,7 +43,7 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 		this.saveButton = Ext.create('Ext.Button', {
 			ui: 'confirm',
 			cls: 'saveButton centered',
-			text: Messages.IMPORT_AND_ASK_NEW_QUESTION,
+			text: this.getDuplicateMode() ? Messages.DUPLICATE_AND_ASK_NEW_QUESTION : Messages.IMPORT_AND_ASK_NEW_QUESTION,
 			style: 'margin-top: 20px; margin-bottom: 20px;',
 			handler: function (button) {
 				me.importSelectedQuestions();
@@ -52,30 +56,18 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 		this.sessionSelect = Ext.create('Ext.field.Select', {
 			label: Messages.IMPORT_SELECT_SESSION,
 			placeHolder: 'Session',
+			hidden: me.getDuplicateMode(),
 			listeners: {
 				change: function (field, newValue) {
+					if (me.getDuplicateMode()) {
+						return;
+					}
 					me.subjectSelect.setOptions([]);
 					me.saveButton.setHidden(true);
-					ARSnova.app.questionModel.getLectureQuestions(me.sessions[newValue].keyword, {
-						success: function (response) {
-							if (response.status === 200) {
-								me.questions = Ext.decode(response.responseText);
-								var subjectArray = [];
-								var tmp = [];
-								me.questions.forEach(function (element, index, array) {
-									if (!Ext.Array.contains(tmp, element.subject)) {
-										subjectArray.push({
-											text: element.subject,
-											value: element.subject
-										});
-										tmp.push(element.subject);
-									}
-								});
-								me.subjectSelect.setOptions(subjectArray);
-								me.saveButton.setHidden(false);
-							}
-						}
-					}, -1, -1, false);
+					if (newValue === null) {
+						return;
+					}
+					me.loadQuestionsForSession(me.sessions[newValue].keyword);
 				}
 			}
 		});
@@ -135,6 +127,30 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 		}]);
 	},
 
+	loadQuestionsForSession: function (keyword) {
+		var me = this;
+		ARSnova.app.questionModel.getLectureQuestions(keyword, {
+			success: function (response) {
+				if (response.status === 200) {
+					me.questions = Ext.decode(response.responseText);
+					var subjectArray = [];
+					var tmp = [];
+					me.questions.forEach(function (element, index, array) {
+						if (!Ext.Array.contains(tmp, element.subject)) {
+							subjectArray.push({
+								text: element.subject,
+								value: element.subject
+							});
+							tmp.push(element.subject);
+						}
+					});
+					me.subjectSelect.setOptions(subjectArray);
+					me.saveButton.setHidden(subjectArray.length === 0);
+				}
+			}
+		}, -1, -1, false);
+	},
+
 	importSelectedQuestions: function () {
 		var me = this;
 		var countImported = 0;
@@ -156,7 +172,8 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 				success: function (response, eOpts) {
 					countImported += 1;
 					if (countImported + countFailed === numSelected) {
-						Ext.toast(countImported + Messages.QUESTIONS_IMPORTED, 3000);
+						var msg = me.getDuplicateMode() ? Messages.QUESTIONS_DUPLICATED : Messages.QUESTIONS_IMPORTED;
+						Ext.toast(countImported + msg, 3000);
 						hideLoadMask();
 					}
 				},
@@ -179,23 +196,27 @@ Ext.define('ARSnova.view.speaker.form.ImportQuestion', {
 
 	onShow: function () {
 		var me = this;
-		ARSnova.app.sessionModel.getMySessions(-1, -1, {
-			success: function (response) {
-				me.sessions = Ext.decode(response.responseText);
-				var sessionArray = [];
-				var currSession = sessionStorage.getItem("keyword");
-				me.sessions.forEach(function (element, index, array) {
-					if (element.keyword !== currSession)
-					{
-						sessionArray.push({
-							text: element.name + " (" + element.keyword + ")",
-							value: index
-						});
-					}
-				});
-				me.sessionSelect.setOptions(sessionArray);
-			}
-		}, (window.innerWidth > 481 ? 'name' : 'shortname'));
+		if (me.getDuplicateMode()) {
+			this.loadQuestionsForSession(sessionStorage.getItem("keyword"));
+		} else {
+			ARSnova.app.sessionModel.getMySessions(-1, -1, {
+				success: function (response) {
+					me.sessions = Ext.decode(response.responseText);
+					var sessionArray = [];
+					var currSession = sessionStorage.getItem("keyword");
+					me.sessions.forEach(function (element, index, array) {
+						if (element.keyword !== currSession)
+						{
+							sessionArray.push({
+								text: element.name + " (" + element.keyword + ")",
+								value: index
+							});
+						}
+					});
+					me.sessionSelect.setOptions(sessionArray);
+				}
+			}, (window.innerWidth > 481 ? 'name' : 'shortname'));
+		}
 	},
 
 	onHide: function () {
