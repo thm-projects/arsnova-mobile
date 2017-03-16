@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.4.5
+Bug fixes:
+* Fixed button visibility problems in Chrome 57+.
+* Fixed skipping of login service selection (if only one is enabled for the
+  role).
+* Fixed activation toggling of votes for all preparation questions.
+
 ## 2.4.4
 Bug fixes:
 * Fix layout problems in Firefox 49+
