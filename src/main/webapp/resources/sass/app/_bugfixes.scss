@@ -82,3 +82,10 @@ body.x-firefox {
 		display: flex !important;
 	}
 }
+
+body.x-chrome {
+	/* Workaround for issue with invisible buttons in Chrome 57+. */
+	.x-button {
+		overflow: visible;
+	}
+}
