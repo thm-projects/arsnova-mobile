@@ -469,33 +469,40 @@ Ext.define('ARSnova.view.home.HomePanel', {
 
 		ARSnova.app.courseModel.getMyCourses({
 			success: Ext.bind(function (response) {
-				var courseIds = [];
-				var courses = Ext.decode(response.responseText);
-				courses.forEach(function addElemen(element, index, array) {
-					courseIds.push(parseInt(element.id));
-				});
-				ARSnova.app.sessionModel.getSessionsForCourses(
-					me.courseSessionsObject.getStartIndex(),
-					me.courseSessionsObject.offset,
-					courseIds, {
-						success: function (sessions) {
-							me.displaySessions(
-								sessions, me.myCourseSessionsForm, me.courseSessionsObject, hideLoadingMask,
-								me.loadCourseSessions
-								);
-							me.resizeCourseSessionsButtons();
-							if (sessions.length > 0) {
-								promise.resolve(sessions);
-							} else {
+				if (response.responseText === "[]") {
+					hideLoadingMask();
+					me.myCourseSessionsForm.hide();
+					promise.reject();
+				} else {
+					var courseIds = [];
+					var courses = Ext.decode(response.responseText);
+					courses.forEach(function addElemen(element, index, array) {
+						courseIds.push(parseInt(element.id));
+					});
+					ARSnova.app.sessionModel.getSessionsForCourses(
+						me.courseSessionsObject.getStartIndex(),
+						me.courseSessionsObject.offset,
+						courseIds, {
+							success: function (sessions) {
+								me.displaySessions(
+									sessions, me.myCourseSessionsForm, me.courseSessionsObject, hideLoadingMask,
+									me.loadCourseSessions
+									);
+								me.resizeCourseSessionsButtons();
+								if (sessions.length > 0) {
+									promise.resolve(sessions);
+								} else {
+									promise.reject();
+								}
+							},
+							empty: function () {
+								hideLoadingMask();
+								me.myCourseSessionsForm.hide();
 								promise.reject();
 							}
-						},
-						empty: function () {
-							hideLoadingMask();
-							me.myCourseSessionsForm.hide();
-							promise.reject();
 						}
-					});
+					);
+				}
 			}, this),
 			empty: function () {
 				hideLoadingMask();
