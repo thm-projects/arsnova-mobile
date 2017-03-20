@@ -164,14 +164,14 @@ Ext.define("ARSnova.controller.QuestionExport", {
 	downloadQuestionAnswers: function (questionObj, answers) {
 		var header, rows = [];
 		if (questionObj.questionType === 'freetext') {
-			header = Messages.QUESTION_DATE + ";" + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_TIME + ";" + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT + ";" + Messages.FREETEXT_DETAIL_ANSWER + ";Timestamp";
+			header = Messages.QUESTION_DATE + "," + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_TIME + "," + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT + "," + Messages.FREETEXT_DETAIL_ANSWER + ",Timestamp";
 			answers.each(function (record) {
 				rows.push([record.get('groupDate'), record.get('formattedTime'), record.get('answerSubject'), record.get('answerText'), record.get('timestamp')]);
 			});
 		} else {
-			header = Messages.ANSWERS + ";"
-				+ Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_RELATIVE + ";" + Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE + ";"
-				+ Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_RELATIVE + ";" + Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE;
+			header = Messages.ANSWERS + ","
+				+ Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_RELATIVE + "," + Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE + ","
+				+ Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_RELATIVE + "," + Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE;
 			answers.each(function (record) {
 				rows.push([record.get('text'), record.get('percent-round1'), record.get('value-round1'), record.get('percent-round2'), record.get('value-round2')]);
 			});
