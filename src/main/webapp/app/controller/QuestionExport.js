@@ -243,6 +243,10 @@ Ext.define("ARSnova.controller.QuestionExport", {
 			case "abcd":
 				clickQuestion.type = "SingleChoiceQuestion";
 				break;
+			case "school":
+			case "vote":
+				clickQuestion.type = "SurveyQuestion";
+				break;
 			case "freetext":
 				clickQuestion.type = "FreeTextQuestion";
 				break;
