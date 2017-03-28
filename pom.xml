@@ -15,6 +15,7 @@
 
 	<properties>
 		<sonar.language>js</sonar.language>
+		<sonar.javascript.globals>ARSnova,Ext,io,marked,hljs,MathJax,Messages,moment,RSVP,Papa,TaskRunner</sonar.javascript.globals>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
