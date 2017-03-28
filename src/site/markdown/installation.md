@@ -51,3 +51,9 @@ Add the following lines to the `VirtualHost` section of this file:
 All configuration the frontend needs is provided via the backend's API.
 No additional configuration for ARSnova Mobile is necessary.
 Changes to the configuration are made in the backend's `arsnova.properties` file.
+
+
+## Docker
+
+If you want to run ARSnova in a containerized environment, you can use our Docker images.
+Have a look at our [deployment instructions](https://github.com/thm-projects/arsnova-docker) for Docker.
