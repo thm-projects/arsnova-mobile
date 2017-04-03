@@ -1,5 +1,34 @@
 # Changelog
 
+## 2.5
+Major features:
+* Evaluation of free text answers
+* The flashcards UI has been overhauled. They are now handled separately from
+  questions.
+* Question duplication and import from other sessions
+
+Minor features and changes:
+* The number of comments is now shown in presentation mode
+* New use case including only comments
+* Export of answer statistics to CSV format
+* Export of questions to arsnova.click format
+* Export/import of flashcards to/from arsnova.cards format
+* Proxy support for WebSocket connections
+* Reduced the amount of API requests sent
+* Usability improvements and bug fixes
+
+With this release we have completely overhauled our [documentation](README.md).
+Additionally, we now provide
+[Docker images](https://github.com/thm-projects/arsnova-docker/).
+
+**This version is brought to you by:**  
+Project management: Klaus Quibeldey-Cirkel  
+Lead programming: Andreas Gärtner, Daniel Gerhardt, Tom "tekay" Käsler  
+Contributions: Robin Drangmeister, Daniel "dhx" Haag, Dennis Schönhof  
+Sponsoring: [AG QLS](https://www.thm.de/site/en/hochschule/service/ag-qls.html),
+[HMWK](https://wissenschaft.hessen.de/wissenschaft/it-neue-medien/kompetenznetz-e-learning-hessen)
+
+
 ## 2.4.5
 Bug fixes:
 * Fixed button visibility problems in Chrome 57+.
