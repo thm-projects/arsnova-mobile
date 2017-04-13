@@ -63,6 +63,7 @@ Ext.define("ARSnova.controller.Motds", {
 			this.areMotdPanelsInitialized = true;
 		} else {
 			sTP.motdPanel.setSessionkey(key);
+			sTP.newSessionMotdPanel.setSessionkey(key);
 		}
 
 		sTP.motdPanel.setController(this);
