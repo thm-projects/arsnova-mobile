@@ -35,7 +35,9 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 			direction: 'vertical',
 			directionLock: true
 		},
-		controller: null
+		controller: null,
+		mode: null,
+		sessionkey: null
 	},
 
 	/* toolbar items */
@@ -43,15 +45,11 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 	backButton: null,
 
 	motdStore: null,
-	mode: null,
-	sessionkey: null,
 
 	initialize: function () {
 		this.callParent(arguments);
 
 		var self = this;
-		this.mode = this.config.mode;
-		this.sessionkey = this.config.sessionkey;
 		var screenWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 		var actionButtonCls = screenWidth < 410 ? 'smallerActionButton' : 'actionButton';
 
@@ -60,7 +58,7 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 			ui: 'back',
 			scope: this,
 			handler: function () {
-				if (this.mode === 'admin') {
+				if (this.getMode() === 'admin') {
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 					hTP.animateActiveItem(hTP.mySessionsPanel, {
 						type: 'slide',
@@ -120,7 +118,7 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 				itemtap: function (list, index, element) {
 					this.getController().details({
 						motd: list.getStore().getAt(index).data
-					}, this.mode);
+					}, this.getMode());
 				}
 			}
 		});
@@ -181,7 +179,7 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 
 	getMotds: function () {
 		var me = this;
-		if (this.mode === 'admin') {
+		if (this.getMode() === 'admin') {
 			me.getController().getAllMotds({
 				success: function (response) {
 					var motds = Ext.decode(response.responseText);
@@ -195,7 +193,7 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 				}
 			});
 		}	else {
-			me.getController().getAllSessionMotds(this.config.sessionkey, {
+			me.getController().getAllSessionMotds(this.getSessionkey(), {
 				success: function (response) {
 					var motds = Ext.decode(response.responseText);
 					if (motds.length > 0) {
@@ -211,7 +209,7 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 	},
 
 	newMotdHandler: function () {
-		if (this.mode === 'admin') {
+		if (this.getMode() === 'admin') {
 			var sTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 			sTP.animateActiveItem(sTP.newMotdPanel, 'slide');
 		}	else {
