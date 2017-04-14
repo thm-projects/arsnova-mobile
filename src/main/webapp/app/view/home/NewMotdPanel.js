@@ -27,15 +27,15 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 		},
 		fullscreen: true,
 		scrollable: null,
-		scroll: 'vertical'
+		scroll: 'vertical',
+		mode: null,
+		sessionkey: null
 	},
 
 	title: null,
 	text: null,
 	startdate: null,
 	enddate: null,
-	mode: null,
-	sessionkey: null,
 
 	/* toolbar items */
 	toolbar: null,
@@ -44,8 +44,6 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 	constructor: function (args) {
 		var me = this;
 		this.callParent(arguments);
-		this.mode = this.config.mode;
-		this.sessionkey = this.config.sessionkey;
 
 		var htmlEncode = window.innerWidth > 321 ? "{fullname:htmlEncode}" : "{shortname:htmlEncode}";
 
@@ -55,7 +53,7 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 			scope: this,
 			handler: function () {
 				var hTP = null;
-				if (this.mode === "session") {
+				if (this.getMode() === "session") {
 					hTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				} else {
 					hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
@@ -79,7 +77,7 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 				this.saveHandler(button).then(function (response) {
 					ARSnova.app.getController('Motds').details({
 						motd: Ext.decode(response.responseText)
-					}, me.mode);
+					}, me.getMode());
 				});
 			}
 		});
@@ -131,7 +129,7 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 			scope: this,
 			handler: function () {
 				var panel = null;
-				if (this.mode === "session") {
+				if (this.getMode() === "session") {
 					panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newSessionMotdPanel;
 				} else {
 					panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newMotdPanel;
@@ -205,7 +203,7 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 	},
 
 	onActivate: function () {
-		if (this.mode === "session") {
+		if (this.getMode() === "session") {
 			this.audience.hide();
 		}
 		var rightnow = new Date();
@@ -226,11 +224,11 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 		var panel = null;
 		var mainPartValues = null;
 		var values = {};
-		if (this.mode === "session") {
+		if (this.getMode() === "session") {
 			panel = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel.newSessionMotdPanel;
 			mainPartValues = panel.mainPart.getValues();
 			values.audience = "session";
-			values.sessionkey = this.sessionkey;
+			values.sessionkey = this.getSessionkey();
 		} else {
 			panel = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel.newMotdPanel;
 			mainPartValues = panel.mainPart.getValues();
