@@ -390,7 +390,7 @@
 				CATEGORY_PLACEHOLDER: "Thema",
 				ABSTENTION: 'Enthaltung',
 				ABSTENTIONS: 'Enthaltungen',
-				ABSTENTION_POSSIBLE: 'Enthaltung möglich?',
+				ABSTENTION_POSSIBLE: 'Enthaltung möglich? <i>(Pflichtangabe)</i>',
 				MY_COURSES: "Meine Kurse:",
 				NO_COURSES_FOUND: "Es konnten keine Kurse gefunden werden",
 				CORRECT_ANSWER: 'Welche Antwort soll als richtig gelten?',
