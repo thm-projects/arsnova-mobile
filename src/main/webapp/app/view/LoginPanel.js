@@ -48,19 +48,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 		var me = this;
 		var buttonHandler = function (b) {
 			var service = b.config.value;
-			if ("guest" === service.id && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
-				Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function (answer) {
-					if ('yes' === answer) {
-						ARSnova.app.getController('Auth').login({
-							service: service
-						});
-					}
-				});
-			} else {
-				ARSnova.app.getController('Auth').login({
-					service: service
-				});
-			}
+			me.proceedToLogin(service, false);
 		};
 		var config = ARSnova.app.globalConfig;
 		ARSnova.app.getController('Auth').services.then(function (services) {
@@ -138,6 +126,13 @@ Ext.define('ARSnova.view.LoginPanel', {
 				buttons.push(this.getButtons()[i].button);
 			}
 		}
+
+		if (buttons.length === 1)
+		{
+			this.proceedToLogin(buttons[0].value, true);
+			return;
+		}
+
 		for (i = 0; i < buttons.length; i++) {
 			items.push(buttons[i]);
 			if (i % 2 === 1 || i === this.getButtons().length - 1) {
@@ -158,5 +153,31 @@ Ext.define('ARSnova.view.LoginPanel', {
 		buttonPanels.forEach(function (buttonPanel) {
 			me.add(buttonPanel);
 		});
+	},
+
+	proceedToLogin: function (service, singleLoginMethod)
+	{
+		if ("guest" === service.id && ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
+			Ext.Msg.confirm(Messages.GUEST_LOGIN, Messages.CONFIRM_GUEST_SPEAKER, function (answer) {
+				if ('yes' === answer) {
+					ARSnova.app.getController('Auth').login({
+						service: service
+					});
+				} else if (singleLoginMethod) {
+					ARSnova.app.userRole = "";
+					ARSnova.app.setWindowTitle();
+
+					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
+						type: 'slide',
+						direction: 'right',
+						duration: 500
+					});
+				}
+			});
+		} else {
+			ARSnova.app.getController('Auth').login({
+				service: service
+			});
+		}
 	}
 });
