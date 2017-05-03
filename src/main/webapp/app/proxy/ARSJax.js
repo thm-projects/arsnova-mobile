@@ -36,6 +36,8 @@ Ext.define('ARSnova.proxy.ARSJax', {
 			failure = options.failure || Ext.emptyFn;
 		var prefix = (ARSnova.app.globalConfig ? ARSnova.app.globalConfig.apiPath : "") + "/";
 
+		var headers = options.headers || {};
+		headers.accept = "application/vnd.de.thm.arsnova.v2+json,application/json";
 		if (ARSnova.app.checkMobileDeviceType()) {
 			options.url = ARSnova.app.absoluteUrl + options.url;
 		}
@@ -45,7 +47,7 @@ Ext.define('ARSnova.proxy.ARSJax', {
 			method: options.method,
 			params: options.params,
 			jsonData: options.jsonData,
-			headers: options.headers,
+			headers: headers,
 			disableCaching: options.disableCaching,
 
 			success: function (response) {
