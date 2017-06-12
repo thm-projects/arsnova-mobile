@@ -64,9 +64,18 @@ Ext.define("ARSnova.controller.Auth", {
 				"lecturer" === role ? ARSnova.app.USER_ROLE_SPEAKER : ARSnova.app.USER_ROLE_STUDENT
 			);
 			sessionStorage.setItem('keyword', sessionkey);
-			if (!ARSnova.app.checkPreviousLogin()) {
-				me.login();
-			}
+			me.checkLogin().then(
+				function () {
+					if (!ARSnova.app.checkPreviousLogin()) {
+						console.debug("QR: User is authenticated but storage is not initialized.");
+						me.login();
+					}
+				},
+				function () {
+					console.debug("QR: User is not yet authenticated.");
+					me.login();
+				}
+			);
 
 			window.location = window.location.pathname + "#";
 		});
