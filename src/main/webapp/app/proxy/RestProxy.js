@@ -87,7 +87,8 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		this.arsjax.request({
 			url: options.url,
 			method: "GET",
-			success: options.success
+			success: options.success,
+			failure: options.failure
 		});
 	},
 
