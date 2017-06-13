@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.1
+Bug fixes:
+* Direct session login via link or QR Code now works reliably.
+* MotDs are now listed and created for the correct session when MotDs for
+  another session were managed before.
+
 ## 2.5
 Major features:
 * Evaluation of free text answers
