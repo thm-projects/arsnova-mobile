@@ -132,7 +132,7 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 					text: Messages.FLASHCARDS
 				}, {
 					itemId: 'statisticsInterposedQuestions',
-					text: Messages.QUESTIONS_FROM_STUDENTS
+					text: Messages.QUESTIONS_FROM_STUDENTS_SHORT
 				}, {
 					itemId: 'statisticsAnswers',
 					text: Messages.VOTINGS
