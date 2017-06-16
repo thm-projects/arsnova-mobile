@@ -72,6 +72,25 @@ Ext.define('ARSnova.view.speaker.InClassActionButtons', {
 			}
 		});
 
+		var me = this;
+		this.lmsChangeButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.CHANGE_LMS_OPTIONS,
+			buttonConfig: 'icon',
+			cls: 'smallerActionButton',
+			imageCls: 'icon-prof',
+			scope: this,
+			handler: function () {
+				ARSnova.app.sessionModel.checkSessionLogin(sessionStorage.getItem("keyword"), {
+					success: function (session) {
+						ARSnova.app.getController('Sessions').loadLmsOptions({
+							lastPanel: me.getParent().getParent(),
+							sessionInfo: session
+						});
+					}
+				});
+			}
+		});
+
 		this.motdButton = Ext.create('ARSnova.view.MatrixButton', {
 			text: Messages.MOTD_MANAGEMENT,
 			cls: 'smallerActionButton',
@@ -118,6 +137,8 @@ Ext.define('ARSnova.view.speaker.InClassActionButtons', {
 				xtype: 'spacer'
 			}, this.motdButton, {
 				xtype: 'spacer'
+			}, this.lmsChangeButton, {
+				xtype: 'spacer'
 			}, this.sessionStatusButton, {
 				xtype: 'spacer'
 			}, this.deleteSessionButton, {
@@ -134,6 +155,8 @@ Ext.define('ARSnova.view.speaker.InClassActionButtons', {
 				flex: '3',
 				width: true
 			}, this.featureChangeEntryButton, {
+				xtype: 'spacer'
+			}, this.lmsChangeButton, {
 				xtype: 'spacer'
 			}, this.motdButton, {
 				xtype: 'spacer',

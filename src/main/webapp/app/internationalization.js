@@ -696,6 +696,7 @@
 				SORT_REVERT: "Änderung<br/>verwerfen",
 				CHANGE_FEATURES: "Use Case<br/>wechseln",
 				CHANGE_ROLE_BUTTONTEXT: "Rolle<br/>wechseln",
+				CHANGE_LMS_OPTIONS: "Kurs<br/>ändern",
 
 				NEW_SLIDE: "Folien<br/>erstellen",
 				NEW_CONTENT: "Inhalte<br/>erstellen",
@@ -788,6 +789,11 @@
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###Eigene Funktions- und Formatauswahl\n\n Sie können die Funktionalität Ihrer Session kombinieren aus: \n- Hörsaalfragen (alle Formate) \n- Vorbereitungsaufgaben (alle Formate)\n- Fragen & Kommentare der Studierenden\n- Live Feedback\n- Vortragsfolien\n- 2-Runden-Abstimmungen\n- Lernstandsberechnung",
 
 				TWITTER_WALL_PRIVACY_INFO: "Hinweis: Die Lehrperson kann Ihre Fragen und Kommentare auf der Twitter Wall anzeigen.",
+
+				/*Lms options*/
+				LMS_OPTIONS: "LMS  Optionen",
+				LMS_ENABLE_TEXT: "Session an LMS-Kurs anbinden",
+				LMS_SELECT_COURSE: "Kurs wählen",
 
 				/* errors */
 				SESSION_NOT_FOUND: "Diese Session gibt es nicht",
@@ -1582,6 +1588,7 @@
 				SORT_REVERT: "Revert<br/>changes",
 				CHANGE_FEATURES: "Change<br/>use case",
 				CHANGE_ROLE_BUTTONTEXT: "Change<br/>role",
+				CHANGE_LMS_OPTIONS: "Change<br/>course",
 
 				NEW_SLIDE: "Create new<br/>slides",
 				NEW_CONTENT: "Create new<br/>content",
@@ -1674,6 +1681,11 @@
 				USECASE_ARSNOVA_CUSTOM_DETAILS: "###My ARSnova\n\n Personal selection of didactic functions...",
 
 				TWITTER_WALL_PRIVACY_INFO: "In current session mode, the teacher is able to show your question on the Twitter Wall.",
+
+				/*Lms options*/
+				LMS_OPTIONS: "LMS  Options",
+				LMS_ENABLE_TEXT: "Link session to LMS course",
+				LMS_SELECT_COURSE: "Select course",
 
 				/* errors */
 				SESSION_NOT_FOUND: "This session does not seem to exist.",

@@ -691,7 +691,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				getAnswerCount(questionRecord, promise);
 				promises.push(promise);
 			}, this);
-		} else {
+		} else if (this.questionStore.getTotalCount() > 0) {
 			var questionRecord = this.questionStore.getAt(index);
 			var promise = new RSVP.Promise();
 			getAnswerCount(questionRecord, promise);
