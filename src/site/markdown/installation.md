@@ -8,7 +8,7 @@ In case you are viewing this file from the repository please make sure you are o
 
 ARSnova Mobile is only the frontend and does not work standalone.
 Before you proceed we suggest that you
-[install ARSnova Backend](https://github.com/thm-projects/arsnova-backend/blob/master/src/main/site/markdown/installation.md) first.
+[install ARSnova Backend](https://github.com/thm-projects/arsnova-backend/blob/master/src/site/markdown/installation.md) first.
 
 
 ## Web Application Deployment
