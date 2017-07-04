@@ -110,7 +110,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		var promise = new RSVP.Promise();
 		this.arsjax.request({
 			url: "socket/url",
-			headers: {accept: "text/plain"},
+			headers: {accept: "text/plain,application/json;q=0.1"},
 			success: function (data) {
 				promise.resolve(data.responseText);
 			},
@@ -322,7 +322,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			url: "lecturerquestion/?lecturequestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword) +
 				"&requestImageData=" + !!requestImageData,
 			headers: {
-				accept: "text/plain",
+				accept: "text/plain,application/json;q=0.1",
 				Range: this.constructRangeString(offset, limit)
 			},
 			success: function (response) {
@@ -371,7 +371,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	countPreparationQuestions: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/count?preparationquestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
-			headers: {accept: "text/plain"},
+			headers: {accept: "text/plain,application/json;q=0.1"},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -380,7 +380,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	countFlashcards: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/count?flashcardsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
-			headers: {accept: "text/plain"},
+			headers: {accept: "text/plain,application/json;q=0.1"},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -389,7 +389,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	countLectureQuestions: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/count?lecturequestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
-			headers: {accept: "text/plain"},
+			headers: {accept: "text/plain,application/json;q=0.1"},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -398,7 +398,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	countPreparationQuestionAnswers: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/answercount?preparationquestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
-			headers: {accept: "text/plain"},
+			headers: {accept: "text/plain,application/json;q=0.1"},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -407,7 +407,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	countLectureQuestionAnswers: function (sessionKeyword, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/answercount?lecturequestionsonly=true&sessionkey=" + encodeURIComponent(sessionKeyword),
-			headers: {accept: "text/plain"},
+			headers: {accept: "text/plain,application/json;q=0.1"},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -842,7 +842,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	getAnswerCount: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/answercount",
-			headers: {accept: "text/plain"},
+			headers: {accept: "text/plain,application/json;q=0.1"},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
@@ -859,7 +859,7 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	getTotalAnswerCountByQuestion: function (questionId, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + questionId + "/totalanswercount",
-			headers: {accept: "text/plain"},
+			headers: {accept: "text/plain,application/json;q=0.1"},
 			success: callbacks.success,
 			failure: callbacks.failure
 		});
