@@ -19,7 +19,7 @@
 Ext.define("ARSnova.controller.FlashcardExport", {
 	extend: 'Ext.app.Controller',
 
-	suitableTypes: ['mc', 'abcd', 'yesno', 'flashcard'],
+	suitableTypes: ['flashcard', 'mc', 'abcd', 'yesno', 'freetext'],
 
 	filename: function (format) {
 		var filename = 'flashcards' + this.getActualDate() + '.' + format;
@@ -71,33 +71,36 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 	formatFlashcard: function (questionData, format) {
 		var flashcard = {};
 
-		if (format === 'csv') {
-			flashcard.subject = questionData.subject;
-		}
-
+		flashcard.subject = questionData.subject;
 		flashcard.front = questionData.text;
-		switch (questionData.questionType) {
-			case 'mc': case 'abcd': case 'yesno': case 'flashcard':
-				flashcard.back = this.parseBackPage(questionData);
-				break;
-		}
+		flashcard.back = questionData.solution || this.parseBackPage(questionData);
+		flashcard.hint = questionData.hint;
 
 		return flashcard;
 	},
 
 	parseBackPage: function (questionData) {
-		var possibleAnswers = questionData.possibleAnswers;
-		var correctAnswers = [];
+		switch (questionData.questionType) {
+			case 'mc':
+			case 'abcd':
+			case 'yesno':
+				var possibleAnswers = questionData.possibleAnswers;
+				var correctAnswers = [];
 
-		for (var i = 0, answer = ''; i < possibleAnswers.length; i++) {
-			if (possibleAnswers[i].correct) {
-				answer = possibleAnswers[i].text;
-				correctAnswers.push(questionData.questionType !== 'abcd' ?
-					answer : answer.slice(3, answer.length));
-			}
+				for (var i = 0, answer = ''; i < possibleAnswers.length; i++) {
+					if (possibleAnswers[i].correct) {
+						answer = possibleAnswers[i].text;
+						correctAnswers.push(questionData.questionType !== 'abcd' ?
+							answer : answer.slice(3, answer.length));
+					}
+				}
+
+				return correctAnswers.join(', ');
+			case 'freetext':
+				return questionData.correctAnswer;
+			default:
+				return null;
 		}
-
-		return correctAnswers.join(', ');
 	},
 
 	saveFileOnFileSystem: function (data, filename, format) {
