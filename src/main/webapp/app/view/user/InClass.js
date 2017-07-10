@@ -370,6 +370,10 @@ Ext.define('ARSnova.view.user.InClass', {
 			this.badgeOptions.numUnredInterposed = 0;
 		}
 
+		if (!features.flashcardFeature) {
+			this.badgeOptions.numFlashcards = 0;
+		}
+
 		hasOptions = this.badgeOptions.numAnswers ||
 			this.badgeOptions.numQuestions ||
 			this.badgeOptions.numInterposed ||
