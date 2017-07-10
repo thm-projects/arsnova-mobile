@@ -370,6 +370,10 @@ Ext.define('ARSnova.view.user.InClass', {
 			this.badgeOptions.numUnredInterposed = 0;
 		}
 
+		if (!features.flashcardFeature) {
+			this.badgeOptions.numFlashcards = 0;
+		}
+
 		hasOptions = this.badgeOptions.numAnswers ||
 			this.badgeOptions.numQuestions ||
 			this.badgeOptions.numInterposed ||
@@ -570,7 +574,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			{badgeText: data.preparationQuestionAnswers, badgeCls: "answersBadgeIcon"}
 		]);
 		this.flashcardQuestionButton.setBadge([
-			{badgeText: data.flashcardCount, badgeCls: "questionsBadgeIcon"}
+			{badgeText: data.flashcardCount, badgeCls: "flashcardBadgeIcon"}
 		]);
 	},
 
@@ -635,13 +639,13 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	applyUIChanges: function (features) {
-		if (features.total || (features.slides && !features.lecture && !features.jitt)) {
-			this.caption.setBadgeTranslation({
-				feedback: Messages.QUESTIONS_FROM_STUDENTS,
-				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
-				questions: Messages.QUESTIONS,
-				answers: Messages.COMMENTS
+		var badgeTranslation = Ext.clone(this.caption.config.badgeTranslation);
+		if (features.total || features.slides) {
+			Ext.apply(badgeTranslation, {
+				questions: Messages.CONTENT_PLURAL
 			});
 		}
+		this.caption.setBadgeTranslation(badgeTranslation);
+		this.updateCaption();
 	}
 });
