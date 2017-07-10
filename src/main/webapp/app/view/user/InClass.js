@@ -635,13 +635,13 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	applyUIChanges: function (features) {
-		if (features.total || (features.slides && !features.lecture && !features.jitt)) {
-			this.caption.setBadgeTranslation({
-				feedback: Messages.QUESTIONS_FROM_STUDENTS,
-				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
-				questions: Messages.QUESTIONS,
-				answers: Messages.COMMENTS
+		var badgeTranslation = Ext.clone(this.caption.config.badgeTranslation);
+		if (features.total || features.slides) {
+			Ext.apply(badgeTranslation, {
+				questions: Messages.CONTENT_PLURAL
 			});
 		}
+		this.caption.setBadgeTranslation(badgeTranslation);
+		this.updateCaption();
 	}
 });
