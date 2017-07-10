@@ -570,7 +570,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			{badgeText: data.preparationQuestionAnswers, badgeCls: "answersBadgeIcon"}
 		]);
 		this.flashcardQuestionButton.setBadge([
-			{badgeText: data.flashcardCount, badgeCls: "questionsBadgeIcon"}
+			{badgeText: data.flashcardCount, badgeCls: "flashcardBadgeIcon"}
 		]);
 	},
 
