@@ -140,6 +140,7 @@ Ext.define("ARSnova.controller.FlashcardImport", {
 					text: flashcards[i].back,
 					correct: true
 				}],
+				hint: flashcards[i].hint,
 
 				releasedFor: 'all',
 				questionType: 'flashcard',
