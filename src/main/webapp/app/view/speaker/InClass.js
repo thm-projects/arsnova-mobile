@@ -679,23 +679,20 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			tabPanel.newQuestionPanel.setVariant('lecture');
 		}
 
+		var badgeTranslation = Ext.clone(this.caption.config.badgeTranslation);
 		if (features.total || features.slides) {
 			lectureButtonText = Messages.SLIDE_LONG;
-			this.caption.setBadgeTranslation({
-				feedback: Messages.COMMENTS,
-				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
-				questions: Messages.CONTENT_PLURAL,
-				flashcards: Messages.FLASHCARDS,
-				answers: Messages.COMMENTS
+			Ext.apply(badgeTranslation, {
+				questions: Messages.CONTENT_PLURAL
 			});
-		} else {
-			this.caption.setBadgeTranslation(this.caption.config.badgeTranslation);
 		}
+		this.caption.setBadgeTranslation(badgeTranslation);
 
 		if (features.peerGrading) {
 			lectureButtonText = Messages.EVALUATION_QUESTIONS;
 		}
 
+		this.updateCaption();
 		this.lectureQuestionButton.setText(lectureButtonText);
 	}
 });
