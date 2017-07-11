@@ -441,12 +441,14 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
 		if (features) {
-			if (!features.lecture && !features.jitt) {
+			if (!features.lecture) {
 				this.badgeOptions.numQuestions = 0;
 				this.badgeOptions.numAnswers = 0;
-			} else if (!features.lecture && features.jitt) {
-				this.badgeOptions.numQuestions = this.badgeOptions.numPrepQuestions;
-				this.badgeOptions.numAnswers = this.badgeOptions.numPrepAnswers;
+			}
+
+			if (!features.jitt) {
+				this.badgeOptions.numPrepQuestions = 0;
+				this.badgeOptions.numPrepAnswers = 0;
 			}
 
 			if (!features.interposed) {
@@ -460,9 +462,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		}
 
 		hasOptions = this.badgeOptions.numAnswers ||
+			this.badgeOptions.numPrepAnswers ||
 			this.badgeOptions.numUnredInterposed ||
 			this.badgeOptions.numInterposed ||
 			this.badgeOptions.numQuestions ||
+			this.badgeOptions.numPrepQuestions ||
 			this.badgeOptions.numFlashcards;
 
 		if (hasOptions) {
@@ -679,23 +683,20 @@ Ext.define('ARSnova.view.speaker.InClass', {
 			tabPanel.newQuestionPanel.setVariant('lecture');
 		}
 
+		var badgeTranslation = Ext.clone(this.caption.config.badgeTranslation);
 		if (features.total || features.slides) {
 			lectureButtonText = Messages.SLIDE_LONG;
-			this.caption.setBadgeTranslation({
-				feedback: Messages.COMMENTS,
-				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
-				questions: Messages.CONTENT_PLURAL,
-				flashcards: Messages.FLASHCARDS,
-				answers: Messages.COMMENTS
+			Ext.apply(badgeTranslation, {
+				questions: Messages.CONTENT_PLURAL
 			});
-		} else {
-			this.caption.setBadgeTranslation(this.caption.config.badgeTranslation);
 		}
+		this.caption.setBadgeTranslation(badgeTranslation);
 
 		if (features.peerGrading) {
 			lectureButtonText = Messages.EVALUATION_QUESTIONS;
 		}
 
+		this.updateCaption();
 		this.lectureQuestionButton.setText(lectureButtonText);
 	}
 });

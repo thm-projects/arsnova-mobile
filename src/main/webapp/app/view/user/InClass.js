@@ -357,12 +357,14 @@ Ext.define('ARSnova.view.user.InClass', {
 		var hasOptions = false;
 		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
-		if (!features.lecture && !features.jitt) {
+		if (!features.lecture) {
 			this.badgeOptions.numQuestions = 0;
 			this.badgeOptions.numAnswers = 0;
-		} else if (!features.lecture && features.jitt) {
-			this.badgeOptions.numQuestions = this.badgeOptions.numPrepQuestions;
-			this.badgeOptions.numAnswers = this.badgeOptions.numPrepAnswers;
+		}
+
+		if (!features.jitt) {
+			this.badgeOptions.numPrepQuestions = 0;
+			this.badgeOptions.numPrepAnswers = 0;
 		}
 
 		if (!features.interposed) {
@@ -370,10 +372,17 @@ Ext.define('ARSnova.view.user.InClass', {
 			this.badgeOptions.numUnredInterposed = 0;
 		}
 
+		if (!features.flashcardFeature) {
+			this.badgeOptions.numFlashcards = 0;
+		}
+
 		hasOptions = this.badgeOptions.numAnswers ||
-			this.badgeOptions.numQuestions ||
+			this.badgeOptions.numPrepAnswers ||
+			this.badgeOptions.numUnredInterposed ||
 			this.badgeOptions.numInterposed ||
-			this.badgeOptions.numUnredInterposed;
+			this.badgeOptions.numQuestions ||
+			this.badgeOptions.numPrepQuestions ||
+			this.badgeOptions.numFlashcards;
 
 		if (hasOptions) {
 			this.caption.explainBadges([this.badgeOptions]);
@@ -570,7 +579,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			{badgeText: data.preparationQuestionAnswers, badgeCls: "answersBadgeIcon"}
 		]);
 		this.flashcardQuestionButton.setBadge([
-			{badgeText: data.flashcardCount, badgeCls: "questionsBadgeIcon"}
+			{badgeText: data.flashcardCount, badgeCls: "flashcardBadgeIcon"}
 		]);
 	},
 
@@ -593,14 +602,17 @@ Ext.define('ARSnova.view.user.InClass', {
 				var questionCount = Ext.decode(response.responseText);
 				var myQuestionsButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.myQuestionsButton;
 				myQuestionsButton.setBadge([{
-					badgeText: questionCount.total
+					badgeText: questionCount.total,
+					badgeCls: "feedbackQuestionsBadgeIcon"
 				}, {
 					badgeText: questionCount.unread,
 					badgeCls: "redbadgeicon"
 				}]);
 
-				me.badgeOptions.numQuestions = questionCount.total || me.badgeOptions.numQuestions;
-				me.badgeOptions.numUnredInterposed = questionCount.unread;
+				me.badgeOptions.numInterposed = !me.badgeOptions.numInterposed ? questionCount.total :
+					me.badgeOptions.numInterposed;
+				me.badgeOptions.numUnredInterposed = !me.badgeOptions.numUnredInterposed ? questionCount.unread :
+					me.badgeOptions.numUnredInterposed;
 				me.updateCaption();
 
 				if (questionCount.total === 0) {
@@ -635,13 +647,13 @@ Ext.define('ARSnova.view.user.InClass', {
 	},
 
 	applyUIChanges: function (features) {
-		if (features.total || (features.slides && !features.lecture && !features.jitt)) {
-			this.caption.setBadgeTranslation({
-				feedback: Messages.QUESTIONS_FROM_STUDENTS,
-				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
-				questions: Messages.QUESTIONS,
-				answers: Messages.COMMENTS
+		var badgeTranslation = Ext.clone(this.caption.config.badgeTranslation);
+		if (features.total || features.slides) {
+			Ext.apply(badgeTranslation, {
+				questions: Messages.CONTENT_PLURAL
 			});
 		}
+		this.caption.setBadgeTranslation(badgeTranslation);
+		this.updateCaption();
 	}
 });
