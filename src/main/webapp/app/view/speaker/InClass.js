@@ -460,9 +460,11 @@ Ext.define('ARSnova.view.speaker.InClass', {
 		}
 
 		hasOptions = this.badgeOptions.numAnswers ||
+			this.badgeOptions.numPrepAnswers ||
 			this.badgeOptions.numUnredInterposed ||
 			this.badgeOptions.numInterposed ||
 			this.badgeOptions.numQuestions ||
+			this.badgeOptions.numPrepQuestions ||
 			this.badgeOptions.numFlashcards;
 
 		if (hasOptions) {

@@ -132,10 +132,10 @@ Ext.define('ARSnova.view.Caption', {
 			} else {
 				hasFeedbackQuestions = hasFeedbackQuestions || item.hasFeedbackQuestions || item.numInterposed > 0;
 				hasUnreadFeedbackQuestions = hasUnreadFeedbackQuestions || item.hasUnredFeedbackQuestions || item.numUnredInterposed > 0;
-				hasQuestions = hasQuestions || item.hasQuestions || item.numQuestions > 0;
+				hasQuestions = hasQuestions || item.hasQuestions || item.numQuestions > 0 || item.numPrepQuestions > 0;
 				hasUnansweredQuestions = hasUnansweredQuestions || item.hasUnansweredQuestions || item.numUnanswered > 0;
 				hasFlashcards = hasFlashcards || item.hasFlashcards || item.numFlashcards > 0;
-				hasAnswers = hasAnswers || item.hasAnswers || item.numAnswers > 0;
+				hasAnswers = hasAnswers || item.hasAnswers || item.numAnswers > 0 || item.numPrepAnswers > 0;
 			}
 		});
 
