@@ -375,9 +375,10 @@ Ext.define('ARSnova.view.user.InClass', {
 		}
 
 		hasOptions = this.badgeOptions.numAnswers ||
-			this.badgeOptions.numQuestions ||
+			this.badgeOptions.numUnredInterposed ||
 			this.badgeOptions.numInterposed ||
-			this.badgeOptions.numUnredInterposed;
+			this.badgeOptions.numQuestions ||
+			this.badgeOptions.numFlashcards;
 
 		if (hasOptions) {
 			this.caption.explainBadges([this.badgeOptions]);
@@ -597,14 +598,17 @@ Ext.define('ARSnova.view.user.InClass', {
 				var questionCount = Ext.decode(response.responseText);
 				var myQuestionsButton = ARSnova.app.mainTabPanel.tabPanel.userTabPanel.inClassPanel.myQuestionsButton;
 				myQuestionsButton.setBadge([{
-					badgeText: questionCount.total
+					badgeText: questionCount.total,
+					badgeCls: "feedbackQuestionsBadgeIcon"
 				}, {
 					badgeText: questionCount.unread,
 					badgeCls: "redbadgeicon"
 				}]);
 
-				me.badgeOptions.numQuestions = questionCount.total || me.badgeOptions.numQuestions;
-				me.badgeOptions.numUnredInterposed = questionCount.unread;
+				me.badgeOptions.numInterposed = !me.badgeOptions.numInterposed ? questionCount.total :
+					me.badgeOptions.numInterposed;
+				me.badgeOptions.numUnredInterposed = !me.badgeOptions.numUnredInterposed ? questionCount.unread :
+					me.badgeOptions.numUnredInterposed;
 				me.updateCaption();
 
 				if (questionCount.total === 0) {
