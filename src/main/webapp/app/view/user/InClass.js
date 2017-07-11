@@ -357,12 +357,14 @@ Ext.define('ARSnova.view.user.InClass', {
 		var hasOptions = false;
 		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
-		if (!features.lecture && !features.jitt) {
+		if (!features.lecture) {
 			this.badgeOptions.numQuestions = 0;
 			this.badgeOptions.numAnswers = 0;
-		} else if (!features.lecture && features.jitt) {
-			this.badgeOptions.numQuestions = this.badgeOptions.numPrepQuestions;
-			this.badgeOptions.numAnswers = this.badgeOptions.numPrepAnswers;
+		}
+
+		if (!features.jitt) {
+			this.badgeOptions.numPrepQuestions = 0;
+			this.badgeOptions.numPrepAnswers = 0;
 		}
 
 		if (!features.interposed) {
