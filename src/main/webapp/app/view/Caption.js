@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.Caption', {
 		},
 		badgeTranslation: {
 			feedback: Messages.COMMENTS,
-			unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
+			unreadFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
 			flashcards: Messages.FLASHCARDS,
 			questions: Messages.QUESTIONS,
 			answers: Messages.ANSWERS
@@ -115,7 +115,7 @@ Ext.define('ARSnova.view.Caption', {
 			questions: true,
 			answers: true,
 			interposed: true,
-			unredInterposed: true,
+			unreadInterposed: true,
 			flashcards: true,
 			unanswered: false
 		});
@@ -131,7 +131,7 @@ Ext.define('ARSnova.view.Caption', {
 				hasQuestions = hasQuestions || item > 0;
 			} else {
 				hasFeedbackQuestions = hasFeedbackQuestions || item.hasFeedbackQuestions || item.numInterposed > 0;
-				hasUnreadFeedbackQuestions = hasUnreadFeedbackQuestions || item.hasUnredFeedbackQuestions || item.numUnredInterposed > 0;
+				hasUnreadFeedbackQuestions = hasUnreadFeedbackQuestions || item.hasUnreadFeedbackQuestions || item.numUnreadInterposed > 0;
 				hasQuestions = hasQuestions || item.hasQuestions || item.numQuestions > 0 || item.numPrepQuestions > 0;
 				hasUnansweredQuestions = hasUnansweredQuestions || item.hasUnansweredQuestions || item.numUnanswered > 0;
 				hasFlashcards = hasFlashcards || item.hasFlashcards || item.numFlashcards > 0;
@@ -143,7 +143,7 @@ Ext.define('ARSnova.view.Caption', {
 				badgeText: options.interposed && hasFeedbackQuestions ? this.getBadgeTranslation().feedback : "",
 				badgeCls: "feedbackQuestionsBadgeIcon"
 			}, {
-				badgeText: (options.unredInterposed && hasUnreadFeedbackQuestions) ? this.getBadgeTranslation().unredQuestions : "",
+				badgeText: (options.unreadInterposed && hasUnreadFeedbackQuestions) ? this.getBadgeTranslation().unreadQuestions : "",
 				badgeCls: "unreadFeedbackQuestionsBadgeIcon"
 			}, {
 				badgeText: options.flashcards && hasFlashcards ? this.getBadgeTranslation().flashcards : "",

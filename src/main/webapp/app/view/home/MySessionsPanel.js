@@ -393,7 +393,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 			var handler = function success(sessions) {
 				me.caption.summarize(sessions, {
-					unredInterposed: false
+					unreadInterposed: false
 				});
 				me.add(me.caption);
 			};
@@ -525,7 +525,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 					sessionButton.setBadge([
 						{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
-						{badgeText: session.numUnredInterposed, badgeCls: "unreadFeedbackQuestionsBadgeIcon"},
+						{badgeText: session.numUnreadInterposed, badgeCls: "unreadFeedbackQuestionsBadgeIcon"},
 						{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
 						{badgeText: session.numAnswers, badgeCls: "answersBadgeIcon"}
 					]);

@@ -260,7 +260,7 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				me.caption.summarize(sessions, {
 					questions: true,
 					unanswered: false,
-					unredInterposed: false,
+					unreadInterposed: false,
 					interposed: true,
 					answers: true
 				});

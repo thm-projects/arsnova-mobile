@@ -780,7 +780,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 			badgeTranslation = {
 				feedback: Messages.QUESTIONS_FROM_STUDENTS,
-				unredFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
+				unreadFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
 				questions: Messages.QUESTIONS,
 				answers: Messages.COMMENTS
 			};
@@ -811,7 +811,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			};
 
 			badgeTranslation = {
-				feedback: "", unredFeedback: "", questions: "",
+				feedback: "", unreadFeedback: "", questions: "",
 				answers: Messages.FLASHCARD_VIEWS
 			};
 		} else {

@@ -266,7 +266,7 @@ Ext.define('ARSnova.view.user.InClass', {
 			numQuestions: 0,
 			numInterposed: 0,
 			numFlashcards: 0,
-			numUnredInterposed: 0
+			numUnreadInterposed: 0
 		};
 
 		this.add([this.toolbar, this.inClass]);
@@ -369,7 +369,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		if (!features.interposed) {
 			this.badgeOptions.numInterposed = 0;
-			this.badgeOptions.numUnredInterposed = 0;
+			this.badgeOptions.numUnreadInterposed = 0;
 		}
 
 		if (!features.flashcardFeature) {
@@ -378,7 +378,7 @@ Ext.define('ARSnova.view.user.InClass', {
 
 		hasOptions = this.badgeOptions.numAnswers ||
 			this.badgeOptions.numPrepAnswers ||
-			this.badgeOptions.numUnredInterposed ||
+			this.badgeOptions.numUnreadInterposed ||
 			this.badgeOptions.numInterposed ||
 			this.badgeOptions.numQuestions ||
 			this.badgeOptions.numPrepQuestions ||
@@ -611,8 +611,8 @@ Ext.define('ARSnova.view.user.InClass', {
 
 				me.badgeOptions.numInterposed = !me.badgeOptions.numInterposed ? questionCount.total :
 					me.badgeOptions.numInterposed;
-				me.badgeOptions.numUnredInterposed = !me.badgeOptions.numUnredInterposed ? questionCount.unread :
-					me.badgeOptions.numUnredInterposed;
+				me.badgeOptions.numUnreadInterposed = !me.badgeOptions.numUnreadInterposed ? questionCount.unread :
+					me.badgeOptions.numUnreadInterposed;
 				me.updateCaption();
 
 				if (questionCount.total === 0) {
