@@ -433,7 +433,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 						panel.abstentionAlternative.hide();
 					}
 				} else {
-					var values = this.up('panel').down('#contentEditForm').getValues();
+					var values = panel.contentEditForm.getValues();
 					var question = Ext.create('ARSnova.model.Question', panel.questionObj);
 					var checkerValues = panel.textCheckerPart.getValues();
 					var afterEdit = function () {
@@ -1067,7 +1067,7 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 		this.add([
 			this.toolbar,
 			this.actionsPanel, {
-				xtype: 'formpanel',
+				xtype: 'panel',
 				scrollable: null,
 				items: [this.contentForm, this.contentEditForm, this.previewPart]
 			},
