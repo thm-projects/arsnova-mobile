@@ -464,6 +464,11 @@ code {
 .standardFieldset .x-form-fieldset-inner {
 	border: none;
 	background-color: transparent;
+
+	& .x-item-disabled {
+		/* Prevent input field from breaking out */
+		overflow-x: hidden;
+	}
 }
 
 .standardFieldset>div>div>div>div:first-child {
