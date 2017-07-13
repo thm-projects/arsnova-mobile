@@ -76,8 +76,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				hTP.animateActiveItem(hTP.homePanel, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			}
 		});
@@ -175,8 +174,7 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 
 							hTP.animateActiveItem(me.publicPoolPanel, {
 								type: 'slide',
-								direction: 'left',
-								duration: 700
+								direction: 'left'
 							});
 						},
 						empty: function () {

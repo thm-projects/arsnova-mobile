@@ -53,8 +53,7 @@ Ext.define('ARSnova.view.about.TestTabPanel', {
 				handler: function () {
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.lastActiveMainTabPanel, {
 						type: 'slide',
-						direction: 'right',
-						duration: 700
+						direction: 'right'
 					});
 				}
 			}]

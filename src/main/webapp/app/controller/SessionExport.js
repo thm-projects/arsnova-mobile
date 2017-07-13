@@ -39,8 +39,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 			var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 			hTP.animateActiveItem(hTP.mySessionsPanel, {
 				type: 'slide',
-				direction: 'right',
-				duration: 700
+				direction: 'right'
 			});
 			hideLoadMask();
 		};
@@ -121,8 +120,7 @@ Ext.define("ARSnova.controller.SessionExport", {
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		hTP.animateActiveItem(hTP.mySessionsPanel, {
 			type: 'slide',
-			direction: 'right',
-			duration: 700
+			direction: 'right'
 		});
 	}
 });

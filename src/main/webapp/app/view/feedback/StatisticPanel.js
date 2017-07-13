@@ -59,8 +59,7 @@ Ext.define('ARSnova.view.feedback.StatisticPanel', {
 
 				var animation = {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				};
 
 				if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {

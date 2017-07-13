@@ -112,8 +112,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsMessagePanel', {
 
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(target, {
 						type: 'slide',
-						direction: 'right',
-						duration: 700
+						direction: 'right'
 					});
 				}
 			}

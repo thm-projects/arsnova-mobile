@@ -35,7 +35,6 @@ Ext.define("ARSnova.controller.Statistics", {
 		var animation = {
 			type: 'slide',
 			direction: 'left',
-			duration: 700,
 			listeners: {
 				animationend: function () {
 					hideLoadMask();
@@ -84,7 +83,6 @@ Ext.define("ARSnova.controller.Statistics", {
 		var animation = {
 			type: 'slide',
 			direction: 'left',
-			duration: 700,
 			listeners: {
 				animationend: function () {
 					hideLoadMask();

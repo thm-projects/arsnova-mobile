@@ -102,7 +102,6 @@ Ext.define('ARSnova.view.ImageAnswerPanel', {
 				ARSnova.app.mainTabPanel.animateActiveItem(tabPanel, {
 					type: 'slide',
 					direction: 'right',
-					duration: 700,
 					listeners: {
 						animationend: function () {
 							me.destroy();

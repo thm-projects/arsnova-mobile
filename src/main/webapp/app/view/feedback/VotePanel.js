@@ -64,8 +64,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 				ARSnova.app.mainTabPanel.tabPanel.getTabBar().setHidden(false);
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			}
 		});
@@ -132,8 +131,7 @@ Ext.define('ARSnova.view.feedback.VotePanel', {
 					var fP = ARSnova.app.mainTabPanel.tabPanel.feedbackTabPanel;
 					fP.animateActiveItem(fP.votePanel, {
 						type: 'slide',
-						direction: 'right',
-						duration: 700
+						direction: 'right'
 					});
 				});
 			}

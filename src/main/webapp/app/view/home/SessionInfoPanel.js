@@ -93,8 +93,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 				var xTP = me.getReferencePanel();
 				xTP.animateActiveItem(me.getBackReference(), {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			}
 		});

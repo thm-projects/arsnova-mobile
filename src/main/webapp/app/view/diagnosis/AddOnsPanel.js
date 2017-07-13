@@ -51,7 +51,6 @@ Ext.define('ARSnova.view.diagnosis.AddOnsPanel', {
 				tP.animateActiveItem(me.config.lastPanel, {
 					type: 'slide',
 					direction: 'right',
-					duration: 700,
 					scope: this
 				});
 			}

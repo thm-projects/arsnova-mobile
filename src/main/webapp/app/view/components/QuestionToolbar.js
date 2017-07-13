@@ -40,8 +40,7 @@ Ext.define('ARSnova.view.components.QuestionToolbar', {
 			handler: function () {
 				var animation = {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				};
 				var callback = this.getBackButtonHandler();
 				callback(animation);

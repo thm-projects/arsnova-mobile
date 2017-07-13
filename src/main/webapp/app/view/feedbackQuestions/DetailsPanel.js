@@ -57,8 +57,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 				me.speakerUtilities.initializeZoomComponents();
 				feedbackQuestionsPanel.animateActiveItem(target, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			}
 		});
@@ -113,8 +112,7 @@ Ext.define('ARSnova.view.feedbackQuestions.DetailsPanel', {
 							me.speakerUtilities.initializeZoomComponents();
 							panel.animateActiveItem(panel.questionsPanel, {
 								type: 'slide',
-								direction: 'right',
-								duration: 700
+								direction: 'right'
 							});
 						},
 						failure: function (response) {

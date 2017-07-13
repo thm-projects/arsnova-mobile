@@ -90,8 +90,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					sTP.animateActiveItem(sTP.sortSubjectsPanel, {
 						type: 'slide',
-						direction: 'right',
-						duration: 700
+						direction: 'right'
 					});
 				});
 			},
@@ -236,8 +235,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 						var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 						sTP.animateActiveItem(sTP.sortQuestionsPanel, {
 							type: 'slide',
-							direction: 'right',
-							duration: 700
+							direction: 'right'
 						});
 					});
 					sTP.questionDetailsPanel.on('deactivate', function (panel) {
@@ -245,8 +243,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 							var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 							sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 								type: 'slide',
-								direction: 'right',
-								duration: 700
+								direction: 'right'
 							});
 						};
 					}, this, {single: true});
@@ -318,8 +315,7 @@ Ext.define('ARSnova.view.speaker.SortQuestionsPanel', {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.animateActiveItem(sTP.sortSubjectsPanel, {
 			type: 'slide',
-			direction: 'right',
-			duration: 700
+			direction: 'right'
 		});
 	},
 

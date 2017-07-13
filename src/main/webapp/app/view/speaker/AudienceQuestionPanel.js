@@ -164,8 +164,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				sTP.inClassPanel.updateAudienceQuestionBadge();
 				sTP.animateActiveItem(sTP.inClassPanel, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			}
 		});

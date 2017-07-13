@@ -62,15 +62,13 @@ Ext.define('ARSnova.view.home.MotdPanel', {
 					var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 					hTP.animateActiveItem(hTP.mySessionsPanel, {
 						type: 'slide',
-						direction: 'right',
-						duration: 700
+						direction: 'right'
 					});
 				} else {
 					var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 					sTP.animateActiveItem(sTP.inClassPanel, {
 						type: 'slide',
-						direction: 'right',
-						duration: 700
+						direction: 'right'
 					});
 				}
 			}

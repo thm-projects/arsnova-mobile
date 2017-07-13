@@ -60,8 +60,7 @@ Ext.define('ARSnova.view.home.NewMotdPanel', {
 				}
 				hTP.animateActiveItem(hTP.motdPanel, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			}
 		});

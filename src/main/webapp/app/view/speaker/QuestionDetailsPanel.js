@@ -761,7 +761,6 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 								sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 									type: 'slide',
 									direction: 'right',
-									duration: 700,
 									listeners: {
 										animationend: function () {
 											ARSnova.app.taskManager.stop(me.renewAnswerDataTask);

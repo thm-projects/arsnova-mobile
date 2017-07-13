@@ -105,10 +105,7 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.audienceQuestionPanel.setVariant('flashcard');
 		sTP.newQuestionPanel.setVariant('flashcard');
-		sTP.animateActiveItem(sTP.newQuestionPanel, {
-			type: 'slide',
-			duration: 700
-		});
+		sTP.animateActiveItem(sTP.newQuestionPanel, 'slide');
 
 		/* change the backButton-redirection to inClassPanel,
 		 * but only for one function call */
@@ -117,8 +114,7 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 			sTP.animateActiveItem(sTP.inClassPanel, {
 				type: 'slide',
-				direction: 'right',
-				duration: 700
+				direction: 'right'
 			});
 		});
 		backButton.setText(Messages.SESSION);
@@ -127,8 +123,7 @@ Ext.define("ARSnova.controller.FlashcardQuestions", {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			};
 			panel.backButton.setText(Messages.TASKS);

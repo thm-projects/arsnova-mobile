@@ -151,8 +151,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		/* show home Panel */
 		tabPanel.animateActiveItem(tabPanel.homeTabPanel, {
 			type: 'slide',
-			direction: 'right',
-			duration: 700
+			direction: 'right'
 		});
 
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
@@ -197,8 +196,7 @@ Ext.define("ARSnova.controller.Sessions", {
 		hideLoadMask = hideLoadMask || Ext.emptyFn;
 
 		animation = animation || {
-			type: 'slide',
-			duration: 700
+			type: 'slide'
 		};
 
 		if (features.liveClicker && ARSnova.app.userRole !== ARSnova.app.USER_ROLE_SPEAKER

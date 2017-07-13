@@ -64,7 +64,6 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 				me.animateActiveItem(me.diagnosisPanel, {
 					type: 'slide',
 					direction: 'right',
-					duration: 700,
 					scope: this
 				});
 			}
@@ -216,8 +215,7 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 
 		hTP.animateActiveItem(this.getOptions().lastPanel, {
 			type: 'slide',
-			direction: 'right',
-			duration: 700
+			direction: 'right'
 		});
 	},
 
@@ -226,7 +224,6 @@ Ext.define('ARSnova.view.diagnosis.UseCasePanel', {
 		sTP.animateActiveItem(this.getOptions().lastPanel, {
 			type: 'slide',
 			direction: 'right',
-			duration: 700,
 			listeners: {
 				scope: this,
 				animationend: function () {

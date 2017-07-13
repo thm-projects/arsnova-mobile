@@ -32,18 +32,5 @@ Ext.define('ARSnova.view.MainTabPanel', {
 		this.tabPanel = Ext.create('ARSnova.view.TabPanel');
 
 		this.add([this.tabPanel]);
-	},
-
-	setActiveItem: function (card, animation) {
-		this.callParent(arguments);
-
-		if (typeof(animation) === 'object') {
-			animation.duration = ARSnova.app.cardSwitchDuration;
-		} else {
-			animation = {
-				type: animation,
-				duration: ARSnova.app.cardSwitchDuration
-			};
-		}
 	}
 });

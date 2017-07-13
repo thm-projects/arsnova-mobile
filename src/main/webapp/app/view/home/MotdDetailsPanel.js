@@ -235,7 +235,6 @@ Ext.define('ARSnova.view.home.MotdDetailsPanel', {
 								sTP.animateActiveItem(sTP.motdPanel, {
 									type: 'slide',
 									direction: 'right',
-									duration: 700,
 									listeners: {
 										animationend: function () {
 											self.destroy();
