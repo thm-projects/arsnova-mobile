@@ -49,8 +49,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			});
 		});
@@ -163,8 +162,7 @@ Ext.define('ARSnova.view.speaker.SortSubjectsPanel', {
 		var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 		sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 			type: 'slide',
-			direction: 'right',
-			duration: 700
+			direction: 'right'
 		});
 	},
 

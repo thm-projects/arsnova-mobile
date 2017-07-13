@@ -35,8 +35,7 @@ Ext.define('ARSnova.view.home.SessionExportToFilePanel', {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				hTP.animateActiveItem(me.getBackReference(), {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			}
 		});

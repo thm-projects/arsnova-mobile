@@ -87,8 +87,7 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 				var target = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(target, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			}
 		});
@@ -188,7 +187,6 @@ Ext.define('ARSnova.view.feedbackQuestions.QuestionsPanel', {
 					ARSnova.app.getController('Questions').listFeedbackQuestions({
 						type: 'slide',
 						direction: 'right',
-						duration: 700,
 						listeners: {
 							animationend: function () {
 								userTabPanel.setActiveItem(userTabPanel.inClassPanel);

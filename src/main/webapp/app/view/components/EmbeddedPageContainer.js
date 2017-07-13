@@ -77,7 +77,6 @@ Ext.define('ARSnova.view.components.EmbeddedPageContainer', {
 			ARSnova.app.lastActiveMainTabPanel, {
 			type: 'slide',
 			direction: 'right',
-			duration: 700,
 			listeners: {
 				scope: this,
 				animationend: function () {

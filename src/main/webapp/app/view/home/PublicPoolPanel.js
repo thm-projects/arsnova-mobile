@@ -146,8 +146,7 @@ Ext.define('ARSnova.view.home.PublicPoolPanel', {
 
 				hTP.animateActiveItem(activeHTP, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			}
 		});

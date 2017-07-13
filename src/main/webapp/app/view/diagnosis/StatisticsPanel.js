@@ -74,7 +74,6 @@ Ext.define('ARSnova.view.diagnosis.StatisticsPanel', {
 				me.animateActiveItem(me.diagnosisPanel, {
 					type: 'slide',
 					direction: 'right',
-					duration: 700,
 					scope: this
 				});
 			}

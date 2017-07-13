@@ -282,8 +282,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 
 		hTP.animateActiveItem(this.getBackRef(), {
 			type: 'slide',
-			direction: 'right',
-			duration: 700
+			direction: 'right'
 		});
 	},
 
@@ -291,8 +290,7 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		// reset view stack of hometabpanel to ensure session overview will be shown onBack
 		var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 		hTP.animateActiveItem(hTP.homePanel, {
-			type: 'slide',
-			duration: 700
+			type: 'slide'
 		});
 
 		var hideLoadMask = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_LOGIN);

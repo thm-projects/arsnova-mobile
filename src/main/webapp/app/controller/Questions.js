@@ -359,8 +359,7 @@ Ext.define("ARSnova.controller.Questions", {
 
 		mainTabPanel.animateActiveItem(freetextDetailAnswerPanel, {
 			type: 'slide',
-			direction: 'left',
-			duration: 700
+			direction: 'left'
 		}, 'slide');
 	},
 
@@ -477,8 +476,7 @@ Ext.define("ARSnova.controller.Questions", {
 		sTP.showcaseQuestionPanel.setController(this);
 		sTP.newQuestionPanel.setVariant('lecture');
 		sTP.animateActiveItem(sTP.newQuestionPanel, {
-			type: 'slide',
-			duration: 700
+			type: 'slide'
 		});
 
 		/* change the backButton-redirection to inClassPanel,
@@ -488,8 +486,7 @@ Ext.define("ARSnova.controller.Questions", {
 			var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 			sTP.animateActiveItem(sTP.inClassPanel, {
 				type: 'slide',
-				direction: 'right',
-				duration: 700
+				direction: 'right'
 			});
 		});
 		backButton.setText(Messages.SESSION);
@@ -498,8 +495,7 @@ Ext.define("ARSnova.controller.Questions", {
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.animateActiveItem(sTP.audienceQuestionPanel, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			};
 			panel.backButton.setText(Messages.QUESTIONS);

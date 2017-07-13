@@ -122,7 +122,6 @@ Ext.application({
 	restProxy: null,
 
 	/* other*/
-	cardSwitchDuration: 500,
 	projectorModeActive: false,
 	isFeedbackLocked: false,
 	timerStyleConfig: null,

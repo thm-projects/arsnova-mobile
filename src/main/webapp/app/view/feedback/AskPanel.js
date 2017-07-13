@@ -213,8 +213,7 @@ Ext.define('ARSnova.view.feedback.AskPanel', {
 		var userTabPanel = ARSnova.app.mainTabPanel.tabPanel.userTabPanel;
 		userTabPanel.animateActiveItem(userTabPanel.inClassPanel, {
 			type: 'slide',
-			direction: 'right',
-			duration: 700
+			direction: 'right'
 		});
 	}
 });

@@ -135,7 +135,6 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				ARSnova.app.mainTabPanel.animateActiveItem(tabPanel, {
 					type: 'slide',
 					direction: 'right',
-					duration: 700,
 					listeners: {
 						animationend: function () {
 							me.destroy();
@@ -899,15 +898,13 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 
 			ARSnova.app.mainTabPanel.animateActiveItem(me, {
 				type: 'slide',
-				direction: 'right',
-				duration: 700
+				direction: 'right'
 			});
 		});
 
 		ARSnova.app.mainTabPanel.animateActiveItem(embeddedPage, {
 			type: 'slide',
-			direction: 'left',
-			duration: 700
+			direction: 'left'
 		});
 	},
 

@@ -437,7 +437,6 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.userTabPanel, {
 				type: 'slide',
 				direction: 'right',
-				duration: 700,
 				scope: this
 			});
 		}

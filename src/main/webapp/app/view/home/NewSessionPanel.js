@@ -90,8 +90,7 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 				var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
 				hTP.animateActiveItem(hTP.mySessionsPanel, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			}
 		});

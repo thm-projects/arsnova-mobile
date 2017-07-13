@@ -48,14 +48,12 @@ Ext.define('ARSnova.view.speaker.form.GridModerationTemplateCarousel', {
 			handler: function () {
 				var animation = {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				};
 				var sTP = ARSnova.app.mainTabPanel.tabPanel.speakerTabPanel;
 				sTP.animateActiveItem(sTP.newQuestionPanel, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 
 				// pre-select image question

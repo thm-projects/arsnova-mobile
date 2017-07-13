@@ -65,7 +65,6 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 							{
 								type: 'slide',
 								direction: 'right',
-								duration: 700,
 								scope: this,
 								listeners: {
 									animationend: function () {
@@ -180,7 +179,6 @@ Ext.define('ARSnova.view.FreetextDetailAnswer', {
 						self.sTP.animateActiveItem(prevTabPanel, { // Switch back to top of view stack
 							type: 'slide',
 							direction: 'right',
-							duration: 700,
 							scope: this,
 							listeners: {
 								animationend: function () {

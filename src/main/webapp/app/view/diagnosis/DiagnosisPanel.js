@@ -67,8 +67,7 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 
 				ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(this.lastActivePanel, {
 					type: 'slide',
-					direction: 'right',
-					duration: 700
+					direction: 'right'
 				});
 			}
 		});

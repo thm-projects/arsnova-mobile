@@ -142,22 +142,12 @@ Ext.define('ARSnova.view.TabPanel', {
 	},
 
 	/*
-	 * override method to be sure that cardswitch-animation has correct animation direction and duration
+	 * override method to be sure that cardswitch-animation has correct animation direction
 	 */
 	setActiveItem: function (card, animation) {
 		this.callParent(arguments);
 
 		this.getTabBar().activeTab = card.tab; // for correct animation direction
-
-		if (typeof(animation) === 'object') {
-			animation.duration = ARSnova.app.cardSwitchDuration;
-		} else {
-			animation = {
-				type: animation,
-				direction: 'left',
-				duration: ARSnova.app.cardSwitchDuration
-			};
-		}
 	},
 
 	setWindowTitle: function (newCard) {

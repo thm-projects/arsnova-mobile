@@ -117,8 +117,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 
 					ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
 						type: 'slide',
-						direction: 'right',
-						duration: 500
+						direction: 'right'
 					});
 				}
 			}]},
