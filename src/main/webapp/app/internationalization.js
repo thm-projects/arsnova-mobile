@@ -289,6 +289,7 @@
 				HINT_FOR_SOLUTION: "Lösungshinweis",
 				HINT_FOR_SOLUTION_EDIT: "Lösungshinweis?",
 				SAMPLE_SOLUTION: "Musterlösung",
+				UNREAD: "Ungelesen",
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Fragen sortieren",
@@ -1167,6 +1168,7 @@
 				HINT_FOR_SOLUTION: "Hint for solution",
 				HINT_FOR_SOLUTION_EDIT: "Hint for solution?",
 				SAMPLE_SOLUTION: "Sample solution",
+				UNREAD: "Unread",
 
 				/* sort */
 				SORT_QUESTIONS_TITLE: "Sort Questions",

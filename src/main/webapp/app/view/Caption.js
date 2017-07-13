@@ -28,7 +28,7 @@ Ext.define('ARSnova.view.Caption', {
 		},
 		badgeTranslation: {
 			feedback: Messages.COMMENTS,
-			unreadFeedback: Messages.UNREAD_QUESTIONS_FROM_STUDENTS,
+			unreadFeedback: Messages.UNREAD,
 			flashcards: Messages.FLASHCARDS,
 			questions: Messages.QUESTIONS,
 			answers: Messages.ANSWERS
@@ -143,7 +143,7 @@ Ext.define('ARSnova.view.Caption', {
 				badgeText: options.interposed && hasFeedbackQuestions ? this.getBadgeTranslation().feedback : "",
 				badgeCls: "feedbackQuestionsBadgeIcon"
 			}, {
-				badgeText: (options.unreadInterposed && hasUnreadFeedbackQuestions) ? this.getBadgeTranslation().unreadQuestions : "",
+				badgeText: (options.unreadInterposed && hasUnreadFeedbackQuestions) ? this.getBadgeTranslation().unreadFeedback : "",
 				badgeCls: "unreadFeedbackQuestionsBadgeIcon"
 			}, {
 				badgeText: options.flashcards && hasFlashcards ? this.getBadgeTranslation().flashcards : "",
