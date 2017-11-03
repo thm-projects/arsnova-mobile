@@ -71,7 +71,7 @@
 				GUEST: "Gast",
 				CHANGE_ROLE: "Rolle wechseln",
 				NO_GUEST_SPEAKER: "Hinweis: Um eine Session anzulegen, müssen Sie sich anmelden.",
-				CONFIRM_GUEST_SPEAKER: "Wenn Sie sich als Gast anmelden, ist die Verwaltung der ARSnova-Session nur auf dem aktuellen Gerät möglich. Möchten Sie sich trotzdem als Gast anmelden?",
+				CONFIRM_GUEST_SPEAKER: "Der Gastzugang in der Rolle Dozent/in ist nur zum Kennenlernen von ARSnova geeignet. Möchten Sie sich trotzdem als Gast anmelden?",
 				GUEST_LOGIN: "Anmeldung",
 				BACK_TO_ROLEPANEL: "Rollen",
 
@@ -955,7 +955,7 @@
 				GUEST: "Guest",
 				CHANGE_ROLE: "Change role",
 				NO_GUEST_SPEAKER: "Note: You have to log in to create a session.",
-				CONFIRM_GUEST_SPEAKER: "If you login as guest, you can manage newly created ARSnova sessions only from this device. Still login as guest?",
+				CONFIRM_GUEST_SPEAKER: "In the role of a teacher, the guest login is only for getting to know ARSnova. Still login as guest?",
 				GUEST_LOGIN: "Guest login",
 				BACK_TO_ROLEPANEL: "Role",
 
