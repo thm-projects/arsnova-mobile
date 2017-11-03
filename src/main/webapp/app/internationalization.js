@@ -955,13 +955,13 @@
 				GUEST: "Guest",
 				CHANGE_ROLE: "Change role",
 				NO_GUEST_SPEAKER: "Note: You have to log in to create a session.",
-				CONFIRM_GUEST_SPEAKER: "In the role of a teacher, the guest login is only for getting to know ARSnova. Still login as guest?",
+				CONFIRM_GUEST_SPEAKER: "In the role of a teacher, the guest login is only for getting to know ARSnova. Still log in as guest?",
 				GUEST_LOGIN: "Guest login",
 				BACK_TO_ROLEPANEL: "Role",
 
 				/* homePanel */
 				LOGOUT: "Log out",
-				LOGOUT_REQUEST: "Do you really want to logout?",
+				LOGOUT_REQUEST: "Do you really want to log out?",
 				SESSIONID_PLACEHOLDER: "Enter session ID  (8 digits)",
 				ENTER_SESSIONID: "Insert session ID:",
 				GO: "Enter session",
@@ -981,7 +981,7 @@
 
 				/* LOAD MASK */
 				LOAD_MASK: "Loading...",
-				LOAD_MASK_LOGIN: "Login...",
+				LOAD_MASK_LOGIN: "Logging in...",
 				LOAD_MASK_SAVE: 'Saving...',
 				LOAD_MASK_SEARCH: "Looking for sessions...",
 				LOAD_MASK_SEARCH_QUESTIONS: "Looking for questions...",
