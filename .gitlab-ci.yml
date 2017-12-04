@@ -67,6 +67,8 @@ package:
 
 tomcat_production:
   stage: deploy
+  tags:
+    - curl
   only:
     - production
   script:
@@ -74,6 +76,8 @@ tomcat_production:
 
 tomcat_development:
   stage: deploy
+  tags:
+    - curl
   only:
     - staging
   script:
