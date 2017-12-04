@@ -32,7 +32,6 @@ jshint:
   tags:
     - nodejs
   script:
-    - npm install -g grunt-cli
     - npm install
     - grunt jshint
 
@@ -41,7 +40,6 @@ jscs:
   tags:
     - nodejs
   script:
-    - npm install -g grunt-cli
     - npm install
     - grunt jscs
 
@@ -64,7 +62,6 @@ package:
     paths:
       - $WAR_FILE
   script:
-    - npm install -g grunt-cli
     - npm install
     - grunt package
 
