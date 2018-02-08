@@ -229,7 +229,7 @@ Ext.define("ARSnova.controller.Auth", {
 
 		/* check if new version available */
 		var appCache = window.applicationCache;
-		if (appCache.status !== appCache.UNCACHED) {
+		if (appCache && appCache.status !== appCache.UNCACHED) {
 			appCache.update();
 		}
 
@@ -246,6 +246,9 @@ Ext.define("ARSnova.controller.Auth", {
 			var location = apiPath + "/auth/logout?url=" + window.location.protocol + "//" + window.location.hostname + window.location.pathname + "#auth/doLogout";
 			this.handleLocationChange(location);
 		} else {
+			if (ARSnova.app.loginMode !== ARSnova.app.LOGIN_GUEST) {
+				localStorage.removeItem('login');
+			}
 			ARSnova.app.restProxy.authLogout();
 
 			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
@@ -253,8 +256,8 @@ Ext.define("ARSnova.controller.Auth", {
 				direction: 'right'
 			});
 			/* update manifest cache of new version is loaded */
-			if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
-				window.applicationCache.swapCache();
+			if (appCache && appCache.status === appCache.UPDATEREADY) {
+				appCache.swapCache();
 				console.log('reload');
 				window.location.reload();
 			}

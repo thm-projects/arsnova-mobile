@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.5.2
+Minor improvements:
+* Slightly adjusted badge colors to be more consistent
+* Correctly show/hide items in legend based on existing data and selected use
+  case
+
+Bug fixes:
+* Fix logout failing when application cache is unaccessable
+* Username for non-guests is now removed from configuration on logout
+
 ## 2.5.1
 Bug fixes:
 * Direct session login via link or QR Code now works reliably.
