@@ -246,6 +246,9 @@ Ext.define("ARSnova.controller.Auth", {
 			var location = apiPath + "/auth/logout?url=" + window.location.protocol + "//" + window.location.hostname + window.location.pathname + "#auth/doLogout";
 			this.handleLocationChange(location);
 		} else {
+			if (ARSnova.app.loginMode !== ARSnova.app.LOGIN_GUEST) {
+				localStorage.removeItem('login');
+			}
 			ARSnova.app.restProxy.authLogout();
 
 			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {
