@@ -126,7 +126,6 @@ Ext.define("ARSnova.controller.Auth", {
 
 		if (ARSnova.app.LOGIN_GUEST === serviceId) {
 			if (!localStorage.getItem('login')) {
-				localStorage.setItem('login', ARSnova.app.authModel.generateGuestName());
 				type = "guest";
 			} else {
 				type = "guest&user=" + localStorage.getItem('login');
@@ -186,6 +185,9 @@ Ext.define("ARSnova.controller.Auth", {
 				ARSnova.app.loggedIn = true;
 				ARSnova.app.isAdmin = obj.admin;
 				localStorage.setItem('login', obj.username);
+				if (ARSnova.app.loginMode === ARSnova.app.LOGIN_GUEST) {
+					localStorage.setItem('guestToken', obj.username);
+				}
 				window.location = window.location.pathname + "#";
 				if (window.socket) {
 					ARSnova.app.restProxy.connectWebSocket();
@@ -235,20 +237,24 @@ Ext.define("ARSnova.controller.Auth", {
 
 		ARSnova.app.userRole = "";
 
+		if (ARSnova.app.loginMode !== ARSnova.app.LOGIN_GUEST) {
+			var guestToken = localStorage.getItem('guestToken');
+			if (guestToken) {
+				localStorage.setItem('login', guestToken);
+			} else {
+				localStorage.removeItem('login');
+			}
+		}
 		/* redirect user:
 		 * a: to CAS if user is authorized
 		 * b: to rolePanel if user was guest
 		 * */
 		if (ARSnova.app.loginMode === ARSnova.app.LOGIN_CAS) {
 			/* update will be done when returning from CAS */
-			localStorage.removeItem('login');
 			var apiPath = ARSnova.app.globalConfig.apiPath;
 			var location = apiPath + "/auth/logout?url=" + window.location.protocol + "//" + window.location.hostname + window.location.pathname + "#auth/doLogout";
 			this.handleLocationChange(location);
 		} else {
-			if (ARSnova.app.loginMode !== ARSnova.app.LOGIN_GUEST) {
-				localStorage.removeItem('login');
-			}
 			ARSnova.app.restProxy.authLogout();
 
 			ARSnova.app.mainTabPanel.tabPanel.animateActiveItem(ARSnova.app.mainTabPanel.tabPanel.rolePanel, {

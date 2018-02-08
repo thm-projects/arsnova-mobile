@@ -87,7 +87,7 @@ Ext.application({
 
 	isIconPrecomposed: true,
 
-	models: ['Answer', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistics', 'Course', 'Auth', 'FeedbackQuestion', 'Motd'],
+	models: ['Answer', 'Feedback', 'LoggedIn', 'Question', 'Session', 'Statistics', 'Course', 'FeedbackQuestion', 'Motd'],
 
 	views: ['MainTabPanel', 'MathJaxMarkDownPanel', 'QuestionPreviewBox', 'AnswerPreviewBox'],
 
@@ -137,7 +137,6 @@ Ext.application({
 	 */
 	initModels: function () {
 		this.answerModel = Ext.create('ARSnova.model.Answer');
-		this.authModel = Ext.create('ARSnova.model.Auth');
 		this.feedbackModel = Ext.create('ARSnova.model.Feedback');
 		this.loggedInModel = Ext.create('ARSnova.model.LoggedIn');
 		this.questionModel = Ext.create('ARSnova.model.Question');
