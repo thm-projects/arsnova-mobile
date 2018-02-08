@@ -229,7 +229,7 @@ Ext.define("ARSnova.controller.Auth", {
 
 		/* check if new version available */
 		var appCache = window.applicationCache;
-		if (appCache.status !== appCache.UNCACHED) {
+		if (appCache && appCache.status !== appCache.UNCACHED) {
 			appCache.update();
 		}
 
@@ -253,8 +253,8 @@ Ext.define("ARSnova.controller.Auth", {
 				direction: 'right'
 			});
 			/* update manifest cache of new version is loaded */
-			if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
-				window.applicationCache.swapCache();
+			if (appCache && appCache.status === appCache.UPDATEREADY) {
+				appCache.swapCache();
 				console.log('reload');
 				window.location.reload();
 			}
