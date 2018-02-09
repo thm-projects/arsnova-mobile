@@ -7,7 +7,7 @@ Minor improvements:
   case
 
 Bug fixes:
-* Fix logout failing when application cache is unaccessable
+* Fix logout failing when application cache is unaccessible
 * Username for non-guests is now removed from configuration on logout
 
 ## 2.5.1
