@@ -159,7 +159,9 @@ Ext.define('ARSnova.view.home.MotdDetailsPanel', {
 						panel.backButton.show();
 						motd.set("title", values.motdTitle);
 						motd.set("text", values.motdText);
-						motd.set("audience", values.picker);
+						if (panel.mode === "admin") {
+							motd.set("audience", values.picker);
+						}
 						var start = ARSnova.app.getController('Motds').getTimestampByString(values.startdate);
 						motd.set("startdate", start);
 						var end = ARSnova.app.getController('Motds').getTimestampByString(values.enddate);
