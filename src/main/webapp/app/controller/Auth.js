@@ -125,14 +125,10 @@ Ext.define("ARSnova.controller.Auth", {
 		var location = "", type = "", me = this;
 
 		if (ARSnova.app.LOGIN_GUEST === serviceId) {
-			if (!localStorage.getItem('login')) {
-				type = "guest";
-			} else {
-				type = "guest&user=" + localStorage.getItem('login');
-			}
-			location = "auth/login?type=" + type;
-			ARSnova.app.restProxy.absoluteRequest({
-				url: location,
+			ARSnova.app.restProxy.authLogin({
+				type: "guest",
+				user: localStorage.getItem('login')
+			}, {
 				success: function () {
 					me.checkLogin();
 					ARSnova.app.afterLogin();
