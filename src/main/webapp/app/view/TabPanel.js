@@ -66,6 +66,7 @@ Ext.define('ARSnova.view.TabPanel', {
 	/* panels will be created in  sessions/reloadData */
 	userQuizPanel: null,
 	feedbackTabPanel: null,
+	hideFixNeeded: Ext.browser.is.Chrome && Ext.browser.version.major >= 65,
 
 	initialize: function () {
 		this.callParent(arguments);
@@ -127,6 +128,14 @@ Ext.define('ARSnova.view.TabPanel', {
 					this.infoTabPanel.tab.hide();
 					this.blogTabPanel.tab.show();
 				}
+			}
+
+			/* RolePanel is not hidden the first time other TabPanel items are
+			 * activated in Chrome >= 65 so we hide it manually. LoginPanel is
+			 * excluded so that the transition can be displayed correctly. */
+			if (this.hideFixNeeded && newCard !== this.loginPanel) {
+				this.rolePanel.setHidden(true);
+				this.hideFixNeeded = false;
 			}
 		}, this);
 
