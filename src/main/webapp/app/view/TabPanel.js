@@ -66,7 +66,8 @@ Ext.define('ARSnova.view.TabPanel', {
 	/* panels will be created in  sessions/reloadData */
 	userQuizPanel: null,
 	feedbackTabPanel: null,
-	hideFixNeeded: Ext.browser.is.Chrome && Ext.browser.version.major >= 65,
+	hideFixNeeded: (Ext.browser.is.Chrome || Ext.browser.is.ChromeMobile)
+			&& Ext.browser.version.major >= 65 && Ext.browser.version.major < 67,
 
 	initialize: function () {
 		this.callParent(arguments);
@@ -130,12 +131,20 @@ Ext.define('ARSnova.view.TabPanel', {
 				}
 			}
 
-			/* RolePanel is not hidden the first time other TabPanel items are
-			 * activated in Chrome >= 65 so we hide it manually. LoginPanel is
-			 * excluded so that the transition can be displayed correctly. */
-			if (this.hideFixNeeded && newCard !== this.loginPanel) {
-				this.rolePanel.setHidden(true);
-				this.hideFixNeeded = false;
+			/* The first active panel is not hidden the first time other
+			 * TabPanel items are activated in Chrome >= 65 so we hide it
+			 * manually. */
+			if (this.hideFixNeeded) {
+				console.warn('Bugged Chrome version detected. Applying view transition workaround.',
+						oldCard.$className, '->', newCard.$className);
+				if (oldCard === this.homeTabPanel) {
+					this.rolePanel.setHidden(true);
+					this.homeTabPanel.setHidden(true);
+					this.hideFixNeeded = false;
+				} else if (newCard !== this.loginPanel && newCard !== this.homeTabPanel) {
+					this.rolePanel.setHidden(true);
+					this.hideFixNeeded = false;
+				}
 			}
 		}, this);
 
