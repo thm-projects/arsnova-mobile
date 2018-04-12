@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.5.3
+Browser compatibility:
+* Added a workaround to circumvent a bug in Chrome 65 and 66. This browser bug
+  causes serious navigation issues.
+
+Bug fixes:
+* Updated session MotDs can now be saved.
+
 ## 2.5.2
 Minor improvements:
 * Slightly adjusted badge colors to be more consistent
