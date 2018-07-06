@@ -438,7 +438,9 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 				}
 
 				me.disableQuestion(true);
-				ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel.checkIfLastAnswer();
+				var questionsPanel = ARSnova.app.mainTabPanel.tabPanel.userQuestionsPanel;
+				questionsPanel.checkStatisticsRelease();
+				questionsPanel.checkIfLastAnswer();
 			},
 			failure: function (response, opts) {
 				console.log('server-side error');
