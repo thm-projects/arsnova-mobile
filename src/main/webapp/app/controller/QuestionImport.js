@@ -148,8 +148,8 @@ Ext.define("ARSnova.controller.QuestionImport", {
 			return [this.getYesNoAnswerObj(true, Messages.YES),
 				this.getYesNoAnswerObj(false, Messages.NO)];
 		} else if (correctAnswers === 'n') {
-			return [this.getYesNoAnswerObj(true, Messages.NO),
-				this.getYesNoAnswerObj(false, Messages.YES)];
+			return [this.getYesNoAnswerObj(false, Messages.YES),
+				this.getYesNoAnswerObj(true, Messages.NO)];
 		}
 
 		return [this.getYesNoAnswerObj(false, Messages.YES),
