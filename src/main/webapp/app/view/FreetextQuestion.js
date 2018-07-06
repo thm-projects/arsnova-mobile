@@ -527,15 +527,11 @@ Ext.define('ARSnova.view.FreetextQuestion', {
 			if (this.questionObj.userAnswered) {
 				this.customMask.setTextMessage(Messages.MASK_ALREADY_ANSWERED, 'alreadyAnswered');
 				// Display icon with sample solution popup
-				if (this.questionObj.showAnswer) {
-					this.hintIcon.setHidden(!this.questionObj.solution);
-					this.hintIcon.setIconCls('icon-bullhorn');
-					this.hintIcon.setHandler(function (button) {
-						this.solutionPanel.show();
-					});
-				} else {
-					this.hintIcon.setHidden(true);
-				}
+				this.hintIcon.setHidden(!this.questionObj.solution);
+				this.hintIcon.setIconCls('icon-bullhorn');
+				this.hintIcon.setHandler(function (button) {
+					this.solutionPanel.show();
+				});
 			} else if (this.questionObj.isAbstentionAnswer) {
 				this.customMask.setTextMessage(Messages.MASK_IS_ABSTENTION_ANSWER, 'alreadyAnswered');
 			} else if (this.questionObj.votingDisabled) {
