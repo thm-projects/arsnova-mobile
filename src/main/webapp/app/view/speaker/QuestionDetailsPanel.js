@@ -415,11 +415,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					panel.hintForSolutionPreview.hide();
 					panel.checkNavigationElements();
 
+					panel.textCheckerPart.setHidden(panel.questionObj.questionType !== 'freetext');
+					panel.hintForSolution.setHidden(['slide', 'flashcard', 'vote', 'school']
+							.indexOf(panel.questionObj.questionType) !== -1);
 					if (panel.questionObj.questionType === 'slide' ||
 						panel.questionObj.questionType === 'flashcard') {
 						panel.abstentionPart.hide();
-						panel.textCheckerPart.hide();
-						panel.hintForSolution.hide();
 					} else if (panel.questionObj.questionType === 'grid') {
 						panel.uploadView.show();
 					}

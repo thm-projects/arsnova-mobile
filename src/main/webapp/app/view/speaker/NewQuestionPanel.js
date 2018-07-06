@@ -285,6 +285,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						case Messages.GRID_LONG:
 							if (pressed) {
 								me.gridQuestion.show();
+								me.hintForSolution.show();
 								me.previewButton.setHandler(me.gridQuestion.previewHandler);
 								title = label(Messages.QUESTION_GRID, Messages.QUESTION_GRID_SHORT);
 								this.previewPart.show();
@@ -297,6 +298,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						case Messages.EVALUATION_LONG:
 							if (pressed) {
 								me.voteQuestion.show();
+								me.hintForSolution.hide();
 								title = label(Messages.QUESTION_RATING, Messages.QUESTION_RATING_SHORT);
 							} else {
 								me.voteQuestion.hide();
@@ -306,6 +308,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						case Messages.SCHOOL_LONG:
 							if (pressed) {
 								me.schoolQuestion.show();
+								me.hintForSolution.hide();
 								title = label(Messages.QUESTION_GRADE, Messages.QUESTION_GRADE_SHORT);
 							} else {
 								me.schoolQuestion.hide();
@@ -315,6 +318,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						case Messages.MC_LONG:
 							if (pressed) {
 								me.multipleChoiceQuestion.show();
+								me.hintForSolution.show();
 								title = label(Messages.QUESTION_MC, Messages.QUESTION_MC_SHORT);
 							} else {
 								me.multipleChoiceQuestion.hide();
@@ -325,6 +329,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if (pressed) {
 								me.previewPart.show();
 								me.yesNoQuestion.show();
+								me.hintForSolution.show();
 								me.previewButton.setHandler(me.yesNoQuestion.previewHandler);
 								title = label(Messages.QUESTION_YESNO, Messages.QUESTION_YESNO_SHORT);
 							} else {
@@ -335,6 +340,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 						case Messages.ABCD_LONG:
 							if (pressed) {
 								me.abcdQuestion.show();
+								me.hintForSolution.show();
 								title = label(Messages.QUESTION_SINGLE_CHOICE, Messages.QUESTION_SINGLE_CHOICE_SHORT);
 							} else {
 								me.abcdQuestion.hide();
@@ -345,6 +351,7 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							if (pressed) {
 								me.previewPart.show();
 								me.freetextQuestion.show();
+								me.hintForSolution.show();
 								title = label(Messages.QUESTION_FREETEXT, Messages.QUESTION_FREETEXT_SHORT);
 							} else {
 								me.freetextQuestion.hide();
@@ -362,7 +369,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 							} else {
 								me.keynoteSlide.hide();
 								me.abstentionPart.show();
-								me.hintForSolution.show();
 								me.saveAndContinueButton.setText(Messages.SAVE_AND_ASK_NEW_QUESTION);
 							}
 							break;
@@ -378,7 +384,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.textarea.setPlaceHolder(Messages.FORMAT_PLACEHOLDER);
 								me.flashcardQuestion.hide();
 								me.abstentionPart.show();
-								me.hintForSolution.show();
 							}
 							break;
 						case Messages.IMPORT:
@@ -396,7 +401,6 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								title = label(Messages.QUESTION_IMPORT, Messages.QUESTION_IMPORT_SHORT);
 							} else {
 								me.abstentionPart.show();
-								me.hintForSolution.show();
 								me.textarea.show();
 								me.subject.show();
 								me.markdownEditPanel.show();
@@ -414,13 +418,11 @@ Ext.define('ARSnova.view.speaker.NewQuestionPanel', {
 								me.textarea.hide();
 								me.subject.hide();
 								me.markdownEditPanel.hide();
-								me.hintForSolution.hide();
 								me.saveAndContinueButton.hide();
 
 								title = label(Messages.QUESTION_DUPLICATE, Messages.QUESTION_DUPLICATE_SHORT);
 							} else {
 								me.abstentionPart.show();
-								me.hintForSolution.show();
 								me.textarea.show();
 								me.subject.show();
 								me.markdownEditPanel.show();
