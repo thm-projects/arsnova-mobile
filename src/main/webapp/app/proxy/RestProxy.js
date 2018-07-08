@@ -1023,9 +1023,10 @@ Ext.define('ARSnova.proxy.RestProxy', {
 
 	getGlobalConfiguration: function (callbacks) {
 		var configUrl = "arsnova-config";
-		//<debug>
-		configUrl = "configuration/";
-		//</debug>
+		if (window.arsnovaConfig) {
+			callbacks.success(arsnovaConfig);
+			return;
+		}
 		this.arsjax.request({
 			url: configUrl,
 			method: "GET",

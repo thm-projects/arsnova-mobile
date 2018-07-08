@@ -109,6 +109,7 @@ var splashscreen = (function (win) {
 (function () {
 	var doc = window.document;
 	var xhttp = new XMLHttpRequest();
+	xhttp.timeout = 3000;
 	var imgObject = new Image();
 	var configUrl = '/arsnova-config';
 
