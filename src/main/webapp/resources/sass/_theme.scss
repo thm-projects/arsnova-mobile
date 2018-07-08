@@ -60,7 +60,7 @@ $smiley-bg-color: $default-grey-color;
 /** label configuration **/
 $label-font-color: $brand-text;
 $label-font-active-color: $brand-secondary;
-$label-font-family: Georgia,"Helvetica Neue",HelveticaNeue,"Helvetica-Neue",Helvetica,"BBAlpha Sans",sans-serif;
+$label-font-family: "Open Sans", Verdana, "Helvetica Neue", sans-serif;
 $label-font-weight: normal;
 $label-text-shadow: none;
 
@@ -236,7 +236,7 @@ $timer-minutes-color: $default-grey-color;
 $timer-seconds-color: $default-orange-color;
 $timer-warning-color: $brand-danger;
 $timer-label-color: $label-font-color;
-$timer-label-font: "Open Sans";
+$timer-label-font: "Open Sans", Verdana, "Helvetica Neue", sans-serif;
 
 
 /** projector mode color configuration **/
@@ -245,7 +245,7 @@ $projectormode-secondary-color: $default-white-color;
 $projectormode-back-button-color: $default-white-color;
 $projectormode-background-color: $background-color;
 $projectormode-active-color: $default-lightgrey-color;
-$projectormode-font-family: Verdana,Geneva,sans-serif;
+$projectormode-font-family: "Open Sans", Verdana, "Helvetica Neue", sans-serif;
 $projectormode-text-color: black;
 
 
