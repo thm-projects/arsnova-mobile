@@ -89,7 +89,7 @@
 
 @include icon("login-icon-guest" , "\e616", "arsnova");
 @include icon("login-icon-arsnova" , "\72", "arsnova");
-@include icon("login-icon-cas" , "\74", "arsnova");
+@include icon("login-icon-cas" , "\e613", "arsnova");
 @include icon("login-icon-ldap" , "\e613", "arsnova");
 @include icon("login-icon-twitter" , "\f081", "arsnova");
 @include icon("login-icon-facebook" , "\e60f", "arsnova");
@@ -412,10 +412,6 @@
 .icon-timer {
 	left: 1px;
 	top: -1px;
-}
-
-.login-icon-cas {
-	color: #80ba24;
 }
 
 .login-icon-arsnova {
