@@ -17,6 +17,7 @@
 	"undef": true,
 	"globals": {
 		"ARSnova": true,
+		"arsnovaConfig": true,
 		"Ext": true,
 		"io": true,
 		"marked": true,
