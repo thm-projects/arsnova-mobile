@@ -6,6 +6,10 @@ stages:
   - build
   - deploy
 
+.maven_cache: &maven_cache
+  paths:
+    - .m2/
+
 .npm_cache: &npm_cache
   paths:
     - node_modules/
@@ -34,9 +38,10 @@ sonarqube:
     - master
   tags:
     - maven
+  cache: *maven_cache
   allow_failure: true
   script:
-    - mvn sonar:sonar
+    - mvn -B sonar:sonar
 
 package:
   stage: build
