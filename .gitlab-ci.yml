@@ -2,7 +2,7 @@ variables:
   WAR_FILE: target/arsnova-mobile.war
 
 stages:
-  - analysis
+  - pre-build
   - build
   - deploy
 
@@ -11,7 +11,7 @@ cache:
     - node_modules/
 
 jshint:
-  stage: analysis
+  stage: pre-build
   tags:
     - nodejs
   script:
@@ -19,7 +19,7 @@ jshint:
     - grunt jshint
 
 jscs:
-  stage: analysis
+  stage: pre-build
   tags:
     - nodejs
   script:
@@ -27,7 +27,7 @@ jscs:
     - grunt jscs
 
 sonar:
-  stage: analysis
+  stage: pre-build
   only:
     - master
   tags:
