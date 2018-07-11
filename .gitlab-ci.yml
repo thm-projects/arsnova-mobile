@@ -6,7 +6,7 @@ stages:
   - build
   - deploy
 
-cache:
+.npm_cache: &npm_cache
   paths:
     - node_modules/
 
@@ -14,6 +14,7 @@ jshint:
   stage: pre-build
   tags:
     - nodejs
+  cache: *npm_cache
   script:
     - npm install
     - grunt jshint
@@ -22,6 +23,7 @@ jscs:
   stage: pre-build
   tags:
     - nodejs
+  cache: *npm_cache
   script:
     - npm install
     - grunt jscs
@@ -44,6 +46,7 @@ package:
   artifacts:
     paths:
       - $WAR_FILE
+  cache: *npm_cache
   script:
     - npm install
     - grunt package
