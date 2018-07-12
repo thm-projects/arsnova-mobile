@@ -233,13 +233,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 							console.warn("Invalid charset: UTF-8 expected");
 						}
 
-						if (self.getVariant() === 'flashcard') {
-							self.loadFilePanel.hide();
-							ARSnova.app.getController('FlashcardImport')
-								.importFile(data, this.importCsv, this.importFlashcards);
-						} else {
-							ARSnova.app.getController('QuestionImport').importCsvFile(data);
-						}
+						ARSnova.app.getController('QuestionImport').importCsvFile(data);
 
 						this.importCsv = false;
 						this.importFlashcards = false;
@@ -279,14 +273,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 						this.uploadField.fileElement.dom.accept = 'text/csv';
 						this.uploadField.fileElement.dom.click();
 					}
-				}, {
-					text: Messages.ARSNOVA_CARDS,
-					itemId: 'flashcardImportButton',
-					handler: function () {
-						this.uploadField.importFlashcards = true;
-						this.uploadField.fileElement.dom.accept = 'application/json';
-						this.uploadField.fileElement.dom.click();
-					}
 				}]
 			}]
 		});
@@ -315,20 +301,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				items: [{
 					text: Messages.CSV_FILE,
 					handler: function () {
-						if (this.getVariant() === 'flashcard') {
-							ARSnova.app.getController('FlashcardExport')
-								.exportFlashcards(this.getController(), 'csv');
-						} else {
-							ARSnova.app.getController('QuestionExport')
-								.exportQuestions(this.getController());
-						}
-						this.exportFilePanel.hide();
-					}
-				}, {
-					text: Messages.ARSNOVA_CARDS,
-					handler: function () {
-						ARSnova.app.getController('FlashcardExport')
-							.exportFlashcards(this.getController(), 'json');
+						ARSnova.app.getController('QuestionExport').exportQuestions(this.getController());
 						this.exportFilePanel.hide();
 					}
 				}]
@@ -497,7 +470,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			 */
 			return;
 		}
-		this.flashcardImportButton = Ext.ComponentQuery.query('#flashcardImportButton')[0];
 		this.applyUIChanges();
 		this.questionStore.removeAll();
 		this.getQuestions().then(Ext.bind(function () {
@@ -797,7 +769,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			questionListText = Messages.CONTENT_MANAGEMENT;
 			deleteAnswersText = Messages.DELETE_FLASHCARD_VIEWS;
 			deleteQuestionsText = Messages.DELETE_ALL_FLASHCARDS;
-			this.flashcardImportButton.show();
 			this.voteStatusButton.hide();
 
 			this.questionStatusButton.setFlashcardsWording();
@@ -814,7 +785,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				answers: Messages.FLASHCARD_VIEWS
 			};
 		} else {
-			this.flashcardImportButton.hide();
 			this.actionButtonPanel.insert(0, this.questionStatusButton);
 			this.voteStatusButton.show();
 		}
