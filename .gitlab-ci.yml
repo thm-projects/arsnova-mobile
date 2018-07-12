@@ -1,57 +1,47 @@
 variables:
-  MIRROR_REPO: git@github.com:thm-projects/arsnova-mobile.git
   WAR_FILE: target/arsnova-mobile.war
 
 stages:
-  - analysis
+  - pre-build
   - build
   - deploy
-  - synchronization
 
-cache:
+.maven_cache: &maven_cache
+  paths:
+    - .m2/
+
+.npm_cache: &npm_cache
   paths:
     - node_modules/
 
-sync_mirror:
-  stage: synchronization
-  when: always
-  tags:
-    - git
-  allow_failure: true
-  script:
-    - git clone --bare "$CI_REPOSITORY_URL" mirror.git
-    - mkdir ~/.ssh && echo "$GITHUB_HOST_KEY" > ~/.ssh/known_hosts
-    - eval $(ssh-agent -s) && ssh-add <(echo "$GITHUB_DEPLOY_KEY")
-    - cd mirror.git
-    - git update-ref -d refs/tags/production
-    - git update-ref -d refs/tags/staging
-    - git push --mirror "$MIRROR_REPO"
-
 jshint:
-  stage: analysis
+  stage: pre-build
   tags:
     - nodejs
+  cache: *npm_cache
   script:
     - npm install
     - grunt jshint
 
 jscs:
-  stage: analysis
+  stage: pre-build
   tags:
     - nodejs
+  cache: *npm_cache
   script:
     - npm install
     - grunt jscs
 
-sonar:
-  stage: analysis
+sonarqube:
+  stage: pre-build
   only:
     - master
   tags:
     - maven
+  cache: *maven_cache
   allow_failure: true
   script:
-    - mvn sonar:sonar
+    - mvn -B sonar:sonar
 
 package:
   stage: build
@@ -61,28 +51,57 @@ package:
   artifacts:
     paths:
       - $WAR_FILE
+  cache: *npm_cache
   script:
     - npm install
     - grunt package
 
-tomcat_production:
+.deploy: &deploy
   stage: deploy
   tags:
-    - curl
-  only:
-    - production
-  tags:
-    - curl
+    - python
+  when: manual
+  variables:
+    GIT_STRATEGY: none
+  dependencies:
+    - package
   script:
-    - curl --fail --upload-file "$WAR_FILE" "https://$PROD_TOMCAT_USER:$PROD_TOMCAT_PASSWORD@$PROD_TOMCAT_HOST/manager/text/deploy?path=%2Fmobile&update=true"
+    - API_URL=https://$DEPLOY_HOST/api/
+    # Do some variable magic to access host-specific variables
+    - PREFIX=$(echo $CI_ENVIRONMENT_NAME | tr '.:/-' '_')
+    - HOST_VAR=${PREFIX}__HOST TOMCAT_PASSWORD_VAR=${PREFIX}__TOMCAT_PASSWORD TOMCAT_USER_VAR=${PREFIX}__TOMCAT_USER
+    - "[ -z \"${!HOST_VAR}\" ] && echo \"No configuration for $DEPLOY_HOST found.\" && exit 1"
+    # Abort if there are too many users online
+    - USER_COUNT=$(curl -fsSL ${API_URL}statistics | python -c "import sys, json; data=json.loads(sys.stdin.read()); print(data['activeUsers']);")
+    - "[ \"$USER_COUNT\" -ge 10 ] && [ -z \"$FORCE\" ] && echo \"Too many users ($USER_COUNT) online.\" && exit 1"
+    # Deploy .war file to Tomcat
+    - curl -fsS --upload-file $WAR_FILE "https://${!TOMCAT_USER_VAR}:${!TOMCAT_PASSWORD_VAR}@${!HOST_VAR}/manager/text/deploy?path=%2Fmobile&update=true"
+
+tomcat_production:
+  <<: *deploy
+  environment:
+    name: production/$PROD_DEPLOY_HOST
+    url: https://$PROD_DEPLOY_HOST/mobile/
+  only:
+    variables:
+      - $PROD_DEPLOY_HOST
+      # GitLab 11.0+
+      #- $PROD_DEPLOY_HOST =~ /^([a-z0-9-]+\.)*[a-z0-9-]+(:[0-9]+)?$/
+    refs:
+      - /^v[0-9]+/
+      - /^[0-9]+\.[0-9]+$/
+  before_script:
+    - DEPLOY_HOST=$PROD_DEPLOY_HOST
 
 tomcat_development:
-  stage: deploy
-  tags:
-    - curl
+  <<: *deploy
+  environment:
+    name: development/$DEV_DEPLOY_HOST
+    url: https://$DEV_DEPLOY_HOST/mobile/
   only:
-    - staging
-  tags:
-    - curl
-  script:
-    - curl --fail --upload-file "$WAR_FILE" "https://$DEV_TOMCAT_USER:$DEV_TOMCAT_PASSWORD@$DEV_TOMCAT_HOST/manager/text/deploy?path=%2Fmobile&update=true"
+    variables:
+      - $DEV_DEPLOY_HOST
+      # GitLab 11.0+
+      #- $DEV_DEPLOY_HOST =~ /^([a-z0-9-]+\.)*[a-z0-9-]+(:[0-9]+)?$/
+  before_script:
+    - DEPLOY_HOST=$DEV_DEPLOY_HOST
