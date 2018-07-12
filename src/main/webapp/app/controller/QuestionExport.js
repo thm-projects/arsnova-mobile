@@ -219,42 +219,5 @@ Ext.define("ARSnova.controller.QuestionExport", {
 			}
 		}
 		return clickAnswerOptions;
-	},
-
-	exportQuestionToClick: function (question) {
-		var clickQuestion = {
-			hashtag: "ImportFromARSnova",
-			questionText: "## " + question.subject + " ##" + "\n" + question.text,
-			timer: 30,
-			startTime: 0,
-			questionIndex: 0,
-			displayAnswerText: false,
-			answerOptionList: this.parseAnswerOptionsForClick(question)
-		};
-		switch (question.questionType) {
-			case "yesno":
-				clickQuestion.type = "YesNoSingleChoiceQuestion";
-				break;
-			case "mc":
-				clickQuestion.type = "MultipleChoiceQuestion";
-				break;
-			case "sc":
-			case "abcd":
-				clickQuestion.type = "SingleChoiceQuestion";
-				break;
-			case "school":
-			case "vote":
-				clickQuestion.type = "SurveyQuestion";
-				break;
-			case "freetext":
-				clickQuestion.type = "FreeTextQuestion";
-				break;
-		}
-		var session = {
-			hashtag: "ImportFromARSnova",
-			questionList: [clickQuestion],
-			type: "DefaultQuestionGroup"
-		};
-		return session;
 	}
 });
