@@ -92,6 +92,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	authLogin: function (options, callbacks) {
+		this.arsjax.request({
+			url: "auth/login",
+			method: "POST",
+			params: options,
+			success: callbacks.success,
+			failure: options.failure
+		});
+	},
+
 	/**
 	 * Perform server side logout for the current user
 	 */
