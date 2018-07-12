@@ -1,5 +1,39 @@
 # Changelog
 
+## 2.6
+Improvements:
+* Guest authentication is now retained when logging in and will be restored
+  after logging out.
+* Questions and slides are now automatically released for answers/comments after
+  creation.
+* Forms for question creation/editing no longer show settings irrelevant for
+  the question type.
+* The solution can now be shown for free text questions.
+* The statistics button now appears immediately after answering free text
+  questions.
+
+Changes:
+* Switched from serif font to sans-serif font.
+
+Bug fixes:
+* The correct answer is no longer revealed by order for yes/no questions
+  imported from CSV.
+* Pressing <ENTER> in the question's submit field when editing no longer reloads
+  the web app.
+
+Removed features:
+* Import and export for arsnova.cards and arsnova.click formats has been removed.
+
+Known issues:
+* CSV import/export does not work for flashcards.
+
+**This version is brought to you by:**  
+Project management: Klaus Quibeldey-Cirkel
+Lead programming: Daniel Gerhardt, Tom "tekay" Käsler
+Sponsoring: [AG QLS](https://www.thm.de/site/en/hochschule/service/ag-qls.html),
+[HMWK](https://wissenschaft.hessen.de/wissenschaft/it-neue-medien/kompetenznetz-e-learning-hessen)
+
+
 ## 2.5.3
 Browser compatibility:
 * Added a workaround to circumvent a bug in Chrome 65 and 66. This browser bug
