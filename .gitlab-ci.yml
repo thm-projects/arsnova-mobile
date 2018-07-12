@@ -62,6 +62,7 @@ package:
     - python
   when: manual
   variables:
+    DEPLOY_CONTEXT: mobile
     GIT_STRATEGY: none
   dependencies:
     - package
@@ -75,13 +76,13 @@ package:
     - USER_COUNT=$(curl -fsSL ${API_URL}statistics | python -c "import sys, json; data=json.loads(sys.stdin.read()); print(data['activeUsers']);")
     - "[ \"$USER_COUNT\" -ge 10 ] && [ -z \"$FORCE\" ] && echo \"Too many users ($USER_COUNT) online.\" && exit 1"
     # Deploy .war file to Tomcat
-    - curl -fsS --upload-file $WAR_FILE "https://${!TOMCAT_USER_VAR}:${!TOMCAT_PASSWORD_VAR}@${!HOST_VAR}/manager/text/deploy?path=%2Fmobile&update=true"
+    - curl -fsS --upload-file $WAR_FILE "https://${!TOMCAT_USER_VAR}:${!TOMCAT_PASSWORD_VAR}@${!HOST_VAR}/manager/text/deploy?path=%2F${DEPLOY_CONTEXT}&update=true"
 
 tomcat_production:
   <<: *deploy
   environment:
     name: production/$PROD_DEPLOY_HOST
-    url: https://$PROD_DEPLOY_HOST/mobile/
+    url: https://$PROD_DEPLOY_HOST/$DEPLOY_CONTEXT/
   only:
     variables:
       - $PROD_DEPLOY_HOST
@@ -97,7 +98,7 @@ tomcat_development:
   <<: *deploy
   environment:
     name: development/$DEV_DEPLOY_HOST
-    url: https://$DEV_DEPLOY_HOST/mobile/
+    url: https://$DEV_DEPLOY_HOST/$DEPLOY_CONTEXT/
   only:
     variables:
       - $DEV_DEPLOY_HOST
