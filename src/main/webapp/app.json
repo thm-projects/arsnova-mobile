@@ -112,6 +112,9 @@
             "path": "resources/css/app.css",
             "update": "full"
         }, {
+            "path": "resources/css/fonts.css",
+            "update": "full"
+        }, {
             "path": "resources/css/index.css",
             "update": "full"
         }
@@ -139,6 +142,7 @@
 
             /* resources */
             "resources/css/app.css",
+            "resources/css/fonts.css",
             "resources/css/index.css",
 
             /* lib */
@@ -167,6 +171,7 @@
      */
     "resources": [
         "config.xml",
+        "resources/fonts",
         "resources/images",
         "resources/icons",
         "resources/startup",

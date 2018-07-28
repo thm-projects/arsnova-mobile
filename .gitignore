@@ -7,6 +7,8 @@ node_modules/
 /src/main/webapp/build/
 /src/main/webapp/resources/css/index.css
 /src/main/webapp/resources/css/app.css
+/src/main/webapp/resources/css/fonts.css
+/src/main/webapp/resources/fonts/
 /src/main/webapp/resources/version.json
 /target/
 

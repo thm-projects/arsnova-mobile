@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.6.1
+Improvements:
+* The web font is now included so modern browsers should no longer fall back to
+  alternatives.
+
+Changes for developers:
+* Web fonts can now be downloaded with the new Grunt `font` task. It is
+  automatically executed as part of `build` and `run` tasks.
+
 ## 2.6
 Improvements:
 * Guest authentication is now retained when logging in and will be restored
