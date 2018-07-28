@@ -9,6 +9,8 @@ module.exports = function (grunt) {
 	var buildPath = appPath + "/build";
 	var warPath = "target";
 	var versionFilePath = appPath + "/resources";
+	var fontsPath = appPath + "/resources/fonts";
+	var fontsCssFile = appPath + "/resources/css/fonts.css";
 
 	/* Files matching the following patterns will be checked by JSHint and JSCS */
 	var lintJs = [
@@ -77,6 +79,21 @@ module.exports = function (grunt) {
 			}
 		},
 
+		googlefonts: {
+			build: {
+				options: {
+					fontPath: fontsPath,
+					cssFile: fontsCssFile,
+					fonts: [
+						{
+							family: "Open Sans",
+							styles: [400, 700]
+						}
+					]
+				}
+			}
+		},
+
 		jscs: {
 			all: {
 				src: lintJs
@@ -92,6 +109,26 @@ module.exports = function (grunt) {
 			},
 			options: {
 				jshintrc: ".jshintrc"
+			}
+		},
+
+		replace: {
+			fontcss: {
+				/* Fix font paths in CSS */
+				options: {
+					patterns: [
+						{
+							match: new RegExp(fontsPath + "/?", "g"),
+							replacement: "../fonts/"
+						}
+					]
+				},
+				files: [
+					{
+						src: fontsCssFile,
+						dest: fontsCssFile
+					}
+				]
 			}
 		},
 
@@ -179,6 +216,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask("build", function (env) {
 		grunt.task.run("version");
+		grunt.task.run("fonts");
 		/* use prod env by default for build task */
 		setSenchaEnv(env ? env : "prod");
 		grunt.task.run("shell:build");
@@ -186,6 +224,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask("run", function (env, host) {
 		grunt.task.run("version");
+		grunt.task.run("fonts");
 		/* use dev env by default for run task */
 		setSenchaEnv(env ? env : "dev");
 		grunt.config("hostname", host || "localhost");
@@ -270,13 +309,20 @@ module.exports = function (grunt) {
 		});
 	});
 
+	grunt.registerTask("fonts", function () {
+		grunt.task.run("googlefonts");
+		grunt.task.run("replace:fontcss");
+	});
+
 	grunt.loadNpmTasks("grunt-connect-proxy");
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-connect");
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-watch");
+	grunt.loadNpmTasks("grunt-google-fonts");
 	grunt.loadNpmTasks("grunt-jscs");
 	grunt.loadNpmTasks("grunt-newer");
+	grunt.loadNpmTasks("grunt-replace");
 	grunt.loadNpmTasks("grunt-shell");
 	grunt.loadNpmTasks("grunt-war");
 
