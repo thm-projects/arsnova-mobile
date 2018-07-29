@@ -10,7 +10,7 @@ Before you continue, please ensure that all requirements are installed properly.
 
 The download links to the referred requirements, as well as the installation guide for Sencha Cmd can be found here:
 
-- [Download Sencha Cmd](http://www.sencha.com/products/sencha-cmd/)
+- [Download Sencha Cmd](https://www.sencha.com/products/extjs/cmd-download/)
 - [Sencha Cmd documentation](http://docs.sencha.com/cmd/5.x/intro_to_cmd.html) (see subsection "System Setup")
 
 
