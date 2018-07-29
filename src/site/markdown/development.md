@@ -8,11 +8,9 @@ The basic requirement for installing and using Sencha Cmd is the presence of Rub
 Additionally, you need [Grunt](http://gruntjs.com/) to build the frontend which runs on top of NodeJS.
 Before you continue, please ensure that all requirements are installed properly.
 
-The download links to the referred requirements, as well as the installation guide for Sencha Cmd can be found here:
+The download links to Sencha Cmd can be found here:
 
 - [Download Sencha Cmd](https://www.sencha.com/products/extjs/cmd-download/)
-- [Sencha Cmd documentation](http://docs.sencha.com/cmd/5.x/intro_to_cmd.html) (see subsection "System Setup")
-
 
 ## Building
 
