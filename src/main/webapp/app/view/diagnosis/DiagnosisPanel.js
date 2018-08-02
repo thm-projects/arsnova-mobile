@@ -168,12 +168,12 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 				}]
 			}, {
 				style: 'margin-top: 30px',
-				html: "<div class='gravure'>Made by <a href='http://www.thm.de/' class='thmlink' target='_blank'><span class='thm-lettering'>THM</span></a></div>",
+				html: "<div class='gravure'>Made by <a href='https://www.thm.de/' class='thmlink' target='_blank'><span class=''>THM</span> | Technische Hochschule Mittelhessen</a></div>",
 				cls: null
 			}, {
 				width: 125,
 				style: 'margin: 30px auto',
-				html: "<a href='http://www.gnu.org/licenses/gpl-3.0.de.html' target='_blank'><img src='resources/images/gpl-v3-logo.svg' width='120' height='60'></a>"
+				html: "<a href='https://www.gnu.org/licenses/gpl-3.0.de.html' target='_blank'><img src='resources/images/gpl-v3-logo.svg' width='120' height='60'></a>"
 			}]
 		});
 
