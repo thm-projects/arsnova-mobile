@@ -174,6 +174,14 @@ Ext.define("ARSnova.controller.QuestionImport", {
 		Ext.Viewport.add(mask);
 		mask.show();
 
+		/* Remove Excel-specific header */
+		var headerMatch = csv.match('^sep=..?(\r\n|\n|\r)');
+		if (headerMatch) {
+			var eol = headerMatch[1];
+			var start = csv.indexOf(eol) + eol.length;
+			csv = csv.substr(start);
+		}
+
 		var json = ARSnova.utils.CsvUtil.csvToJson(csv);
 		if (json) {
 			json = JSON.parse(json);
