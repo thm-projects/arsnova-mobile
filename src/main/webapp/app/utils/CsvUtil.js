@@ -42,9 +42,11 @@ Ext.define('ARSnova.utils.CsvUtil', {
 	* @param  {Object} json Json object to parse.
 	* @return {String}      Parsed json object as csv string.
 	*/
-	jsonToCsv: function (json) {
+	jsonToCsv: function (json, delimiter) {
+		var config = {};
 		if (!json) { return; }
-		var unparsed = Papa.unparse(json);
+		config.delimiter = delimiter || '';
+		var unparsed = Papa.unparse(json, config);
 		return unparsed;
 	}
 });

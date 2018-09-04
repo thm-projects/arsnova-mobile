@@ -824,6 +824,11 @@
 				QUESTIONS_EXPORT_MSBOX_INFO: "Die Inhalte können als CSV-Datei exportiert werden. Fragen vom Typ \"Hot Spots\" werden übersprungen. Für den gesamten Export der Session steht der Export auf der Sessionübersichtseite zur Verfügung.",
 				QUESTIONS_CSV_EXPORT_ANSWERS_TIME: "Uhrzeit",
 				QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT: "Antwortthema",
+				QUESTIONS_CSV_EXPORT_DELIMITER_INFO: "Bitte wählen Sie ein Trennzeichen.",
+				QUESTIONS_CSV_EXPORT_COMMA: "Komma (Standard)",
+				QUESTIONS_CSV_EXPORT_SEMICOLON: "Semikolon",
+				QUESTIONS_CSV_EXPORT_TABULATOR: "Tabulator",
+				QUESTIONS_CSV_EXPORT_EXCEL: "Microsoft Excel",
 
 				/* content import*/
 				QUESTIONS_IMPORT_BUTTON: "Fragen<br>importieren",
@@ -1705,6 +1710,11 @@
 				QUESTIONS_EXPORT_MSBOX_INFO: "The content can be exported as a CSV file. \"Hot Spots\" questions won't be exported. For exporting the whole session please use the export function on the session overview.",
 				QUESTIONS_CSV_EXPORT_ANSWERS_TIME: "Time",
 				QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT: "Answer Subject",
+				QUESTIONS_CSV_EXPORT_DELIMITER_INFO: "Please select a delimiter.",
+				QUESTIONS_CSV_EXPORT_COMMA: "Comma (Default)",
+				QUESTIONS_CSV_EXPORT_SEMICOLON: "Semicolon",
+				QUESTIONS_CSV_EXPORT_TABULATOR: "Tabulator",
+				QUESTIONS_CSV_EXPORT_EXCEL: "Microsoft Excel",
 
 				/* content import */
 				QUESTIONS_IMPORT_BUTTON: "Import<br>content",
