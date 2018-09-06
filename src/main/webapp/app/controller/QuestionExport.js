@@ -29,12 +29,12 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		this.saveFileOnFileSystem(csv, this.filename());
 	},
 
-	exportQuestions: function (controller) {
+	exportQuestions: function (controller, delimiter, excel) {
 		var me = this;
 		controller.getQuestions(sessionStorage.getItem('keyword'), {
 			success: function (response) {
 				var questions = Ext.decode(response.responseText);
-				me.parseJsonToCsv(questions);
+				me.parseJsonToCsv(questions, delimiter, excel);
 			}
 		});
 	},
@@ -154,9 +154,12 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		this.makeAndClickDownloadLink(blob, localStorage.getItem('shortName') + "_" + questionSubject + ".json");
 	},
 
-	parseJsonToCsv: function (records) {
+	parseJsonToCsv: function (records, delimiter, excel) {
 		var preparsedQuestion = this.preparseJsontoCsv(records);
-		var csv = ARSnova.utils.CsvUtil.jsonToCsv(preparsedQuestion);
+		var csv = ARSnova.utils.CsvUtil.jsonToCsv(preparsedQuestion, delimiter);
+		if (excel) {
+			csv = 'sep=' + delimiter + '\r\n' + csv;
+		}
 		this.saveFileOnFileSystem(csv, this.filename());
 	},
 

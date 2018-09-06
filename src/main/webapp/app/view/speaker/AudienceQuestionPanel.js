@@ -233,7 +233,13 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 							console.warn("Invalid charset: UTF-8 expected");
 						}
 
-						ARSnova.app.getController('QuestionImport').importCsvFile(data);
+						if (self.getVariant() === 'flashcard') {
+							self.loadFilePanel.hide();
+							ARSnova.app.getController('FlashcardImport')
+								.importFile(data, this.importCsv, this.importFlashcards);
+						} else {
+							ARSnova.app.getController('QuestionImport').importCsvFile(data);
+						}
 
 						this.importCsv = false;
 						this.importFlashcards = false;
@@ -301,8 +307,69 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				items: [{
 					text: Messages.CSV_FILE,
 					handler: function () {
-						ARSnova.app.getController('QuestionExport').exportQuestions(this.getController());
+						Ext.Viewport.add(this.exportCsvPanel);
+						this.exportCsvPanel.show();
 						this.exportFilePanel.hide();
+					}
+				}]
+			}]
+		});
+
+		this.exportCsvPanel = Ext.create('Ext.MessageBox', {
+			hideOnMaskTap: true,
+			cls: 'importExportFilePanel',
+			title: Messages.QUESTIONS_EXPORT_MSBOX_TITLE,
+			items: [{
+				xtype: 'button',
+				iconCls: 'icon-close',
+				cls: 'closeButton',
+				handler: function () { this.getParent().hide(); }
+			}, {
+				html: Messages.QUESTIONS_CSV_EXPORT_DELIMITER_INFO,
+				cls: 'x-msgbox-text'
+			}, {
+				xtype: 'container',
+				layout: 'vbox',
+				defaults: {
+					scope: this
+				},
+				items: [
+					{
+						xtype: 'fieldset',
+						itemId: 'csvDelimiterField',
+						defaults: {
+							xtype: 'radiofield',
+							labelWidth: '60%'
+						},
+						items: [{
+							name: 'delimiter',
+							label: Messages.QUESTIONS_CSV_EXPORT_COMMA,
+							value: ',',
+							checked: true
+						}, {
+							name: 'delimiter',
+							label: Messages.QUESTIONS_CSV_EXPORT_SEMICOLON,
+							value: ';'
+						}, {
+							name: 'delimiter',
+							label: Messages.QUESTIONS_CSV_EXPORT_TABULATOR,
+							value: '\t'
+						}]
+					}, {
+						xtype: 'togglefield',
+						itemId: 'excelField',
+						name: 'excel',
+						label: Messages.QUESTIONS_CSV_EXPORT_EXCEL,
+						labelWidth: '60%'
+					}, {
+					xtype: 'button',
+					ui: 'action',
+					text: Messages.EXPORT_BUTTON_LABEL,
+					handler: function () {
+						var csvDelimiterField = this.exportCsvPanel.down('#csvDelimiterField');
+						var excelField = this.exportCsvPanel.down('#excelField');
+						this.exportCsv(csvDelimiterField.items.items[0].getGroupValue(), excelField.getValue());
+						this.exportCsvPanel.hide();
 					}
 				}]
 			}]
@@ -486,6 +553,16 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		this.listTotalRange = this.questionList.getTotalRange();
 		this.questionList.restoreOffsetState();
 		ARSnova.app.taskManager.stop(this.updateAnswerCount);
+	},
+
+	exportCsv: function (delimiter, excel) {
+		if (this.getVariant() === 'flashcard') {
+			ARSnova.app.getController('FlashcardExport')
+				.exportFlashcards(this.getController(), 'csv');
+		} else {
+			ARSnova.app.getController('QuestionExport')
+				.exportQuestions(this.getController(), delimiter, excel);
+		}
 	},
 
 	getQuestions: function (callback) {
