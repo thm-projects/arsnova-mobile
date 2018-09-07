@@ -421,15 +421,12 @@ Ext.define('ARSnova.view.speaker.QuestionDetailsPanel', {
 					if (panel.questionObj.questionType === 'slide' ||
 						panel.questionObj.questionType === 'flashcard') {
 						panel.abstentionPart.hide();
-					} else if (panel.questionObj.questionType === 'grid') {
-						panel.uploadView.show();
 					}
 
 					if (questionValues.gridType === "moderation") {
 						panel.abstentionPart.setHidden(true);
 						panel.textCheckerPart.setHidden(true);
 						panel.abstentionAlternative.show();
-						panel.textCheckerPart.show();
 					} else {
 						panel.abstentionAlternative.hide();
 					}
