@@ -468,14 +468,15 @@ Ext.define('ARSnova.view.Question', {
 			var front = this.questionPanel;
 			var container = this.questionContainer;
 			var hiddenEl = container.isFlipped ? front : back;
+			var shownEl = !container.isFlipped ? front : back;
 			var heightBack, heightFront;
 
 			front.setHeight('initial');
 			back.setHeight('initial');
-			hiddenEl.setStyle({display: 'block', visibility: 'hidden'});
+			hiddenEl.setHidden(true);
+			shownEl.setHidden(false);
 			heightBack = back.element.dom.getBoundingClientRect().height;
 			heightFront = front.element.dom.getBoundingClientRect().height;
-			hiddenEl.setStyle({display: '', visibility: ''});
 
 			if (!heightFront || !heightBack) {
 				return;
@@ -496,8 +497,9 @@ Ext.define('ARSnova.view.Question', {
 	prepareFlashcardQuestion: function () {
 		var me = this;
 		this.answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
-			style: 'visibility: hidden;'
+			style: 'display: none;'
 		});
+		this.questionContainer.add(this.answerPanel);
 
 		// add css classes for 3d flip animation
 		this.formPanel.addCls('flashcardContainer');
@@ -506,12 +508,17 @@ Ext.define('ARSnova.view.Question', {
 		this.questionPanel.addCls('front');
 		this.answerPanel.addCls('back');
 
+		this.answerPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
+
 		if (ARSnova.app.getController('FlashcardQuestions').flip) {
 			this.questionContainer.addCls('flipped');
+			this.questionPanel.setHidden(true);
+			this.answerPanel.setHidden(false);
+		} else {
+			this.questionPanel.setHidden(false);
+			this.answerPanel.setHidden(true);
 		}
 
-		this.questionContainer.add(this.answerPanel);
-		this.answerPanel.setContent(this.questionObj.possibleAnswers[0].text, true, true);
 		this.flashcardToggleButton = Ext.create('Ext.Button', {
 			cls: 'saveButton centered',
 			ui: 'confirm',
@@ -530,6 +537,8 @@ Ext.define('ARSnova.view.Question', {
 		if (!this.questionContainer.isFlipped) {
 			this.questionContainer.isFlipped = true;
 			this.questionContainer.addCls('flipped');
+			this.questionPanel.setHidden(true);
+			this.answerPanel.setHidden(false);
 			this.flashcardToggleButton.setText(Messages.HIDE_FLASHCARD_ANSWER);
 
 			me.getUserAnswer().then(function (answer) {
@@ -542,6 +551,8 @@ Ext.define('ARSnova.view.Question', {
 		} else {
 			this.questionContainer.isFlipped = false;
 			this.questionContainer.removeCls('flipped');
+			this.questionPanel.setHidden(false);
+			this.answerPanel.setHidden(true);
 			this.flashcardToggleButton.setText(Messages.SHOW_FLASHCARD_ANSWER);
 
 			if (!this.viewOnly) {
