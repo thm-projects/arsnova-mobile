@@ -23,19 +23,11 @@
 }
 
 .questionPanel.flashcard {
-	-webkit-transform-style: preserve-3d;
-	-webkit-transition: all 0.5s;
-	transform-style: preserve-3d;
-	transition: all 0.5s;
-
 	border-color: transparent;
 	margin-right: 20px;
 	padding: 0;
 
 	.front, .back {
-		-webkit-backface-visibility: hidden;
-		backface-visibility: hidden;
-		position: absolute;
 		overflow: visible;
 		padding: 35px;
 		width: 100%;
@@ -52,11 +44,6 @@
 		p {
 			color: $flashcard-front-font-color;
 		}
-
-		&:after {
-			content: '1';
-			color: $flashcard-front-font-color;
-		}
 	}
 
 	.back {
@@ -70,11 +57,6 @@
 		p {
 			color: $flashcard-back-font-color;
 		}
-
-		&:after {
-			content: '2';
-			color: $flashcard-back-font-color;
-		}
 	}
 
 	.back, .front {
@@ -83,7 +65,6 @@
 			bottom: 1px;
 			opacity: 0.3;
 			font-size: 0.75em;
-			position: absolute;
 		}
 	}
 
@@ -101,10 +82,5 @@
 		.videoImageContainer:after, .videoImageContainer > img {
 			pointer-events: none;
 		}
-	}
-
-	&.flipped, .back {
-		transform: rotateX(180deg);
-		-webkit-transform: rotateX(180deg);
 	}
  }

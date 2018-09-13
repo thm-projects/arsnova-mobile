@@ -402,7 +402,7 @@
 				ANSWERS: "Antworten",
 				ANSWERS_SHOWN: "x angezeigt",
 				ANSWER_OPTIONS: "Antwortoptionen",
-				ANSWERS_STATISTICS: "Antwort-Statisiken",
+				ANSWERS_STATISTICS: "Antwort-Statistiken",
 				ENTER_ANSWER_OPTION: "Antwortoption",
 				ANSWERS_PER_QUESTION: "Antworten pro Frage",
 				ANSWER: "Antwort",
