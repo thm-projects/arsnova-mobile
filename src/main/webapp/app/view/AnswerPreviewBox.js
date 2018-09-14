@@ -226,6 +226,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 	prepareFlashcardQuestion: function (options) {
 		this.remove(this.mainPanel, false);
 		this.mainPanel.remove(this.confirmButton, false);
+		this.questionPanel.remove(this.titlePanel);
 		this.answerPanel = Ext.create('ARSnova.view.MathJaxMarkDownPanel', {
 			style: 'word-wrap: break-word;'
 		});
@@ -245,6 +246,7 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		this.questionPanel.addCls('front');
 		this.answerPanel.addCls('back');
 		this.answerPanel.setContent(options.answers[0].text, true, true);
+		this.answerPanel.setHidden(true);
 
 		this.formPanel.add([{
 			xtype: 'button',
@@ -254,18 +256,20 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 			handler: function (button) {
 				if (!this.questionContainer.isFlipped) {
 					this.questionContainer.isFlipped = true;
-					this.questionContainer.addCls('flipped');
+					this.questionPanel.setHidden(true);
+					this.answerPanel.setHidden(false);
 					button.setText(Messages.HIDE_FLASHCARD_ANSWER);
 				} else {
 					this.questionContainer.isFlipped = false;
-					this.questionContainer.removeCls('flipped');
+					this.questionPanel.setHidden(false);
+					this.answerPanel.setHidden(true);
 					button.setText(Messages.SHOW_FLASHCARD_ANSWER);
 				}
 			},
 			scope: this
 		}, this.confirmButton]);
 
-		this.add(this.formPanel, this.mainPanel);
+		this.add(this.formPanel);
 	},
 
 	resizeFlashcardContainer: function () {
@@ -273,14 +277,15 @@ Ext.define('ARSnova.view.AnswerPreviewBox', {
 		var front = this.questionPanel;
 		var container = this.questionContainer;
 		var hiddenEl = container.isFlipped ? front : back;
+		var shownEl = !container.isFlipped ? front : back;
 		var heightBack, heightFront;
 
 		back.setHeight('initial');
 		front.setHeight('initial');
-		hiddenEl.setStyle({display: 'block', position: 'absolute'});
+		hiddenEl.setHidden(true);
+		shownEl.setHidden(false);
 		heightBack = back.element.dom.getBoundingClientRect().height;
 		heightFront = front.element.dom.getBoundingClientRect().height;
-		hiddenEl.setStyle({display: '', position: '', visibility: ''});
 
 		if (!heightFront || !heightBack) {
 			return;
