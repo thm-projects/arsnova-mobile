@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.6.2
+Bug fixes:
+* The flashcard flip animation is removed due to incompatibility with firefox
+* CSV content export now supports excel-specific options
+* Fixes an i18n error in the german translation
+* Fixes the edit view for grid questions
+
 ## 2.6.1
 Improvements:
 * The web font is now included so modern browsers should no longer fall back to
