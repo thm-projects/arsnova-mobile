@@ -500,7 +500,7 @@ Ext.define('ARSnova.view.user.InClass', {
 	showNotification: function (questionIds, variant, newRound, round) {
 		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 
-		if (features.lecture && variant === 'lecture' && !features.slides ||
+		if (features.lecture && variant === 'lecture' ||
 			features.jitt && variant === 'preparation') {
 			this.showNotificationMessage(questionIds, variant, newRound, round);
 		}
