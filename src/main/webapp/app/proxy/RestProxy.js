@@ -1296,5 +1296,14 @@ Ext.define('ARSnova.proxy.RestProxy', {
 			jsonData: motdlist,
 			success: function (response) {}
 		});
+	},
+
+	deleteUserAccount: function (username, callbacks) {
+		this.arsjax.request({
+			url: "user/" + encodeURIComponent(username) + "/",
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
 	}
 });

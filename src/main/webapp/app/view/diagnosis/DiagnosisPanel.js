@@ -19,7 +19,7 @@
 Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 	extend: 'Ext.Container',
 
-	requires: ['ARSnova.view.diagnosis.StatisticsPanel', 'ARSnova.view.diagnosis.UseCasePanel'],
+	requires: ['ARSnova.view.diagnosis.DeleteAccountPanel', 'ARSnova.view.diagnosis.StatisticsPanel', 'ARSnova.view.diagnosis.UseCasePanel'],
 
 	config: {
 		fullscreen: true,
@@ -142,6 +142,13 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 								window.location.reload(true);
 							}
 						});
+					}
+				}, {
+					text: Messages.DELETE_ACCOUNT,
+					handler: function () {
+						var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
+						me.deleteAccountPanel = Ext.create('ARSnova.view.diagnosis.DeleteAccountPanel');
+						me.animateActiveItem(me.deleteAccountPanel, 'slide');
 					}
 				}]
 			}, {
