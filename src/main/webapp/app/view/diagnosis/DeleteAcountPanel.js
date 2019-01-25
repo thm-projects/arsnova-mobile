@@ -64,8 +64,9 @@ Ext.define('ARSnova.view.diagnosis.DeleteAccountPanel', {
 			items: [this.backButton]
 		});
 
-		this.inClass = Ext.create('Ext.form.FormPanel', {
+		this.userDeletePanel = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
+			hidden: true,
 			items: [{
 				xtype: 'label',
 				html: Messages.DELETE_ACCOUNT_INFO
@@ -88,7 +89,48 @@ Ext.define('ARSnova.view.diagnosis.DeleteAccountPanel', {
 			}]
 		});
 
-		this.add([this.toolbar, this.inClass]);
+		this.usernameField = Ext.create('Ext.field.Text', {
+			label: Messages.USER_ACCOUNT
+		});
+		this.adminDeletePanel = Ext.create('Ext.form.FormPanel', {
+			scrollable: null,
+			hidden: true,
+			items: [{
+				xtype: 'label',
+				html: Messages.DELETE_ACCOUNT_INFO_ADMIN
+			},
+			this.usernameField,
+			{
+				xtype: 'button',
+				ui: 'decline',
+				cls: 'centerButton',
+				text: Messages.DELETE,
+				handler: function () {
+					var login = localStorage.getItem('login');
+					var username = this.usernameField.getValue();
+					if (username.length === 0) {
+						return;
+					}
+					ARSnova.app.restProxy.deleteUserAccount(username, {
+						success: Ext.bind(function () {
+							if (login === username) {
+								this.logout(username);
+							}
+							this.showSuccessDialog();
+						}, this),
+						failure: this.showErrorDialog
+					});
+				},
+				scope: this
+			}]
+		});
+
+		this.add([this.toolbar, this.userDeletePanel, this.adminDeletePanel]);
+
+		this.on('activate', function () {
+			this.userDeletePanel.setHidden(ARSnova.app.isAdmin);
+			this.adminDeletePanel.setHidden(!ARSnova.app.isAdmin);
+		});
 	},
 
 	showSuccessDialog: function () {
