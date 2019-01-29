@@ -39,5 +39,40 @@ Ext.define("ARSnova.controller.SessionImport", {
 			}
 		});
 		return promise;
+	},
+
+	/**
+	 * Creates a copy of a public pool session.
+	 *
+	 * @param sessionkey Session key of the public pool session
+	 */
+	copySessionFromPublicPool: function (sessionkey, sessionAttributes) {
+		var me = this;
+
+		var hideLoadMask = ARSnova.app.showLoadMask(Messages.LOAD_MASK_SESSION_PP_CLONE, 240000);
+		var showMySessionsPanel = function () {
+			// forward to session panel
+			var hTP = ARSnova.app.mainTabPanel.tabPanel.homeTabPanel;
+			hTP.animateActiveItem(hTP.mySessionsPanel, {
+				type: 'slide',
+				direction: 'right',
+				duration: 700
+			});
+			hideLoadMask();
+		};
+		var errorHandler = function (error) {
+			hideLoadMask();
+		};
+
+		ARSnova.app.restProxy.copySessionFromPublicPool(
+			sessionkey, sessionAttributes, {
+				success: function (response) {
+					showMySessionsPanel();
+				},
+				failure: function () {
+					console.log("Could not copy public pool session.");
+				}
+			}
+		);
 	}
 });

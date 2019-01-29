@@ -1081,6 +1081,16 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	copySessionFromPublicPool: function (keyword, sessionAttributes, callbacks) {
+		this.arsjax.request({
+			url: "session/" + keyword + "/copyfrompublicpool",
+			method: "POST",
+			jsonData: sessionAttributes,
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	getSubjectSort: function (sessionKeyword, isPreparation, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/subjectsort?sessionkey=" + sessionKeyword +
