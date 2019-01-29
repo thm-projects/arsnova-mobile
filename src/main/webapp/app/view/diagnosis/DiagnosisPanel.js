@@ -56,6 +56,10 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			ARSnova.app.sessionModel.un(ARSnova.app.sessionModel.events.sessionLeave, this.leaveSessionEvent);
 		}, this);
 
+		this.on('painted', function () {
+			this.adminDeleteSessionButton.setHidden(!ARSnova.app.isAdmin);
+		});
+
 		this.backButton = Ext.create('Ext.Button', {
 			text: Messages.BACK,
 			ui: 'back',
@@ -89,6 +93,15 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 			}
 		});
 
+		this.adminDeleteSessionButton = Ext.create('Ext.Button', {
+			text: Messages.DELETE_SESSION_ADMIN,
+			hidden: true,
+			handler: function () {
+				var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;
+				me.deleteSessionPanel = Ext.create('ARSnova.view.diagnosis.DeleteSessionPanel');
+				me.animateActiveItem(me.deleteSessionPanel, 'slide');
+			}
+		});
 		this.inClass = Ext.create('Ext.form.FormPanel', {
 			scrollable: null,
 			items: [{
@@ -143,7 +156,9 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 							}
 						});
 					}
-				}, {
+				},
+				this.adminDeleteSessionButton,
+				{
 					text: Messages.DELETE_ACCOUNT,
 					handler: function () {
 						var me = ARSnova.app.mainTabPanel.tabPanel.diagnosisPanel;

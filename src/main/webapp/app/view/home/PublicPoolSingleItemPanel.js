@@ -232,12 +232,22 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			}
 		});
 
+		this.adminDeleteButton = Ext.create('ARSnova.view.MatrixButton', {
+			text: Messages.DELETE,
+			buttonConfig: 'icon',
+			imageCls: 'icon-close',
+			scope: this,
+			handler: function () {
+				me.deleteSession();
+			}
+		});
+
 		this.matrixButtonPanel = Ext.create('Ext.Panel', {
 			layout: {
 				type: 'hbox',
 				pack: 'center'
 			},
-			items: [this.copyButton]
+			items: [this.copyButton, this.adminDeleteButton]
 		});
 
 		this.creatorFieldSet = Ext.create('Ext.form.FieldSet', {
@@ -275,6 +285,10 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 			this.toolbar,
 			this.contentForm
 		]);
+
+		this.on('activate', function () {
+			this.adminDeleteButton.setHidden(!ARSnova.app.isAdmin);
+		});
 	},
 
 	getBack: function () {
@@ -308,5 +322,15 @@ Ext.define('ARSnova.view.home.PublicPoolSingleItemPanel', {
 		customSessionAttributes.name = this.sessionName.getValue();
 		customSessionAttributes.shortName = this.sessionShortName.getValue();
 		ARSnova.app.getController("SessionImport").copySessionFromPublicPool(this.getSession().keyword, customSessionAttributes);
+	},
+
+	deleteSession: function () {
+		Ext.Msg.confirm(Messages.DELETE_SESSION_TITLE, Messages.DELETE_SESSION_NOTICE, function (buttonId) {
+			if (buttonId === 'yes') {
+				ARSnova.app.restProxy.delSession(this.getSession().keyword, {
+					success: Ext.bind(this.getBack, this)
+				});
+			}
+		}, this);
 	}
 });
