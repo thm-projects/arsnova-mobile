@@ -29,49 +29,8 @@ Ext.define("ARSnova.controller.SessionImport", {
 	 * Import a single session from a JSON file.
 	 */
 	importSession: function (jsonContent) {
-		var me = this;
-
-		var session = {
-			name: jsonContent.session.name,
-			shortName: jsonContent.session.shortName,
-			active: jsonContent.session.active,
-			sessionFeature: jsonContent.sessionFeature,
-			publicPool: jsonContent.session.publicPool
-		};
-
-		jsonContent.questions.forEach(function (q) {
-			q.answers = q.answers || [];
-			q.answers = q.answers.map(function (a) {
-				return {
-					answerSubject: a.answerSubject,
-					answerText: a.answerText,
-					abstention: a.abstention
-				};
-			}).filter(function (a) {
-				// remove answers that do not have any content
-				return a.answerSubject || a.answerText || a.abstention;
-			});
-		});
-
-		var feedbackQuestions = jsonContent.feedbackQuestions.map(function (q) {
-			return {
-				subject: q.subject,
-				text: q.text,
-				timestamp: q.timestamp,
-				read: q.read
-			};
-		});
-
-		var data = {
-			session: session,
-			questions: jsonContent.questions,
-			feedbackQuestions: feedbackQuestions,
-			motds: jsonContent.motds
-		};
-
 		var promise = new RSVP.Promise();
-
-		ARSnova.app.restProxy.importSession(data, {
+		ARSnova.app.restProxy.importSession(jsonContent, {
 			success: function () {
 				promise.resolve();
 			},
