@@ -298,6 +298,7 @@ Ext.define('ARSnova.view.home.SessionExportToPublicPanel', {
 
 		this.exportOptionalOptions = Ext.create('Ext.form.FieldSet', {
 			title: 'Logo (max. ' + maxFileSize + ' kb)',
+			hidden: !maxFileSize || maxFileSize < 0,
 			items: [{
 				xtype: 'fieldset',
 				layout: 'hbox',
