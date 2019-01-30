@@ -80,13 +80,18 @@ Ext.define('ARSnova.view.LoginPanel', {
 			});
 			for (i = 0; i < services.length; i++) {
 				service = services[i];
-				imageSrc = service.image ? imagePath + service.image : "btn_" + service.id;
-				imageCls = "login-icon-" + service.id;
+				if (service.image) {
+					imageSrc = /^(http(s)?:|\/)/.test(service.image) ? service.image : imagePath + service.image;
+				} else {
+					imageSrc = null;
+				}
+				imageCls = !imageSrc ? "login-icon-" + service.id : '';
 				button = {
 					xtype: 'matrixbutton',
 					id: 'login-select-' + service.id,
 					text: "guest" === service.id ? Messages.GUEST : service.name,
 					value: service,
+					buttonConfig: imageSrc ? 'image' : 'icon',
 					image: imageSrc,
 					imageCls: imageCls,
 					handler: buttonHandler

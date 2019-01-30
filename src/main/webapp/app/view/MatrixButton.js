@@ -145,37 +145,15 @@ Ext.define('ARSnova.view.MatrixButton', {
 	 * render image to matrixbutton
 	 */
 	useImageConfiguration: function () {
-		var me = this,
-			promise = new RSVP.Promise(),
-			retina = window.devicePixelRatio >= 2,
-			imagefile = this.getImage() + ".png",
-			imagefile2x = this.getImage() + "@2x.png";
-
-		if (this.getImage().indexOf("/") !== 0) {
-			imagefile = "resources/images/" + imagefile;
-			imagefile2x = "resources/images/" + imagefile2x;
-		}
-
-		if (retina) {
-			var img = new Image();
-			img.onload = function imageExists() {
-				promise.resolve(imagefile2x);
-			};
-			img.onerror = function imageNotFound() {
-				promise.resolve(imagefile);
-			};
-			img.src = imagefile2x;
-		} else {
-			promise.resolve(imagefile);
-		}
-
-		promise.then(function (theImage) {
-			this.iconBtnImg = Ext.create('Ext.Img', {
-				src: theImage,
-				cls: "iconBtnImg",
-				renderTo: me.element.select(".iconBtn").elements[0]
-			});
-		});
+		var element = this.element.select(".iconBtn").elements[0];
+		this.iconBtnImg = Ext.DomHelper.append(element, {
+			tag: 'div',
+			cls: 'iconBtnImg',
+			style: {
+				background: 'url(' + this.getImage() + ') no-repeat center center',
+				backgroundSize: 'contain'
+			}
+		}, true);
 	},
 
 	addImageCls: function (cls) {
