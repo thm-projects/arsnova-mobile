@@ -94,11 +94,11 @@ Ext.define('ARSnova.view.LoginPanel', {
 					buttonConfig: imageSrc ? 'image' : 'icon',
 					image: imageSrc,
 					imageCls: imageCls,
-					handler: buttonHandler
+					handler: buttonHandler,
+					style: {
+						margin: '0px 10px 0 10px'
+					}
 				};
-				if (i % 2 === 1) {
-					button.style = "margin-left: 20px";
-				}
 				me.config.buttons.push({
 					allowedRoles: service.allowedRoles,
 					button: button
