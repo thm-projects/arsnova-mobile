@@ -144,7 +144,7 @@ Ext.define('ARSnova.view.LoginPanel', {
 		}
 		for (i = 0; i < buttons.length; i++) {
 			items.push(buttons[i]);
-			if (i % 2 === 1 || i === this.getButtons().length - 1) {
+			if (i % 2 === 1 || i === buttons.length - 1) {
 				buttonPanels.push(Ext.create('Ext.Panel', {
 						id: 'buttonPanel-' + i,
 						xtype: 'container',
