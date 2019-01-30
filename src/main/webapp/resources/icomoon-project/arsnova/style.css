@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'arsnova';
-  src:  url('fonts/arsnova.eot?weqvbq');
-  src:  url('fonts/arsnova.eot?weqvbq#iefix') format('embedded-opentype'),
-    url('fonts/arsnova.ttf?weqvbq') format('truetype'),
-    url('fonts/arsnova.woff?weqvbq') format('woff'),
-    url('fonts/arsnova.svg?weqvbq#arsnova') format('svg');
+  src:  url('fonts/arsnova.eot?b2setc');
+  src:  url('fonts/arsnova.eot?b2setc#iefix') format('embedded-opentype'),
+    url('fonts/arsnova.ttf?b2setc') format('truetype'),
+    url('fonts/arsnova.woff?b2setc') format('woff'),
+    url('fonts/arsnova.svg?b2setc#arsnova') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -38,12 +38,6 @@
 }
 .icon-thm-full:before {
   content: "\e603";
-}
-.icon-radar:before {
-  content: "\72";
-}
-.icon-thm:before {
-  content: "\74";
 }
 .icon-copy:before {
   content: "\e92c";
@@ -89,6 +83,18 @@
 }
 .icon-flip:before {
   content: "\ea2e";
+}
+.icon-google:before {
+  content: "\ea88";
+}
+.icon-twitter:before {
+  content: "\ea96";
+}
+.icon-radar:before {
+  content: "\72";
+}
+.icon-thm:before {
+  content: "\74";
 }
 .icon-comment:before {
   content: "\f075";
@@ -189,9 +195,6 @@
 .icon-exclamation:before {
   content: "\f12a";
 }
-.icon-twitter:before {
-  content: "\f081";
-}
 .icon-gear:before {
   content: "\e605";
 }
@@ -212,9 +215,6 @@
 }
 .icon-facebook:before {
   content: "\e60f";
-}
-.icon-googleplus:before {
-  content: "\e611";
 }
 .icon-unlock2:before {
   content: "\e612";
@@ -246,4 +246,3 @@
 .icon-flashcard-front:before {
   content: "\f24a";
 }
-

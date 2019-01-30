@@ -91,9 +91,10 @@
 @include icon("login-icon-arsnova" , "\72", "arsnova");
 @include icon("login-icon-cas" , "\e613", "arsnova");
 @include icon("login-icon-ldap" , "\e613", "arsnova");
-@include icon("login-icon-twitter" , "\f081", "arsnova");
+@include icon("login-icon-oidc" , "\e613", "arsnova");
+@include icon("login-icon-twitter" , "\ea96", "arsnova");
 @include icon("login-icon-facebook" , "\e60f", "arsnova");
-@include icon("login-icon-google" , "\e611", "arsnova");
+@include icon("login-icon-google" , "\ea88", "arsnova");
 
 @include icon("icon-miniatur" , "\f00a", "arsnova");
 @include icon("icon-horizontal-list" , "\f0c9", "arsnova");
@@ -385,16 +386,24 @@
 		margin: 16px 0px 0 19px !important;
 	}
 
-	.login-icon-ldap {
+	.login-icon-cas, .login-icon-ldap, .login-icon-oidc {
 		margin: 16px 0 0 10px !important;
 		font-size: 46px !important;
 	}
 
-	.login-icon-twitter,
-	.login-icon-facebook,
+	.login-icon-facebook {
+		top: -5px;
+		font-size: 56px !important;
+	}
+
 	.login-icon-google {
-		margin: 9px 0 0 14px !important;
-		font-size: 60px !important;
+		font-size: 46px !important;
+	}
+
+	.login-icon-twitter {
+		left: -1px;
+		top: -3px;
+		font-size: 52px !important;
 	}
 
 	.icon-timer {
@@ -476,16 +485,12 @@
 		content: "\72";
 	}
 
-	&.login-icon-cas:before {
-		content: "\74";
-	}
-
-	&.login-icon-ldap:before {
+	&.login-icon-cas:before, &.login-icon-ldap:before, &.login-icon-oidc:before {
 		content: "\e613";
 	}
 
 	&.login-icon-twitter:before {
-		content: "\f081";
+		content: "\ea96";
 	}
 
 	&.login-icon-facebook:before {
@@ -493,7 +498,7 @@
 	}
 
 	&.login-icon-google:before {
-		content: "\e611";
+		content: "\ea88";
 	}
 }
 
