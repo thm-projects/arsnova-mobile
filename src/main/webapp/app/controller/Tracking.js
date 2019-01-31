@@ -24,15 +24,15 @@ Ext.define("ARSnova.controller.Tracking", {
 			/* global _paq */
 			/* jshint -W020 */
 			var tracking = ARSnova.app.globalConfig.tracking;
-			if (tracking && "piwik" === tracking.provider) {
+			if (tracking && ["matomo", "piwik"].indexOf(tracking.provider) !== -1) {
 				_paq = [
 					["trackPageView"],
 					["enableLinkTracking"],
-					["setTrackerUrl", tracking.trackerUrl + "piwik.php"],
+					["setTrackerUrl", tracking.trackerUrl + "matomo.php"],
 					["setSiteId", tracking.siteId]
 				];
 				var trackerScript = document.createElement("script");
-				trackerScript.src = tracking.trackerUrl + "piwik.js";
+				trackerScript.src = tracking.trackerUrl + "matomo.js";
 				document.body.appendChild(trackerScript);
 			}
 		});
