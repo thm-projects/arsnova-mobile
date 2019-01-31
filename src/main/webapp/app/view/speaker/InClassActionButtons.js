@@ -40,9 +40,7 @@ Ext.define('ARSnova.view.speaker.InClassActionButtons', {
 			imageCls: 'icon-close',
 			scope: this,
 			handler: function () {
-				var msg = Messages.ARE_YOU_SURE +
-						"<br>" + Messages.DELETE_SESSION_NOTICE;
-				Ext.Msg.confirm(Messages.DELETE_SESSION_TITLE, msg, function (answer) {
+				Ext.Msg.confirm(Messages.DELETE_SESSION_TITLE, Messages.DELETE_SESSION_NOTICE, function (answer) {
 					if (answer === 'yes') {
 						ARSnova.app.showLoadIndicator(Messages.LOAD_MASK_SESSION_DELETE);
 						ARSnova.app.sessionModel.destroy(sessionStorage.getItem('keyword'), {
