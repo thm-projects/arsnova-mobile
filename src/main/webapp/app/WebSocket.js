@@ -122,7 +122,6 @@ Ext.define('ARSnova.WebSocket', {
 			}, this));
 
 			this.socket.on('activeUserCountData', Ext.bind(function (data) {
-				console.debug("Socket.IO: activeUserCountData", data);
 				this.fireEvent("arsnova/socket/activeusercount/update", data);
 			}, this));
 
@@ -135,7 +134,6 @@ Ext.define('ARSnova.WebSocket', {
 					return;
 				}
 
-				console.debug("Socket.IO: feedbackData", data);
 				this.fireEvent("arsnova/socket/feedback/update", data);
 			}, this));
 
@@ -147,17 +145,14 @@ Ext.define('ARSnova.WebSocket', {
 					return;
 				}
 
-				console.debug("Socket.IO: feedbackDataRoundedAverage", average);
 				this.fireEvent(this.events.feedbackAverage, average);
 			}, this));
 
 			this.socket.on('feedbackReset', Ext.bind(function (affectedSessions) {
-				console.debug("Socket.IO: feedbackReset", affectedSessions);
 				this.fireEvent(this.events.feedbackReset, affectedSessions);
 			}, this));
 
 			this.socket.on('lockFeedback', Ext.bind(function (lock) {
-				console.debug("Socket.IO: lockFeedback", lock);
 				this.fireEvent(this.events.lockFeedback, lock);
 			}, this));
 
@@ -167,108 +162,87 @@ Ext.define('ARSnova.WebSocket', {
 			}, this));
 
 			this.socket.on('endPiRound', Ext.bind(function (questionId) {
-				console.debug("Socket.IO: endPiRound", questionId);
 				this.fireEvent(this.events.endPiRound, questionId);
 			}, this));
 
 			this.socket.on('cancelPiRound', Ext.bind(function (questionId) {
-				console.debug("Socket.IO: cancelPiRound", questionId);
 				this.fireEvent(this.events.cancelPiRound, questionId);
 			}, this));
 
 			this.socket.on('resetPiRound', Ext.bind(function (questionId) {
-				console.debug("Socket.IO: resetPiRound", questionId);
 				this.fireEvent(this.events.resetPiRound, questionId);
 			}, this));
 
 			this.socket.on('startDelayedPiRound', Ext.bind(function (object) {
-				console.debug("Socket.IO: startDelayedPiRound", object);
 				this.fireEvent(this.events.startDelayedPiRound, object);
 			}, this));
 
 			this.socket.on('lecturerQuestionAvailable', Ext.bind(function (questions) {
-				console.debug("Socket.IO: lecturerQuestionAvailable", questions);
 				this.fireEvent(this.events.lecturerQuestionAvailable, questions);
 			}, this));
 
 			this.socket.on('lecturerQuestionLocked', Ext.bind(function (questions) {
-				console.debug("Socket.IO: lecturerQuestionLocked", questions);
 				this.fireEvent(this.events.lecturerQuestionLocked, questions);
 			}, this));
 
 			this.socket.on('lockVote', Ext.bind(function (object) {
-				console.debug("Socket.IO: lockVote", object);
 				this.fireEvent(this.events.lockVote, object);
 			}, this));
 
 			this.socket.on('lockVotes', Ext.bind(function (object) {
-				console.debug("Socket.IO: lockVotes", object);
 				this.fireEvent(this.events.lockVotes, object);
 			}, this));
 
 			this.socket.on('unlockVote', Ext.bind(function (object) {
-				console.debug("Socket.IO: unlockVote", object);
 				this.fireEvent(this.events.unlockVote, object);
 			}, this));
 
 			this.socket.on('unlockVotes', Ext.bind(function (object) {
-				console.debug("Socket.IO: unlockVotes", object);
 				this.fireEvent(this.events.unlockVotes, object);
 			}, this));
 
 			this.socket.on('audQuestionAvail', Ext.bind(function (questionId) {
-				console.debug("Socket.IO: audQuestionAvail", questionId);
 				this.fireEvent(this.events.audienceQuestionAvailable, questionId);
 			}, this));
 
 			this.socket.on('unansweredLecturerQuestions', Ext.bind(function (questionIds) {
-				console.debug("Socket.IO: unansweredLecturerQuestions", questionIds);
 				this.memoization[this.events.unansweredLecturerQuestions] = questionIds;
 				this.fireEvent(this.events.unansweredLecturerQuestions, questionIds);
 			}, this));
 
 			this.socket.on('unansweredPreparationQuestions', Ext.bind(function (questionIds) {
-				console.debug("Socket.IO: unansweredPreparationQuestions", questionIds);
 				this.fireEvent(this.events.unansweredPreparationQuestions, questionIds);
 			}, this));
 
 			this.socket.on('countQuestionAnswersByQuestionId', Ext.bind(function (object) {
-				console.debug("Socket.IO: countQuestionAnswersByQuestionId", object);
 				this.fireEvent(this.events.countQuestionAnswersByQuestionId, object);
 			}, this));
 
 			this.socket.on('countLectureQuestionAnswers', Ext.bind(function (count) {
-				console.debug("Socket.IO: countLectureQuestionAnswers", count);
 				this.fireEvent(this.events.countLectureQuestionAnswers, count);
 			}, this));
 
 			this.socket.on('countPreparationQuestionAnswers', Ext.bind(function (count) {
-				console.debug("Socket.IO: countPreparationQuestionAnswers", count);
 				this.fireEvent(this.events.countPreparationQuestionAnswers, count);
 			}, this));
 
 			this.socket.on('countFlashcards', Ext.bind(function (count) {
-				console.debug("Socket.IO: countFlashcards", count);
 				this.fireEvent(this.events.countFlashcards, count);
 			}, this));
 
 			this.socket.on('flipFlashcards', Ext.bind(function (flip) {
-				console.debug("Socket.IO: flipFlashcards", flip);
 				this.fireEvent(this.events.flipFlashcards, flip);
 			}, this));
 
 			this.socket.on('learningProgressOptions', Ext.bind(function (options) {
-				console.debug("Socket.IO: learningProgressOptions", options);
 				this.fireEvent(this.events.learningProgressOptions, options);
 			}, this));
 
 			this.socket.on('featureChange', Ext.bind(function (features) {
-				console.debug("Socket.IO: featureChange", features);
 				this.fireEvent(this.events.featureChange, features);
 			}, this));
 
 			this.socket.on('learningProgressChange', Ext.Function.createBuffered(function () {
-				console.debug("Socket.IO: learningProgressChange");
 				this.fireEvent(this.events.learningProgressChange);
 			}, 500, this));
 		}, this));
@@ -276,27 +250,22 @@ Ext.define('ARSnova.WebSocket', {
 
 	setSession: function (sessionKey) {
 		var data = {keyword: sessionKey};
-		console.debug("Socket.IO.emit: setSession", data);
 		this.socket.emit("setSession", data);
 	},
 
 	readInterposedQuestion: function (question) {
-		console.debug("Socket.IO.emit: readInterposedQuestion", question.getData());
 		this.socket.emit("readInterposedQuestion", question.getData());
 	},
 
 	readFreetextAnswer: function (answer) {
-		console.debug("Socket.IO.emit: readFreetextAnswer", answer._id);
 		this.socket.emit("readFreetextAnswer", answer._id);
 	},
 
 	setLearningProgressOptions: function (data) {
-		console.debug("Socket.IO.emit: setLearningProgressOptions", data);
 		this.socket.emit("setLearningProgressOptions", data);
 	},
 
 	setFeedback: function (data) {
-		console.debug("Socket.IO.emit: setFeedback", data);
 		this.socket.emit("setFeedback", data);
 	},
 

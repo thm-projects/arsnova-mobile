@@ -708,12 +708,9 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 
 	handleAnswerCount: function () {
-		console.log("handleAC", "index", this.questionLoadingIndex);
 		RSVP.all(this.getQuestionAnswers(this.questionLoadingIndex))
 		.then(Ext.bind(function (badgeInfos) {
-			console.log("handleAC", "then", badgeInfos);
 			badgeInfos.forEach(function (item) {
-				console.log("handleAC", "bI forEach", item, "index", this.questionLoadingIndex);
 				var value = item.hasAnswers ? item : null;
 				if (this.questionLoadingIndex) {
 					this.indexedQuestionsWithAnswers[this.questionLoadingIndex] = value;
@@ -722,10 +719,8 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 				}
 			}, this);
 			var allQuestionsWithAnswers = this.indexedQuestionsWithAnswers.filter(function (item) {
-				console.log("handleAC", "allQuestionsWithAnswers filter", item);
 				return !!item;
 			});
-			console.log("handleAC", "allQuestionsWithAnswers", allQuestionsWithAnswers);
 			this.deleteAnswersButton.setHidden(allQuestionsWithAnswers.length === 0);
 			this.caption.explainBadges(allQuestionsWithAnswers);
 
