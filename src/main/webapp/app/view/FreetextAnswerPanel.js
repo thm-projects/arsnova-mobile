@@ -119,13 +119,18 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 			}
 		});
 
+		this.exportCsvPanel = Ext.create('ARSnova.view.components.CsvExportMessageBox', {
+			exportCallback: Ext.bind(this.exportCsv, this)
+		});
+
 		this.exportButton = Ext.create('Ext.Button', {
 			xtype: 'button',
 			text: Messages.EXPORT_BUTTON_LABEL,
 			align: 'right',
 			handler: function () {
-				ARSnova.app.getController('QuestionExport').downloadQuestionAnswers(self.questionObj, self.freetextAnswerStore);
+				this.exportCsvPanel.show();
 			},
+			scope: this,
 			hidden: (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT)
 		});
 
@@ -408,5 +413,9 @@ Ext.define('ARSnova.view.FreetextAnswerPanel', {
 				console.log('server-side error');
 			}
 		}, -1, -1);
+	},
+
+	exportCsv: function (delimiter, excel) {
+		ARSnova.app.getController('QuestionExport').downloadQuestionAnswers(this.questionObj, this.freetextAnswerStore, delimiter, excel);
 	}
 });

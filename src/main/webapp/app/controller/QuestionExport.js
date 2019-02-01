@@ -148,12 +148,6 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		});
 	},
 
-	saveClickQuestionOnFileSystem: function (questionObj, questionSubject) {
-		var rawJson = JSON.stringify(questionObj);
-		var blob = new Blob([rawJson], {type: "application/json;charset=utf-8"});
-		this.makeAndClickDownloadLink(blob, localStorage.getItem('shortName') + "_" + questionSubject + ".json");
-	},
-
 	parseJsonToCsv: function (records, delimiter, excel) {
 		var preparsedQuestion = this.preparseJsontoCsv(records);
 		var csv = ARSnova.utils.CsvUtil.jsonToCsv(preparsedQuestion, delimiter);
@@ -163,64 +157,34 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		this.saveFileOnFileSystem(csv, this.filename());
 	},
 
-	downloadQuestionAnswers: function (questionObj, answers) {
+	downloadQuestionAnswers: function (questionObj, answers, delimiter, excel) {
 		var header, rows = [];
 		if (questionObj.questionType === 'freetext') {
-			header = Messages.QUESTION_DATE + "," + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_TIME + "," + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT + "," + Messages.FREETEXT_DETAIL_ANSWER + ",Timestamp";
+			rows.push([
+				Messages.QUESTION_DATE,
+				Messages.QUESTIONS_CSV_EXPORT_ANSWERS_TIME,
+				Messages.QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT,
+				Messages.FREETEXT_DETAIL_ANSWER,
+				"Timestamp"]);
 			answers.each(function (record) {
 				rows.push([record.get('groupDate'), record.get('formattedTime'), record.get('answerSubject'), record.get('answerText'), record.get('timestamp')]);
 			});
 		} else {
-			header = Messages.ANSWERS + ","
-				+ Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_RELATIVE + "," + Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE + ","
-				+ Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_RELATIVE + "," + Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE;
+			rows.push([
+				Messages.ANSWERS,
+				Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_RELATIVE,
+				Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE,
+				Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_RELATIVE,
+				Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE]);
 			answers.each(function (record) {
 				rows.push([record.get('text'), record.get('percent-round1'), record.get('value-round1'), record.get('percent-round2'), record.get('value-round2')]);
 			});
 		}
 
-		var csv = ARSnova.utils.CsvUtil.jsonToCsv(rows);
-		this.saveFileOnFileSystem(header + "\n" + csv, "answer-stats-" + this.getActualDate() + ".csv");
-	},
-
-	parseAnswerOptionsForClick: function (question) {
-		var clickAnswerOptions = [];
-		if (question.questionType === "freetext" && question.fixedAnswer) {
-			clickAnswerOptions.push({
-				hashtag: "ImportFromARSnova",
-				questionIndex: 0,
-				answerText: question.correctAnswer,
-				answerOptionNumber: 0,
-				configCaseSensitive: !question.ignoreCaseSensitive,
-				configTrimWhitespaces: !question.ignoreWhiteSpaces,
-				configUsePunctuation: !question.ignorePunctuation,
-				configUseKeywords: true,
-				type: "FreeTextAnswerOption"
-			});
-		} else if (question.questionType === "abcd") {
-			// slice off the "A", "B".. from the answer options
-			for (var j = 0; j < question.possibleAnswers.length; j++) {
-				clickAnswerOptions.push({
-					hashtag: "ImportFromARSnova",
-					questionIndex: 0,
-					answerText: question.possibleAnswers[j].text.slice(3),
-					answerOptionNumber: j,
-					isCorrect: question.possibleAnswers[j].correct,
-					type: "DefaultAnswerOption"
-				});
-			}
-		} else {
-			for (var i = 0; i < question.possibleAnswers.length; i++) {
-				clickAnswerOptions.push({
-					hashtag: "ImportFromARSnova",
-					questionIndex: 0,
-					answerText: question.possibleAnswers[i].text,
-					answerOptionNumber: i,
-					isCorrect: question.possibleAnswers[i].correct,
-					type: "DefaultAnswerOption"
-				});
-			}
+		var csv = ARSnova.utils.CsvUtil.jsonToCsv(rows, delimiter);
+		if (excel) {
+			csv = 'sep=' + delimiter + '\r\n' + csv;
 		}
-		return clickAnswerOptions;
+		this.saveFileOnFileSystem(csv, "answer-stats-" + this.getActualDate() + ".csv");
 	}
 });
