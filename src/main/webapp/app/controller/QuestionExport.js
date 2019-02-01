@@ -157,23 +157,34 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		this.saveFileOnFileSystem(csv, this.filename());
 	},
 
-	downloadQuestionAnswers: function (questionObj, answers) {
+	downloadQuestionAnswers: function (questionObj, answers, delimiter, excel) {
 		var header, rows = [];
 		if (questionObj.questionType === 'freetext') {
-			header = Messages.QUESTION_DATE + "," + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_TIME + "," + Messages.QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT + "," + Messages.FREETEXT_DETAIL_ANSWER + ",Timestamp";
+			rows.push([
+				Messages.QUESTION_DATE,
+				Messages.QUESTIONS_CSV_EXPORT_ANSWERS_TIME,
+				Messages.QUESTIONS_CSV_EXPORT_ANSWERS_SUBJECT,
+				Messages.FREETEXT_DETAIL_ANSWER,
+				"Timestamp"]);
 			answers.each(function (record) {
 				rows.push([record.get('groupDate'), record.get('formattedTime'), record.get('answerSubject'), record.get('answerText'), record.get('timestamp')]);
 			});
 		} else {
-			header = Messages.ANSWERS + ","
-				+ Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_RELATIVE + "," + Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE + ","
-				+ Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_RELATIVE + "," + Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE;
+			rows.push([
+				Messages.ANSWERS,
+				Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_RELATIVE,
+				Messages.FIRST_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE,
+				Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_RELATIVE,
+				Messages.SECOND_ROUND + " " + Messages.GRID_LABEL_ABSOLUTE]);
 			answers.each(function (record) {
 				rows.push([record.get('text'), record.get('percent-round1'), record.get('value-round1'), record.get('percent-round2'), record.get('value-round2')]);
 			});
 		}
 
-		var csv = ARSnova.utils.CsvUtil.jsonToCsv(rows);
-		this.saveFileOnFileSystem(header + "\n" + csv, "answer-stats-" + this.getActualDate() + ".csv");
+		var csv = ARSnova.utils.CsvUtil.jsonToCsv(rows, delimiter);
+		if (excel) {
+			csv = 'sep=' + delimiter + '\r\n' + csv;
+		}
+		this.saveFileOnFileSystem(csv, "answer-stats-" + this.getActualDate() + ".csv");
 	}
 });

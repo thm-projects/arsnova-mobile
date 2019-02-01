@@ -149,6 +149,10 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 			align: 'right'
 		});
 
+		this.exportCsvPanel = Ext.create('ARSnova.view.components.CsvExportMessageBox', {
+			exportCallback: Ext.bind(this.exportCsv, this)
+		});
+
 		this.toolbar = Ext.create('Ext.TitleBar', {
 			docked: 'top',
 			ui: 'light',
@@ -168,8 +172,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 				text: Messages.EXPORT_BUTTON_LABEL,
 				align: 'right',
 				handler: function () {
-					ARSnova.app.getController('QuestionExport').downloadQuestionAnswers(me.questionObj, me.questionStore);
+					this.exportCsvPanel.show();
 				},
+				scope: this,
 				hidden: (ARSnova.app.userRole === ARSnova.app.USER_ROLE_STUDENT || me.questionObj.questionType === 'grid')
 			}
 		]
@@ -985,5 +990,9 @@ Ext.define('ARSnova.view.speaker.QuestionStatisticChart', {
 		});
 
 		return lighterColors;
+	},
+
+	exportCsv: function (delimiter, excel) {
+		ARSnova.app.getController('QuestionExport').downloadQuestionAnswers(this.questionObj, this.questionStore, delimiter, excel);
 	}
 });
