@@ -19,9 +19,8 @@
 Ext.define("ARSnova.controller.QuestionExport", {
 	extend: 'Ext.app.Controller',
 
-	filename: function () {
-		var filename = 'lectureQuestions' + this.getActualDate() + '.csv';
-		return filename;
+	filename: function (name) {
+		return 'arsnova-' + name + '-' + moment().format('YYYYMMDDHHmm') + '.csv';
 	},
 
 	exportCsvFile: function (json) {
@@ -37,15 +36,6 @@ Ext.define("ARSnova.controller.QuestionExport", {
 				me.parseJsonToCsv(questions, delimiter, excel);
 			}
 		});
-	},
-
-	getActualDate: function () {
-		var d = new Date();
-		return ('0' + d.getFullYear()).slice(-2) + '-'
-			+ ('0' + (d.getMonth() + 1)).slice(-2) + '-'
-			+ ('0' + d.getDate()).slice(-2) + '-'
-			+ ('0' + d.getHours()).slice(-2) + '-'
-			+ ('0' + d.getMinutes()).slice(-2);
 	},
 
 	getOption: function (answer, type) {
@@ -154,7 +144,7 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		if (excel) {
 			csv = 'sep=' + delimiter + '\r\n' + csv;
 		}
-		this.saveFileOnFileSystem(csv, this.filename());
+		this.saveFileOnFileSystem(csv, this.filename("contents"));
 	},
 
 	downloadQuestionAnswers: function (questionObj, answers, delimiter, excel) {
@@ -185,6 +175,6 @@ Ext.define("ARSnova.controller.QuestionExport", {
 		if (excel) {
 			csv = 'sep=' + delimiter + '\r\n' + csv;
 		}
-		this.saveFileOnFileSystem(csv, "answer-stats-" + this.getActualDate() + ".csv");
+		this.saveFileOnFileSystem(csv, this.filename(questionObj.questionType === 'freetext' ? 'textanswers' : 'answerstats'));
 	}
 });

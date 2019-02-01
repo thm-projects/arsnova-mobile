@@ -21,13 +21,8 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 
 	suitableTypes: ['flashcard', 'mc', 'abcd', 'yesno', 'freetext'],
 
-	filename: function (format) {
-		var filename = 'flashcards' + this.getActualDate() + '.' + format;
-		return filename;
-	},
-
-	getActualDate: function () {
-		return ARSnova.app.getController('QuestionExport').getActualDate();
+	filename: function () {
+		return 'arsnova-flashcards-' + moment().format('YYYYMMDDHHmm') + '.csv';
 	},
 
 	exportFlashcards: function (controller, format) {
