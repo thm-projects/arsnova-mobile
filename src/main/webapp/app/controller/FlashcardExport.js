@@ -25,7 +25,7 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 		return 'arsnova-flashcards-' + moment().format('YYYYMMDDHHmm') + '.csv';
 	},
 
-	exportFlashcards: function (controller, format) {
+	exportFlashcards: function (controller, format, delimiter, excel) {
 		var me = this;
 		format = format === 'csv' ? 'csv' : 'json';
 		controller.getQuestions(sessionStorage.getItem('keyword'), {
@@ -33,8 +33,10 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 				var resp = Ext.decode(response.responseText);
 				var flashcards = me.preparseFlashcards(resp, format);
 				var data = format !== 'csv' ? me.stringifyJson(flashcards) :
-					ARSnova.utils.CsvUtil.jsonToCsv(flashcards);
-
+					ARSnova.utils.CsvUtil.jsonToCsv(flashcards, delimiter);
+				if (excel && format === 'csv') {
+					data = 'sep=' + delimiter + '\r\n' + data;
+				}
 				me.saveFileOnFileSystem(data, me.filename(format), format);
 			}
 		});
@@ -76,6 +78,7 @@ Ext.define("ARSnova.controller.FlashcardExport", {
 
 	parseBackPage: function (questionData) {
 		switch (questionData.questionType) {
+			case 'flashcard':
 			case 'mc':
 			case 'abcd':
 			case 'yesno':

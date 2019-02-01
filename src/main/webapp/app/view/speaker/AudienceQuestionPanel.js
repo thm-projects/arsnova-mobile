@@ -205,6 +205,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			imageCls: 'icon-cloud-upload',
 			cls: 'actionButton',
 			handler: this.questionsImportHandler,
+			scope: this,
 			hidden: screenWidth < 550
 		});
 
@@ -501,7 +502,7 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	exportCsv: function (delimiter, excel) {
 		if (this.getVariant() === 'flashcard') {
 			ARSnova.app.getController('FlashcardExport')
-				.exportFlashcards(this.getController(), 'csv');
+				.exportFlashcards(this.getController(), 'csv', delimiter, excel);
 		} else {
 			ARSnova.app.getController('QuestionExport')
 				.exportQuestions(this.getController(), delimiter, excel);
@@ -735,7 +736,11 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 	},
 
 	questionsImportHandler: function () {
-		ARSnova.app.getController('QuestionImport').showModal();
+		if (this.getVariant() === 'flashcard') {
+			Ext.Msg.alert(Messages.QUESTIONS_IMPORT_MSBOX_TITLE, Messages.FLASHCARD_IMPORT_NOT_SUPPORTED);
+		} else {
+			ARSnova.app.getController('QuestionImport').showModal();
+		}
 	},
 
 	applyUIChanges: function () {

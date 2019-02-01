@@ -845,6 +845,7 @@
 				QUESTIONS_IMPORT_ABSTENTION_ERROR: "Fehler im Feld 'abstention'",
 				QUESTIONS_IMPORT_INVALID_FORMAT: "Ungültiges Dateiformat",
 				QUESTIONS_IMPORT_INVALID_CHARSET: "Ungültiger Zeichensatz",
+				FLASHCARD_IMPORT_NOT_SUPPORTED: "Der CSV-Import von Lernkarten wird nicht unterstützt.",
 				FLASHCARDS_CHOOSE_SUBJECT: "Legen Sie ein Thema für das zu importierende Lernkarten-Set fest",
 				CSV_FILE: "CSV-Datei"
 			};
@@ -1738,6 +1739,7 @@
 				QUESTIONS_IMPORT_ABSTENTION_ERROR: "Error in field 'abstention'",
 				QUESTIONS_IMPORT_INVALID_FORMAT: "Invalid file format",
 				QUESTIONS_IMPORT_INVALID_CHARSET: "Invalid charset",
+				FLASHCARD_IMPORT_NOT_SUPPORTED: "Importing from CSV is not supported for flashcards.",
 				FLASHCARDS_CHOOSE_SUBJECT: "Enter a subject for the imported flashcard-set",
 				CSV_FILE: "CSV file"
 			};
