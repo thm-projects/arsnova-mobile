@@ -1,5 +1,33 @@
 # Changelog
 
+## 2.7
+Features:
+* Users can now delete their own account through the settings panel.
+* Admins can now delete any account or session through the settings panel.
+
+Improvements:
+* CSV Export: A settings panel has been added. Semicolon and tab can be used
+  as separator. An Excel-specific header can be added to improve compatibilty.
+* The ability to set custom icons for authentication services via backend
+  configuration has been restored.
+* Export/import functionality is no longer disabled for iOS.
+
+Bug fixes:
+* The flip animation for flashcards has been disabled to fix rendering issues in
+  some browsers.
+* CSV export now works for flashcards.
+* Cloning of sessions from the public pool has been fixed.
+
+Known issues:
+* CSV import is not supported for flashcards.
+
+**This version is brought to you by:**  
+Project management: Klaus Quibeldey-Cirkel
+Lead programming: Daniel Gerhardt, Tom "tekay" Käsler
+Sponsoring: [AG QLS](https://www.thm.de/site/en/hochschule/service/ag-qls.html),
+[HMWK](https://wissenschaft.hessen.de/wissenschaft/it-neue-medien/kompetenznetz-e-learning-hessen)
+
+
 ## 2.6.1
 Improvements:
 * The web font is now included so modern browsers should no longer fall back to
