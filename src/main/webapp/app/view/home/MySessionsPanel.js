@@ -313,14 +313,10 @@ Ext.define('ARSnova.view.home.MySessionsPanel', {
 							fn: function (btn) {
 								var dest = null;
 								if (btn === 'yes') {
-									if (Ext.os.is.iOS) {
-										Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_IOS_NOTIFICATION);
-									} else {
-										dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
-											exportType: 'filesystem'
-										});
-										hTP.animateActiveItem(dest, 'slide');
-									}
+									dest = Ext.create('ARSnova.view.home.SessionExportListPanel', {
+										exportType: 'filesystem'
+									});
+									hTP.animateActiveItem(dest, 'slide');
 								} else {
 									if (ARSnova.app.loginMode === ARSnova.app.LOGIN_GUEST) {
 										Ext.Msg.alert(Messages.NOTIFICATION, Messages.EXPORT_PP_NOTIFICATION);

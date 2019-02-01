@@ -223,28 +223,26 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 			listeners: {
 				loadsuccess: function (data) {
 					var error = false;
-					if (!Ext.os.is.iOS) {
-						// remove prefix and decode
-						var str = data.substring(data.indexOf("base64,") + 7);
-						data = atob(str);
-						try {
-							data = decodeURIComponent(window.escape(data));
-						} catch (e) {
-							error = true;
-							console.warn("Invalid charset: UTF-8 expected");
-						}
-
-						if (self.getVariant() === 'flashcard') {
-							self.loadFilePanel.hide();
-							ARSnova.app.getController('FlashcardImport')
-								.importFile(data, this.importCsv, this.importFlashcards);
-						} else {
-							ARSnova.app.getController('QuestionImport').importCsvFile(data);
-						}
-
-						this.importCsv = false;
-						this.importFlashcards = false;
+					// remove prefix and decode
+					var str = data.substring(data.indexOf("base64,") + 7);
+					data = atob(str);
+					try {
+						data = decodeURIComponent(window.escape(data));
+					} catch (e) {
+						error = true;
+						console.warn("Invalid charset: UTF-8 expected");
 					}
+
+					if (self.getVariant() === 'flashcard') {
+						self.loadFilePanel.hide();
+						ARSnova.app.getController('FlashcardImport')
+							.importFile(data, this.importCsv, this.importFlashcards);
+					} else {
+						ARSnova.app.getController('QuestionImport').importCsvFile(data);
+					}
+
+					this.importCsv = false;
+					this.importFlashcards = false;
 
 					if (error) {
 						Ext.Msg.alert(Messages.NOTIFICATION, Messages.QUESTIONS_IMPORT_INVALID_CHARSET);
