@@ -62,6 +62,7 @@ Ext.define('ARSnova.WebSocket', {
 	memoization: {},
 
 	socket: null,
+	socketPromise: new RSVP.Promise(),
 
 	connect: function () {
 		var promise;
@@ -101,13 +102,12 @@ Ext.define('ARSnova.WebSocket', {
 				secure: window.location.protocol === 'https:',
 				transports: transports
 			});
-			// FIXME: Remove once no code relies on a global 'socket' object.
-			window.socket = this.socket;
 
 			this.socket.on('connect', Ext.bind(function () {
 				console.debug("Socket.IO connection established");
 				ARSnova.app.restProxy.connectWebSocket().then(Ext.bind(function () {
 					this.fireEvent("arsnova/socket/connect");
+					this.socketPromise.resolve(this.socket);
 				}, this));
 			}, this));
 
@@ -248,25 +248,35 @@ Ext.define('ARSnova.WebSocket', {
 		}, this));
 	},
 
+	getId: function () {
+		return this.socket ? this.socket.io.engine.id : null;
+	},
+
+	emit: function (messageType, data) {
+		this.socketPromise.then(function (socket) {
+			socket.emit(messageType, data);
+		});
+	},
+
 	setSession: function (sessionKey) {
 		var data = {keyword: sessionKey};
-		this.socket.emit("setSession", data);
+		this.emit("setSession", data);
 	},
 
 	readInterposedQuestion: function (question) {
-		this.socket.emit("readInterposedQuestion", question.getData());
+		this.emit("readInterposedQuestion", question.getData());
 	},
 
 	readFreetextAnswer: function (answer) {
-		this.socket.emit("readFreetextAnswer", answer._id);
+		this.emit("readFreetextAnswer", answer._id);
 	},
 
 	setLearningProgressOptions: function (data) {
-		this.socket.emit("setLearningProgressOptions", data);
+		this.emit("setLearningProgressOptions", data);
 	},
 
 	setFeedback: function (data) {
-		this.socket.emit("setFeedback", data);
+		this.emit("setFeedback", data);
 	},
 
 	doAddListener: function (name, fn, scope, options, order) {
