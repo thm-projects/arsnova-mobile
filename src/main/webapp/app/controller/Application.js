@@ -192,9 +192,10 @@ Ext.define("ARSnova.controller.Application", {
 			!document.webkitFullscreenElement &&
 			!document.msFullscreenElement;
 
-		if (activate && !isFullscreenModeDisabled) {
+		if (activate !== isFullscreenModeDisabled) {
 			return;
-		} else if (activate && isFullscreenModeDisabled) {
+		}
+		if (activate) {
 			if (document.documentElement.requestFullscreen) {
 				document.documentElement.requestFullscreen();
 			} else if (document.documentElement.msRequestFullscreen) {
