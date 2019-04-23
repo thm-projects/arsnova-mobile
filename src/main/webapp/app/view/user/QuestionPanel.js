@@ -345,7 +345,7 @@ Ext.define('ARSnova.view.user.QuestionPanel', {
 			return;
 		}
 
-		if (questionObj.isAbstentionAnswer && "mc" !== questionObj.questionType) {
+		if (questionObj.isAbstentionAnswer && ["mc", "grid"].indexOf(questionObj.questionType) === -1) {
 			questionPanel.selectAbstentionAnswer();
 			questionPanel.disableQuestion();
 			return;

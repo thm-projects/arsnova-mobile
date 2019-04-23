@@ -640,6 +640,9 @@ Ext.define('ARSnova.view.Question', {
 	saveGridQuestionHandler: function (grid) {
 		var me = this;
 
+		if (this.grid.getChosenFields().length === 0) {
+			return;
+		}
 		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 			if (button !== 'yes') {
 				return;
@@ -664,7 +667,9 @@ Ext.define('ARSnova.view.Question', {
 	mcAbstentionHandler: function () {
 		var me = this;
 
-		me.answerList.deselectAll();
+		if (me.answerList) {
+			me.answerList.deselectAll();
+		}
 		Ext.Msg.confirm('', Messages.SUBMIT_ANSWER, function (button) {
 			if (button !== 'yes') {
 				return;
@@ -672,7 +677,7 @@ Ext.define('ARSnova.view.Question', {
 
 			me.getUserAnswer().then(function (answer) {
 				answer.set('abstention', true);
-				me.answerList.deselectAll();
+				answer.set('answerText', null);
 				me.saveAnswer(answer);
 			});
 
