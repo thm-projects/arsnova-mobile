@@ -359,11 +359,8 @@
 				WHICH_QUESTIONS_TO_USE_FOR_LEARNING_PROGRESS: "Welche Fragen sollen bei der Berechnung berücksichtigt werden?",
 				BOTH: "Beides",
 				QUESTION_BASED_PROGRESS_EXPLANATION: [
-					'Mit dem fragenbasierten Lernstand sind alle Fragen gleich gewichtet, selbst wenn es für sie unterschiedliche Höchstpunktzahlen gibt. Der Lernstand berechnet sich beispielhaft wie folgt:\n',
-					'Es sind 3 Fragen vorhanden, die jeweils eine maximal mögliche Punktzahl haben. Die Punkte seien 10, 20 und 30.',
-					'Eine Frage gilt als korrekt beantwortet, wenn die jeweilige Maximalpunktzahl erreicht ist. Das heißt, wenn eine',
-					'falsche Antwortoption gewählt wurde, werden Punkte abgezogen und die Maximalpunktzahl kann nicht mehr erreicht werden.',
-					'Erreicht jemand für die drei Fragen eine Punktzahl von 10, 20 und 20, wurde demnach die letzte Frage falsch beantwortet.',
+					'Mit dem fragenbasierten Lernstand sind alle Fragen gleich gewichtet. Fragen können nur richtig oder falsch beantwortet werden, es werden keine Teilpunkte vergeben. Eine Frage gilt entsprechend nur dann als korrekt beantwortet, wenn alle als richtig markierten Antwortoptionen gewählt werden.\n',
+					'\n',
 					'Der individuelle Lernstand berechnet sich nach der Formel: \\\\[ l_{\\text{S}} = \\frac{\\text{Richtige Antw.}}{\\text{Fragen}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
 					'Für den Kurs ergibt sich der Lernstand über die Anzahl der Teilnehmenden: \\\\[l_{\\text{K}} = \\frac{\\text{Richtige Antworten}}{\\text{Fragen} \\cdot \\text{Teilnehmende}}\\\\]'
 				].join('\n'),
@@ -1245,11 +1242,8 @@
 				WHICH_QUESTIONS_TO_USE_FOR_LEARNING_PROGRESS: "Which questions should be used for the calculation?",
 				BOTH: "Both",
 				QUESTION_BASED_PROGRESS_EXPLANATION: [
-					'With the question-based learning progress, all questions are weighted equally even if they have a different maximum value. For example, the progress is calculated as follows:\n',
-					'There are 3 questions which have a maximum value of 10, 20, and 30.',
-					'A question is treated as corretly answered if their respective maximum value is scored.',
-					'If an incorrect answer option is chosen, negative points are scored and the maximum value cannot be reached anymore.',
-					'If a student scores 10, 20, and 20 points, this will mean the last question was not answered correctly.',
+					'With question-based learning progress, all questions are equally weighted. Questions can only be answered correctly or incorrectly, no partial points are awarded. Accordingly, a question is only considered to have been answered correctly if all answer options marked as correct are selected.\n',
+					'\n',
 					'The individual learning progress is calculated using this formula: \\\\[ l_{\\text{S}} = \\frac{\\text{Correct answers}}{\\text{Questions}} = \\frac{2}{3} \\hat{=}\\, 67\\%\\\\]\n',
 					'For the whole course, the progress is calculated using the total number of students: \\\\[l_{\\text{C}} = \\frac{\\text{Correct answers}}{\\text{Questions} \\cdot \\text{Students}}\\\\]'
 				].join('\n'),
