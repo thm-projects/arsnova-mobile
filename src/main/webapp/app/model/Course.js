@@ -26,7 +26,8 @@ Ext.define('ARSnova.model.Course', {
 			'id',
 			'fullname',
 			'shortname',
-			'type'
+			'type',
+			{name: 'startdate', type: 'date', dateFormat: 'U'}
 		]
 	},
 

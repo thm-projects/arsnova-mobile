@@ -67,7 +67,9 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			itemTpl:
 				'<div class="x-unsized x-button x-button-normal x-iconalign-left forwardListButton">' +
 				'<span class="x-button-icon x-shown courseIcon icon-prof"></span>' +
-				'<span class="x-button-label">' + htmlEncode + '</span></div>',
+				'<span class="x-button-label">' + htmlEncode +
+				' <tpl if="startdate"><span class="lmsButtonDate">({[moment(values.startdate).format("MMM YY")]})</span></tpl>' +
+				'</span></div>',
 			listeners: {
 				scope: this,
 
@@ -253,11 +255,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 					newSessionPanel.setScrollable(true);
 					this.mycoursesStore.removeAll();
 					this.mycoursesStore.add(Ext.decode(response.responseText));
-					if (window.innerWidth > 321) {
-						this.mycoursesStore.sort('fullname');
-					} else {
-						this.mycoursesStore.sort('shortname');
-					}
 				}
 			}, this),
 			empty: Ext.bind(function () {
@@ -272,6 +269,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			failure: function () {
 				console.log("my courses request failure");
 			}
-		}, (window.innerWidth > 321 ? 'name' : 'shortname'));
+		}, 'startdate');
 	}
 });
