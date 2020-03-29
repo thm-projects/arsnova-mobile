@@ -1,5 +1,12 @@
 # Changelog
 
+# 2.7.1
+Bug fixes:
+* Rendering of `<hlcode>` elements (broken in 2.7.0) works again.
+* Abstentions for grid questions have been fixed.
+* A JavaScript `TypeError` caused by fullscreen mode in some modern browsers has
+  been fixed.
+
 ## 2.7
 Features:
 * Users can now delete their own account through the settings panel.
