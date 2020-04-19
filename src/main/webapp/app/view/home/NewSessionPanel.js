@@ -272,6 +272,6 @@ Ext.define('ARSnova.view.home.NewSessionPanel', {
 			failure: function () {
 				console.log("my courses request failure");
 			}
-		}, (window.innerWidth > 321 ? 'name' : 'shortname'));
+		}, (window.innerWidth > 321 ? 'name' : 'shortname'), true);
 	}
 });

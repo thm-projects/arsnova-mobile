@@ -165,6 +165,10 @@ Ext.define('ARSnova.model.Session', {
 		return this.getProxy().getMyPublicPoolSessions(callbacks, offset, limit);
 	},
 
+	getSessionsForCourses: function (offset, limit, courses, callbacks) {
+		return this.getProxy().getSessionsForCourses(callbacks, courses, offset, limit);
+	},
+
 	getMyVisitedSessions: function (offset, limit, callbacks, sortby) {
 		return this.getProxy().getMyVisitedSessions(callbacks, sortby, offset, limit);
 	},

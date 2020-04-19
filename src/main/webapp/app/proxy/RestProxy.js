@@ -182,6 +182,32 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	getSessionsForCourses: function (callbacks, courses, offset, limit) {
+		this.arsjax.request({
+			url: "session/relevantFromCourse",
+			method: "GET",
+
+			params: {
+				courses: courses
+			},
+			headers: {
+				Range: this.constructRangeString(offset, limit)
+			},
+			success: function (response) {
+				if (response.status === 204) {
+					callbacks.success.call(this, []);
+				} else {
+					callbacks.success.call(this, Ext.decode(response.responseText));
+				}
+			},
+			204: callbacks.empty,
+
+			401: callbacks.unauthenticated,
+			404: callbacks.notFound,
+			failure: callbacks.failure
+		});
+	},
+
 	getPublicPoolSessions: function (callbacks) {
 		this.arsjax.request({
 			url: "session/publicpool",
@@ -281,12 +307,13 @@ Ext.define('ARSnova.proxy.RestProxy', {
 	 * @return session-objects, if found
 	 * @return false, if nothing found
 	 */
-	getMyCourses: function (callbacks, sortby) {
+	getMyCourses: function (callbacks, sortby, onlyTeacher) {
 		this.arsjax.request({
 			url: "mycourses",
 			method: "GET",
 			params: {
-				sortby: sortby
+				sortby: sortby,
+				onlyTeacher: onlyTeacher
 			},
 			success: callbacks.success,
 			failure: function (response) {
