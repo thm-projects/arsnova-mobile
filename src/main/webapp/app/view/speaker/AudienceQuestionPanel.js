@@ -107,10 +107,10 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 
 			itemCls: 'forwardListButton',
 			itemTpl: Ext.create('Ext.XTemplate',
-				'<tpl if="!active"><div class="isInactive buttontext noOverflow">{text:htmlEncode}</div>',
+				'<tpl if="!active"><div class="isInactive buttontext noOverflow">({[this.getNumber(values)]}) {text:htmlEncode}</div>',
 				'<tpl else>',
-					'<tpl if="votingDisabled"><div class="isVoteInactive buttontext noOverflow">{text:htmlEncode}</div>',
-					'<tpl else><div class="buttontext noOverflow">{text:htmlEncode}</div></tpl>',
+					'<tpl if="votingDisabled"><div class="isVoteInactive buttontext noOverflow">({[this.getNumber(values)]}) {text:htmlEncode}</div>',
+					'<tpl else><div class="buttontext noOverflow">({[this.getNumber(values)]}) {text:htmlEncode}</div></tpl>',
 				'</tpl>',
 				'<div class="x-button x-hasbadge audiencePanelListBadge">',
 				'<tpl if="this.hasAnswers(values.numAnswers)"><span class="answersBadgeIcon badgefixed">',
@@ -131,6 +131,15 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 						} else {
 							return questionObj.numAnswers[0];
 						}
+					},
+
+					getNumber: function (questionObj) {
+						for (var i = 0; i < self.questionStore.data.all.length; i++) {
+							if (self.questionStore.getAt(i).data._id === questionObj._id) {
+								return i + 1;
+							}
+						}
+						return -1;
 					}
 				}
 			),
@@ -513,7 +522,6 @@ Ext.define('ARSnova.view.speaker.AudienceQuestionPanel', {
 		callback = typeof callback === 'function' ? callback : Ext.emptyFn;
 		var features = ARSnova.app.getController('Feature').getActiveFeatures();
 		var hideLoadIndicator = ARSnova.app.showLoadIndicator(Messages.LOAD_MASK, 1000);
-
 		var promise = new RSVP.Promise();
 		this.getController().getQuestions(sessionStorage.getItem('keyword'), {
 			success: Ext.bind(function (response, totalRange) {
