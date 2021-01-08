@@ -476,6 +476,10 @@ Ext.define('ARSnova.view.home.HomePanel', {
 					handler: buttonHandler
 				});
 
+				if (!session.active) {
+					sessionButton.addCls("isInactive");
+				}
+
 				sessionButton.setBadge([
 					{badgeText: session.numInterposed, badgeCls: "feedbackQuestionsBadgeIcon"},
 					{badgeText: session.numQuestions, badgeCls: "questionsBadgeIcon"},
@@ -483,10 +487,6 @@ Ext.define('ARSnova.view.home.HomePanel', {
 				]);
 
 				form.addEntry(sessionButton);
-
-				if (!session.active) {
-					this.down('button[text=' + displaytext + ']').addCls("isInactive");
-				}
 			}
 
 			if (pageNumObject.offset === -1) {
