@@ -301,6 +301,15 @@ Ext.define('ARSnova.proxy.RestProxy', {
 		});
 	},
 
+	deleteCourseLink: function (sessionKeyword, callbacks) {
+		this.arsjax.request({
+			url: "session/" + encodeURIComponent(sessionKeyword) + "/course",
+			method: "DELETE",
+			success: callbacks.success,
+			failure: callbacks.failure
+		});
+	},
+
 	getSkillQuestion: function (id, callbacks) {
 		this.arsjax.request({
 			url: "lecturerquestion/" + id,

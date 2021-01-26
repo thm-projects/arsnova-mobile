@@ -504,6 +504,10 @@
 				IMPORT_SELECT_SESSION: 'Wähle Session',
 				IMPORT_SELECT_SUBJECT: 'Wähle Thema',
 				IMPORT_SELECT_QUESTION: 'Wähle Frage',
+				DISABLE_COURSE_LINK: 'Kursverknüpfung deaktivieren',
+				DISABLE_COURSE_LINK_CONFIRM: 'Möchten Sie die Verknüpfung zum LMS-Kurs wirklich deaktivieren? Diese Aktion kann nicht widerrufen werden.',
+				DISABLE_COURSE_LINK_SUCCESS: 'Die Verknüpfung zum LMS-Kurs wurde deaktiviert.',
+				DISABLE_COURSE_LINK_FAILURE: 'Die Verknüpfung zum LMS-Kurs konnte nicht deaktiviert werden.',
 
 				/*Export session*/
 				EXPORT_MSG: "Was möchten Sie exportieren?",
@@ -1392,6 +1396,10 @@
 				IMPORT_SELECT_SESSION: 'Select session',
 				IMPORT_SELECT_SUBJECT: 'Select subject',
 				IMPORT_SELECT_QUESTION: 'Select question',
+				DISABLE_COURSE_LINK: 'Disable course link',
+				DISABLE_COURSE_LINK_CONFIRM: 'Do you really want to disable the link to an LMS course? This action cannot be undone.',
+				DISABLE_COURSE_LINK_SUCCESS: 'The link to the LMS course has been disabled.',
+				DISABLE_COURSE_LINK_FAILURE: 'The link to the LMS course could not be disabled.',
 
 				/*Export session*/
 				EXPORT_MSG: "What should be exported?",

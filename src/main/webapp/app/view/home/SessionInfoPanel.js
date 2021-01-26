@@ -184,6 +184,17 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			]
 		});
 
+		this.disableCourseLinkButton = Ext.create('Ext.Button', {
+			text: Messages.DISABLE_COURSE_LINK,
+			ui: 'decline',
+			hidden: true,
+			cls: 'centerButton',
+			width: '300px',
+			handler: function () {
+				me.confirmDisableCourseLink();
+			}
+		});
+
 		this.authorName = Ext.create('Ext.field.Text', {
 			name: 'name',
 			label: Messages.EXPORT_FIELD_NAME,
@@ -367,7 +378,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 			]
 		});
 
-		this.add([this.toolbar, this.mainPart]);
+		this.add([this.toolbar, this.mainPart, this.disableCourseLinkButton]);
 		this.on('painted', this.onPainted);
 	},
 
@@ -481,6 +492,7 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.saveButton.hide();
 			this.editButton.show();
+			this.disableCourseLinkButton.setHidden(!this.getSessionInfo().courseType);
 		}
 	},
 
@@ -517,6 +529,30 @@ Ext.define('ARSnova.view.home.SessionInfoPanel', {
 		if (ARSnova.app.userRole === ARSnova.app.USER_ROLE_SPEAKER) {
 			this.saveButton.show();
 			this.editButton.hide();
+			this.disableCourseLinkButton.hide();
 		}
+	},
+
+	confirmDisableCourseLink: function () {
+		Ext.Msg.confirm(Messages.DISABLE_COURSE_LINK, Messages.DISABLE_COURSE_LINK_CONFIRM, function (btn) {
+			if (btn === 'yes') {
+				this.disableCourseLink();
+			}
+		}, this);
+	},
+
+	disableCourseLink: function () {
+		var sessionInfo = this.getSessionInfo();
+		ARSnova.app.restProxy.deleteCourseLink(sessionInfo.keyword, {
+			success: Ext.bind(function () {
+				Ext.Msg.alert(Messages.DISABLE_COURSE_LINK, Messages.DISABLE_COURSE_LINK_SUCCESS);
+				sessionInfo.courseType = null;
+				sessionInfo.courseId = null;
+				this.disableCourseLinkButton.hide();
+			}, this),
+			failure: function () {
+				Ext.Msg.alert(Messages.DISABLE_COURSE_LINK, Messages.DISABLE_COURSE_LINK_FAILURE);
+			}
+		});
 	}
 });
