@@ -168,7 +168,7 @@ Ext.define('ARSnova.view.diagnosis.DiagnosisPanel', {
 				}]
 			}, {
 				style: 'margin-top: 30px',
-				html: "<div class='gravure'>Made by <a href='https://www.thm.de/' class='thmlink' target='_blank'><span class=''>THM</span> | Technische Hochschule Mittelhessen</a></div>",
+				html: "<div class='gravure'>Made by <a href='https://www.thm.de/' target='_blank' class='creditslink'>THM</a> and <a href='https://particify.de' target='_blank' class='creditslink'>Particify</a></div>",
 				cls: null
 			}, {
 				width: 125,
