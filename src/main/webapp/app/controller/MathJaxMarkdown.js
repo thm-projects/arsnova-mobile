@@ -32,7 +32,7 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 
 		if (config.features.mathJax && !window.MathJax) {
 			var head = document.getElementsByTagName("head")[0], script;
-			var mathJaxSrc = config.mathJaxSrc || "//cdn.mathjax.org/mathjax/2.4-latest/MathJax.js";
+			var mathJaxSrc = config.mathJaxSrc || "//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js";
 
 			window.MathJax = {
 				jax: ["input/TeX", "output/HTML-CSS"],
