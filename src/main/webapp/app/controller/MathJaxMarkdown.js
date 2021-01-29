@@ -73,18 +73,16 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 		marked.setOptions({
 			highlight: this.highlightRenderer,
 			sanitize: true,
-			breaks: true
+			breaks: true,
+			silent: true
 		});
-
-		this.lexer = new marked.Lexer();
-		this.lexer.rules.heading = /^(#{1,6})\s*(.*?)\s*#*\s*(?:\n|$)/;
 	},
 
 	/**
 	 * parse markdown content to html
 	 */
 	markdownToHtml: function (content) {
-		return marked.parser(this.lexer.lex(content));
+		return marked(content);
 	},
 
 	/**
