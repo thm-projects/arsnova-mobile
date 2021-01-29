@@ -32,7 +32,7 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 
 		if (config.features.mathJax && !window.MathJax) {
 			var head = document.getElementsByTagName("head")[0], script;
-			var mathJaxSrc = config.mathJaxSrc || "//cdn.mathjax.org/mathjax/2.4-latest/MathJax.js";
+			var mathJaxSrc = config.mathJaxSrc || "//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js";
 
 			window.MathJax = {
 				jax: ["input/TeX", "output/HTML-CSS"],
@@ -73,18 +73,16 @@ Ext.define("ARSnova.controller.MathJaxMarkdown", {
 		marked.setOptions({
 			highlight: this.highlightRenderer,
 			sanitize: true,
-			breaks: true
+			breaks: true,
+			silent: true
 		});
-
-		this.lexer = new marked.Lexer();
-		this.lexer.rules.heading = /^(#{1,6})\s*(.*?)\s*#*\s*(?:\n|$)/;
 	},
 
 	/**
 	 * parse markdown content to html
 	 */
 	markdownToHtml: function (content) {
-		return marked.parser(this.lexer.lex(content));
+		return marked(content);
 	},
 
 	/**
